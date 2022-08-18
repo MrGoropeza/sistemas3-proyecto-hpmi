@@ -24,6 +24,7 @@
             ],
             "styles": [
               "src/styles.css",
+              "/node_modules/primeflex/primeflex.css",
               {
                 "input": "node_modules/primeng/resources/themes/lara-dark-teal/theme.css",
                 "bundleName": "lara-dark-teal",
