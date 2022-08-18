@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -18,7 +19,8 @@ import { PrimengImportsModule } from './primeng-imports/primeng-imports.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    PrimengImportsModule
+    PrimengImportsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

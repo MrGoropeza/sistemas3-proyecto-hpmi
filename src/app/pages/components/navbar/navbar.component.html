@@ -1,12 +1,18 @@
 <p-toolbar>
     <div class="p-toolbar-group-left">
-        <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
-        <p-slideMenu #menu [model]="items" [popup]="true" [viewportHeight]="250"  ></p-slideMenu>
+        <p-button (click)="sidebarVisible = true" icon="pi pi-bars" class="mr-2"></p-button>
+        <p-sidebar [(visible)]="sidebarVisible"></p-sidebar>
+        <p-toggleButton [(ngModel)]="darkMode"onIcon="pi pi-sun" offIcon="pi pi-moon" (onChange)="cambiarTema()"></p-toggleButton>
         <h1 class="mx-3 p-0 my-0">Hospital Materno Infantil</h1>
     </div>
     
     <div class="p-toolbar-group-right">
-        <p class="mx-3">¡Bienvenido, Usuario123!</p>
-        <p-image src="assets/blank-profile-picture.png" height="40" width="40"></p-image>
+        <p class="mx-3">¡Bienvenido, 
+            <p-button label="Link" styleClass="p-button-text p-button-plain"></p-button>
+        !</p>
+        
+        <p-image imageClass="border-circle overflow-hidden" src="assets/blank-profile-picture.png" height="40" width="40"></p-image>
     </div>
 </p-toolbar>
+
+<p-breadcrumb [model]="items"></p-breadcrumb>
