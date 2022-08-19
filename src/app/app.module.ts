@@ -8,12 +8,20 @@ import { AppComponent } from './app.component';
 import { AbmTestComponent } from './pages/abm-test/abm-test.component';
 import { NavbarComponent } from './pages/components/navbar/navbar.component';
 import { PrimengImportsModule } from './primeng-imports/primeng-imports.module';
+import { SidebarComponent } from './pages/components/sidebar/sidebar.component';
+import { ArticuloPageComponent } from './pages/articulo-page/articulo-page.component';
+import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
+import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AbmTestComponent,
-    NavbarComponent
+    NavbarComponent,
+    SidebarComponent,
+    ArticuloPageComponent,
+    DepositosPageComponent,
+    DepositoSeleccionadoPageComponent
   ],
   imports: [
     BrowserModule,
