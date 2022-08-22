@@ -11,6 +11,12 @@ import { SidebarComponent } from './pages/global-components/sidebar/sidebar.comp
 import { ArticuloPageComponent } from './pages/articulo-page/articulo-page.component';
 import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
+import { AltaComponent } from './pages/depositos-page/componentes/alta/alta.component';
+import { BajaComponent } from './pages/depositos-page/componentes/baja/baja.component';
+import { ModificacionComponent } from './pages/depositos-page/componentes/modificacion/modificacion.component';
+import { TarjetaComponent } from './pages/depositos-page/componentes/tarjetaHorizontal/tarjeta.component';
+import { TarjetaVerticalComponent } from './pages/depositos-page/componentes/tarjeta-vertical/tarjeta-vertical.component';
+import { DialogComponent } from './pages/depositos-page/componentes/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +25,13 @@ import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado
     SidebarComponent,
     ArticuloPageComponent,
     DepositosPageComponent,
-    DepositoSeleccionadoPageComponent
+    DepositoSeleccionadoPageComponent,
+    AltaComponent,
+    BajaComponent,
+    ModificacionComponent,
+    TarjetaComponent,
+    TarjetaVerticalComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

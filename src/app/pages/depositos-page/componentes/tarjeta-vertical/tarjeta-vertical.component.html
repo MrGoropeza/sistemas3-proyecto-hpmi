@@ -1,0 +1,15 @@
+<p-card>
+    <ng-template pTemplate="title">
+        {{deposito.nombre}}
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+        <p> Planta: {{deposito.planta}}</p>
+        <p>Sector: {{deposito.sector}}</p>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-pencil" pTooltip="editar"  tooltipPosition="top" iconPos="right" class="m-2" (click)="mostrar()" ></button>
+        <button  pButton pRipple icon="pi pi-trash" pTooltip="eliminar" class="p-button-rounded"  iconPos="right" (click)="mostrar()"></button>
+    </ng-template>
+
+</p-card>
+<app-dialog [display]="dialogVisible" (newItemEvent)="dialogVisible = $event"></app-dialog>

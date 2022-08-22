@@ -1,1 +1,29 @@
-<p>depositos-page works!</p>
+<div class="card">
+    <p-dataView [value]="depositos" [loading]="depositos==[]" [paginator]="true" [rows]="6">
+        <ng-template pTemplate="header">
+            <div class="flex flex-column md:flex-row md:justify-content-between">
+                <span class="p-input-icon-left mb-2 md:mb-0">
+                    <p-button label="Añadir nuevo deposito" icon="pi pi-plus" (onClick)="agregarDeposito()"></p-button>
+                </span>
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        </div>
+        </ng-template>
+        <ng-template let-deposito pTemplate="listItem">
+            <div class="col-4">
+                <div class="m-4">
+                    <app-tarjeta-vertical [deposito]="deposito"></app-tarjeta-vertical>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template let-deposito pTemplate="gridItem" >
+            <div class="gridItem col-12">
+                <app-tarjeta [deposito]="deposito"></app-tarjeta>
+                
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        </ng-template>
+    </p-dataView>
+    <app-dialog [display]="display" (newItemEvent)="display = $event"></app-dialog>
+</div>

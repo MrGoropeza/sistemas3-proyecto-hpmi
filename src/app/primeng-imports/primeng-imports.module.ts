@@ -8,7 +8,12 @@ import {ImageModule} from 'primeng/image';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {SidebarModule} from 'primeng/sidebar';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {DataViewModule} from 'primeng/dataview';
+import {CardModule} from 'primeng/card';
+import {TooltipModule} from 'primeng/tooltip';
+import {DialogModule} from 'primeng/dialog';
 
+import {InputTextModule} from 'primeng/inputtext';
 @NgModule({
   declarations: [],
   imports: [
@@ -21,7 +26,12 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     ImageModule,
     ToggleButtonModule,
     SidebarModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    DataViewModule,
+    CardModule,
+    TooltipModule,
+    DialogModule,
+    InputTextModule
   ]
 })
 export class PrimengImportsModule { }

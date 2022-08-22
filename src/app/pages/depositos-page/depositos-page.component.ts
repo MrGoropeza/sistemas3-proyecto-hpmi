@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IDeposito } from 'src/app/models/IDeposito';
+import { DepositoService } from 'src/app/services/deposito.service';
 
 @Component({
   selector: 'app-depositos-page',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./depositos-page.component.css']
 })
 export class DepositosPageComponent implements OnInit {
-
-  constructor() { }
+  depositos : IDeposito[] = [];
+  display : boolean = false;
+  constructor(private servicioDepositos : DepositoService) { }
 
   ngOnInit(): void {
+    this.obtenerDepositos();
   }
-
+  obtenerDepositos(){
+    this.depositos = this.servicioDepositos.getDepositos();
+  }
+  agregarDeposito(){
+    this.display = true;
+  }
 }
