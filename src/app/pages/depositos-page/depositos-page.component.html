@@ -9,16 +9,16 @@
         </div>
         </ng-template>
         <ng-template let-deposito pTemplate="listItem">
+            <div class="gridItem col-12">
+                <app-tarjeta [deposito]="deposito"></app-tarjeta>
+                
+            </div>
+        </ng-template>
+        <ng-template let-deposito pTemplate="gridItem" >
             <div class="col-4">
                 <div class="m-4">
                     <app-tarjeta-vertical [deposito]="deposito"></app-tarjeta-vertical>
                 </div>
-            </div>
-        </ng-template>
-        <ng-template let-deposito pTemplate="gridItem" >
-            <div class="gridItem col-12">
-                <app-tarjeta [deposito]="deposito"></app-tarjeta>
-                
             </div>
         </ng-template>
         <ng-template pTemplate="footer">
