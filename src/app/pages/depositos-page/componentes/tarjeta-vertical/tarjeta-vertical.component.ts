@@ -8,6 +8,7 @@ import { IDeposito } from 'src/app/models/IDeposito';
 })
 export class TarjetaVerticalComponent implements OnInit {
   @Input() deposito : IDeposito = {} as IDeposito;
+  titulo : string = "";
   dialogVisible : boolean = false;
   constructor() { }
 
@@ -15,6 +16,7 @@ export class TarjetaVerticalComponent implements OnInit {
   }
   mostrar(){
     this.dialogVisible = true;
+    this.titulo = "hola";
   }
 
 }

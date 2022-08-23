@@ -1,23 +1,29 @@
 <div class="grid p-fluid">
-    <div class="col-12 md:col-4">
+    <div class="col">
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-inbox"></i></span>
+            <input type="text" pInputText placeholder="Nombre de deposito">         
+        </div>
+    </div>
+</div>
+<div class="grid p-fluid">
+    <div class="col">
+        <p-dropdown [options]="tipoDepositos"  [(ngModel)]="tipoDepositoSeleccionado" optionLabel="nombre" placeholder="Eligir el tipo de deposito" [showClear]="true"></p-dropdown>       
+    </div>
+</div>
+<div class="grid p-fluid">
+    <div class="col">
         <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-            <input type="text" pInputText placeholder="Username">         
+            <input type="text" pInputText placeholder="Nombre de deposito">         
         </div>
     </div>
-    
-    <div class="col-12 md:col-4">
+</div>
+<div class="grid p-fluid">
+    <div class="col">
         <div class="p-inputgroup">
-            <span class="p-inputgroup-addon">$</span>
-            <input type="text" pInputText placeholder="Price">   
-            <span class="p-inputgroup-addon">.00</span>      
-        </div>
-    </div>
-            
-    <div class="col-12 md:col-4">
-        <div class="p-inputgroup">
-            <span class="p-inputgroup-addon">www</span>
-            <input type="text" pInputText placeholder="Website">      
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input type="text" pInputText placeholder="Nombre de deposito">         
         </div>
     </div>
 </div>

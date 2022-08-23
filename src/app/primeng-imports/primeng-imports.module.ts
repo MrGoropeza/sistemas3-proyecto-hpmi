@@ -12,7 +12,7 @@ import {DataViewModule} from 'primeng/dataview';
 import {CardModule} from 'primeng/card';
 import {TooltipModule} from 'primeng/tooltip';
 import {DialogModule} from 'primeng/dialog';
-
+import {DropdownModule} from 'primeng/dropdown';
 import {InputTextModule} from 'primeng/inputtext';
 @NgModule({
   declarations: [],
@@ -31,7 +31,8 @@ import {InputTextModule} from 'primeng/inputtext';
     CardModule,
     TooltipModule,
     DialogModule,
-    InputTextModule
+    InputTextModule,
+    DropdownModule
   ]
 })
 export class PrimengImportsModule { }

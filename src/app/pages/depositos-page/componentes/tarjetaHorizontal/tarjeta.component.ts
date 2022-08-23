@@ -9,11 +9,13 @@ import { IDeposito } from 'src/app/models/IDeposito';
 export class TarjetaComponent implements OnInit {
  @Input() deposito : IDeposito = {} as IDeposito;
   dialogVisible : boolean = false;
+  titulo: string = "";
   constructor() { }
 
   ngOnInit(): void {
   }
   mostrar(){
     this.dialogVisible = true;
+    this.titulo = "hola2";
   }
 }

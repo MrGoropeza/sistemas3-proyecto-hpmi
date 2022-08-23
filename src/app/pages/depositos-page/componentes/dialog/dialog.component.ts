@@ -8,6 +8,7 @@ import { TarjetaComponent } from '../tarjetaHorizontal/tarjeta.component';
 })
 export class DialogComponent  implements OnInit  {
   @Input() display : boolean = false;
+  @Input() titulo : string = "";
   @Output() newItemEvent = new EventEmitter<boolean>();
   constructor() {
     

@@ -10,6 +10,7 @@ import { DepositoService } from 'src/app/services/deposito.service';
 export class DepositosPageComponent implements OnInit {
   depositos : IDeposito[] = [];
   display : boolean = false;
+  titulo : string  = "";
   constructor(private servicioDepositos : DepositoService) { }
 
   ngOnInit(): void {
@@ -20,5 +21,6 @@ export class DepositosPageComponent implements OnInit {
   }
   agregarDeposito(){
     this.display = true;
+    this.titulo = "Agregar nuevo deposito";
   }
 }
