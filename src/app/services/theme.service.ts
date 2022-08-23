@@ -8,7 +8,7 @@ export class ThemeService {
 
     constructor(@Inject(DOCUMENT) private document: Document) {}
 
-    darkMode : boolean = true;
+    darkMode : boolean = false;
 
     switchTheme() {
         let themeLink = this.document.getElementById('app-theme') as HTMLLinkElement;

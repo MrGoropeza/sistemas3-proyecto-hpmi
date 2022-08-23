@@ -10,6 +10,8 @@ import { SidebarComponent } from './pages/global-components/sidebar/sidebar.comp
 import { ArticuloPageComponent } from './pages/articulo-page/articulo-page.component';
 import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
+import { MessageService } from 'primeng/api';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,10 +26,11 @@ import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     PrimengImportsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

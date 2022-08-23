@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
       this.items = [
          {icon: "pi pi-home"},
          {label:'Farmacia',},
-         {label:'Deposito X'},
+         {label:'Artículos'},
       ];
    }
 
