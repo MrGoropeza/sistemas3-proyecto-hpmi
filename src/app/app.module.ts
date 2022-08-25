@@ -12,6 +12,8 @@ import { DepositosPageComponent } from './pages/depositos-page/depositos-page.co
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
     SidebarComponent,
     ArticuloPageComponent,
     DepositosPageComponent,
-    DepositoSeleccionadoPageComponent
+    DepositoSeleccionadoPageComponent,
+    LoginPageComponent,
+    UsuariosPageComponent
   ],
   imports: [
     BrowserModule,
