@@ -39,7 +39,7 @@ export class DepositosPageComponent implements OnInit {
   public borrarDepositosSeleccionados(){
     this.confirmationService.confirm({
       message: '¿Estás seguro que queres eliminar los productos seleccionados?',
-      header: 'Confirm',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: "Sí",
       rejectLabel: "No",

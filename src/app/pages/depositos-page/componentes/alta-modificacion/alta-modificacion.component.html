@@ -7,7 +7,7 @@
 </div>
 <div class="field">
     <label for="tipo">Tipo de Deposito</label>
-    <p-dropdown [(ngModel)]="deposito.tipo" inputId="tipo" [options]="listaTipoDepositos" placeholder="{{deposito.tipo}}" optionLabel="nombre">
+    <p-dropdown [(ngModel)]="deposito.tipo" (onChange)="actualizarTipo()" inputId="tipo" [options]="listaTipoDepositos" placeholder="{{deposito.tipo}}" optionLabel="nombre">
         <ng-template let-option pTemplate="item">
             {{option.nombre}}
         </ng-template>

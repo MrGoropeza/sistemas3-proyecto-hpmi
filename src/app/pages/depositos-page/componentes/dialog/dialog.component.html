@@ -1,7 +1,7 @@
-<p-dialog header="{{titulo}}" [(visible)]="display" (onHide)="ocultar()" [modal]="true" styleClass="p-fluid w-10 overflow">
+<p-dialog header="{{titulo}}" [(visible)]="display" (onHide)="ocultar()" contentStyleClass="overflow-visible" [modal]="true" styleClass="p-fluid w-10 overflow">
     <app-alta-modificacion [deposito]="deposito"></app-alta-modificacion>
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="ocultar()"></button>
+        <button pButton  pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="ocultar()"></button>
         <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardar()"></button>
     </ng-template>
 </p-dialog>

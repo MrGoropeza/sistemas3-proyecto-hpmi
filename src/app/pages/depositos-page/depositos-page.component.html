@@ -16,7 +16,7 @@
             <div class="flex align-items-center justify-content-between">
                 <!-- botones de arriba -->
                 <div>
-                    <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoDeposito()"></button>
+                    <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoDeposito()"></button>
                     <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarDepositosSeleccionados()" [disabled]="!depositosSeleccionados || !depositosSeleccionados.length"></button>
                 </div>
 
@@ -49,8 +49,8 @@
                 <td>{{deposito.sector}}</td>
                 <td>{{deposito.planta}}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarDeposito(deposito)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarDeposito(deposito)"></button>
+                    <button pButton pRipple pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarDeposito(deposito)"></button>
+                    <button pButton pRipple pTooltip="Eliminar" icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarDeposito(deposito)"></button>
                 </td>
             </tr>
         </ng-template>

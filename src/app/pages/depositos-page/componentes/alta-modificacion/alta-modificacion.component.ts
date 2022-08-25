@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { INPUTNUMBER_VALUE_ACCESSOR } from 'primeng/inputnumber';
 import { Deposito } from 'src/app/models/Deposito';
 import { ITipoDeposito } from 'src/app/models/ITipoDeposito';
@@ -15,7 +15,6 @@ import { SectorService } from 'src/app/services/sector.service';
 })
 export class AltaModificacionComponent implements OnInit {
   @Input() deposito : Deposito = new Deposito();
-
   listaTipoDepositos : ITipoDeposito[] = [];
   plantas : Planta[] = [];
   sectores : Sector[] = [];
@@ -33,7 +32,10 @@ export class AltaModificacionComponent implements OnInit {
     this.plantas = this.servicioPlantas.getPlantas();
     this.sectores = this.servicioSectores.getSector();
   }
-
+  public actualizarTipo(){
+    this.servicioDepositos.setDeposito(this.deposito);
+    
+  }
 
 
 
