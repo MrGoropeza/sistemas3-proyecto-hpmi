@@ -7,6 +7,7 @@ export class Articulo {
     descripcion!: string;
     fechaVencimiento! : Date
     categoria! : categoriaArticulo
+    estadoStock! : any
 
     constructor() {
         return this;
@@ -34,6 +35,11 @@ export class Articulo {
 
     setFechaVencimiento(fechaVencimiento: Date){
         this.fechaVencimiento = fechaVencimiento;
+        return this;
+    }
+
+    setEstadoStock(estadoStock: any){
+        this.estadoStock = estadoStock;
         return this;
     }
 }

@@ -1,8 +1,11 @@
+<!-- Toast sirve para mostrar mensajitos -->
 <p-toast></p-toast>
+<!-- Llamando al confirmation service puedo mandar un dialog de confirmacion -->
+<p-confirmDialog></p-confirmDialog>
 
 <!-- Tarjeta del contenido -->
-<div class="flex justify-content-center">
-    <div class="surface-card w-12 p-3 m-1">
+<div class="surface-ground flex justify-content-center m-0">
+    <div class="w-11 p-3 my-2 mx-4">
         <!-- Contenido de la pagina -->
 
         <p-table #dt [value]="articulos" [rows]="10" [paginator]="true" [globalFilterFields]="['nombre','categoria.nombre','fechaVencimiento']" responsiveLayout="scroll"
@@ -19,7 +22,7 @@
 
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($event.target, 'contains')" placeholder="Buscar..." />
+                    <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
                 </span>
             </div>
         </ng-template>
@@ -34,6 +37,7 @@
                 <th>Descripción</th>
                 <th pSortableColumn="categoria.nombre">Categoría<p-sortIcon field="categoria.nombre"></p-sortIcon></th>
                 <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
+                <th>Disponibilidad</th>
                 <th></th>
             </tr>
         </ng-template>
@@ -46,10 +50,11 @@
                 <td>{{articulo.nombre}}</td>
                 <td>{{articulo.descripcion}}</td>
                 <td>{{articulo.categoria.nombre}}</td>
-                <td>{{articulo.fechaVencimiento.toLocaleDateString()}}</td>
+                <td>{{articulo.fechaVencimiento!.toLocaleDateString()}}</td>
+                <td><p-badge value="{{buscarLabelEstado(articulo.estadoStock)}}" severity="{{buscarSeverityEstado(articulo.estadoStock)}}" size="large"></p-badge></td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo()"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="editarArticulo()"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarArticulo(articulo)"></button>
                 </td>
             </tr>
         </ng-template>
@@ -65,3 +70,57 @@
     </div>
 </div>
 <!-- Tarjeta del contenido -->
+
+
+<p-dialog header="Detalles del Artículo" [(visible)]="articuloDialog" (onHide)="ocultarDialog()" [modal]="true" styleClass="p-fluid w-10">
+    
+    <div class="field">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="nombre" pInputText [(ngModel)]="articulo.nombre" required autofocus />
+        <small class="p-error" *ngIf="confirmado && !articulo.nombre">Nombre requerido.</small>
+    </div>
+
+    <div class="field">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" pInputTextarea [(ngModel)]="articulo.descripcion" required rows="3" cols="20"></textarea>
+    </div>
+
+    <div class="field">
+        <label for="fechaVencimiento">Fecha de Vencimiento (mm-dd-yyyy)</label>
+        <p-calendar inputId="fechaVencimiento" [(ngModel)]="articulo.fechaVencimiento" dateFormat="mm-dd-yy" [showIcon]="true"
+            panelStyleClass="w-7"></p-calendar>
+    </div>
+
+    <div class="field">
+        <label for="inventoryStatus">Estado de Inventario</label>
+        <p-dropdown [(ngModel)]="articulo.estadoStock" inputId="inventoryStatus" [options]="estados" placeholder="Seleccionar">
+            <ng-template let-option pTemplate="item">
+                <p-badge [value]="option.label" [severity]="option.severity"></p-badge>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <!-- <div class="field">
+        <label class="mb-3">Categoria</label>
+        <div class="formgrid grid">
+            <div class="field-radiobutton col-6" *ngFor="let categoria of categorias; let i=index">
+                <p-radioButton id="category{{i}}" name="categoria" [value]="categoria" [(ngModel)]="articulo.categoria"></p-radioButton>
+                <label for="category{{i}}">{{categoria.nombre}}</label>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="field">
+        <label for="inventoryStatus">Categoría</label>
+        <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias" placeholder="Seleccionar">
+            <ng-template let-option pTemplate="item">
+                {{option.nombre}}
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="ocultarDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="cargarArticulo()"></button>
+    </ng-template>
+</p-dialog>

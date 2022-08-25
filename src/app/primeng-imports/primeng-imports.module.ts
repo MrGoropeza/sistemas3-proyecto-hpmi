@@ -13,8 +13,14 @@ import {ToastModule} from 'primeng/toast';
 import {FileUploadModule} from 'primeng/fileupload';
 import {TableModule} from 'primeng/table';
 import {InputTextModule} from 'primeng/inputtext';
-import {CheckboxModule} from 'primeng/checkbox';
 import {RippleModule} from 'primeng/ripple';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {DialogModule} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {CalendarModule} from 'primeng/calendar';
+import {BadgeModule} from 'primeng/badge';
 
 
 @NgModule({
@@ -23,7 +29,6 @@ import {RippleModule} from 'primeng/ripple';
     CommonModule,
   ],
   exports: [
-    InputTextModule,
     ToolbarModule,
     SlideMenuModule,
     ButtonModule,
@@ -35,7 +40,15 @@ import {RippleModule} from 'primeng/ripple';
     ToastModule,
     FileUploadModule,
     TableModule,
-    RippleModule
+    RippleModule,
+    ConfirmDialogModule,
+    DialogModule,
+    DropdownModule,
+    RadioButtonModule,
+    InputTextModule,
+    InputTextareaModule,
+    CalendarModule,
+    BadgeModule,
   ]
 })
 export class PrimengImportsModule { }
