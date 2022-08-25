@@ -39,7 +39,7 @@
                 <th pSortableColumn="categoria.nombre">Categoría<p-sortIcon field="categoria.nombre"></p-sortIcon></th>
                 <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
                 <th>Disponibilidad</th>
-                <th></th>
+                <th>Acciones</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-articulo>
@@ -105,7 +105,7 @@
     </div>
 
     <div class="field">
-        <label for="inventoryStatus">Categoría</label>
+        <label for="categorias">Categoría</label>
         <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias" placeholder="Seleccionar"
             optionLabel="nombre">
             <ng-template let-option pTemplate="item">

@@ -124,7 +124,7 @@ export class ArticuloPageComponent implements OnInit {
   borrarArticulosSeleccionados(){
     this.confirmationService.confirm({
         message: '¿Estás seguro que queres eliminar los productos seleccionados?',
-        header: 'Confirm',
+        header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: "Sí",
         rejectLabel: "No",
