@@ -4,7 +4,7 @@
 <p-confirmDialog></p-confirmDialog>
 
 <!-- Tarjeta del contenido -->
-<div class="surface-ground flex justify-content-center m-0">
+<div class="surface-ground flex justify-content-center m-0 min-h-screen">
     <div class="w-11 p-3 my-2 mx-4">
         <!-- Contenido de la pagina -->
 
@@ -12,9 +12,10 @@
         [(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
         [showCurrentPageReport]="false">
+        
+
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-
                 <div>
                     <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoArticulo()"></button>
                     <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarArticulosSeleccionados()" [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
@@ -30,7 +31,7 @@
         <ng-template pTemplate="header">
             <tr>
                 <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
                 </th>
                 <th># Artículo</th>
                 <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
@@ -44,7 +45,7 @@
         <ng-template pTemplate="body" let-articulo>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="articulo"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="articulo" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
                 </td>
                 <td>{{articulo.id}}</td>
                 <td>{{articulo.nombre}}</td>
@@ -53,8 +54,10 @@
                 <td>{{articulo.fechaVencimiento!.toLocaleDateString()}}</td>
                 <td><p-badge value="{{buscarLabelEstado(articulo.estadoStock)}}" severity="{{buscarSeverityEstado(articulo.estadoStock)}}" size="large"></p-badge></td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarArticulo(articulo)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"
+                        pTooltip="Editar" tooltipPosition="top"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarArticulo(articulo)"
+                        pTooltip="Eliminar" tooltipPosition="top"></button>
                 </td>
             </tr>
         </ng-template>
@@ -72,7 +75,8 @@
 <!-- Tarjeta del contenido -->
 
 
-<p-dialog header="Detalles del Artículo" [(visible)]="articuloDialog" (onHide)="ocultarDialog()" [modal]="true" styleClass="p-fluid w-10">
+<p-dialog #dialog header="Detalles del Artículo" [(visible)]="articuloDialog" (onHide)="ocultarDialog()" [modal]="true" styleClass="p-fluid w-3"
+        contentStyleClass="overflow-visible">
     
     <div class="field">
         <label for="nombre">Nombre</label>
@@ -86,9 +90,9 @@
     </div>
 
     <div class="field">
-        <label for="fechaVencimiento">Fecha de Vencimiento (mm-dd-yyyy)</label>
-        <p-calendar inputId="fechaVencimiento" [(ngModel)]="articulo.fechaVencimiento" dateFormat="mm-dd-yy" [showIcon]="true"
-            panelStyleClass="w-7"></p-calendar>
+        <label for="fechaVencimiento">Fecha de Vencimiento (dd-mm-yy)</label>
+        <p-calendar inputId="fechaVencimiento" [(ngModel)]="articulo.fechaVencimiento" dateFormat="dd-mm-yy" [showIcon]="true" [required]="true"
+             ></p-calendar>
     </div>
 
     <div class="field">
@@ -100,19 +104,10 @@
         </p-dropdown>
     </div>
 
-    <!-- <div class="field">
-        <label class="mb-3">Categoria</label>
-        <div class="formgrid grid">
-            <div class="field-radiobutton col-6" *ngFor="let categoria of categorias; let i=index">
-                <p-radioButton id="category{{i}}" name="categoria" [value]="categoria" [(ngModel)]="articulo.categoria"></p-radioButton>
-                <label for="category{{i}}">{{categoria.nombre}}</label>
-            </div>
-        </div>
-    </div> -->
-
     <div class="field">
         <label for="inventoryStatus">Categoría</label>
-        <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias" placeholder="Seleccionar">
+        <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias" placeholder="Seleccionar"
+            optionLabel="nombre">
             <ng-template let-option pTemplate="item">
                 {{option.nombre}}
             </ng-template>
