@@ -1,0 +1,34 @@
+<div *ngIf="deposito.id !=null">
+    <div class="field">
+        <label for="id">ID</label>
+        <input id="id" readonly type="id" pInputText [(ngModel)]="deposito.id" required autofocus />
+
+    </div>
+</div>
+<div class="field">
+    <label for="tipo">Tipo de Deposito</label>
+    <p-dropdown [(ngModel)]="deposito.tipo" inputId="tipo" [options]="listaTipoDepositos" placeholder="{{deposito.tipo}}" optionLabel="nombre">
+        <ng-template let-option pTemplate="item">
+            {{option.nombre}}
+        </ng-template>
+    </p-dropdown>
+</div>
+<div class="field">
+    <label for="planta">Planta</label>
+    <p-dropdown [(ngModel)]="deposito.planta" [virtualScrollItemSize]="30" inputId="planta" [options]="plantas" placeholder="{{deposito.planta}}" optionLabel="nombre"  [showClear]="true"  >
+        <ng-template let-option pTemplate="item">
+            {{option.nombre}}
+        </ng-template>
+    </p-dropdown>
+</div>
+<div class="field">
+    <label for="sector">Sector</label>
+    <p-dropdown [(ngModel)]="deposito.sector" inputId="sector" [options]="sectores" placeholder="{{deposito.sector}}" optionLabel="nombre">
+        <ng-template let-option pTemplate="item">
+            {{option.nombre}}
+        </ng-template>
+    </p-dropdown>
+</div>
+
+
+

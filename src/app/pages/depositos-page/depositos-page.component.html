@@ -1,1 +1,71 @@
-<p>depositos-page works!</p>
+<!-- Toast sirve para mostrar mensajitos -->
+<p-toast></p-toast>
+<!-- Llamando al confirmation service puedo mandar un dialog de confirmacion -->
+<p-confirmDialog></p-confirmDialog>
+
+<!-- Tarjeta del contenido -->
+<div class="surface-ground flex justify-content-center m-0">
+    <div class="w-11 p-3 my-2 mx-4">
+        <!-- Contenido de la pagina -->
+
+        <p-table #dt [value]="listaDepositos" [rows]="5" [paginator]="true" [globalFilterFields]="['id','tipo','sector','planta']" responsiveLayout="scroll"
+        [(selection)]="depositosSeleccionados" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+        [showCurrentPageReport]="false">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <!-- botones de arriba -->
+                <div>
+                    <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoDeposito()"></button>
+                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarDepositosSeleccionados()" [disabled]="!depositosSeleccionados || !depositosSeleccionados.length"></button>
+                </div>
+
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+<!-- tabla -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="id"># Deposito <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="tipo">Tipo<p-sortIcon field="tipo"></p-sortIcon></th>
+                <th pSortableColumn="sector">Sector<p-sortIcon field="sector"></p-sortIcon></th>
+                <th pSortableColumn="planta">Planta<p-sortIcon field="planta"></p-sortIcon></th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-deposito>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="deposito"></p-tableCheckbox>
+                </td>
+                <td>{{deposito.id}}</td>
+                <td>{{deposito.tipo}}</td>
+                <td>{{deposito.sector}}</td>
+                <td>{{deposito.planta}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarDeposito(deposito)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarDeposito(deposito)"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En total hay {{listaDepositos ? listaDepositos.length : 0 }} articulos.
+            </div>
+        </ng-template>
+    </p-table>
+
+        <!-- Contenido de la pagina -->
+    </div>
+</div>
+<!-- Tarjeta del contenido -->
+<div *ngIf="display">
+    <app-dialog [display]="display" [titulo]="titulo" [deposito]="deposito" (newItemEvent)="ocultarDialog($event)"></app-dialog>
+</div>
