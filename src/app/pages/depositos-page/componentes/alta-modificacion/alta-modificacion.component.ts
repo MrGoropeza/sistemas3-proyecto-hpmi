@@ -32,7 +32,7 @@ export class AltaModificacionComponent implements OnInit {
     this.plantas = this.servicioPlantas.getPlantas();
     this.sectores = this.servicioSectores.getSector();
   }
-  public actualizarTipo(){
+  public actualizar(){
     this.servicioDepositos.setDeposito(this.deposito);
     
   }

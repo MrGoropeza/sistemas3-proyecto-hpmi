@@ -35,4 +35,7 @@ export class DepositoService {
   public setDeposito(deposito : Deposito){
     this.deposito = deposito;
   }
+  public getDeposito(){
+    return this.deposito;
+  }
 }
