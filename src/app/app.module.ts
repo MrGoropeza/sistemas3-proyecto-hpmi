@@ -14,6 +14,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
+import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.compo
     DepositosPageComponent,
     DepositoSeleccionadoPageComponent,
     LoginPageComponent,
-    UsuariosPageComponent
+    UsuariosPageComponent,
+    FarmaciaPageComponent
   ],
   imports: [
     BrowserModule,

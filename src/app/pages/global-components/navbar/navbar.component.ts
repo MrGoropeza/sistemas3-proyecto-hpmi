@@ -14,8 +14,6 @@ export class NavbarComponent implements OnInit {
 
    static readonly ROUTE_DATA_BREADCRUMB = 'breadcrumb';
 
-   items!: MenuItem[];
-
    breadcrumbItems!: MenuItem[];
 
    darkMode! : boolean;
@@ -55,8 +53,11 @@ export class NavbarComponent implements OnInit {
          }
    
          const label = child.snapshot.data[NavbarComponent.ROUTE_DATA_BREADCRUMB];
-         if(!(label === null || label === undefined)) {
-            breadcrumbs.push({label, url, target: ""});
+         if(!(label === null || label === undefined) && label !== '') {
+            if(label !== this.activatedRoute.snapshot.data[NavbarComponent.ROUTE_DATA_BREADCRUMB]){
+               breadcrumbs.push({label, routerLink: url, target: "_self"});
+            }
+            
          }
          
          return this.createBreadcrumbs(child, url, breadcrumbs);
