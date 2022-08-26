@@ -85,11 +85,17 @@ export class DepositosPageComponent implements OnInit {
     this.deposito = new Deposito();
   }
   guardarDeposito(deposito : IDeposito){
-    console.log(deposito.planta);
-    deposito.id = this.getRandomInt(20,100);
-    this.listaDepositos.push(deposito);
-    console.log(this.listaDepositos);
-    this.listaDepositos = [...this.listaDepositos];
+    console.log("hoola",deposito.id);
+    if(deposito.id == undefined){
+      deposito.id = this.getRandomInt(20,100);
+      this.listaDepositos.push(deposito);
+      console.log(this.listaDepositos);
+      this.listaDepositos = [...this.listaDepositos];
+    }else{
+      console.log("matate");
+      
+    }
+
   }
   getRandomInt(min : number, max : number) : number{
     min = Math.ceil(min);

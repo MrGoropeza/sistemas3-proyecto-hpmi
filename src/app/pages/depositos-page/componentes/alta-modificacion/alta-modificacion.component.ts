@@ -24,6 +24,7 @@ export class AltaModificacionComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.deposito.tipo);
+    this.actualizar();
     this.obtenerDropdowns();
     
   }
