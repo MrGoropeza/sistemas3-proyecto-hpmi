@@ -15,9 +15,9 @@ import { SectorService } from 'src/app/services/sector.service';
 })
 export class AltaModificacionComponent implements OnInit {
   @Input() deposito : Deposito = new Deposito();
-  listaTipoDepositos : ITipoDeposito[] = [];
-  plantas : Planta[] = [];
-  sectores : Sector[] = [];
+  listaTipoDepositos : string[] = [];
+  plantas : string[] = [];
+  sectores : string[] = [];
   constructor(private servicioDepositos : DepositoService,
     private servicioSectores : SectorService,
     private servicioPlantas : PlantaService) { }
@@ -28,10 +28,27 @@ export class AltaModificacionComponent implements OnInit {
     
   }
   private obtenerDropdowns(){
-    this.listaTipoDepositos = this.servicioDepositos.getTipoDepositos();
-    this.plantas = this.servicioPlantas.getPlantas();
-    this.sectores = this.servicioSectores.getSector();
+    //this.listaTipoDepositos = this.servicioDepositos.getTipoDepositos();
+    this.obtenerTipo();
+    console.log(this.listaTipoDepositos);
+    this.obtenerPlanta();
+    this.obtenerSector();
   }
+  private obtenerTipo(){
+    this.servicioDepositos.getTipoDepositos().forEach(tipo => {
+      this.listaTipoDepositos.push(tipo.nombre);
+    });
+  }
+    private obtenerPlanta(){
+      this.servicioPlantas.getPlantas().forEach(elemento => {
+        this.plantas.push(elemento.nombre);
+      });
+    }
+    private obtenerSector(){
+      this.servicioSectores.getSector().forEach(elemento => {
+        this.sectores.push(elemento.nombre);
+      });
+    }
   public actualizar(){
     this.servicioDepositos.setDeposito(this.deposito);
     

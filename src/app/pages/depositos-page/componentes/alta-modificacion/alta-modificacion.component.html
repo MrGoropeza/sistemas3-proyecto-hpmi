@@ -9,7 +9,7 @@
     <label for="tipo">Tipo de Deposito</label>
     <p-dropdown [(ngModel)]="deposito.tipo" (onChange)="actualizar()" inputId="tipo" [options]="listaTipoDepositos" placeholder="{{deposito.tipo}}" optionLabel="nombre">
         <ng-template let-option pTemplate="item">
-            {{option.nombre}}
+            {{option}}
         </ng-template>
     </p-dropdown>
 </div>
@@ -17,7 +17,7 @@
     <label for="planta">Planta</label>
     <p-dropdown [(ngModel)]="deposito.planta" (onChange)="actualizar()" [virtualScrollItemSize]="30" inputId="planta" [options]="plantas" placeholder="{{deposito.planta}}" optionLabel="nombre"  [showClear]="true"  >
         <ng-template let-option pTemplate="item">
-            {{option.nombre}}
+            {{option}}
         </ng-template>
     </p-dropdown>
 </div>
@@ -25,7 +25,7 @@
     <label for="sector">Sector</label>
     <p-dropdown [(ngModel)]="deposito.sector" (onChange)="actualizar()" inputId="sector" [options]="sectores" placeholder="{{deposito.sector}}" optionLabel="nombre">
         <ng-template let-option pTemplate="item">
-            {{option.nombre}}
+            {{option}}
         </ng-template>
     </p-dropdown>
 </div>

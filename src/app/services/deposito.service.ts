@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { VirtualTimeScheduler } from 'rxjs';
 import { Deposito } from '../models/Deposito';
 import { IDeposito } from '../models/IDeposito';
 import { ITipoDeposito } from '../models/ITipoDeposito';
@@ -37,5 +38,8 @@ export class DepositoService {
   }
   public getDeposito(){
     return this.deposito;
+  }
+  public limpiarDeposito(){
+    this.deposito = {} as IDeposito;
   }
 }

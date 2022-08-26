@@ -84,5 +84,11 @@ export class DepositosPageComponent implements OnInit {
     this.display = event;
     this.deposito = new Deposito();
   }
+  guardarDeposito(deposito : IDeposito){
+    console.log(deposito.planta);
+    this.listaDepositos.push(deposito);
+    console.log(this.listaDepositos);
+    this.listaDepositos = [...this.listaDepositos];
+  }
 
 }

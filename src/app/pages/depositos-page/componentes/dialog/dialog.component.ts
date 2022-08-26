@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Deposito } from 'src/app/models/Deposito';
+import { IDeposito } from 'src/app/models/IDeposito';
 import { DepositoService } from 'src/app/services/deposito.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class DialogComponent implements OnInit {
   @Input() titulo : string = "";
   @Input() deposito : Deposito = new Deposito(); 
   @Output() newItemEvent = new EventEmitter<boolean>();
+  @Output() depositoGuardado = new EventEmitter<IDeposito>();
   constructor(
     private messageService: MessageService,
     private servicioDepositos : DepositoService
@@ -28,6 +30,8 @@ export class DialogComponent implements OnInit {
   }
   guardar(){
     console.log(this.servicioDepositos.getDeposito());
+    this.depositoGuardado.emit(this.servicioDepositos.getDeposito());
+    this.servicioDepositos.limpiarDeposito();
     this.messageService.add({severity:'success', summary: 'Éxito', detail: 'Deposito registrado', life: 3000});
     this.ocultar();
   }
