@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  paginas!: MenuItem[];
+
+  constructor(
+    private navigationService: NavigationService
+  ) { }
 
   ngOnInit(): void {
+    this.paginas = this.navigationService.getSidebarItems();
   }
 
 }

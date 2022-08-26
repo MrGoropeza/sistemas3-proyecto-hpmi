@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
 import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { LocaleService } from 'src/app/services/locale.service';
 import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
@@ -32,10 +33,14 @@ export class ArticuloPageComponent implements OnInit {
   constructor(
     private supabaseService: SupabaseService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private localeService: LocaleService,
   ) { }
 
   ngOnInit(): void {
+
+    this.localeService.setEspaniol();
+
     this.articulo = new Articulo();
 
     this.categorias = [
@@ -47,7 +52,7 @@ export class ArticuloPageComponent implements OnInit {
     for (let index = 0; index < 50; index++) {
       this.articulos.push(
         new Articulo()
-          .setId(index)
+          .setId(index + 1)
           .setNombre(`producto${index}`)
           .setCategoria(this.categorias[Math.floor(Math.random() * 3)])
           .setFechaVencimiento(new Date(`08-${Math.floor(Math.random() * 30) + 1}-2022`))
@@ -119,7 +124,7 @@ export class ArticuloPageComponent implements OnInit {
   borrarArticulosSeleccionados(){
     this.confirmationService.confirm({
         message: '¿Estás seguro que queres eliminar los productos seleccionados?',
-        header: 'Confirm',
+        header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: "Sí",
         rejectLabel: "No",

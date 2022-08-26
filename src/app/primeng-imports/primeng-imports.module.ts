@@ -21,7 +21,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {CalendarModule} from 'primeng/calendar';
 import {BadgeModule} from 'primeng/badge';
-
+import {MenuModule} from 'primeng/menu';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [],
@@ -49,6 +50,8 @@ import {BadgeModule} from 'primeng/badge';
     InputTextareaModule,
     CalendarModule,
     BadgeModule,
+    MenuModule,
+    TooltipModule,
   ]
 })
 export class PrimengImportsModule { }

@@ -12,6 +12,8 @@ import { DepositosPageComponent } from './pages/depositos-page/depositos-page.co
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
 import { DialogComponent } from './pages/depositos-page/componentes/dialog/dialog.component';
 import { AltaModificacionComponent } from './pages/depositos-page/componentes/alta-modificacion/alta-modificacion.component';
 
@@ -24,7 +26,9 @@ import { AltaModificacionComponent } from './pages/depositos-page/componentes/al
     DepositosPageComponent,
     DepositoSeleccionadoPageComponent,
     DialogComponent,
-    AltaModificacionComponent
+    AltaModificacionComponent,
+    LoginPageComponent,
+    UsuariosPageComponent
   ],
   imports: [
     BrowserModule,
