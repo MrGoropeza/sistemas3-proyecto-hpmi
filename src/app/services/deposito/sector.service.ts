@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Sector } from '../models/Sector';
+import { Sector } from '../../models/Sector';
 
 @Injectable({
   providedIn: 'root'

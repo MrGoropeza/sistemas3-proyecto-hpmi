@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Deposito } from 'src/app/models/Deposito';
 import { IDeposito } from 'src/app/models/IDeposito';
-import { DepositoService } from 'src/app/services/deposito.service';
+import { DepositoService } from 'src/app/services/deposito/deposito.service';
 
 @Component({
   selector: 'app-dialog',

@@ -4,9 +4,9 @@ import { Deposito } from 'src/app/models/Deposito';
 import { ITipoDeposito } from 'src/app/models/ITipoDeposito';
 import { Planta } from 'src/app/models/Planta';
 import { Sector } from 'src/app/models/Sector';
-import { DepositoService } from 'src/app/services/deposito.service';
-import { PlantaService } from 'src/app/services/planta.service';
-import { SectorService } from 'src/app/services/sector.service';
+import { DepositoService } from 'src/app/services/deposito/deposito.service';
+import { PlantaService } from 'src/app/services/deposito/planta.service';
+import { SectorService } from 'src/app/services/deposito/sector.service';
 
 @Component({
   selector: 'app-alta-modificacion',

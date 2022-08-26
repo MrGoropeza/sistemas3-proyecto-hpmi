@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Deposito } from 'src/app/models/Deposito';
 import { IDeposito } from 'src/app/models/IDeposito';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { DepositoService } from 'src/app/services/deposito.service';
+import { DepositoService } from 'src/app/services/deposito/deposito.service';
 
 @Component({
   selector: 'app-depositos-page',
