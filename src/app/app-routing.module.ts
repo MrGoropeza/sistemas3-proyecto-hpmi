@@ -34,15 +34,16 @@ const routes: Routes = [
               breadcrumb: ""
             },
             component: FarmaciaPageComponent,
-            
+            title: "Farmacia"
           },
           {
-            // este es el path de /farmacia/abmDepotitos
+            // este es el path de /farmacia/abmDepositos
             path: "abmDepositos",
             data: {
               breadcrumb: "Depósitos"
             },
             component: DepositosPageComponent,
+            title: "Depósitos"
           },
           {
             // este es el path de /farmacia/abmArticulos
@@ -50,7 +51,8 @@ const routes: Routes = [
             data: {
               breadcrumb: "Artículos"
             },
-            component: ArticuloPageComponent
+            component: ArticuloPageComponent,
+            title: "Artículos"
           },
         ]
       },
@@ -65,7 +67,8 @@ const routes: Routes = [
             data: {
               breadcrumb: "Altas, Bajas y Modificaciones"
             },
-            component: UsuariosPageComponent
+            component: UsuariosPageComponent,
+            title: "ABM Usuarios"
           }
         ]
       }
