@@ -52,7 +52,12 @@
                 <td>{{articulo.descripcion}}</td>
                 <td>{{articulo.categoria.nombre}}</td>
                 <td>{{articulo.fechaVencimiento!.toLocaleDateString()}}</td>
-                <td><p-badge value="{{buscarLabelEstado(articulo.estadoStock)}}" severity="{{buscarSeverityEstado(articulo.estadoStock)}}" size="large"></p-badge></td>
+                <td>
+                    <p-badge value="{{buscarLabelEstado(articulo.estadoStock)}}"
+                             severity="{{buscarSeverityEstado(articulo.estadoStock)}}"
+                             size="large"
+                             styleClass="text-sm"></p-badge>
+                </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"
                         pTooltip="Editar" tooltipPosition="top"></button>

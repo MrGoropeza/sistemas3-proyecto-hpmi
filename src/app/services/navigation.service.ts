@@ -23,16 +23,16 @@ export class NavigationService{
           }
         ]
       },
-      {
-        label: "Usuarios",
-        items: [
-          {
-            label: "ABM",
-            icon: "pi pi-users",
-            routerLink: "usuarios/abm"
-          }
-        ]
-      },    
+      // {
+      //   label: "Usuarios",
+      //   items: [
+      //     {
+      //       label: "ABM",
+      //       icon: "pi pi-users",
+      //       routerLink: "usuarios/abm"
+      //     }
+      //   ]
+      // },    
     ];
 
     constructor() {}
