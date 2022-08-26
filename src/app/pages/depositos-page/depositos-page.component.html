@@ -4,8 +4,8 @@
 <p-confirmDialog></p-confirmDialog>
 
 <!-- Tarjeta del contenido -->
-<div class="surface-ground flex justify-content-center m-0">
-    <div class="w-11 p-3 my-2 mx-4">
+<!-- <div class="surface-ground flex justify-content-center m-0">
+    <div class="w-11 p-3 my-2 mx-4"> -->
         <!-- Contenido de la pagina -->
 
         <p-table #dt [value]="listaDepositos" [rows]="5" [paginator]="true" [globalFilterFields]="['id','tipo','sector','planta']" responsiveLayout="scroll"
@@ -63,8 +63,8 @@
     </p-table>
 
         <!-- Contenido de la pagina -->
-    </div>
-</div>
+    <!-- </div>
+</div> -->
 <!-- Tarjeta del contenido -->
 <div *ngIf="display">
     <app-dialog [display]="display" [titulo]="titulo" [deposito]="deposito" (newItemEvent)="ocultarDialog($event)" (depositoGuardado)="guardarDeposito($event)"></app-dialog>

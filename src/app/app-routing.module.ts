@@ -61,6 +61,7 @@ const routes: Routes = [
         data: {
           breadcrumb: "Usuarios"
         },
+        title: "Usuarios",
         children: [
           {
             path: "abm",
