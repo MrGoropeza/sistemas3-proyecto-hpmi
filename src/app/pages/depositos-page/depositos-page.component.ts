@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Deposito } from 'src/app/models/Deposito';
+import { IDeposito } from 'src/app/models/IDeposito';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DepositoService } from 'src/app/services/deposito.service';
 
 @Component({
   selector: 'app-depositos-page',
@@ -6,10 +10,85 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./depositos-page.component.css']
 })
 export class DepositosPageComponent implements OnInit {
+  // depositos
+  listaDepositos : IDeposito[] = [];
+  //depositos Seleccionados
+  depositosSeleccionados : IDeposito[] = [];
+  display: boolean = false;
+  confirmado: boolean = false;
+  deposito! : Deposito;
 
-  constructor() { }
+  titulo : string  = "";
+  constructor(private servicioDepositos : DepositoService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.deposito = new Deposito();
+    this.obtenerDepositos();
+    
+  }
+  private obtenerDepositos(){
+    this.listaDepositos = this.servicioDepositos.getDepositos();
+  }
+
+  public nuevoDeposito(){
+    this.display = true;
+    this.titulo = "Agregar nuevo deposito";
+  }
+  public borrarDepositosSeleccionados(){
+    this.confirmationService.confirm({
+      message: '¿Estás seguro que queres eliminar los productos seleccionados?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: "Sí",
+      rejectLabel: "No",
+      accept: () => {
+          this.listaDepositos = this.listaDepositos.filter(val => !this.depositosSeleccionados.includes(val));
+          this.depositosSeleccionados = [];
+          this.messageService.add({
+            severity:'success', 
+            summary: 'Éxito', 
+            detail: 'Artículos eliminados', life: 3000
+          });
+      }
+  });
+  }
+  public editarDeposito(deposito : Deposito){
+    this.display = true;
+    this.titulo = "Editar deposito";
+    this.deposito = deposito;
+    console.log("holaa",this.deposito.tipo);
+    
+  }
+  public eliminarDeposito(deposito: Deposito){
+    this.confirmationService.confirm({
+      message: '¿Estás seguro que querés borrar este deposito?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: "Sí",
+      rejectLabel: "No", 
+      accept: () => {
+          this.listaDepositos = this.listaDepositos.filter(val => val.id !== deposito.id);
+          this.deposito = new Deposito();
+          this.messageService.add({
+            severity:'success',
+            summary: 'Éxito', 
+            detail: 'Articulo eliminado', 
+            life: 3000,
+          });
+      }
+  });
+  }
+  ocultarDialog(event : boolean){
+    this.display = event;
+    this.deposito = new Deposito();
+  }
+  guardarDeposito(deposito : IDeposito){
+    console.log(deposito.planta);
+    this.listaDepositos.push(deposito);
+    console.log(this.listaDepositos);
+    this.listaDepositos = [...this.listaDepositos];
   }
 
 }

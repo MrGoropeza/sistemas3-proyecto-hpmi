@@ -14,6 +14,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
+import { DialogComponent } from './pages/depositos-page/componentes/dialog/dialog.component';
+import { AltaModificacionComponent } from './pages/depositos-page/componentes/alta-modificacion/alta-modificacion.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
 
 @NgModule({
@@ -24,6 +26,8 @@ import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.compo
     ArticuloPageComponent,
     DepositosPageComponent,
     DepositoSeleccionadoPageComponent,
+    DialogComponent,
+    AltaModificacionComponent,
     LoginPageComponent,
     UsuariosPageComponent,
     FarmaciaPageComponent
