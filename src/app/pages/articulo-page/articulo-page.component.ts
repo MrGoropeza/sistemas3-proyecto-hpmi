@@ -65,6 +65,7 @@ export class ArticuloPageComponent implements OnInit {
   }
 
   ocultarDialog(){
+    this.articulo = new Articulo();
     this.articuloDialog = false;
   }
 
