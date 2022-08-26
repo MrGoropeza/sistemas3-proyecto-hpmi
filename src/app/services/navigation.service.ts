@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 @Injectable({
@@ -7,37 +8,69 @@ import { MenuItem } from 'primeng/api';
 export class NavigationService{
 
     sidebarItems : MenuItem[] = [
-        {
-          label: "Farmacia",
-          items:[
-            { 
-              label: 'ABM Depósitos',
-              icon: 'pi pi-fw pi-building',
-              routerLink: "/farmacia/abmDepositos",
-            },
-            {
-              label: 'ABM Artículos',
-              icon: "pi pi-fw pi-box",
-              routerLink: "/farmacia/abmArticulos",
-            }
-          ]
-        },
-        {
-          label: "Usuarios",
-          items: [
-            {
-              label: "ABM",
-              icon: "pi pi-users",
-              routerLink: "usuarios/abm"
-            }
-          ]
-        },    
+      {
+        label: "Farmacia",
+        items:[
+          { 
+            label: 'ABM Depósitos',
+            icon: 'pi pi-fw pi-building',
+            routerLink: "/farmacia/abmDepositos",
+          },
+          {
+            label: 'ABM Artículos',
+            icon: "pi pi-fw pi-box",
+            routerLink: "/farmacia/abmArticulos",
+          }
+        ]
+      },
+      {
+        label: "Usuarios",
+        items: [
+          {
+            label: "ABM",
+            icon: "pi pi-users",
+            routerLink: "usuarios/abm"
+          }
+        ]
+      },    
     ];
 
     constructor() {}
 
     getSidebarItems(): MenuItem[] {
         return this.sidebarItems;
+    }
+
+    createBreadcrumbs(
+      actualroute: ActivatedRoute,
+      route: ActivatedRoute, 
+      url: string = '', 
+      breadcrumbs: MenuItem[] = [],
+    ): MenuItem[] {
+        const children: ActivatedRoute[] = route.children;
+  
+      if (children.length === 0) {
+         return breadcrumbs;
+      }
+  
+      for (const child of children) {
+         const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
+         if (routeURL !== '') {
+            url += `/${routeURL}`;
+         }
+   
+         const label = child.snapshot.data["breadcrumb"];
+         if(!(label === null || label === undefined) && label !== '') {
+            if(label !== actualroute.snapshot.data["breadcrumb"]){
+               breadcrumbs.push({label, routerLink: url, target: "_self"});
+            }
+            
+         }
+         
+         return this.createBreadcrumbs(actualroute, child, url, breadcrumbs);
+      }
+
+      return breadcrumbs;
     }
 }
 

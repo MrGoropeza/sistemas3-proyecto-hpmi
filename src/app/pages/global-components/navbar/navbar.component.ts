@@ -12,8 +12,6 @@ import { ThemeService } from 'src/app/services/theme.service';
 })
 export class NavbarComponent implements OnInit {
 
-   static readonly ROUTE_DATA_BREADCRUMB = 'breadcrumb';
-
    breadcrumbItems!: MenuItem[];
 
    darkMode! : boolean;
@@ -30,40 +28,16 @@ export class NavbarComponent implements OnInit {
    }
 
    ngOnInit(): void {
+      // this.router.events
+      //    .pipe(filter(event => event instanceof NavigationEnd))
+      //    .subscribe(() => this.breadcrumbItems = this.createBreadcrumbs(this.activatedRoute.root));
+
       this.router.events
          .pipe(filter(event => event instanceof NavigationEnd))
-         .subscribe(() => this.breadcrumbItems = this.createBreadcrumbs(this.activatedRoute.root));
-
-   }
-
-   private createBreadcrumbs(
-      route: ActivatedRoute, 
-      url: string = '', 
-      breadcrumbs: MenuItem[] = []): MenuItem[] {
-      const children: ActivatedRoute[] = route.children;
-  
-      if (children.length === 0) {
-         return breadcrumbs;
-      }
-  
-      for (const child of children) {
-         const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
-         if (routeURL !== '') {
-            url += `/${routeURL}`;
-         }
-   
-         const label = child.snapshot.data[NavbarComponent.ROUTE_DATA_BREADCRUMB];
-         if(!(label === null || label === undefined) && label !== '') {
-            if(label !== this.activatedRoute.snapshot.data[NavbarComponent.ROUTE_DATA_BREADCRUMB]){
-               breadcrumbs.push({label, routerLink: url, target: "_self"});
-            }
-            
-         }
-         
-         return this.createBreadcrumbs(child, url, breadcrumbs);
-      }
-
-      return breadcrumbs;
+         .subscribe(() => 
+            this.breadcrumbItems = this.navigationServices
+                     .createBreadcrumbs(this.activatedRoute, this.activatedRoute.root)
+         );
    }
 
    cambiarTema(){
