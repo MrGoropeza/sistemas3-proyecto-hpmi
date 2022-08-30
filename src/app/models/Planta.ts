@@ -1,4 +1,4 @@
 export interface Planta{
-    id : number;
+    idPlanta : number;
     nombre : string;
 }

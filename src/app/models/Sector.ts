@@ -1,4 +1,4 @@
 export interface Sector{
-    id : number;
+    idSector : number;
     nombre : string;
 }

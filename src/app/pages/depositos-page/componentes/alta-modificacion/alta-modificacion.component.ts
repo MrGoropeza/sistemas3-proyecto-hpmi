@@ -15,9 +15,9 @@ import { SectorService } from 'src/app/services/sector.service';
 })
 export class AltaModificacionComponent implements OnInit {
   @Input() deposito : Deposito = new Deposito();
-  listaTipoDepositos : string[] = [];
-  plantas : string[] = [];
-  sectores : string[] = [];
+  listaTipoDepositos : ITipoDeposito[] = [];
+  plantas : Planta[] = [];
+  sectores : Sector[] = [];
   constructor(private servicioDepositos : DepositoService,
     private servicioSectores : SectorService,
     private servicioPlantas : PlantaService) { }
@@ -31,25 +31,47 @@ export class AltaModificacionComponent implements OnInit {
   private obtenerDropdowns(){
     //this.listaTipoDepositos = this.servicioDepositos.getTipoDepositos();
     this.obtenerTipo();
-    console.log(this.listaTipoDepositos);
     this.obtenerPlanta();
     this.obtenerSector();
   }
   private obtenerTipo(){
-    this.servicioDepositos.getTipoDepositos().forEach(tipo => {
-      this.listaTipoDepositos.push(tipo.nombre);
-    });
+    // this.servicioDepositos.getTipoDepositos().forEach(tipo => {
+    //   this.listaTipoDepositos.push(tipo.nombre);
+    // });
+    this.servicioDepositos.getTipoDepositos().then(
+      (data) =>{
+        if(data.tipoDepositos != null){
+          this.listaTipoDepositos = data.tipoDepositos;
+        }
+
+      },
+      (error) => console.log("tenemos error: ",error)
+    );
+    
   }
     private obtenerPlanta(){
-      this.servicioPlantas.getPlantas().forEach(elemento => {
-        this.plantas.push(elemento.nombre);
-      });
+      this.servicioPlantas.getPlantas().then(
+        (data) =>{
+          
+          if(data.data != null){
+            this.plantas = data.data;
+          }
+  
+        },
+        (error) => console.log("tenemos error: ",error)
+      );
     }
     private obtenerSector(){
-      this.servicioSectores.getSector().forEach(elemento => {
-        this.sectores.push(elemento.nombre);
-      });
-    }
+      this.servicioSectores.getSector().then(
+        (data) =>{
+          if(data.data != null){
+            this.sectores = data.data;
+          }
+  
+        },
+        (error) => console.log("tenemos error: ",error)
+    );
+  }
   public actualizar(){
     this.servicioDepositos.setDeposito(this.deposito);
     

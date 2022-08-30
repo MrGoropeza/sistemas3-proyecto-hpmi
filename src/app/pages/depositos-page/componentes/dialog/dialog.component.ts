@@ -20,17 +20,15 @@ export class DialogComponent implements OnInit {
     private servicioDepositos : DepositoService
   ) { }
 
-  ngOnInit(): void {
-    console.log("holis desde el dialog",this.deposito.tipo);
-    
+  ngOnInit(): void {    
   }
   ocultar(){
     this.display = false;
     this.newItemEvent.emit(false);
   }
   guardar(){
-    console.log(this.servicioDepositos.getDeposito());
     this.depositoGuardado.emit(this.servicioDepositos.getDeposito());
+    console.log(this.deposito.idDeposito);
     this.servicioDepositos.limpiarDeposito();
     this.messageService.add({severity:'success', summary: 'Éxito', detail: 'Deposito registrado', life: 3000});
     this.ocultar();

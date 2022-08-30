@@ -44,10 +44,10 @@
                 <td>
                     <p-tableCheckbox [value]="deposito"></p-tableCheckbox>
                 </td>
-                <td>{{deposito.id}}</td>
-                <td>{{deposito.tipo}}</td>
-                <td>{{deposito.sector}}</td>
-                <td>{{deposito.planta}}</td>
+                <td>{{deposito.idDeposito}}</td>
+                <td>{{deposito.tipo.nombre}}</td>
+                <td>{{deposito.sector.nombre}}</td>
+                <td>{{deposito.planta.nombre}}</td>
                 <td>
                     <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarDeposito(deposito)"></button>
                     <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarDeposito(deposito)"></button>

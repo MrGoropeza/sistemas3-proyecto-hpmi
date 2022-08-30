@@ -3,35 +3,47 @@ import { VirtualTimeScheduler } from 'rxjs';
 import { Deposito } from '../models/Deposito';
 import { IDeposito } from '../models/IDeposito';
 import { ITipoDeposito } from '../models/ITipoDeposito';
+import { SupabaseService } from './supabase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepositoService {
   private deposito : IDeposito = {} as IDeposito;
-  private depositos : IDeposito[] = [
-    {id : 1 , planta : "h1", sector:"quirofano", tipo :"Botiquin"},
-    {id : 2 , planta : "h2", sector:"quirofano", tipo :"Botiquin"},
-    {id : 3 , planta : "h3", sector:"quirofano", tipo :"Armario"},
-    {id : 4 , planta : "h4", sector:"quirofano", tipo :"Botiquin"},
-    {id : 5 , planta : "h5", sector:"quirofano", tipo :"Botiquin"},
-    {id : 6 , planta : "h1", sector:"quirofano", tipo :"Botiquin"},
-    {id : 7 , planta : "h1", sector:"quirofano", tipo :"Botiquin"},
-    {id : 8 , planta : "h1", sector:"quirofano", tipo :"Botiquin"}
-    
-  ];
-  private tipoDepositos : ITipoDeposito[] = [
-    {nombre:"Auxiliar de Enfermero"},
-    {nombre:"Armario"},
-    {nombre:"Botiquin"},
-  ];
-  constructor() { }
+  private depositos : IDeposito[] = [];
+  //private tipoDepositos : ITipoDeposito[] = [];
+  constructor(private servicioDatos : SupabaseService) { }
 
-  public getDepositos(){
-    return this.depositos;
+  public async insert(deposito : IDeposito){    
+      const { data, error } = await this.servicioDatos.getSupabaseClient()
+        .from('Deposito')
+        .insert({idDeposito: deposito.idDeposito,
+        idSector : deposito.sector.idSector,
+      idTipoDeposito : deposito.tipo.idTpoDeposito,
+      idPlanta : deposito.planta.idPlanta
+      })
+      return { data, error };
+    }
+  public async  getDepositos(){
+    let { data: Deposito, error } = await this.servicioDatos.getSupabaseClient()
+  .from<IDeposito>('Deposito')
+  .select('idDeposito,sector:idSector(idSector,nombre),tipo:idTipoDeposito(idTpoDeposito,nombre),planta:idPlanta(idPlanta,nombre)')
+  .range(0, 5);
+  return { data: Deposito, error };
   }
-  public getTipoDepositos(){
-    return this.tipoDepositos;
+  public async  getTipoDepositos(){
+    let { data: tipoDepositos, error } = await this.servicioDatos.getSupabaseClient()
+    .from<ITipoDeposito>('TipoDeposito')
+    .select('idTpoDeposito,nombre')
+    .limit(10);
+    return { tipoDepositos, error };
+  }
+  public async getIdTipoDeposito(nombre: string){
+      let { data: TipoDeposito, error } = await this.servicioDatos.getSupabaseClient()
+      .from<ITipoDeposito>('TipoDeposito')
+      .select("idTpoDeposito")
+      .eq('nombre', nombre);
+      return { data: TipoDeposito, error };
   }
   public setDeposito(deposito : Deposito){
     this.deposito = deposito;
@@ -41,5 +53,13 @@ export class DepositoService {
   }
   public limpiarDeposito(){
     this.deposito = {} as IDeposito;
+  }
+  public async getId(){
+    let { data: Deposito, error } = await this.servicioDatos.getSupabaseClient()
+  .from<IDeposito>('Deposito')
+  .select('idDeposito')
+  .order('idDeposito', { ascending: false })
+  .limit(1)
+  return { data: Deposito, error };
   }
 }

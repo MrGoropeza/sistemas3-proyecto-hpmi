@@ -3,6 +3,8 @@ import { Deposito } from 'src/app/models/Deposito';
 import { IDeposito } from 'src/app/models/IDeposito';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DepositoService } from 'src/app/services/deposito.service';
+import { SectorService } from 'src/app/services/sector.service';
+import { PlantaService } from 'src/app/services/planta.service';
 
 @Component({
   selector: 'app-depositos-page',
@@ -21,7 +23,9 @@ export class DepositosPageComponent implements OnInit {
   titulo : string  = "";
   constructor(private servicioDepositos : DepositoService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private servicioSectores : SectorService,
+    private servicioPlantas : PlantaService) { }
 
   ngOnInit(): void {
     this.deposito = new Deposito();
@@ -29,7 +33,13 @@ export class DepositosPageComponent implements OnInit {
     
   }
   private obtenerDepositos(){
-    this.listaDepositos = this.servicioDepositos.getDepositos();
+    this.servicioDepositos.getDepositos().then(
+      (depositos)=>{
+        if(depositos.data != null){
+          this.listaDepositos = depositos.data;
+        }
+      }
+    )
   }
 
   public nuevoDeposito(){
@@ -69,7 +79,7 @@ export class DepositosPageComponent implements OnInit {
       acceptLabel: "Sí",
       rejectLabel: "No", 
       accept: () => {
-          this.listaDepositos = this.listaDepositos.filter(val => val.id !== deposito.id);
+          this.listaDepositos = this.listaDepositos.filter(val => val.idDeposito !== deposito.idDeposito);
           this.deposito = new Deposito();
           this.messageService.add({
             severity:'success',
@@ -84,19 +94,29 @@ export class DepositosPageComponent implements OnInit {
     this.display = event;
     this.deposito = new Deposito();
   }
-  guardarDeposito(deposito : IDeposito){
-    console.log("hoola",deposito.id);
-    if(deposito.id == undefined){
-      deposito.id = this.getRandomInt(20,100);
-      this.listaDepositos.push(deposito);
-      console.log(this.listaDepositos);
-      this.listaDepositos = [...this.listaDepositos];
+   guardarDeposito(deposito : IDeposito){
+    console.log(this.deposito);
+    
+    if(deposito.idDeposito == undefined){
+      this.servicioDepositos.insert(deposito).then(
+        (data)=>{
+          if(data.data !=null){
+            console.log(data.data[0]);
+            
+            deposito.idDeposito = data.data[0].idDeposito;
+            this.listaDepositos.push(deposito);
+            this.listaDepositos = [...this.listaDepositos];
+          }
+        }
+      );
+
     }else{
-      console.log("matate");
+      //update incoming
       
     }
 
   }
+
   getRandomInt(min : number, max : number) : number{
     min = Math.ceil(min);
     max = Math.floor(max);

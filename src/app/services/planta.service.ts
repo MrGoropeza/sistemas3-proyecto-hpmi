@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Planta } from '../models/Planta';
+import { SupabaseService } from './supabase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlantaService {
 plantas : Planta[] = [
-  {id: 1 , nombre:"H1"},
-  {id: 2 , nombre:"H2"},
-  {id: 3 , nombre:"H3"},
-  {id: 3 , nombre:"H3"},
-  {id: 3 , nombre:"H3"},
-  {id: 3 , nombre:"H3"},
-  {id: 3 , nombre:"H3"},
-  {id: 3 , nombre:"H3"}
 ];
-  constructor() { }
-  getPlantas(){
-    return this.plantas;
+  constructor(private supabase : SupabaseService) { }
+  public async getPlantas(){
+    let { data: Planta, error } = await this.supabase.getSupabaseClient()
+  .from<Planta>('Planta')
+  .select('idPlanta,nombre')
+  return  { data: Planta, error };
+  }
+  public async getId(nombre: string){
+    let { data: Planta, error } = await this.supabase.getSupabaseClient()
+    .from<Planta>('Planta')
+    .select("idPlanta")
+    .eq('nombre', nombre);
+    return { data: Planta, error };
   }
 }
