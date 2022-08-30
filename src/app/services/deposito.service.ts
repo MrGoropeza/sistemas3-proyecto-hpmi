@@ -19,16 +19,35 @@ export class DepositoService {
         .from('Deposito')
         .insert({idDeposito: deposito.idDeposito,
         idSector : deposito.sector.idSector,
+        estado : true,
       idTipoDeposito : deposito.tipo.idTpoDeposito,
       idPlanta : deposito.planta.idPlanta
       })
       return { data, error };
     }
+  public async update(deposito : IDeposito){
+    const { data, error } = await this.servicioDatos.getSupabaseClient()
+  .from('Deposito')
+  .update({
+    idSector : deposito.sector.idSector,
+    idTipoDeposito : deposito.tipo.idTpoDeposito,
+    idPlanta : deposito.planta.idPlanta
+})
+  .eq('idDeposito', deposito.idDeposito)
+  return { data, error }
+  }
+  public async disable(deposito : IDeposito){
+    const { data, error } = await this.servicioDatos.getSupabaseClient()
+    .from<IDeposito>('Deposito')
+    .update({ estado : false})
+    .eq('idDeposito', deposito.idDeposito)
+  }
   public async  getDepositos(){
     let { data: Deposito, error } = await this.servicioDatos.getSupabaseClient()
   .from<IDeposito>('Deposito')
   .select('idDeposito,sector:idSector(idSector,nombre),tipo:idTipoDeposito(idTpoDeposito,nombre),planta:idPlanta(idPlanta,nombre)')
-  .range(0, 5);
+  .range(0, 5)
+  .eq("estado",true);
   return { data: Deposito, error };
   }
   public async  getTipoDepositos(){

@@ -79,6 +79,7 @@ export class DepositosPageComponent implements OnInit {
       acceptLabel: "Sí",
       rejectLabel: "No", 
       accept: () => {
+          this.servicioDepositos.disable(deposito);
           this.listaDepositos = this.listaDepositos.filter(val => val.idDeposito !== deposito.idDeposito);
           this.deposito = new Deposito();
           this.messageService.add({
@@ -112,14 +113,10 @@ export class DepositosPageComponent implements OnInit {
 
     }else{
       //update incoming
-      
+      this.servicioDepositos.update(deposito);
     }
 
   }
 
-  getRandomInt(min : number, max : number) : number{
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; 
-  }
+
 }

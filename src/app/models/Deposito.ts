@@ -8,7 +8,7 @@ export class Deposito implements IDeposito{
     sector! : Sector;
     tipo! : ITipoDeposito;
     planta! : Planta;
-
+    estado! : boolean;
     constructor()
     {
         return this;

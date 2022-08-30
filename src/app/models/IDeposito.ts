@@ -7,4 +7,5 @@ export interface IDeposito{
     sector : Sector;
     tipo : ITipoDeposito;
     planta : Planta;
+    estado : boolean;
 }
