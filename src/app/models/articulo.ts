@@ -1,13 +1,16 @@
 import { categoriaArticulo } from "./categoriaArticulo";
+import { unidadArticulo } from "./unidadArticulo";
 
 export class Articulo {
 
     id! : number;
     nombre! : string;
     descripcion!: string;
-    fechaVencimiento! : Date
-    categoria! : categoriaArticulo
-    estadoStock! : any
+    unidad!: unidadArticulo;
+    fechaVencimiento! : Date;
+    categoria! : categoriaArticulo;
+    stock!: number;
+    estado!: boolean;
 
     constructor() {
         return this;
@@ -33,13 +36,20 @@ export class Articulo {
         return this;
     }
 
+    setUnidad(unidad: unidadArticulo){
+        this.unidad = unidad;
+        return this;
+    }
+
     setFechaVencimiento(fechaVencimiento: Date){
         this.fechaVencimiento = fechaVencimiento;
         return this;
     }
 
-    setEstadoStock(estadoStock: any){
-        this.estadoStock = estadoStock;
+    setStock(stock: number){
+        this.stock = stock;
         return this;
     }
+
+
 }

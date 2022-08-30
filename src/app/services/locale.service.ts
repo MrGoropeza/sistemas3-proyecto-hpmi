@@ -19,6 +19,9 @@ export class LocaleService{
 
 
 const localeEsp = {
+    accept: 'Aceptar',
+    reject: 'Rechazar',
+    cancel: 'Cancelar',
     firstDayOfWeek: 6,
     dayNames: ['Lunes', 'Martes', 'Míercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
     dayNamesShort: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],

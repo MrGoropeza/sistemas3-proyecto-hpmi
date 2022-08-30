@@ -8,10 +8,12 @@
     <div class="w-11 p-3 my-2 mx-4"> -->
         <!-- Contenido de la pagina -->
 
-        <p-table #dt [value]="articulos" [rows]="10" [paginator]="true" [globalFilterFields]="['nombre','categoria.nombre','fechaVencimiento']" responsiveLayout="scroll"
-        [(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-        [showCurrentPageReport]="false">
+        <p-table #dt [value]="articulos" [rows]="10" [paginator]="true"
+            [globalFilterFields]="['nombre','fechaVencimiento']" responsiveLayout="scroll"
+            [(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+            [loading]="cargando" [totalRecords]="cantTotalArticulos">
         
 
         <ng-template pTemplate="caption">
@@ -23,7 +25,9 @@
 
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+                    <input pInputText class="p-inputtext-md" type="text" 
+                        (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                        placeholder="Buscar por nombre..." />
                 </span>
             </div>
         </ng-template>
@@ -33,12 +37,13 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
                 </th>
-                <th># Artículo</th>
+                <th>Id. Artículo</th>
                 <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
                 <th>Descripción</th>
-                <th pSortableColumn="categoria.nombre">Categoría<p-sortIcon field="categoria.nombre"></p-sortIcon></th>
+                <th>Unidad</th>
+                <th>Categoría</th>
                 <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
-                <th>Disponibilidad</th>
+                <th>Stock</th>
                 <th>Acciones</th>
             </tr>
         </ng-template>
@@ -50,14 +55,16 @@
                 <td>{{articulo.id}}</td>
                 <td>{{articulo.nombre}}</td>
                 <td>{{articulo.descripcion}}</td>
+                <td>{{articulo.unidad.abreviacion}}</td>
                 <td>{{articulo.categoria.nombre}}</td>
                 <td>{{articulo.fechaVencimiento!.toLocaleDateString()}}</td>
-                <td>
+                <!-- <td>
                     <p-badge value="{{buscarLabelEstado(articulo.estadoStock)}}"
                              severity="{{buscarSeverityEstado(articulo.estadoStock)}}"
                              size="large"
                              styleClass="text-sm"></p-badge>
-                </td>
+                </td> -->
+                <td>{{articulo.stock}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"
                         pTooltip="Editar" tooltipPosition="top"></button>
@@ -69,7 +76,7 @@
 
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                En total hay {{articulos ? articulos.length : 0 }} articulos.
+                En total hay {{cantTotalArticulos ? cantTotalArticulos : 0 }} articulos.
             </div>
         </ng-template>
     </p-table>
@@ -80,47 +87,73 @@
 <!-- Tarjeta del contenido -->
 
 
-<p-dialog #dialog header="Detalles del Artículo" [(visible)]="articuloDialog" (onHide)="ocultarDialog()" [modal]="true" styleClass="p-fluid w-3"
-        contentStyleClass="overflow-visible">
+<p-dialog #dialog header="Detalles del Artículo" [(visible)]="articuloDialog" (onHide)="ocultarDialog()" [modal]="true" 
+        styleClass="p-fluid w-3 overflow-y-scroll"
+        contentStyleClass="max-h-full overflow-y-visible">
     
-    <div class="field">
-        <label for="nombre">Nombre</label>
-        <input id="nombre" type="nombre" pInputText [(ngModel)]="articulo.nombre" required autofocus />
-        <small class="p-error" *ngIf="confirmado && !articulo.nombre">Nombre requerido.</small>
-    </div>
+    <form ngform>
+        <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="nombre" pInputText [(ngModel)]="articulo.nombre" required autofocus 
+                placeholder="Nombre del artículo" name="nombre"/>
+            <small class="p-error" *ngIf="confirmado && !articulo.nombre">Nombre requerido.</small>
+        </div>
+    
+        <div class="field">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" pInputTextarea [(ngModel)]="articulo.descripcion" required rows="3" cols="20"
+                placeholder="Descripción del artículo" name="descripcion"></textarea>
+            <small class="p-error" *ngIf="confirmado && !articulo.descripcion">Descripción requerida.</small>
+        </div>
+    
+        <div class="field">
+            <label for="unidad">Unidad</label>
+            <p-dropdown [(ngModel)]="articulo.unidad" inputId="unidad" [options]="unidades" placeholder="Seleccionar"
+                emptyMessage="No hay unidades cargadas" [required]="true" optionLabel="abreviacion"
+                name="unidad">
+                <ng-template let-option pTemplate="item">
+                    {{option.nombre}} ({{option.abreviacion}})
+                </ng-template>
+            </p-dropdown>
+            <small class="p-error" *ngIf="confirmado && !articulo.unidad">Unidad requerida.</small>
+        </div>
+    
+        <div class="field">
+            <label for="stock">Stock</label>
+            <input id="stock" type="number" min="0" pInputText [(ngModel)]="articulo.stock" required
+                placeholder="Cantidad de Stock" name="stock"/>
+            <small class="p-error" *ngIf="confirmado && !articulo.stock">Stock requerido.</small>
+        </div>
+    
+        <div class="field">
+            <label for="categorias">Categoría</label>
+            <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias"
+                placeholder="Seleccionar"
+                optionLabel="nombre" [required]="true" name="categoria">
+                <ng-template let-option pTemplate="item">
+                    {{option.nombre}}
+                </ng-template>
+            </p-dropdown>
+            <small class="p-error" *ngIf="confirmado && !articulo.categoria">Categoría requerida.</small>
+        </div>
+    
+        <div class="field">
+            <label for="fechaVencimiento">Fecha de Vencimiento (dd-mm-yy)</label>
+            <p-calendar inputId="fechaVencimiento" [(ngModel)]="articulo.fechaVencimiento" 
+                dateFormat="dd-mm-yy" [showIcon]="true" [required]="true"
+                styleClass="overflow-visible" name="fechaVencimiento"></p-calendar>
+            <small class="p-error" *ngIf="confirmado && !articulo.fechaVencimiento">Fecha de vencimiento requerida.</small>
+        </div>
+    </form>
 
-    <div class="field">
-        <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" pInputTextarea [(ngModel)]="articulo.descripcion" required rows="3" cols="20"></textarea>
-    </div>
-
-    <div class="field">
-        <label for="fechaVencimiento">Fecha de Vencimiento (dd-mm-yy)</label>
-        <p-calendar inputId="fechaVencimiento" [(ngModel)]="articulo.fechaVencimiento" dateFormat="dd-mm-yy" [showIcon]="true" [required]="true"
-             ></p-calendar>
-    </div>
-
-    <div class="field">
-        <label for="inventoryStatus">Estado de Inventario</label>
-        <p-dropdown [(ngModel)]="articulo.estadoStock" inputId="inventoryStatus" [options]="estados" placeholder="Seleccionar">
-            <ng-template let-option pTemplate="item">
-                <p-badge [value]="option.label" [severity]="option.severity"></p-badge>
-            </ng-template>
-        </p-dropdown>
-    </div>
-
-    <div class="field">
-        <label for="categorias">Categoría</label>
-        <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias" placeholder="Seleccionar"
-            optionLabel="nombre">
-            <ng-template let-option pTemplate="item">
-                {{option.nombre}}
-            </ng-template>
-        </p-dropdown>
-    </div>
+    
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="ocultarDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="cargarArticulo()"></button>
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            class="p-button-text" (click)="ocultarDialog()"
+            [loading]="confirmado"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+            class="p-button-text" (click)="cargarArticulo()"
+            [loading]="confirmado"></button>
     </ng-template>
 </p-dialog>
