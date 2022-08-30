@@ -16,12 +16,12 @@ export class ThemeService {
       (this.darkMode)
       ?
       (
-        themeLink.href = "lara-light-teal.css",
+        themeLink.href = "md-light-indigo.css",
         this.darkMode = false
       )
       :
       (
-        themeLink.href = "lara-dark-teal.css",
+        themeLink.href = "md-dark-indigo.css",
         this.darkMode = true
       );
     }
