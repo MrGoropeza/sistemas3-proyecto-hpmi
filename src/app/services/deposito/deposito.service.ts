@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { VirtualTimeScheduler } from 'rxjs';
-import { Deposito } from '../models/Deposito';
-import { IDeposito } from '../models/IDeposito';
-import { ITipoDeposito } from '../models/ITipoDeposito';
-import { SupabaseService } from './supabase.service';
+import { Deposito } from 'src/app/models/Deposito';
+import { IDeposito } from 'src/app/models/IDeposito';
+import { ITipoDeposito } from 'src/app/models/ITipoDeposito';
+import { SupabaseService } from '../supabase.service';
+
 
 @Injectable({
   providedIn: 'root'

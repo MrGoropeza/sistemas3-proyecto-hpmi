@@ -1,5 +1,5 @@
-<!-- <p-table #dt [value]="articulos" [rows]="10" [paginator]="true" [globalFilterFields]="['nombre','categoria.nombre','fechaVencimiento']" responsiveLayout="scroll"
-[(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+<p-table #dt [value]="articulos" [rows]="10" [paginator]="true" [globalFilterFields]="['nombre','categoria.nombre','fechaVencimiento']" responsiveLayout="scroll"
+ [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
 [showCurrentPageReport]="false">
 
@@ -7,10 +7,8 @@ currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registro
 <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
         <div>
-            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoArticulo()"></button>
-            <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarArticulosSeleccionados()" [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
+            <button pButton  pRipple  label="Volver" icon="pi pi-arrow-left" class="p-button mr-2" (click)="volver()"></button>
         </div>
-
         <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
             <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
@@ -24,12 +22,11 @@ currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registro
             <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
         </th>
         <th># Artículo</th>
-        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+        <th >nombre</th>
         <th>Descripción</th>
-        <th pSortableColumn="categoria.nombre">Categoría<p-sortIcon field="categoria.nombre"></p-sortIcon></th>
-        <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
-        <th>Disponibilidad</th>
-        <th>Acciones</th>
+        <th >unidad</th>
+        <th>stock</th>
+
     </tr>
 </ng-template>
 <ng-template pTemplate="body" let-articulo>
@@ -38,21 +35,12 @@ currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registro
             <p-tableCheckbox [value]="articulo" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
         </td>
         <td>{{articulo.id}}</td>
-        <td>{{articulo.nombre}}</td>
-        <td>{{articulo.descripcion}}</td>
-        <td>{{articulo.categoria.nombre}}</td>
-        <td>{{articulo.fechaVencimiento!.toLocaleDateString()}}</td>
+        <td>{{articulo.nombre.nombre}}</td>
+        <td>{{articulo.descripcion.descripcion}}</td>
+        <td>{{articulo.unidad.idUnidadArticulo.abreviacion}}</td>
+        <td>{{articulo.stock}}</td>
+
         <td>
-            <p-badge value="{{buscarLabelEstado(articulo.estadoStock)}}"
-                     severity="{{buscarSeverityEstado(articulo.estadoStock)}}"
-                     size="large"
-                     styleClass="text-sm"></p-badge>
-        </td>
-        <td>
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"
-                pTooltip="Editar" tooltipPosition="top"></button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarArticulo(articulo)"
-                pTooltip="Eliminar" tooltipPosition="top"></button>
         </td>
     </tr>
 </ng-template>
@@ -62,4 +50,4 @@ currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registro
         En total hay {{articulos ? articulos.length : 0 }} articulos.
     </div>
 </ng-template>
-</p-table> -->
+</p-table>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Planta } from '../models/Planta';
-import { SupabaseService } from './supabase.service';
+import { Planta } from 'src/app/models/Planta';
+import { SupabaseService } from '../supabase.service';
+
 
 @Injectable({
   providedIn: 'root'

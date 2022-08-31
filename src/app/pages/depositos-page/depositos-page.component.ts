@@ -2,10 +2,12 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Deposito } from 'src/app/models/Deposito';
 import { IDeposito } from 'src/app/models/IDeposito';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { DepositoService } from 'src/app/services/deposito.service';
-import { SectorService } from 'src/app/services/sector.service';
-import { PlantaService } from 'src/app/services/planta.service';
+
+import { SectorService } from 'src/app/services/deposito/sector.service';
+
 import { Router } from '@angular/router';
+import { DepositoService } from 'src/app/services/deposito/deposito.service';
+import { PlantaService } from 'src/app/services/deposito/planta.service';
 
 @Component({
   selector: 'app-depositos-page',
@@ -119,9 +121,7 @@ export class DepositosPageComponent implements OnInit {
     }
 
   }
-  mostrarDeposito(){
-    this.router.navigate(['depositoSeleccionado']);
-  }
+  
 
 
 }

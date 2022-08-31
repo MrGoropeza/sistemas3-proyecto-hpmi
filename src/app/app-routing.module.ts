@@ -43,8 +43,12 @@ const routes: Routes = [
             data: {
               breadcrumb: "Depósitos"
             },
-            component: DepositosPageComponent,
-            title: "Depósitos"
+            
+            children:[
+              {path:"",component: DepositosPageComponent, data: {breadcrumb: ""},
+                title: "Depósitos",},
+              {path: "depositoSeleccionado/:id",component : DepositoSeleccionadoPageComponent}
+            ]
           },
           {
             // este es el path de /farmacia/abmArticulos
@@ -75,8 +79,7 @@ const routes: Routes = [
         ]
       }
     ]
-  },
-  {path: "depositoSeleccionado",component : DepositoSeleccionadoPageComponent}
+  }
 ];
 
 @NgModule({
