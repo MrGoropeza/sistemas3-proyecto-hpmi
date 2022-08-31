@@ -26,7 +26,6 @@ currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registro
         <th>Descripción</th>
         <th >unidad</th>
         <th>stock</th>
-
     </tr>
 </ng-template>
 <ng-template pTemplate="body" let-articulo>
@@ -39,9 +38,6 @@ currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registro
         <td>{{articulo.descripcion.descripcion}}</td>
         <td>{{articulo.unidad.idUnidadArticulo.abreviacion}}</td>
         <td>{{articulo.stock}}</td>
-
-        <td>
-        </td>
     </tr>
 </ng-template>
 

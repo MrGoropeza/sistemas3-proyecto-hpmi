@@ -1,6 +1,9 @@
 <p-dialog header="{{titulo}}" [(visible)]="display" (onHide)="ocultar()" contentStyleClass="overflow-visible" [modal]="true" styleClass="p-fluid w-10 overflow">
     <app-alta-modificacion [deposito]="deposito"></app-alta-modificacion>
     <ng-template pTemplate="footer">
+        <div *ngIf="band" class="flex align-self-start">
+            <p >Debe completar todos los campos para guardar un deposito.</p>
+        </div>
         <button pButton  pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="ocultar()"></button>
         <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardar()"></button>
     </ng-template>
