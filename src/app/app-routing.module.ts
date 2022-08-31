@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ArticuloPageComponent } from './pages/articulo-page/articulo-page.component';
+import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
@@ -74,7 +75,8 @@ const routes: Routes = [
         ]
       }
     ]
-  }
+  },
+  {path: "depositoSeleccionado",component : DepositoSeleccionadoPageComponent}
 ];
 
 @NgModule({

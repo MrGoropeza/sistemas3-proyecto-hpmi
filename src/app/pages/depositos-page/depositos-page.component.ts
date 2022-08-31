@@ -5,6 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DepositoService } from 'src/app/services/deposito.service';
 import { SectorService } from 'src/app/services/sector.service';
 import { PlantaService } from 'src/app/services/planta.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-depositos-page',
@@ -25,7 +26,8 @@ export class DepositosPageComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private servicioSectores : SectorService,
-    private servicioPlantas : PlantaService) { }
+    private servicioPlantas : PlantaService,
+    private router : Router) { }
 
   ngOnInit(): void {
     this.deposito = new Deposito();
@@ -116,6 +118,9 @@ export class DepositosPageComponent implements OnInit {
       this.servicioDepositos.update(deposito);
     }
 
+  }
+  mostrarDeposito(){
+    this.router.navigate(['depositoSeleccionado']);
   }
 
 

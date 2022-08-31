@@ -50,7 +50,8 @@
                 <td>{{deposito.planta.nombre}}</td>
                 <td>
                     <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarDeposito(deposito)"></button>
-                    <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarDeposito(deposito)"></button>
+                    <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarDeposito(deposito)"></button>
+                    <button pButton pRipple pTooltip="Ver Deposito" tooltipPosition="top" icon="pi pi-search" class="p-button-rounded p-button-info mr-2" (click)="mostrarDeposito()"></button>
                 </td>
             </tr>
         </ng-template>

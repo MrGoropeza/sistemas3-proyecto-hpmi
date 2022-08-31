@@ -17,6 +17,7 @@ import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.compo
 import { DialogComponent } from './pages/depositos-page/componentes/dialog/dialog.component';
 import { AltaModificacionComponent } from './pages/depositos-page/componentes/alta-modificacion/alta-modificacion.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
+import { TablaComponent } from './pages/deposito-seleccionado-page/componentes/tabla/tabla.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.compo
     AltaModificacionComponent,
     LoginPageComponent,
     UsuariosPageComponent,
-    FarmaciaPageComponent
+    FarmaciaPageComponent,
+    TablaComponent
   ],
   imports: [
     BrowserModule,
