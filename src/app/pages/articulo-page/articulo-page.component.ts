@@ -80,6 +80,7 @@ export class ArticuloPageComponent implements OnInit {
       .then(
         (response) => {
           if(response.data){
+            // console.log(response.data);
             this.categorias = response.data;
           }
         },
@@ -128,7 +129,7 @@ export class ArticuloPageComponent implements OnInit {
             if(response.data != null){
               this.articulos = [];
 
-              console.log(response);
+              // console.log(response);
               response.data.forEach(
                 element => {
                   let mes = element.fechaVencimiento.toString().substring(5,7);

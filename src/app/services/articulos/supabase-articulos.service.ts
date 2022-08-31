@@ -25,6 +25,7 @@ export class SupabaseArticulosService {
   readCategorias(){
     return this.supabase.from<categoriaArticulo>("CategoriaArticulo")
       .select("id, nombreCategoria");
+      
   }
 
   readUnidades(){

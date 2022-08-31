@@ -88,7 +88,7 @@
 
 
 <p-dialog #dialog header="Detalles del Artículo" [(visible)]="articuloDialog" (onHide)="ocultarDialog()" [modal]="true" 
-        styleClass="p-fluid w-3 overflow-y-scroll"
+        styleClass="p-fluid w-30rem overflow-y-scroll"
         contentStyleClass="max-h-full overflow-y-visible">
     
     <form ngform>
@@ -129,9 +129,9 @@
             <label for="categorias">Categoría</label>
             <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias"
                 placeholder="Seleccionar"
-                optionLabel="nombre" [required]="true" name="categoria">
+                optionLabel="nombreCategoria" [required]="true" name="categoria">
                 <ng-template let-option pTemplate="item">
-                    {{option.nombre}}
+                    {{option.nombreCategoria}}
                 </ng-template>
             </p-dropdown>
             <small class="p-error" *ngIf="confirmado && !articulo.categoria">Categoría requerida.</small>
