@@ -71,6 +71,8 @@ export class ArticuloPageComponent implements OnInit {
   }
 
   onLazyLoad(event: LazyLoadEvent){
+    // this.supabaseService.getArticulosTest();
+
     // console.log(event);
     this.cargando = true;
 
@@ -126,6 +128,7 @@ export class ArticuloPageComponent implements OnInit {
             if(response.data != null){
               this.articulos = [];
 
+              console.log(response);
               response.data.forEach(
                 element => {
                   let mes = element.fechaVencimiento.toString().substring(5,7);
@@ -257,7 +260,7 @@ export class ArticuloPageComponent implements OnInit {
 
   borrarArticulosSeleccionados(){
     this.confirmationService.confirm({
-        message: '¿Estás seguro que queres eliminar los productos seleccionados?',
+        message: `¿Estás seguro que queres eliminar los ${this.articulosSeleccionados.length} productos seleccionados?`,
         header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: "Sí",

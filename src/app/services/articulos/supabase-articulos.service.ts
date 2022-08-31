@@ -24,7 +24,7 @@ export class SupabaseArticulosService {
 
   readCategorias(){
     return this.supabase.from<categoriaArticulo>("CategoriaArticulo")
-      .select("id, nombre");
+      .select("id, nombreCategoria");
   }
 
   readUnidades(){
@@ -57,9 +57,9 @@ export class SupabaseArticulosService {
         descripcion, 
         stock,
         unidad: idUnidadArticulo (id, nombre, abreviacion),
-        categoria: idCategoriaArticulo (id, nombre),
+        categoria: idCategoriaArticulo (id, nombreCategoria),
         fechaVencimiento`)
-      .range(params.first, params.first + params.rows)
+      .range(params.first, params.first + params.rows - 1)
       .eq('estado', true);
 
     if(params.sortField){
@@ -74,9 +74,10 @@ export class SupabaseArticulosService {
 
     if(params.globalFilter){
       filterQuery = filterQuery
-        .ilike('nombre', "%"+params.globalFilter+"%");
+        // .ilike('nombre', "%"+params.globalFilter+"%")
+        .or(`or(nombre.ilike.%${params.globalFilter}%,descripcion.ilike.%${params.globalFilter}%)`)
+        // .or(`or(nombreCategoria.ilike.%${params.globalFilter}%)`, {foreignTable: 'CategoriaArticulo'});
     }
-
     return filterQuery;
   }
 
