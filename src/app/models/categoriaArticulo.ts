@@ -1,7 +1,7 @@
 export class categoriaArticulo {
 
     id! : number;
-    nombre! : string;
+    nombreCategoria! : string;
 
     constructor() {
         return this;
@@ -13,7 +13,7 @@ export class categoriaArticulo {
     }
 
     setNombre(nombre: string){
-        this.nombre = nombre;
+        this.nombreCategoria = nombre;
         return this;
     }
 

@@ -13,6 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "websocket",
+              "cross-fetch"
+            ],
             "outputPath": "dist/sistemas3-proyecto-hpmi",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -28,13 +32,13 @@
               "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
               {
-                "input": "node_modules/primeng/resources/themes/lara-dark-teal/theme.css",
-                "bundleName": "lara-dark-teal",
+                "input": "node_modules/primeng/resources/themes/md-dark-indigo/theme.css",
+                "bundleName": "md-dark-indigo",
                 "inject": false
               },
               {
-                "input": "node_modules/primeng/resources/themes/lara-light-teal/theme.css",
-                "bundleName": "lara-light-teal",
+                "input": "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
+                "bundleName": "md-light-indigo",
                 "inject": false
               }
             ],
