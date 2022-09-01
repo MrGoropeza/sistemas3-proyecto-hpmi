@@ -47,7 +47,6 @@ export class DepositoService {
     let { data: Deposito, error } = await this.servicioDatos.getSupabaseClient()
   .from<IDeposito>('Deposito')
   .select('idDeposito,sector:idSector(idSector,nombre),tipo:idTipoDeposito(idTpoDeposito,nombre),planta:idPlanta(idPlanta,nombre)')
-  .range(0, 5)
   .eq("estado",true);
   return { data: Deposito, error };
   }
