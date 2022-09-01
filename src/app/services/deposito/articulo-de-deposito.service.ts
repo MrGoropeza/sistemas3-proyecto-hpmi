@@ -13,7 +13,10 @@ export class ArticuloDeDepositoService {
   public async getArticulos(id : number){
     let { data: ArticuloDeposito, error } = await this.supabase.getSupabaseClient()
   .from<IArticuloDeposito>('ArticuloDeposito')
-  .select('id : idArticulo,nombre : idArticulo(nombre),descripcion:idArticulo(descripcion),unidad:idArticulo(idUnidadArticulo (id, nombre, abreviacion)),stock')
+  .select(`id : idArticulo
+  ,nombre : idArticulo(nombre)
+  ,descripcion:idArticulo(descripcion)
+  ,unidad:idArticulo(idUnidadArticulo (id, nombre, abreviacion)),stock`)
   .eq('idDeposito',id)
   return { data: ArticuloDeposito, error };
   }
