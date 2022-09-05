@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
 import { CategoriaUnidadesService } from 'src/app/services/categorias-unidades/supabase-categorias-unidades.service';
 
@@ -8,13 +8,13 @@ import { CategoriaUnidadesService } from 'src/app/services/categorias-unidades/s
   templateUrl: './categorias-dialog.component.html',
   styleUrls: ['./categorias-dialog.component.css']
 })
-export class CategoriasDialogComponent implements OnInit {
+export class CategoriasDialogComponent implements OnInit, OnChanges {
 
   @Input() categoria!: categoriaArticulo;
   @Output() categoriaChange = new EventEmitter<categoriaArticulo>;
 
   formCategoria: FormGroup = this.formBuilder.group(
-    {nombre: [this.categoria ? this.categoria.nombreCategoria : "", Validators.required]}
+    {nombre: new FormControl<string>(this.categoria ? this.categoria.nombreCategoria : "", Validators.required)}
   );
 
   @Input() dialog!: boolean;
@@ -26,6 +26,12 @@ export class CategoriasDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private supabaseService: CategoriaUnidadesService
   ) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.dialog && this.categoria){
+      this.formCategoria.controls['nombre'].setValue(this.categoria.nombreCategoria);
+    }
+  }
 
   ngOnInit(): void {
 
@@ -43,10 +49,13 @@ export class CategoriasDialogComponent implements OnInit {
 
     if(this.formCategoria.valid){
       if(this.categoria){
+        this.categoria.nombreCategoria = this.formCategoria.controls["nombre"].value;
         let update = await this.supabaseService.updateCategoria(this.categoria);
         if(update.data){
           this.categoriaChange.emit(update.data[0]);
+          this.ocultarDialog();
         }else{
+          this.confirmado = false;
           console.log(update.error);
         }
       }else{

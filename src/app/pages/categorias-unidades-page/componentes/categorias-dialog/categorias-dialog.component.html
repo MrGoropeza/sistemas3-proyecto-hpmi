@@ -5,9 +5,12 @@
     <form [formGroup]="formCategoria">
         <div class="field">
             <label for="nombre">Nombre</label>
-            <input id="nombre" type="nombre" pInputText autofocus 
-                placeholder="Nombre del artículo" name="nombre" formControlName="nombre"/>
-            <small class="p-error" *ngIf="formCategoria.controls['nombre'].invalid && formCategoria.controls['nombre'].touched">Nombre requerido.</small>
+            <input id="nombre" pInputText autofocus 
+                placeholder="Nombre de la Categoría" formControlName="nombre"/>
+            <small class="p-error" 
+                *ngIf="formCategoria.controls['nombre'].invalid && formCategoria.controls['nombre'].touched">
+                Nombre requerido.
+            </small>
         </div>
     </form>
 
