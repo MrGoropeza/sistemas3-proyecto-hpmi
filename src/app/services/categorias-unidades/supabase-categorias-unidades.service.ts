@@ -56,7 +56,10 @@ export class CategoriaUnidadesService {
         return count ? count : 0;
     }
 
-    deleteCategoria(categoria: categoriaArticulo){
-
+    async deleteCategoria(categoria: categoriaArticulo){
+        categoria.estado = false;
+        const {data, error} = await this.supabase.from<categoriaArticulo>("CategoriaArticulo")
+            .update(categoria);
+        return {data, error};
     }
 }

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
 import { CategoriaUnidadesService } from 'src/app/services/categorias-unidades/supabase-categorias-unidades.service';
 
@@ -11,7 +12,7 @@ import { CategoriaUnidadesService } from 'src/app/services/categorias-unidades/s
 export class CategoriasDialogComponent implements OnInit, OnChanges {
 
   @Input() categoria!: categoriaArticulo;
-  @Output() categoriaChange = new EventEmitter<categoriaArticulo>;
+  @Output() creando = new EventEmitter<boolean>;
 
   formCategoria: FormGroup = this.formBuilder.group(
     {nombre: new FormControl<string>(this.categoria ? this.categoria.nombreCategoria : "", Validators.required)}
@@ -24,7 +25,8 @@ export class CategoriasDialogComponent implements OnInit, OnChanges {
 
   constructor(
     private formBuilder: FormBuilder,
-    private supabaseService: CategoriaUnidadesService
+    private supabaseService: CategoriaUnidadesService,
+    private messageService: MessageService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -40,6 +42,7 @@ export class CategoriasDialogComponent implements OnInit, OnChanges {
   ocultarDialog(){
     this.dialog = false;
     this.confirmado = false;
+    this.categoria = new categoriaArticulo();
     this.formCategoria.reset();
     this.dialogChange.emit(this.dialog);
   }
@@ -48,14 +51,21 @@ export class CategoriasDialogComponent implements OnInit, OnChanges {
     this.confirmado = true;
 
     if(this.formCategoria.valid){
-      if(this.categoria){
+      if(this.categoria && this.categoria.id){
         this.categoria.nombreCategoria = this.formCategoria.controls["nombre"].value;
         let update = await this.supabaseService.updateCategoria(this.categoria);
         if(update.data){
-          this.categoriaChange.emit(update.data[0]);
+          this.creando.emit(false);
           this.ocultarDialog();
+          
         }else{
           this.confirmado = false;
+          this.messageService.add(
+            {severity:'error', 
+            summary: 'Error',
+            detail: 'Error al actualizar la categoría. Intente de nuevo.',
+            life: 4000}
+          );
           console.log(update.error);
         }
       }else{
@@ -67,12 +77,20 @@ export class CategoriasDialogComponent implements OnInit, OnChanges {
           nueva.id = insert.data[0].id;
           nueva.estado = insert.data[0].estado;
           this.ocultarDialog();
+          
+          this.creando.emit(true);
         }else{
           this.confirmado = false;
-          console.log(insert.error);          
+          console.log(insert.error); 
+          this.messageService.add(
+            {severity:'error', 
+            summary: 'Error',
+            detail: 'Error al crear la categoría. Intente de nuevo.',
+            life: 3000}
+          );         
         }
 
-        this.categoriaChange.emit(nueva);
+        
       }
       
     }else{

@@ -39,13 +39,13 @@ const routes: Routes = [
             title: "Farmacia"
           },
           {
-            // este es el path de /farmacia/abmDepositos
             path: "abmDepositos",
             data: {
               breadcrumb: "Depósitos"
             },
             children:[
               {
+                // este es el path de /farmacia/abmDepositos
                 path:"",
                 data: {breadcrumb: ""},
                 component: DepositosPageComponent, 
@@ -62,13 +62,13 @@ const routes: Routes = [
             ]
           },
           {
-            // este es el path de /farmacia/abmArticulos
             path: "abmArticulos",
             data: {
               breadcrumb: "Artículos"
             },
             children: [
               {
+                // este es el path de /farmacia/abmArticulos
                 path: "",
                 pathMatch: "full",
                 data: {breadcrumb: ""},
@@ -76,6 +76,7 @@ const routes: Routes = [
                 title: "Artículos"
               },
               {
+                // este es el path de /farmacia/abmArticulos/categoriasUnidades
                 path: "categoriasUnidades",
                 data: {breadcrumb: "Categorías y Unidades"},
                 component: CategoriasUnidadesPageComponent

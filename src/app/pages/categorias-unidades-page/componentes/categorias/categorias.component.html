@@ -58,5 +58,8 @@
 
 <app-categorias-dialog [(dialog)]="dialog" 
     [categoria]="categoria" 
-    (categoriaChange)="categoriaConfirmada($event)">
+    (creando)="categoriaConfirmada($event)">
 </app-categorias-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
