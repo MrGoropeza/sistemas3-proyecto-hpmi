@@ -2,6 +2,7 @@ export class categoriaArticulo {
 
     id! : number;
     nombreCategoria! : string;
+    estado! : boolean;
 
     constructor() {
         return this;

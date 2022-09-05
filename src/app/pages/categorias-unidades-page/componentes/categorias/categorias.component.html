@@ -1,0 +1,62 @@
+<h2>Categorías</h2>
+<p-table #dt [value]="categorias" [rows]="6" [paginator]="true" responsiveLayout="scroll"
+            [(selection)]="categoriasSeleccionadas" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+            [loading]="cargando" [totalRecords]="cantTotalCategorias">
+        
+
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between gap-5">
+            <div>
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevaCategoria()"></button>
+                <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarCategoriasSeleccionadas()" [disabled]="!categoriasSeleccionadas || !categoriasSeleccionadas.length"></button>
+            </div>
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText class="p-inputtext-sm" type="text" 
+                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                    placeholder="Buscar por nombre..." />
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
+            </th>
+            <th>Id. Categoría</th>
+            <th pSortableColumn="nombreCategoria">Nombre <p-sortIcon field="nombreCategoria"></p-sortIcon></th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-categoria>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="categoria" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
+            </td>
+            <td>{{categoria.id}}</td>
+            <td>{{categoria.nombreCategoria}}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarCategoria(categoria)"
+                    pTooltip="Editar" tooltipPosition="top"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarCategoria(categoria)"
+                    pTooltip="Eliminar" tooltipPosition="top"></button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{cantTotalCategorias ? cantTotalCategorias : 0 }} categorías.
+        </div>
+    </ng-template>
+</p-table>
+
+
+<app-categorias-dialog [(dialog)]="dialog" 
+    [categoria]="categoria" 
+    (categoriaChange)="categoriaConfirmada($event)">
+</app-categorias-dialog>

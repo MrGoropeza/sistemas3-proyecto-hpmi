@@ -15,7 +15,7 @@ export class Articulo {
     constructor() {
         return this;
     }
-
+    
     setId(id : number){
         this.id = id;
         return this;

@@ -1,0 +1,23 @@
+<p-dialog header="Detalles de la Categoria" [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true" 
+        styleClass="p-fluid w-30rem overflow-y-scroll"
+        contentStyleClass="max-h-full overflow-y-visible">
+    
+    <form [formGroup]="formCategoria">
+        <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="nombre" pInputText autofocus 
+                placeholder="Nombre del artículo" name="nombre" formControlName="nombre"/>
+            <small class="p-error" *ngIf="formCategoria.controls['nombre'].invalid && formCategoria.controls['nombre'].touched">Nombre requerido.</small>
+        </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            class="p-button-text" (click)="ocultarDialog()"
+            [loading]="confirmado"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+            class="p-button-text" (click)="cargarCategoria()"
+            [loading]="confirmado"></button>
+    </ng-template>
+
+</p-dialog>

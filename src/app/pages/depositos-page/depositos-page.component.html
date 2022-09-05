@@ -33,9 +33,9 @@
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th># Deposito</th>
-                <th >Tipo</th>
-                <th >Sector</th>
-                <th >Planta</th>
+                <th>Tipo</th>
+                <th>Sector</th>
+                <th>Planta</th>
                 <th>Acciones</th>
             </tr>
         </ng-template>
@@ -51,7 +51,7 @@
                 <td>
                     <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarDeposito(deposito)"></button>
                     <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarDeposito(deposito)"></button>
-                    <!-- <button pButton pRipple pTooltip="Ver Deposito" [routerLink]="['depositoSeleccionado',deposito.idDeposito]" tooltipPosition="top" icon="pi pi-search" class="p-button-rounded p-button-info mr-2" ></button> -->
+                    <button pButton pRipple pTooltip="Ver Deposito" [routerLink]="['depositoSeleccionado',deposito.idDeposito]" tooltipPosition="top" icon="pi pi-search" class="p-button-rounded p-button-info mr-2" ></button>
                 </td>
             </tr>
         </ng-template>

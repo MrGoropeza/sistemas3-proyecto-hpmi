@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, LazyLoadEvent, MessageService, PrimeNGConfig } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
 import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
@@ -14,18 +14,29 @@ import { LocaleService } from 'src/app/services/locale.service';
 })
 export class ArticuloPageComponent implements OnInit {
 
-
+  
   cargando: boolean = true;
-
+  
   cantTotalArticulos!: number;
-
+  
   articulos: Articulo[] = [];
-
+  
   articulosSeleccionados: Articulo[] = [];
-
-  articulo!: Articulo;
-
+  
+  articulo: Articulo = new Articulo();
+  
   articuloDialog: boolean = false;
+  
+  formArticulo: FormGroup = this.formBuilder.group(
+    {
+      nombre: [this.articulo.nombre, Validators.required],
+      descripcion: [this.articulo.descripcion, Validators.required],
+      unidad: [this.articulo.unidad, Validators.required],
+      stock: [this.articulo.stock, [Validators.required, Validators.min(0)]],
+      categoria: [this.articulo.categoria, Validators.required],
+      fechaVencimiento: [this.articulo.fechaVencimiento, Validators.required]
+    }
+  );
 
   confirmado: boolean = false;
 
@@ -44,6 +55,7 @@ export class ArticuloPageComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private localeService: LocaleService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -149,6 +161,7 @@ export class ArticuloPageComponent implements OnInit {
   ocultarDialog(){
     this.articulo = new Articulo();
     this.articuloDialog = false;
+    this.formArticulo.reset();
   }
 
   nuevoArticulo(){
@@ -158,22 +171,34 @@ export class ArticuloPageComponent implements OnInit {
   cargarArticulo(){
     this.confirmado = true;
 
-    if(this.articulo.nombre != null){
-      if (this.articulo.nombre.trim()) {
+    if(this.formArticulo.valid){
+      this.articulo.nombre = this.formArticulo.controls['nombre'].value;
+      this.articulo.descripcion = this.formArticulo.controls['descripcion'].value;
+      this.articulo.categoria = this.formArticulo.controls['categoria'].value;
+      this.articulo.fechaVencimiento = this.formArticulo.controls['fechaVencimiento'].value;
+      this.articulo.unidad = this.formArticulo.controls['unidad'].value;
+      this.articulo.stock = this.formArticulo.controls['stock'].value;
+
+      if(this.articulo.nombre != null){
         if (this.articulo.id) {
           this.updateArticulo();
+          
         }
         else {
           this.createArticulo();
+          
         } 
       }
+    }else{
+      this.confirmado = false;
     }
+    
   }
 
   createArticulo(){
     this.supabaseService.createArticulo(this.articulo)
       .then(
-        (response) => {
+        (response) =>{
           if(response.data){
             this.articulo.id = response.data[0].id;
           }
@@ -190,8 +215,9 @@ export class ArticuloPageComponent implements OnInit {
               detail: 'Producto Creado', 
               life: 3000}
           );
+          this.formArticulo.reset();
         },
-        () => {
+        async () => {
           this.messageService.add(
             {
               severity:'danger', 
@@ -220,7 +246,7 @@ export class ArticuloPageComponent implements OnInit {
             this.articuloDialog = false;
             this.articulo = new Articulo();
             this.confirmado = false;
-            
+            this.formArticulo.reset();
         },
         () => {
           this.messageService.add(
@@ -256,6 +282,12 @@ export class ArticuloPageComponent implements OnInit {
 
   editarArticulo(articulo: Articulo){
     this.articulo = articulo; 
+    this.formArticulo.controls['nombre'].setValue(articulo.nombre);
+    this.formArticulo.controls['descripcion'].setValue(articulo.descripcion);
+    this.formArticulo.controls['categoria'].setValue(articulo.categoria);
+    this.formArticulo.controls['fechaVencimiento'].setValue(articulo.fechaVencimiento);
+    this.formArticulo.controls['unidad'].setValue(articulo.unidad);
+    this.formArticulo.controls['stock'].setValue(articulo.stock);
     this.articuloDialog = true;
   }
 

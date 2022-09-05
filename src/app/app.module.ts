@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,9 @@ import { DialogComponent } from './pages/depositos-page/componentes/dialog/dialo
 import { AltaModificacionComponent } from './pages/depositos-page/componentes/alta-modificacion/alta-modificacion.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
 import { TablaComponent } from './pages/deposito-seleccionado-page/componentes/tabla/tabla.component';
+import { CategoriasUnidadesPageComponent } from './pages/categorias-unidades-page/categorias-unidades-page.component';
+import { CategoriasComponent } from "./pages/categorias-unidades-page/componentes/categorias/categorias.component";
+import { CategoriasDialogComponent } from './pages/categorias-unidades-page/componentes/categorias-dialog/categorias-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { TablaComponent } from './pages/deposito-seleccionado-page/componentes/t
     LoginPageComponent,
     UsuariosPageComponent,
     FarmaciaPageComponent,
-    TablaComponent
+    TablaComponent,
+    CategoriasUnidadesPageComponent,
+    CategoriasComponent,
+    CategoriasDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,7 @@ import { TablaComponent } from './pages/deposito-seleccionado-page/componentes/t
     AppRoutingModule,
     HttpClientModule,
     PrimengImportsModule,
-    FormsModule
+    FormsModule, ReactiveFormsModule
   ],
   providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]

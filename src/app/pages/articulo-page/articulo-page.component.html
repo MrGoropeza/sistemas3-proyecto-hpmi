@@ -29,6 +29,8 @@
                         (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
                         placeholder="Buscar por nombre..." />
                 </span>
+
+                <button pButton pRipple label="Agregar Categorías/Unidades" icon="pi pi-plus" class="p-button-succes" [routerLink]="['categoriasUnidades']"></button>
             </div>
         </ng-template>
 
@@ -91,58 +93,58 @@
         styleClass="p-fluid w-30rem overflow-y-scroll"
         contentStyleClass="max-h-full overflow-y-visible">
     
-    <form ngform>
+    <form [formGroup]="formArticulo">
         <div class="field">
             <label for="nombre">Nombre</label>
-            <input id="nombre" type="nombre" pInputText [(ngModel)]="articulo.nombre" required autofocus 
-                placeholder="Nombre del artículo" name="nombre"/>
-            <small class="p-error" *ngIf="confirmado && !articulo.nombre">Nombre requerido.</small>
+            <input id="nombre" type="nombre" pInputText autofocus 
+                placeholder="Nombre del artículo" name="nombre" formControlName="nombre"/>
+            <small class="p-error" *ngIf="formArticulo.controls['nombre'].invalid && formArticulo.controls['nombre'].touched">Nombre requerido.</small>
         </div>
     
         <div class="field">
             <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" pInputTextarea [(ngModel)]="articulo.descripcion" required rows="3" cols="20"
-                placeholder="Descripción del artículo" name="descripcion"></textarea>
-            <small class="p-error" *ngIf="confirmado && !articulo.descripcion">Descripción requerida.</small>
+            <textarea id="descripcion" pInputTextarea rows="3" cols="20"
+                placeholder="Descripción del artículo" name="descripcion" formControlName="descripcion"></textarea>
+            <small class="p-error" *ngIf="formArticulo.controls['descripcion'].invalid && formArticulo.controls['descripcion'].touched">Descripción requerida.</small>
         </div>
     
         <div class="field">
             <label for="unidad">Unidad</label>
-            <p-dropdown [(ngModel)]="articulo.unidad" inputId="unidad" [options]="unidades" placeholder="Seleccionar"
-                emptyMessage="No hay unidades cargadas" [required]="true" optionLabel="abreviacion"
-                name="unidad">
+            <p-dropdown inputId="unidad" [options]="unidades" placeholder="Seleccionar"
+                emptyMessage="No hay unidades cargadas" optionLabel="abreviacion"
+                name="unidad" formControlName="unidad">
                 <ng-template let-option pTemplate="item">
                     {{option.nombre}} ({{option.abreviacion}})
                 </ng-template>
             </p-dropdown>
-            <small class="p-error" *ngIf="confirmado && !articulo.unidad">Unidad requerida.</small>
+            <small class="p-error" *ngIf="formArticulo.controls['unidad'].invalid && formArticulo.controls['unidad'].touched">Unidad requerida.</small>
         </div>
     
         <div class="field">
             <label for="stock">Stock</label>
-            <input id="stock" type="number" min="0" pInputText [(ngModel)]="articulo.stock" required
-                placeholder="Cantidad de Stock" name="stock"/>
-            <small class="p-error" *ngIf="confirmado && !articulo.stock">Stock requerido.</small>
+            <input id="stock" type="number" min="0" pInputText
+                placeholder="Cantidad de Stock" name="stock" formControlName="stock"/>
+            <small class="p-error" *ngIf="formArticulo.controls['stock'].invalid && formArticulo.controls['stock'].touched">Stock requerido.</small>
         </div>
     
         <div class="field">
             <label for="categorias">Categoría</label>
-            <p-dropdown [(ngModel)]="articulo.categoria" inputId="categorias" [options]="categorias"
-                placeholder="Seleccionar"
-                optionLabel="nombreCategoria" [required]="true" name="categoria">
+            <p-dropdown inputId="categorias" [options]="categorias"
+                placeholder="Seleccionar" formControlName="categoria"
+                optionLabel="nombreCategoria" name="categoria">
                 <ng-template let-option pTemplate="item">
                     {{option.nombreCategoria}}
                 </ng-template>
             </p-dropdown>
-            <small class="p-error" *ngIf="confirmado && !articulo.categoria">Categoría requerida.</small>
+            <small class="p-error" *ngIf="formArticulo.controls['categoria'].invalid && formArticulo.controls['categoria'].touched">Categoría requerida.</small>
         </div>
     
         <div class="field">
             <label for="fechaVencimiento">Fecha de Vencimiento (dd-mm-yy)</label>
-            <p-calendar inputId="fechaVencimiento" [(ngModel)]="articulo.fechaVencimiento" 
-                dateFormat="dd-mm-yy" [showIcon]="true" [required]="true"
+            <p-calendar inputId="fechaVencimiento" 
+                dateFormat="dd-mm-yy" [showIcon]="true" formControlName="fechaVencimiento"
                 styleClass="overflow-visible" name="fechaVencimiento"></p-calendar>
-            <small class="p-error" *ngIf="confirmado && !articulo.fechaVencimiento">Fecha de vencimiento requerida.</small>
+            <small class="p-error" *ngIf="formArticulo.controls['fechaVencimiento'].invalid && formArticulo.controls['fechaVencimiento'].touched">Fecha de vencimiento requerida.</small>
         </div>
     </form>
 
