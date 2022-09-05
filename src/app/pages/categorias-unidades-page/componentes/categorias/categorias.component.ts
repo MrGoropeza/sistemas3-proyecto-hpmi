@@ -113,7 +113,25 @@ export class CategoriasComponent implements OnInit {
   }
 
   borrarCategoriasSeleccionadas(){
-
+    this.confirmationService.confirm({
+      message: '¿Estás seguro que querés borrar las ' + this.categoriasSeleccionadas.length + ' categorías seleccionadas?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: "Sí",
+      rejectLabel: "No", 
+      accept: async () => {
+        this.categoriasSeleccionadas.forEach(
+          async (cat) => await this.supabaseService.deleteCategoria(cat)
+        );
+        this.messageService.add({
+          severity:'success',
+          summary: 'Éxito', 
+          detail: 'Categorías eliminadas', 
+          life: 3000,
+        });
+        this.onLazyLoad()
+      },
+    });
   }
 
 }

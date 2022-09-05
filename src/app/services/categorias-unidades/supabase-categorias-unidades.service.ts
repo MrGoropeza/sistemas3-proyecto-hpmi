@@ -62,4 +62,5 @@ export class CategoriaUnidadesService {
             .update(categoria);
         return {data, error};
     }
+
 }
