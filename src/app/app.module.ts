@@ -21,6 +21,8 @@ import { TablaComponent } from './pages/deposito-seleccionado-page/componentes/t
 import { CategoriasUnidadesPageComponent } from './pages/categorias-unidades-page/categorias-unidades-page.component';
 import { CategoriasComponent } from "./pages/categorias-unidades-page/componentes/categorias/categorias.component";
 import { CategoriasDialogComponent } from './pages/categorias-unidades-page/componentes/categorias-dialog/categorias-dialog.component';
+import { UnidadesComponent } from './pages/categorias-unidades-page/componentes/unidades/unidades.component';
+import { UnidadesDialogComponent } from './pages/categorias-unidades-page/componentes/unidades-dialog/unidades-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { CategoriasDialogComponent } from './pages/categorias-unidades-page/comp
     TablaComponent,
     CategoriasUnidadesPageComponent,
     CategoriasComponent,
-    CategoriasDialogComponent
+    CategoriasDialogComponent,
+    UnidadesComponent,
+    UnidadesDialogComponent
   ],
   imports: [
     BrowserModule,
