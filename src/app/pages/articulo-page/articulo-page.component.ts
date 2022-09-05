@@ -119,7 +119,7 @@ export class ArticuloPageComponent implements OnInit {
             {
               severity:'danger', 
               summary: 'Error', 
-              detail: 'Error al leer categorías de la base de datos. Intente nuevamente.', 
+              detail: 'Error al leer unidades de la base de datos. Intente nuevamente.', 
               life: 3000}
             );
         }
@@ -212,7 +212,7 @@ export class ArticuloPageComponent implements OnInit {
             {
               severity:'success', 
               summary: 'Éxito', 
-              detail: 'Producto Creado', 
+              detail: 'Artículo Creado', 
               life: 3000}
           );
           this.formArticulo.reset();
@@ -222,7 +222,7 @@ export class ArticuloPageComponent implements OnInit {
             {
               severity:'danger', 
               summary: 'Error', 
-              detail: 'El producto no se pudo crear. Intente nuevamente.', 
+              detail: 'El artículo no se pudo crear. Intente nuevamente.', 
               life: 3000}
             );
         }
@@ -236,7 +236,7 @@ export class ArticuloPageComponent implements OnInit {
           this.messageService.add(
             {severity:'success', 
             summary: 'Éxito',
-            detail: 'Producto Actualizado',
+            detail: 'Artículo Actualizado',
             life: 3000}
           );
             if(response.data){
@@ -253,7 +253,7 @@ export class ArticuloPageComponent implements OnInit {
             {
               severity:'danger', 
               summary: 'Error', 
-              detail: 'El producto no se pudo crear. Intente nuevamente.', 
+              detail: 'El artículo no se pudo crear. Intente nuevamente.', 
               life: 3000}
             );
         }
@@ -293,7 +293,7 @@ export class ArticuloPageComponent implements OnInit {
 
   borrarArticulosSeleccionados(){
     this.confirmationService.confirm({
-        message: `¿Estás seguro que queres eliminar los ${this.articulosSeleccionados.length} productos seleccionados?`,
+        message: `¿Estás seguro que queres eliminar los ${this.articulosSeleccionados.length} artículos seleccionados?`,
         header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: "Sí",
@@ -322,6 +322,7 @@ export class ArticuloPageComponent implements OnInit {
         rejectLabel: "No", 
         accept: () => {
             this.articulos = this.articulos.filter(val => val.id !== articulo.id);
+            this.articulosSeleccionados = this.articulosSeleccionados.filter(val => val.id !== articulo.id)
             this.supabaseService.deleteArticulo(articulo)
               .then(
                 () => {

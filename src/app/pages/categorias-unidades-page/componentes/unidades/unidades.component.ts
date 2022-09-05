@@ -98,6 +98,7 @@ export class UnidadesComponent implements OnInit {
             detail: 'Unidad eliminada', 
             life: 3000,
           });
+          this.unidadesSeleccionadas = this.unidadesSeleccionadas.filter(x => x.id === unidad.id)
           this.onLazyLoad()
         }else{
           console.log(request.error);
@@ -121,7 +122,10 @@ export class UnidadesComponent implements OnInit {
       rejectLabel: "No", 
       accept: async () => {
         this.unidadesSeleccionadas.forEach(
-          async (item) => await this.supabaseService.deleteUnidad(item)
+          async (item) => {
+            await this.supabaseService.deleteUnidad(item);
+            this.unidadesSeleccionadas = this.unidadesSeleccionadas.filter(x => x.id === item.id)
+          }
         );
         this.messageService.add({
           severity:'success',

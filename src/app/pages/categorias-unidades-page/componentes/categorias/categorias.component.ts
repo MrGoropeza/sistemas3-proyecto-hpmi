@@ -98,6 +98,7 @@ export class CategoriasComponent implements OnInit {
             detail: 'Categoría eliminada', 
             life: 3000,
           });
+          this.categoriasSeleccionadas = this.categoriasSeleccionadas.filter(c => c.id === categoria.id);
           this.onLazyLoad()
         }else{
           console.log(request.error);
@@ -120,8 +121,12 @@ export class CategoriasComponent implements OnInit {
       acceptLabel: "Sí",
       rejectLabel: "No", 
       accept: async () => {
+        
         this.categoriasSeleccionadas.forEach(
-          async (cat) => await this.supabaseService.deleteCategoria(cat)
+          async (cat) => {
+            await this.supabaseService.deleteCategoria(cat);
+            this.categoriasSeleccionadas = this.categoriasSeleccionadas.filter(c => c.id === cat.id);
+          }
         );
         this.messageService.add({
           severity:'success',
