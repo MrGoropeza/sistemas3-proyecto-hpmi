@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
-import { CategoriaUnidadesService } from 'src/app/services/categorias-unidades/supabase-categorias-unidades.service';
+import { CategoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { SupabaseCategoriasService } from 'src/app/services/categorias-unidades/supabase-categorias.service';
 
 @Component({
   selector: 'app-categorias-dialog',
@@ -11,7 +11,7 @@ import { CategoriaUnidadesService } from 'src/app/services/categorias-unidades/s
 })
 export class CategoriasDialogComponent implements OnInit, OnChanges {
 
-  @Input() categoria!: categoriaArticulo;
+  @Input() categoria!: CategoriaArticulo;
   @Output() creando = new EventEmitter<boolean>;
 
   formCategoria: FormGroup = this.formBuilder.group(
@@ -25,7 +25,7 @@ export class CategoriasDialogComponent implements OnInit, OnChanges {
 
   constructor(
     private formBuilder: FormBuilder,
-    private supabaseService: CategoriaUnidadesService,
+    private supabaseService: SupabaseCategoriasService,
     private messageService: MessageService,
   ) { }
 
@@ -42,7 +42,7 @@ export class CategoriasDialogComponent implements OnInit, OnChanges {
   ocultarDialog(){
     this.dialog = false;
     this.confirmado = false;
-    this.categoria = new categoriaArticulo();
+    this.categoria = new CategoriaArticulo();
     this.formCategoria.reset();
     this.dialogChange.emit(this.dialog);
   }
@@ -69,7 +69,7 @@ export class CategoriasDialogComponent implements OnInit, OnChanges {
           console.log(update.error);
         }
       }else{
-        let nueva = new categoriaArticulo();
+        let nueva = new CategoriaArticulo();
         nueva.nombreCategoria = this.formCategoria.controls["nombre"].value;
 
         let insert = await this.supabaseService.createCategoria(nueva);

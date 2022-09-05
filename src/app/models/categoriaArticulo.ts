@@ -1,4 +1,4 @@
-export class categoriaArticulo {
+export class CategoriaArticulo {
 
     id! : number;
     nombreCategoria! : string;

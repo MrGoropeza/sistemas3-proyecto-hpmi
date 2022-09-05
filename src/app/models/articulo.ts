@@ -1,14 +1,14 @@
-import { categoriaArticulo } from "./categoriaArticulo";
-import { unidadArticulo } from "./unidadArticulo";
+import { CategoriaArticulo } from "./categoriaArticulo";
+import { UnidadArticulo } from "./unidadArticulo";
 
 export class Articulo {
 
     id! : number;
     nombre! : string;
     descripcion!: string;
-    unidad!: unidadArticulo;
+    unidad!: UnidadArticulo;
     fechaVencimiento! : Date;
-    categoria! : categoriaArticulo;
+    categoria! : CategoriaArticulo;
     stock!: number;
     estado!: boolean;
 
@@ -21,7 +21,7 @@ export class Articulo {
         return this;
     }
 
-    setCategoria(categoria: categoriaArticulo){
+    setCategoria(categoria: CategoriaArticulo){
         this.categoria = categoria;
         return this;
     }
@@ -36,7 +36,7 @@ export class Articulo {
         return this;
     }
 
-    setUnidad(unidad: unidadArticulo){
+    setUnidad(unidad: UnidadArticulo){
         this.unidad = unidad;
         return this;
     }

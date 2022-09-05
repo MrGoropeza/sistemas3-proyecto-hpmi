@@ -3,8 +3,8 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { FilterOperator, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Articulo } from 'src/app/models/articulo';
-import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
-import { unidadArticulo } from 'src/app/models/unidadArticulo';
+import { CategoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { UnidadArticulo } from 'src/app/models/unidadArticulo';
 import { SupabaseService } from '../supabase.service';
 
 @Injectable({
@@ -23,14 +23,14 @@ export class SupabaseArticulosService {
 
 
   readCategorias(){
-    return this.supabase.from<categoriaArticulo>("CategoriaArticulo")
+    return this.supabase.from<CategoriaArticulo>("CategoriaArticulo")
       .select("id, nombreCategoria")
       .eq("estado", true);
       
   }
 
   readUnidades(){
-    return this.supabase.from<unidadArticulo>("UnidadArticulo")
+    return this.supabase.from<UnidadArticulo>("UnidadArticulo")
       .select("id, nombre, abreviacion");
   }
 

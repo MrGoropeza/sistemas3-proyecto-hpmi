@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
-import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
-import { CategoriaUnidadesService } from 'src/app/services/categorias-unidades/supabase-categorias-unidades.service';
+import { CategoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { SupabaseCategoriasService } from 'src/app/services/categorias-unidades/supabase-categorias.service';
 
 @Component({
   selector: 'app-categorias',
@@ -14,16 +14,16 @@ export class CategoriasComponent implements OnInit {
 
   dialog!: boolean;
 
-  categoria!: categoriaArticulo;
+  categoria!: CategoriaArticulo;
 
-  categorias: categoriaArticulo[] = [];
+  categorias: CategoriaArticulo[] = [];
 
   cantTotalCategorias!: number;
 
-  categoriasSeleccionadas: categoriaArticulo[] = [];
+  categoriasSeleccionadas: CategoriaArticulo[] = [];
 
   constructor(
-    private supabaseService: CategoriaUnidadesService,
+    private supabaseService: SupabaseCategoriasService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) { }
@@ -58,7 +58,7 @@ export class CategoriasComponent implements OnInit {
     this.dialog = true;
   }
 
-  editarCategoria(categoria: categoriaArticulo){
+  editarCategoria(categoria: CategoriaArticulo){
     this.categoria = categoria;
     this.dialog = true;
   }
@@ -82,7 +82,7 @@ export class CategoriasComponent implements OnInit {
     }
   }
 
-  eliminarCategoria(categoria: categoriaArticulo){
+  eliminarCategoria(categoria: CategoriaArticulo){
     this.confirmationService.confirm({
       message: '¿Estás seguro que querés borrar \"' + categoria.nombreCategoria + '\"?',
       header: 'Confirmar',

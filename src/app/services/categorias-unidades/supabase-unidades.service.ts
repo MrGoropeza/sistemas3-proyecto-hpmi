@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { LazyLoadEvent } from 'primeng/api';
-import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { UnidadArticulo } from 'src/app/models/unidadArticulo';
 import { SupabaseService } from '../supabase.service';
 
 @Injectable({providedIn: 'root'})
-export class CategoriaUnidadesService {
+export class SupabaseUnidadesService {
 
     private supabase: SupabaseClient
 
@@ -15,21 +15,21 @@ export class CategoriaUnidadesService {
         this.supabase = supabaseService.getSupabaseClient();
     }
     
-    async createCategoria(categoria: categoriaArticulo){
-        const {data, error} = await this.supabase.from<categoriaArticulo>("CategoriaArticulo")
-            .insert(categoria);
+    async createUnidad(unidad: UnidadArticulo){
+        const {data, error} = await this.supabase.from<UnidadArticulo>("UnidadArticulo")
+            .insert(unidad);
         return {data, error};
     }
 
-    async updateCategoria(categoria: categoriaArticulo){
-        const {data, error} = await this.supabase.from<categoriaArticulo>("CategoriaArticulo")
-            .update(categoria);
+    async updateUnidad(unidad: UnidadArticulo){
+        const {data, error} = await this.supabase.from<UnidadArticulo>("UnidadArticulo")
+            .update(unidad);
         return {data, error};
     }
 
-    async readCategorias(params?: LazyLoadEvent){
-        let query = this.supabase.from<categoriaArticulo>("CategoriaArticulo")
-            .select("id, nombreCategoria")
+    async readUnidades(params?: LazyLoadEvent){
+        let query = this.supabase.from<UnidadArticulo>("UnidadArticulo")
+            .select("id, nombre, abreviacion")
             .eq("estado", true);
             
 
@@ -42,24 +42,24 @@ export class CategoriaUnidadesService {
         }
 
         if(params?.globalFilter){
-            query = query.ilike("nombreCategoria", `%${params.globalFilter}%`);
+            query = query.ilike("nombre", `%${params.globalFilter}%`);
         }
 
         const {data, error} = await query;
         return {data, error};
     }
 
-    async getCantCategorias(): Promise<number> {
-        const {count} = await this.supabase.from('CategoriaArticulo')
+    async getCantUnidades(): Promise<number> {
+        const {count} = await this.supabase.from('UnidadArticulo')
             .select("id", {head: true, count: "exact"})
             .eq("estado", true);
         return count ? count : 0;
     }
 
-    async deleteCategoria(categoria: categoriaArticulo){
-        categoria.estado = false;
-        const {data, error} = await this.supabase.from<categoriaArticulo>("CategoriaArticulo")
-            .update(categoria);
+    async deleteUnidad(unidad: UnidadArticulo){
+        unidad.estado = false;
+        const {data, error} = await this.supabase.from<UnidadArticulo>("UnidadArticulo")
+            .update(unidad);
         return {data, error};
     }
 

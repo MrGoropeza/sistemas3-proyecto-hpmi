@@ -1,10 +1,10 @@
-import { unidadArticulo } from "./unidadArticulo";
+import { UnidadArticulo } from "./unidadArticulo";
 
 export interface IArticuloDeposito{
     id : number;
     idDeposito : number;
     nombre : string;
     descripcion: string;
-    unidad : unidadArticulo;
+    unidad : UnidadArticulo;
     stock : number;
 }

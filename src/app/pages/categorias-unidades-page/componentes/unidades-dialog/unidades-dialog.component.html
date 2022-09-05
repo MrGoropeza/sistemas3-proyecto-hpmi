@@ -1,1 +1,35 @@
-<p>unidades-dialog works!</p>
+<p-dialog header="Detalles de Unidad" [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true" 
+        styleClass="p-fluid w-30rem overflow-y-scroll"
+        contentStyleClass="max-h-full overflow-y-visible">
+    
+    <form [formGroup]="formUnidad">
+        <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" pInputText autofocus 
+                placeholder="Nombre de Unidad" formControlName="nombre"/>
+            <small class="p-error" 
+                *ngIf="formUnidad.controls['nombre'].invalid && formUnidad.controls['nombre'].touched">
+                Nombre requerido.
+            </small>
+        </div>
+        <div class="field">
+            <label for="abreviacion">Abreviación</label>
+            <input id="abreviacion" pInputText autofocus 
+                placeholder="Abreviación" formControlName="abreviacion"/>
+            <small class="p-error" 
+                *ngIf="formUnidad.controls['abreviacion'].invalid && formUnidad.controls['abreviacion'].touched">
+                Nombre requerido.
+            </small>
+        </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            class="p-button-text" (click)="ocultarDialog()"
+            [loading]="confirmado"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+            class="p-button-text" (click)="cargarUnidad()"
+            [loading]="confirmado"></button>
+    </ng-template>
+
+</p-dialog>

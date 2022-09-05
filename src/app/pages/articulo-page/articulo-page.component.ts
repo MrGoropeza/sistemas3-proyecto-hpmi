@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, LazyLoadEvent, MessageService, PrimeNGConfig } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
-import { categoriaArticulo } from 'src/app/models/categoriaArticulo';
-import { unidadArticulo } from 'src/app/models/unidadArticulo';
+import { CategoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { UnidadArticulo } from 'src/app/models/unidadArticulo';
 import { SupabaseArticulosService } from 'src/app/services/articulos/supabase-articulos.service';
 import { LocaleService } from 'src/app/services/locale.service';
 
@@ -40,9 +40,9 @@ export class ArticuloPageComponent implements OnInit {
 
   confirmado: boolean = false;
 
-  categorias: categoriaArticulo[] = [];
+  categorias: CategoriaArticulo[] = [];
 
-  unidades: unidadArticulo[] = [];
+  unidades: UnidadArticulo[] = [];
 
   estados = [
       {label: 'EN STOCK', value: 'instock', severity: 'success'},

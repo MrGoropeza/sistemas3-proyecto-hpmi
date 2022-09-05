@@ -1,1 +1,67 @@
-<p>unidades works!</p>
+<h2>Unidades</h2>
+<p-table #dt [value]="unidades" [rows]="6" [paginator]="true" responsiveLayout="scroll"
+            [(selection)]="unidadesSeleccionadas" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+            [loading]="cargando" [totalRecords]="cantTotalUnidades">
+        
+
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between gap-5">
+            <div>
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevaUnidad()"></button>
+                <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarUnidadesSeleccionadas()" [disabled]="!unidadesSeleccionadas || !unidadesSeleccionadas.length"></button>
+            </div>
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText class="p-inputtext-sm" type="text" 
+                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                    placeholder="Buscar por nombre o abreviación..." />
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
+            </th>
+            <th>Id. Unidad</th>
+            <th pSortableColumn="nombre">Nombre<p-sortIcon field="nombre"></p-sortIcon></th>
+            <th pSortableColumn="abreviacion">Abreviación<p-sortIcon field="abreviacion"></p-sortIcon></th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-unidad>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="unidad" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
+            </td>
+            <td>{{unidad.id}}</td>
+            <td>{{unidad.nombre}}</td>
+            <td>{{unidad.abreviacion}}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarUnidad(unidad)"
+                    pTooltip="Editar" tooltipPosition="top"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarUnidad(unidad)"
+                    pTooltip="Eliminar" tooltipPosition="top"></button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{cantTotalUnidades ? cantTotalUnidades : 0 }} unidades.
+        </div>
+    </ng-template>
+</p-table>
+
+
+<app-unidades-dialog [(dialog)]="dialog" 
+    [unidad]="unidad" 
+    (creando)="unidadConfirmada($event)">
+</app-unidades-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
