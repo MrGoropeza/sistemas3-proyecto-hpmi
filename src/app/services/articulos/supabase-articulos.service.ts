@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { FilterOperator, MessageService } from 'primeng/api';
+import { FilterOperator, LazyLoadEvent, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Articulo } from 'src/app/models/articulo';
+import { ArticuloView } from 'src/app/models/ArticuloView';
 import { CategoriaArticulo } from 'src/app/models/categoriaArticulo';
 import { UnidadArticulo } from 'src/app/models/unidadArticulo';
 import { SupabaseService } from '../supabase.service';
@@ -82,6 +83,37 @@ export class SupabaseArticulosService {
     }
     return filterQuery;
   }
+
+  async readArticulosView(params?: LazyLoadEvent) {
+    let query = this.supabase.from<ArticuloView>("ArticuloView")
+      .select("*")
+      .eq("estado", true)
+    
+    if(params?.first !== undefined && params?.rows !== undefined){
+      query = query.range(params?.first, params?.first + params?.rows - 1);
+    }
+
+    if(params?.sortField !== undefined  && params?.sortOrder !== undefined ){
+      query = query.order(params.sortField as any, {ascending: params.sortOrder === 1});
+    }
+
+    if(params?.globalFilter){
+      query = query
+        .or(`or(nombre.ilike.%${params.globalFilter}%,descripcion.ilike.%${params.globalFilter}%,nombreCategoria.ilike.%${params.globalFilter}%)`)
+    }
+
+    return query;
+
+    // let response = await query;
+
+
+    // if(response.data){
+    //   console.log(`Respuesta de la view: ${response.data.length} filas`)
+    //   response.data.forEach(element => {
+    //     console.log(`\t${element.nombre} - ${element.descripcion} - ${element.nombreCategoria}`)
+    //   });
+    // }
+  } 
 
 
   updateArticulo(articulo: Articulo){

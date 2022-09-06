@@ -83,10 +83,12 @@ export class ArticuloPageComponent implements OnInit {
   }
 
   onLazyLoad(event: LazyLoadEvent){
-    // this.supabaseService.getArticulosTest();
+    
 
     // console.log(event);
     this.cargando = true;
+
+    
 
     this.supabaseService.readCategorias()
       .then(
@@ -134,8 +136,9 @@ export class ArticuloPageComponent implements OnInit {
         }
       );
 
+    this.supabaseService.readArticulosView(event);
     
-    this.supabaseService.readArticulos(event)
+    this.supabaseService.readArticulosView(event)
         .then(
           (response) => {
             if(response.data != null){
@@ -148,7 +151,27 @@ export class ArticuloPageComponent implements OnInit {
                   let anio = element.fechaVencimiento.toString().substring(0,4);
                   let dia = element.fechaVencimiento.toString().substring(8,10);
                   element.fechaVencimiento = new Date(`${mes}-${dia}-${anio}`);
-                  this.articulos.push(element)
+                  let art = new Articulo();
+                  art.id = element.id;
+                  art.nombre = element.nombre;
+                  art.descripcion = element.descripcion;
+                  art.estado = element.estado;
+                  art.stock = element.stock;
+                  art.fechaVencimiento = element.fechaVencimiento;
+
+                  let cat = new CategoriaArticulo();
+                  cat.id = element.idCategoriaArticulo;
+                  cat.nombreCategoria = element.nombreCategoria;
+
+                  let un = new UnidadArticulo();
+                  un.id = element.idUnidadArticulo;
+                  un.nombre = element.nombreUnidad;
+                  un.abreviacion = element.abreviacionUnidad;
+
+                  art.categoria = cat;
+                  art.unidad = un;
+
+                  this.articulos.push(art);
                 }
               );
               this.cargando = false;

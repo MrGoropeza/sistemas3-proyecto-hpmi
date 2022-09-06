@@ -16,13 +16,15 @@ export class SupabaseUnidadesService {
     }
     
     async createUnidad(unidad: UnidadArticulo){
-        const {data, error} = await this.supabase.from<UnidadArticulo>("UnidadArticulo")
+        const {data, error} = await this.supabase
+            .from<UnidadArticulo>("UnidadArticulo")
             .insert(unidad);
         return {data, error};
     }
 
     async updateUnidad(unidad: UnidadArticulo){
-        const {data, error} = await this.supabase.from<UnidadArticulo>("UnidadArticulo")
+        const {data, error} = await this.supabase
+            .from<UnidadArticulo>("UnidadArticulo")
             .update(unidad);
         return {data, error};
     }

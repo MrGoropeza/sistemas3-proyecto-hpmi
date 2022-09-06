@@ -58,11 +58,18 @@ export class NavigationService{
          if (routeURL !== '') {
             url += `/${routeURL}`;
          }
-   
-         const label = child.snapshot.data["breadcrumb"];
+         
+         let label = child.snapshot.data["breadcrumb"];
+
+         if(child.snapshot.params["id"]){
+          label += " " + child.snapshot.params["id"];
+         }
+
+         
          if(!(label === null || label === undefined) && label !== '') {
             if(label !== actualroute.snapshot.data["breadcrumb"]){
-               breadcrumbs.push({label, routerLink: url, target: "_self"});
+              breadcrumbs.push({label, routerLink: url, target: "_self"});
+              // console.log(label);
             }
             
          }

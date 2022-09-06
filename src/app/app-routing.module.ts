@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ArticuloPageComponent } from './pages/articulo-page/articulo-page.component';
 import { CategoriasUnidadesPageComponent } from './pages/categorias-unidades-page/categorias-unidades-page.component';
@@ -55,8 +55,9 @@ const routes: Routes = [
               {
                 path: "depositoSeleccionado/:id",
                 data: {
-                  breadcrumb: "Artículos en Deposito"
+                  breadcrumb: "Artículos en Depósito"
                 },
+                title: "Artículos en Deposito",
                 component : DepositoSeleccionadoPageComponent
               }
             ]
@@ -107,8 +108,12 @@ const routes: Routes = [
   }
 ];
 
+const extraOptions: ExtraOptions = {
+  paramsInheritanceStrategy: 'always',
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: "ignore"})],
+  imports: [RouterModule.forRoot(routes, extraOptions)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

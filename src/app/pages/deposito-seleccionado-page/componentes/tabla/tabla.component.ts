@@ -25,7 +25,7 @@ export class TablaComponent implements OnInit {
         if(articulos.data != null){
           this.articulos = articulos.data;
           console.log(this.articulos[0]);
-          console.log(this.articulos[0].unidad.id);
+          // console.log(this.articulos[0].unidad.id);
           
         }
       }

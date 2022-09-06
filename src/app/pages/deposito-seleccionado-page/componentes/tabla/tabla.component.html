@@ -1,7 +1,8 @@
-<p-table #dt [value]="articulos" [rows]="10" [paginator]="true" [globalFilterFields]="['nombre','categoria.nombre','fechaVencimiento']" responsiveLayout="scroll"
- [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
-currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-[showCurrentPageReport]="false">
+<p-table #dt [value]="articulos" [rows]="10" [paginator]="true" 
+    [globalFilterFields]="['nombre','categoria.nombre','fechaVencimiento']" responsiveLayout="scroll"
+    [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [showCurrentPageReport]="false">
 
 
 <ng-template pTemplate="caption">
@@ -22,10 +23,10 @@ currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registro
             <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
         </th>
         <th># Artículo</th>
-        <th >nombre</th>
+        <th>Nombre</th>
         <th>Descripción</th>
-        <th >unidad</th>
-        <th>stock</th>
+        <th>Unidad</th>
+        <th>Stock</th>
     </tr>
 </ng-template>
 <ng-template pTemplate="body" let-articulo>

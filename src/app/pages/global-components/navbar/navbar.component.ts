@@ -31,6 +31,8 @@ export class NavbarComponent implements OnInit {
       // this.router.events
       //    .pipe(filter(event => event instanceof NavigationEnd))
       //    .subscribe(() => this.breadcrumbItems = this.createBreadcrumbs(this.activatedRoute.root));
+      // console.log("navbar:");
+      // console.log(this.activatedRoute.snapshot);
 
       this.router.events
          .pipe(filter(event => event instanceof NavigationEnd))
