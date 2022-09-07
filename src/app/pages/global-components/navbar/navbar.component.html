@@ -7,7 +7,7 @@
             </ng-template>
         </p-sidebar>
         <p-toggleButton [(ngModel)]="darkMode"onIcon="pi pi-sun" offIcon="pi pi-moon" (onChange)="cambiarTema()"></p-toggleButton>
-        <h1 class="mx-3 p-0 my-0">Hospital Materno Infantil</h1>
+        <h1 class="mx-3 p-0 my-0 md:text-3xl text-xl">Hospital Materno Infantil</h1>
     </div>
     
     <div class="p-toolbar-group-right hidden">
@@ -19,4 +19,4 @@
     </div>
 </p-toolbar>
 
-<p-breadcrumb [model]="breadcrumbItems"></p-breadcrumb>
+<p-breadcrumb [model]="breadcrumbItems" styleClass="white-space-nowrap"></p-breadcrumb>

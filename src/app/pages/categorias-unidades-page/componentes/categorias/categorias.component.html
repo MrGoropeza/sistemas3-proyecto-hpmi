@@ -1,5 +1,5 @@
 <h2>Categorías</h2>
-<p-table #dt [value]="categorias" [rows]="6" [paginator]="true" responsiveLayout="scroll"
+<p-table #dt [value]="categorias" [rows]="6" [paginator]="true" responsiveLayout="stack"
             [(selection)]="categoriasSeleccionadas" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
             [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
@@ -7,22 +7,29 @@
         
 
     <ng-template pTemplate="caption">
-        <div class="flex align-items-center justify-content-between gap-5">
-            <div>
-                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevaCategoria()"></button>
-                <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarCategoriasSeleccionadas()" [disabled]="!categoriasSeleccionadas || !categoriasSeleccionadas.length"></button>
+        <div class="grid align-items-center justify-content-between">
+            <div class="col">
+                <div class="flex md:justify-content-start justify-content-center">
+                    <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevaCategoria()"></button>
+                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarCategoriasSeleccionadas()" [disabled]="!categoriasSeleccionadas || !categoriasSeleccionadas.length"></button>    
+                </div>
             </div>
 
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText class="p-inputtext-sm" type="text" 
-                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
-                    placeholder="Buscar por nombre..." />
-            </span>
+            <div class="col">
+                <div class="flex md:justify-content-end justify-content-center">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-sm" type="text" 
+                            (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                            placeholder="Buscar por nombre..." />
+                    </span>
+                </div>
+            </div>
+            
         </div>
     </ng-template>
 
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
         <tr>
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
@@ -32,18 +39,22 @@
             <th>Acciones</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-categoria>
+    <ng-template pTemplate="body" let-categoria let-columns="columns">
         <tr>
             <td>
+                <span class="p-column-title font-bold">Seleccionar</span>
                 <p-tableCheckbox [value]="categoria" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
             </td>
-            <td>{{categoria.id}}</td>
-            <td>{{categoria.nombreCategoria}}</td>
+            <td><span class="p-column-title font-bold">Id. Categoría</span>{{categoria.id}}</td>
+            <td><span class="p-column-title font-bold">Nombre</span>{{categoria.nombreCategoria}}</td>
             <td>
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarCategoria(categoria)"
-                    pTooltip="Editar" tooltipPosition="top"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarCategoria(categoria)"
-                    pTooltip="Eliminar" tooltipPosition="top"></button>
+                <span class="p-column-title font-bold">Acciones</span>
+                <div>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarCategoria(categoria)"
+                        pTooltip="Editar" tooltipPosition="top"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarCategoria(categoria)"
+                        pTooltip="Eliminar" tooltipPosition="top"></button>
+                </div>
             </td>
         </tr>
     </ng-template>
