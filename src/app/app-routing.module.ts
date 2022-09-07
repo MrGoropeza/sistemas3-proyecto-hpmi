@@ -5,6 +5,7 @@ import { ArticuloPageComponent } from './pages/articulo-page/articulo-page.compo
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
+import { MovimientosPageComponent } from './pages/movimientos-page/movimientos-page.component';
 import { PlantasSectoresPageComponent } from './pages/plantas-sectores-page/plantas-sectores-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
 
@@ -61,6 +62,7 @@ const routes: Routes = [
             component: ArticuloPageComponent,
             title: "Artículos"
           },
+          {path:"abmMovimientos",data: {breadcrumb: "Movimientos"},component: MovimientosPageComponent,title:"Movimientos"}
         ]
       },
       {

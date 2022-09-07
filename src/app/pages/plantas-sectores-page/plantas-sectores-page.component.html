@@ -2,6 +2,7 @@
 <p-toast></p-toast>
 <!-- Llamando al confirmation service puedo mandar un dialog de confirmacion -->
 <p-confirmDialog></p-confirmDialog>
+
 <div class="grid flex">
     <div class="col">
         <h3 class="mx-3 p-1 my-0">Plantas</h3>
@@ -12,4 +13,6 @@
         <app-sector-abm></app-sector-abm>
     </div>
 </div>
-<button pButton type="button" [routerLink]="['..']"  icon="pi pi-twitter" style="float: right;"></button>
+<div class="grid p-3">
+    <button pButton type="button" [routerLink]="['..']"  icon="pi pi-arrow-left" label="Volver" ></button>
+</div>

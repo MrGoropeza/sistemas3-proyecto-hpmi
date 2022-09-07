@@ -23,6 +23,8 @@ import { PlantaABMComponent } from './pages/plantas-sectores-page/components/pla
 import { SectorABMComponent } from './pages/plantas-sectores-page/components/sector-abm/sector-abm.component';
 import { DialogPlantaComponent } from './pages/plantas-sectores-page/components/planta-abm/components/dialog-planta/dialog-planta.component';
 import { DialogSectorComponent } from './pages/plantas-sectores-page/components/sector-abm/components/dialog-sector/dialog-sector.component';
+import { MovimientosPageComponent } from './pages/movimientos-page/movimientos-page.component';
+import { MovimientoABMComponent } from './pages/movimientos-page/components/movimiento-abm/movimiento-abm.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { DialogSectorComponent } from './pages/plantas-sectores-page/components/
     PlantaABMComponent,
     SectorABMComponent,
     DialogPlantaComponent,
-    DialogSectorComponent
+    DialogSectorComponent,
+    MovimientosPageComponent,
+    MovimientoABMComponent
   ],
   imports: [
     BrowserModule,
