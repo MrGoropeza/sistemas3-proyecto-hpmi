@@ -23,6 +23,7 @@ import { CategoriasComponent } from "./pages/categorias-unidades-page/componente
 import { CategoriasDialogComponent } from './pages/categorias-unidades-page/componentes/categorias-dialog/categorias-dialog.component';
 import { UnidadesComponent } from './pages/categorias-unidades-page/componentes/unidades/unidades.component';
 import { UnidadesDialogComponent } from './pages/categorias-unidades-page/componentes/unidades-dialog/unidades-dialog.component';
+import { AxdDialogComponent } from './pages/deposito-seleccionado-page/componentes/axd-dialog/axd-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { UnidadesDialogComponent } from './pages/categorias-unidades-page/compon
     CategoriasComponent,
     CategoriasDialogComponent,
     UnidadesComponent,
-    UnidadesDialogComponent
+    UnidadesDialogComponent,
+    AxdDialogComponent
   ],
   imports: [
     BrowserModule,

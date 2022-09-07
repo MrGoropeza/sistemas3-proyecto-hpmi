@@ -1,3 +1,4 @@
+
 <!-- Toast sirve para mostrar mensajitos -->
 <p-toast></p-toast>
 <!-- Llamando al confirmation service puedo mandar un dialog de confirmacion -->
@@ -19,6 +20,8 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <div>
+                    <button pButton pRipple label="Volver" icon="pi pi-arrow-left" 
+                        class="p-button mr-2" [routerLink]="['..']"></button>
                     <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoArticulo()"></button>
                     <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarArticulosSeleccionados()" [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
                 </div>

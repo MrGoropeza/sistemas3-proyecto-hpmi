@@ -9,15 +9,18 @@ import { ArticuloDeDepositoService } from 'src/app/services/deposito/articulo-de
   styleUrls: ['./tabla.component.css']
 })
 export class TablaComponent implements OnInit {
+
   articulos: IArticuloDeposito[] = [];
-  indice! : number;
+
+  idDepositoSeleccionado! : number;
+  
   constructor(private servicioArticulos : ArticuloDeDepositoService,
     private router : Router,
     private arouter : ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.indice = this.arouter.snapshot.params['id'];
-    this.obtenerArticulos(this.indice);
+    this.idDepositoSeleccionado = this.arouter.snapshot.params['id'];
+    this.obtenerArticulos(this.idDepositoSeleccionado);
   }
   public obtenerArticulos(id: number){
     this.servicioArticulos.getArticulos(id).then(
@@ -30,8 +33,5 @@ export class TablaComponent implements OnInit {
         }
       }
     );
-  }
-  public volver(){
-    this.router.navigate(['farmacia/abmDepositos']);
   }
 }
