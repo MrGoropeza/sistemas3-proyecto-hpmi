@@ -10,7 +10,7 @@
         <!-- Contenido de la pagina -->
 
         <p-table #dt [value]="articulos" [rows]="10" [paginator]="true"
-            [globalFilterFields]="['nombre','fechaVencimiento']" responsiveLayout="scroll"
+            [globalFilterFields]="['nombre','fechaVencimiento']" responsiveLayout="stack"
             [(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
             [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
@@ -18,26 +18,36 @@
         
 
         <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <div>
-                    <button pButton pRipple label="Volver" icon="pi pi-arrow-left" 
+            <div class="grid">
+                <div class="col">
+                    <div class="flex align-content-center flex-wrap">
+                        <button pButton pRipple label="Volver" icon="pi pi-arrow-left" 
                         class="p-button mr-2" [routerLink]="['..']"></button>
-                    <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoArticulo()"></button>
-                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarArticulosSeleccionados()" [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
+                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoArticulo()"></button>
+                        <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarArticulosSeleccionados()" [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
+                    </div>
                 </div>
-
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText class="p-inputtext-md" type="text" 
-                        (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
-                        placeholder="Buscar por nombre..." />
-                </span>
-
-                <button pButton pRipple label="Agregar Categorías/Unidades" icon="pi pi-plus" class="p-button-succes" [routerLink]="['categoriasUnidades']"></button>
+                
+                <div class="col">
+                    <div class="flex justify-content-start lg:justify-content-center align-content-center ">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText class="p-inputtext-md" type="text" 
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                                placeholder="Buscar por nombre..." />
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <div class="flex justify-content-start lg:justify-content-end align-content-center">
+                        <button pButton pRipple label="Agregar Categorías/Unidades" icon="pi pi-plus" class="p-button-succes" [routerLink]="['categoriasUnidades']"></button>
+                    </div>
+                </div>
             </div>
         </ng-template>
 
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
@@ -52,29 +62,33 @@
                 <th>Acciones</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-articulo>
+        <ng-template pTemplate="body" let-articulo let-columns="columns">
             <tr>
                 <td>
+                    <span class="p-column-title font-bold">Seleccionar</span>
                     <p-tableCheckbox [value]="articulo" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
                 </td>
-                <td>{{articulo.id}}</td>
-                <td>{{articulo.nombre}}</td>
-                <td>{{articulo.descripcion}}</td>
-                <td>{{articulo.unidad.abreviacion}}</td>
-                <td>{{articulo.categoria.nombreCategoria}}</td>
-                <td>{{articulo.fechaVencimiento!.toLocaleDateString()}}</td>
+                <td><span class="p-column-title font-bold">Id. Artículo</span>{{articulo.id}}</td>
+                <td><span class="p-column-title font-bold">Nombre</span>{{articulo.nombre}}</td>
+                <td><span class="p-column-title font-bold">Descripción</span>{{articulo.descripcion}}</td>
+                <td><span class="p-column-title font-bold">Unidad</span>{{articulo.unidad.abreviacion}}</td>
+                <td><span class="p-column-title font-bold">Categoría</span>{{articulo.categoria.nombreCategoria}}</td>
+                <td><span class="p-column-title font-bold">Fecha de Vencimiento</span>{{articulo.fechaVencimiento!.toLocaleDateString()}}</td>
                 <!-- <td>
                     <p-badge value="{{buscarLabelEstado(articulo.estadoStock)}}"
                              severity="{{buscarSeverityEstado(articulo.estadoStock)}}"
                              size="large"
                              styleClass="text-sm"></p-badge>
                 </td> -->
-                <td>{{articulo.stock}}</td>
+                <td><span class="p-column-title font-bold">Stock</span>{{articulo.stock}}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"
-                        pTooltip="Editar" tooltipPosition="top"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarArticulo(articulo)"
-                        pTooltip="Eliminar" tooltipPosition="top"></button>
+                    <span class="p-column-title font-bold">Acciones</span>
+                    <div>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarArticulo(articulo)"
+                            pTooltip="Editar" tooltipPosition="top"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarArticulo(articulo)"
+                            pTooltip="Eliminar" tooltipPosition="top"></button>
+                    </div>
                 </td>
             </tr>
         </ng-template>
