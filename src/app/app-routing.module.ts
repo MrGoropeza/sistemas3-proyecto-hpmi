@@ -5,6 +5,7 @@ import { ArticuloPageComponent } from './pages/articulo-page/articulo-page.compo
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
+import { PlantasSectoresPageComponent } from './pages/plantas-sectores-page/plantas-sectores-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
 
 // const routes2: Routes = [
@@ -47,7 +48,8 @@ const routes: Routes = [
             children:[
               {path:"",component: DepositosPageComponent, data: {breadcrumb: ""},
                 title: "Depósitos",},
-              {path: "depositoSeleccionado/:id",component : DepositoSeleccionadoPageComponent}
+              {path: "depositoSeleccionado/:id",component : DepositoSeleccionadoPageComponent},
+              {path:"platasSectores",component: PlantasSectoresPageComponent}
             ]
           },
           {

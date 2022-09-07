@@ -18,6 +18,11 @@ import { DialogComponent } from './pages/depositos-page/componentes/dialog/dialo
 import { AltaModificacionComponent } from './pages/depositos-page/componentes/alta-modificacion/alta-modificacion.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
 import { TablaComponent } from './pages/deposito-seleccionado-page/componentes/tabla/tabla.component';
+import { PlantasSectoresPageComponent } from './pages/plantas-sectores-page/plantas-sectores-page.component';
+import { PlantaABMComponent } from './pages/plantas-sectores-page/components/planta-abm/planta-abm.component';
+import { SectorABMComponent } from './pages/plantas-sectores-page/components/sector-abm/sector-abm.component';
+import { DialogPlantaComponent } from './pages/plantas-sectores-page/components/planta-abm/components/dialog-planta/dialog-planta.component';
+import { DialogSectorComponent } from './pages/plantas-sectores-page/components/sector-abm/components/dialog-sector/dialog-sector.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,12 @@ import { TablaComponent } from './pages/deposito-seleccionado-page/componentes/t
     LoginPageComponent,
     UsuariosPageComponent,
     FarmaciaPageComponent,
-    TablaComponent
+    TablaComponent,
+    PlantasSectoresPageComponent,
+    PlantaABMComponent,
+    SectorABMComponent,
+    DialogPlantaComponent,
+    DialogSectorComponent
   ],
   imports: [
     BrowserModule,

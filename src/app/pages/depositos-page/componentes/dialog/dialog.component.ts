@@ -33,7 +33,6 @@ export class DialogComponent implements OnInit {
       this.depositoGuardado.emit(this.servicioDepositos.getDeposito());
       console.log(this.deposito.idDeposito);
       this.servicioDepositos.limpiarDeposito();
-      this.messageService.add({severity:'success', summary: 'Éxito', detail: 'Deposito registrado', life: 3000});
       this.ocultar();
     }else{
       this.band = true;
