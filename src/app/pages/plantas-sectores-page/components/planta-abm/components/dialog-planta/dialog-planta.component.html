@@ -1,0 +1,26 @@
+<p-dialog header="{{titulo}}" [(visible)]="display"  contentStyleClass="overflow-visible" [modal]="true" (onHide)="ocultarDialog()" styleClass="p-fluid w-5 overflow">
+    <form ngform>
+        <div class="field" *ngIf="planta.idPlanta !=null">
+            <div class="flex justify-content-start p-2">
+                <label for="">ID</label>
+            </div>
+            <input id="id" type="id" readonly pInputText [(ngModel)]="planta.idPlanta" required autofocus 
+                 name="id"/>
+        </div>
+        <div class="field">
+            <div class="flex justify-content-start p-2">
+                <label for="">Nombre</label>
+            </div>
+            <input id="nombre" type="nombre" pInputText [(ngModel)]="planta.nombre"  
+                placeholder="Nombre de la Planta" name="nombre"/>
+        </div>
+                
+    </form>
+    <div *ngIf="band" class="flex align-self-start">
+        <p >Debe completar todos los campos para guardar una planta.</p>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton  pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="ocultarDialog()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarPlanta()"></button>
+    </ng-template>
+</p-dialog>

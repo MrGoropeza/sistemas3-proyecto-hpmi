@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Deposito } from 'src/app/models/Deposito';
 import { IDeposito } from 'src/app/models/IDeposito';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -52,18 +52,21 @@ export class DepositosPageComponent implements OnInit {
   }
   public borrarDepositosSeleccionados(){
     this.confirmationService.confirm({
-      message: '¿Estás seguro que queres eliminar los productos seleccionados?',
+      message: '¿Estás seguro que desea eliminar los depositos seleccionados?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: "Sí",
       rejectLabel: "No",
       accept: () => {
           this.listaDepositos = this.listaDepositos.filter(val => !this.depositosSeleccionados.includes(val));
+          this.depositosSeleccionados.forEach(element => {
+            this.servicioDepositos.disable(element);
+          });
           this.depositosSeleccionados = [];
           this.messageService.add({
             severity:'success', 
             summary: 'Éxito', 
-            detail: 'Artículos eliminados', life: 3000
+            detail: 'Depositos eliminados', life: 3000
           });
       }
   });
@@ -85,11 +88,12 @@ export class DepositosPageComponent implements OnInit {
       accept: () => {
           this.servicioDepositos.disable(deposito);
           this.listaDepositos = this.listaDepositos.filter(val => val.idDeposito !== deposito.idDeposito);
+          this.depositosSeleccionados =this.depositosSeleccionados.filter(val => val.idDeposito !== deposito.idDeposito);
           this.deposito = new Deposito();
           this.messageService.add({
             severity:'success',
             summary: 'Éxito', 
-            detail: 'Articulo eliminado', 
+            detail: 'Deposito eliminado', 
             life: 3000,
           });
       }
@@ -111,6 +115,11 @@ export class DepositosPageComponent implements OnInit {
             deposito.idDeposito = data.data[0].idDeposito;
             this.listaDepositos.push(deposito);
             this.listaDepositos = [...this.listaDepositos];
+            this.messageService.add({
+              severity:'success', 
+              summary: 'Éxito', 
+              detail: 'Deposito Guardado con exito', life: 3000
+            });
           }
         }
       );
@@ -118,6 +127,11 @@ export class DepositosPageComponent implements OnInit {
     }else{
       //update incoming
       this.servicioDepositos.update(deposito);
+      this.messageService.add({
+        severity:'success', 
+        summary: 'Éxito', 
+        detail: 'Deposito Actualizado con exito', life: 3000
+      });
     }
 
   }

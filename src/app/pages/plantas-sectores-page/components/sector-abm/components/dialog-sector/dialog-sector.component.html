@@ -1,0 +1,34 @@
+<p-dialog header="{{titulo}}" [(visible)]="display"  contentStyleClass="overflow-visible" [modal]="true" (onHide)="ocultarDialog()" styleClass="p-fluid w-5 overflow">
+    <form>
+        <div class="field" *ngIf="sector.idSector!=null">
+            <div class="flex justify-content-start p-2">
+                <label for="">ID</label>
+            </div>
+            <input id="id" type="id" readonly pInputText [(ngModel)]="sector.idSector" required autofocus [ngModelOptions]="{standalone: true}"
+                 />
+        </div>
+        <div class="field">
+            <div class="flex justify-content-start py-2">
+                <label for="">Nombre</label>
+            </div>
+            <input id="nombre" type="nombre" pInputText [(ngModel)]="sector.nombre"  
+                placeholder="Nombre del sector" [ngModelOptions]="{standalone: true}" />
+        </div>
+        <div class="field">
+            <label for="planta">Planta</label>
+            <p-dropdown [(ngModel)]="sector.idPlanta" [virtualScrollItemSize]="30"  inputId="idPlanta" [options]="plantas" placeholder="Seleccionar planta" optionLabel="nombre" optionValue="idPlanta" [showClear]="true"  [ngModelOptions]="{standalone: true}">
+                <ng-template let-option pTemplate="item">
+                    {{option.nombre}}
+                </ng-template>
+            </p-dropdown>
+        </div>   
+    </form>
+    <div *ngIf="band" class="flex align-self-start">
+        <p >Debe completar todos los campos para guardar un sector.</p>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton  pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="ocultarDialog()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarPlanta()"></button>
+    </ng-template>
+</p-dialog>
+

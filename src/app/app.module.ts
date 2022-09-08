@@ -25,6 +25,15 @@ import { UnidadesComponent } from './pages/categorias-unidades-page/componentes/
 import { UnidadesDialogComponent } from './pages/categorias-unidades-page/componentes/unidades-dialog/unidades-dialog.component';
 import { AxdDialogComponent } from './pages/deposito-seleccionado-page/componentes/axd-dialog/axd-dialog.component';
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
+import { PlantasSectoresPageComponent } from './pages/plantas-sectores-page/plantas-sectores-page.component';
+import { PlantaABMComponent } from './pages/plantas-sectores-page/components/planta-abm/planta-abm.component';
+import { SectorABMComponent } from './pages/plantas-sectores-page/components/sector-abm/sector-abm.component';
+import { DialogPlantaComponent } from './pages/plantas-sectores-page/components/planta-abm/components/dialog-planta/dialog-planta.component';
+import { DialogSectorComponent } from './pages/plantas-sectores-page/components/sector-abm/components/dialog-sector/dialog-sector.component';
+import { MovimientosPageComponent } from './pages/movimientos-page/movimientos-page.component';
+import { MovimientoABMComponent } from './pages/movimientos-page/components/movimiento-abm/movimiento-abm.component';
+import { DetalleDialogComponent } from './pages/movimientos-page/components/detalle-dialog/detalle-dialog.component';
+import { DetalleABMComponent } from './pages/movimientos-page/components/detalle-abm/detalle-abm.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +49,15 @@ import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
     UsuariosPageComponent,
     FarmaciaPageComponent,
     TablaComponent,
+    PlantasSectoresPageComponent,
+    PlantaABMComponent,
+    SectorABMComponent,
+    DialogPlantaComponent,
+    DialogSectorComponent,
+    MovimientosPageComponent,
+    MovimientoABMComponent,
+    DetalleDialogComponent,
+    DetalleABMComponent,
     CategoriasUnidadesPageComponent,
     CategoriasComponent,
     CategoriasDialogComponent,

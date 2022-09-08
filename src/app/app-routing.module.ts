@@ -6,6 +6,8 @@ import { CategoriasUnidadesPageComponent } from './pages/categorias-unidades-pag
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
+import { MovimientosPageComponent } from './pages/movimientos-page/movimientos-page.component';
+import { PlantasSectoresPageComponent } from './pages/plantas-sectores-page/plantas-sectores-page.component';
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
 
@@ -68,7 +70,8 @@ const routes: Routes = [
                 },
                 title: "Artículos en Deposito",
                 component : DepositoSeleccionadoPageComponent
-              }
+              },
+              {path:"platasSectores",component: PlantasSectoresPageComponent}
             ]
           },
           {
@@ -94,6 +97,7 @@ const routes: Routes = [
             ],
             
           },
+          {path:"abmMovimientos",data: {breadcrumb: "Movimientos"},component: MovimientosPageComponent,title:"Movimientos"}
         ]
       },
       {

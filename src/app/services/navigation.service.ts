@@ -20,6 +20,11 @@ export class NavigationService{
             label: 'ABM Artículos',
             icon: "bi bi-boxes",
             routerLink: "/farmacia/abmArticulos",
+          },
+          {
+            label: 'Movimientos',
+            icon: 'pi pi-sort-alt',
+            routerLink: "/farmacia/abmMovimientos"
           }
         ]
       },

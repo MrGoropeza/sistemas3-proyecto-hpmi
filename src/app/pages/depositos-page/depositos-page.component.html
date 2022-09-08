@@ -12,7 +12,7 @@
         <!-- Contenido de la pagina -->
 
         <p-table #dt [value]="listaDepositos" [rows]="5" [paginator]="true" [globalFilterFields]="['id','tipo','sector','planta']" responsiveLayout="scroll"
-        [(selection)]="depositosSeleccionados" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+        [(selection)]="depositosSeleccionados" [rowHover]="true" dataKey="idDeposito" [showCurrentPageReport]="true"
         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
         [showCurrentPageReport]="false">
         <ng-template pTemplate="caption">
@@ -20,7 +20,8 @@
                 <!-- botones de arriba -->
                 <div>
                     <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoDeposito()"></button>
-                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarDepositosSeleccionados()" [disabled]="!depositosSeleccionados || !depositosSeleccionados.length"></button>
+                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarDepositosSeleccionados()" [disabled]="!depositosSeleccionados || !depositosSeleccionados.length"></button>
+                    <button pButton pRipple  label="Ver plantas y sectores" icon="pi pi-search" class="p-button-info" [routerLink]="['platasSectores']"></button>
                 </div>
 
                 <span class="p-input-icon-left">
@@ -61,7 +62,7 @@
 
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                En total hay {{listaDepositos ? listaDepositos.length : 0 }} articulos.
+                En total hay {{listaDepositos ? listaDepositos.length : 0 }} Depositos.
             </div>
         </ng-template>
     </p-table>

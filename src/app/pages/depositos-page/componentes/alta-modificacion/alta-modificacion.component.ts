@@ -19,6 +19,7 @@ export class AltaModificacionComponent implements OnInit {
   listaTipoDepositos : ITipoDeposito[] = [];
   plantas : Planta[] = [];
   sectores : Sector[] = [];
+  verSectores : boolean = false;
   constructor(private servicioDepositos : DepositoService,
     private servicioSectores : SectorService,
     private servicioPlantas : PlantaService) { }
@@ -33,7 +34,7 @@ export class AltaModificacionComponent implements OnInit {
     //this.listaTipoDepositos = this.servicioDepositos.getTipoDepositos();
     this.obtenerTipo();
     this.obtenerPlanta();
-    this.obtenerSector();
+    //this.obtenerSector();
   }
   private obtenerTipo(){
     // this.servicioDepositos.getTipoDepositos().forEach(tipo => {
@@ -62,22 +63,30 @@ export class AltaModificacionComponent implements OnInit {
         (error) => console.log("tenemos error: ",error)
       );
     }
-    private obtenerSector(){
-      this.servicioSectores.getSector().then(
-        (data) =>{
-          if(data.data != null){
-            this.sectores = data.data;
-          }
+  //   private obtenerSector(){
+  //     this.servicioSectores.getSector().then(
+  //       (data) =>{
+  //         if(data.data != null){
+  //           this.sectores = data.data;
+  //         }
   
-        },
-        (error) => console.log("tenemos error: ",error)
-    );
-  }
+  //       },
+  //       (error) => console.log("tenemos error: ",error)
+  //   );
+  // }
   public actualizar(){
     this.servicioDepositos.setDeposito(this.deposito);
     
   }
-
-
-
+  public mostrarSectoresPlanta(){
+    this.actualizar();
+    this.servicioSectores
+      .getSectorXPlanta(this.servicioDepositos.getDeposito().planta)
+      .then((sectores) => {
+        if (sectores.data) {
+          this.sectores = sectores.data;
+          this.verSectores = true;
+        }
+      });
+  }
 }
