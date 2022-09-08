@@ -1,53 +1,81 @@
-<p-table #dt [value]="articulos" [rows]="10" [paginator]="true" 
-    [globalFilterFields]="['nombre','categoria.nombre','fechaVencimiento']" responsiveLayout="scroll"
-    [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+<p-table #dt [value]="articulos" [rows]="10" [paginator]="true"
+    [globalFilterFields]="['nombre','fechaVencimiento']" responsiveLayout="stack"
+    [(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-    [showCurrentPageReport]="false">
+    [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+    [loading]="cargando" [totalRecords]="cantTotalArticulos">
 
 
-<ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-        <div>
-            <button pButton pRipple label="Solicitar Artículo" icon="pi pi-plus" class="p-button-success"
-                (click)="solicitarArticulo()"></button>
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="flex align-content-center flex-wrap">
+                    <button pButton pRipple label="Borrar"
+                        icon="pi pi-trash" class="p-button-danger" 
+                        (click)="transferirSeleccion()"
+                        [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="flex justify-content-start lg:justify-content-end align-content-center ">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" 
+                            (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                            placeholder="Buscar por nombre..." />
+                    </span>
+                </div>
+            </div>
+            
         </div>
-        <span class="p-input-icon-left">
-            <i class="pi pi-search"></i>
-            <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-        </span>
-    </div>
-</ng-template>
+    </ng-template>
 
-<ng-template pTemplate="header">
-    <tr>
-        <th style="width: 3rem">
-            <p-tableHeaderCheckbox pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
-        </th>
-        <th># Artículo</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Unidad</th>
-        <th>Stock</th>
-    </tr>
-</ng-template>
-<ng-template pTemplate="body" let-articulo>
-    <tr>
-        <td>
-            <p-tableCheckbox [value]="articulo" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
-        </td>
-        <td>{{articulo.id}}</td>
-        <td>{{articulo.nombre.nombre}}</td>
-        <td>{{articulo.descripcion.descripcion}}</td>
-        <td>{{articulo.unidad.idUnidadArticulo.abreviacion}}</td>
-        <td>{{articulo.stock}}</td>
-    </tr>
-</ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox [disabled]="false" pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
+            </th>
+            <th>Id. Artículo</th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th>Descripción</th>
+            <th>Unidad</th>
+            <th>Categoría</th>
+            <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-articulo let-columns="columns">
+        <tr>
+            <td>
+                <span class="p-column-title font-bold">Seleccionar</span>
+                <p-tableCheckbox [value]="articulo" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
+            </td>
+            <td><span class="p-column-title font-bold">Id. Artículo</span>{{articulo.id}}</td>
+            <td><span class="p-column-title font-bold">Nombre</span>{{articulo.nombre}}</td>
+            <td><span class="p-column-title font-bold">Descripción</span>{{articulo.descripcion}}</td>
+            <td><span class="p-column-title font-bold">Unidad</span>{{articulo.unidad.abreviacion}}</td>
+            <td><span class="p-column-title font-bold">Categoría</span>{{articulo.categoria.nombreCategoria}}</td>
+            <td><span class="p-column-title font-bold">Fecha de Vencimiento</span>{{articulo.fechaVencimiento! | date:"dd/MM/yyyy"}}</td>
+            <td><span class="p-column-title font-bold">Stock</span>{{articulo.stock}}</td>
+            <td>
+                <span class="p-column-title font-bold">Acciones</span>
+                <div>
+                    <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        pTooltip="Editar" tooltipPosition="top"></button> -->
+                    <button pButton pRipple icon="pi pi-arrow-up-right" class="p-button-rounded p-button-warning"
+                        pTooltip="Eliminar" tooltipPosition="top" (click)="transferirArticulo(articulo)"></button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
 
-<ng-template pTemplate="summary">
-    <div class="flex align-items-center justify-content-between">
-        En total hay {{articulos ? articulos.length : 0 }} articulos.
-    </div>
-</ng-template>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{cantTotalArticulos ? cantTotalArticulos : 0 }} articulos.
+        </div>
+    </ng-template>
 </p-table>
 
-<app-axd-dialog [(dialog)]="dialog"></app-axd-dialog>
+<app-axd-dialog [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"></app-axd-dialog>

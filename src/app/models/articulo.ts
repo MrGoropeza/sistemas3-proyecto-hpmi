@@ -1,4 +1,5 @@
 import { CategoriaArticulo } from "./categoriaArticulo";
+import { IArticuloDepositoView } from "./IArticuloDeposito";
 import { UnidadArticulo } from "./unidadArticulo";
 
 export class Articulo {
@@ -51,5 +52,24 @@ export class Articulo {
         return this;
     }
 
+    static fromArticulosDepositoView(obj: IArticuloDepositoView): Articulo{
+        let categoria = new CategoriaArticulo();
+        categoria.id = obj.idCategoriaArticulo;
+        categoria.nombreCategoria = obj.nombreCategoria;
+
+        let unidad = new UnidadArticulo();
+        unidad.id = obj.idUnidadArticulo;
+        unidad.nombre = obj.nombreUnidad;
+        unidad.abreviacion = obj.abreviacionUnidad;
+
+        return new Articulo()
+            .setId(obj.id)
+            .setNombre(obj.nombre)
+            .setDescripcion(obj.descripcion)
+            .setFechaVencimiento(obj.fechaVencimiento)
+            .setStock(obj.stock)
+            .setCategoria(categoria)
+            .setUnidad(unidad);
+    }
 
 }

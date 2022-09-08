@@ -9,14 +9,14 @@
     <ng-template pTemplate="caption">
         <div class="grid align-items-center justify-content-between">
             <div class="col">
-                <div class="flex md:justify-content-start justify-content-center">
+                <div class="flex justify-content-center lg:justify-content-start">
                     <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevaUnidad()"></button>
                     <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="borrarUnidadesSeleccionadas()" [disabled]="!unidadesSeleccionadas || !unidadesSeleccionadas.length"></button>    
                 </div>
             </div>
 
             <div class="col">
-                <div class="flex md:justify-content-end justify-content-center">
+                <div class="flex lg:justify-content-end justify-content-center">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText class="p-inputtext-sm" type="text" 
@@ -51,7 +51,7 @@
             <td><span class="p-column-title font-bold">Abreviación</span>{{unidad.abreviacion}}</td>
             <td>
                 <span class="p-column-title font-bold">Acciones</span>
-                <div>
+                <div class="flex">
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarUnidad(unidad)"
                         pTooltip="Editar" tooltipPosition="top"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarUnidad(unidad)"

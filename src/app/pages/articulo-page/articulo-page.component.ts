@@ -87,6 +87,7 @@ export class ArticuloPageComponent implements OnInit {
 
     // console.log(event);
     this.cargando = true;
+    this.articulos = [];
 
     
 

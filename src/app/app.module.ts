@@ -44,7 +44,7 @@ import { AxdDialogComponent } from './pages/deposito-seleccionado-page/component
     CategoriasDialogComponent,
     UnidadesComponent,
     UnidadesDialogComponent,
-    AxdDialogComponent
+    AxdDialogComponent,
   ],
   imports: [
     BrowserModule,

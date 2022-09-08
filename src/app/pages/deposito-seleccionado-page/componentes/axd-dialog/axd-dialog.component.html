@@ -1,8 +1,23 @@
 <p-dialog [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true"
-    header="Solicitud de Artículo"
-    styleClass="p-fluid w-30rem overflow-y-scroll"
+    header="Solicitud de Artículos"
+    styleClass="p-fluid w-10"
     contentStyleClass="max-h-full overflow-y-visible">
-    <p-steps>
-        
-    </p-steps>
+    
+    <form [formGroup]="formTransferencia">
+        <label for="destino">Depósito destino</label>
+        <p-multiSelect id="destino" formControlName="destino"
+            filterPlaceHolder="Buscar por ID de Depósito..."
+            emptyFilterMessage="Ningún deposito con el ID ingresado."
+            [options]="destinos" [selectionLimit]="1" optionLabel="idDeposito"
+            [lazy]="false" (onLazyLoad)="onLazyLoad($event)"
+            [virtualScroll]="true" [virtualScrollItemSize]="5">
+            <ng-template pTemplate="item" let-destino>
+                Depósito ID: {{destino.idDeposito}} - Sector: {{destino.idSector}} - Planta: {{destino.idPlanta}}
+            </ng-template>
+            
+        </p-multiSelect>
+    </form>
+
+    <p>{{formTransferencia.getRawValue() | json}}</p>
+
 </p-dialog>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IArticuloDeposito } from 'src/app/models/IArticuloDeposito';
+import { LazyLoadEvent } from 'primeng/api';
+import { Articulo } from 'src/app/models/articulo';
+import { SupabaseDepositoSeleccionadoService } from 'src/app/services/deposito-seleccionado/supabase-deposito-seleccionado.service';
 import { ArticuloDeDepositoService } from 'src/app/services/deposito/articulo-de-deposito.service';
 
 @Component({
@@ -10,35 +12,57 @@ import { ArticuloDeDepositoService } from 'src/app/services/deposito/articulo-de
 })
 export class TablaComponent implements OnInit {
 
-  articulos: IArticuloDeposito[] = [];
+  articulo!: Articulo;
+  articulos: Articulo[] = [];
+  articulosSeleccionados: Articulo[] = [];
 
-  dialog: boolean = true;
+  cantTotalArticulos!: number;
+
+  dialog: boolean = false;
+  cargando: boolean = false;
 
   idDepositoSeleccionado! : number;
   
-  constructor(private servicioArticulos : ArticuloDeDepositoService,
+  constructor(
+    private servicioArticulos : ArticuloDeDepositoService,
+    private supabaseService : SupabaseDepositoSeleccionadoService,
     private router : Router,
     private arouter : ActivatedRoute) { }
 
   ngOnInit(): void {
     this.idDepositoSeleccionado = this.arouter.snapshot.params['id'];
-    this.obtenerArticulos(this.idDepositoSeleccionado);
   }
 
-  public obtenerArticulos(id: number){
-    this.servicioArticulos.getArticulos(id).then(
-      (articulos)=>{
-        if(articulos.data != null){
-          this.articulos = articulos.data;
-          console.log(this.articulos[0]);
-          // console.log(this.articulos[0].unidad.id);
-          
+  async onLazyLoad(event: LazyLoadEvent){
+
+    this.cargando = true;
+    this.articulos = [];
+
+    let request = await this.supabaseService.readArticulosView(this.idDepositoSeleccionado, event);
+
+    this.cantTotalArticulos = await this.supabaseService.getCantArticulos(this.idDepositoSeleccionado);
+
+    if(request.data){
+      request.data.forEach(
+        (element) => {
+          this.articulos.push(Articulo.fromArticulosDepositoView(element));
         }
-      }
-    );
+      );
+
+      // console.log(request.data);
+    }else{
+      console.log(request.error);
+    }
+
+    this.cargando = false;
   }
 
-  solicitarArticulo(){
+  transferirSeleccion(){
+    this.dialog = true;
+  }
+
+  transferirArticulo(articulo: Articulo){
+    this.articulo = articulo;
     this.dialog = true;
   }
 }
