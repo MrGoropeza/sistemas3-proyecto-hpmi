@@ -13,12 +13,12 @@ export class NavigationService{
         items:[
           { 
             label: 'ABM Depósitos',
-            icon: 'pi pi-fw pi-building',
+            icon: 'bi bi-box-seam',
             routerLink: "/farmacia/abmDepositos",
           },
           {
             label: 'ABM Artículos',
-            icon: "pi pi-fw pi-box",
+            icon: "bi bi-boxes",
             routerLink: "/farmacia/abmArticulos",
           }
         ]
