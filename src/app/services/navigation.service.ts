@@ -68,8 +68,11 @@ export class NavigationService{
          
          if(!(label === null || label === undefined) && label !== '') {
             if(label !== actualroute.snapshot.data["breadcrumb"]){
+              if(url === ""){
+                url = "/";
+              }
               breadcrumbs.push({label, routerLink: url, target: "_self"});
-              // console.log(label);
+              console.log(`label: ${label}, routerLink: ${url}`);
             }
             
          }

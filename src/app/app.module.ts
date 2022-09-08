@@ -24,6 +24,7 @@ import { CategoriasDialogComponent } from './pages/categorias-unidades-page/comp
 import { UnidadesComponent } from './pages/categorias-unidades-page/componentes/unidades/unidades.component';
 import { UnidadesDialogComponent } from './pages/categorias-unidades-page/componentes/unidades-dialog/unidades-dialog.component';
 import { AxdDialogComponent } from './pages/deposito-seleccionado-page/componentes/axd-dialog/axd-dialog.component';
+import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AxdDialogComponent } from './pages/deposito-seleccionado-page/component
     UnidadesComponent,
     UnidadesDialogComponent,
     AxdDialogComponent,
+    InicioPageComponent,
   ],
   imports: [
     BrowserModule,

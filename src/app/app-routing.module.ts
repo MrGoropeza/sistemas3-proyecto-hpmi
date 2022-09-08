@@ -6,6 +6,7 @@ import { CategoriasUnidadesPageComponent } from './pages/categorias-unidades-pag
 import { DepositoSeleccionadoPageComponent } from './pages/deposito-seleccionado-page/deposito-seleccionado-page.component';
 import { DepositosPageComponent } from './pages/depositos-page/depositos-page.component';
 import { FarmaciaPageComponent } from './pages/farmacia-page/farmacia-page.component';
+import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
 
 // const routes2: Routes = [
@@ -20,8 +21,16 @@ const routes: Routes = [
     data: {
       breadcrumb: "Inicio"
     },
-    title: "Inicio",
     children: [
+      {
+        path: "",
+        pathMatch: "full",
+        data: {
+          breadcrumb: ""
+        },
+        component: InicioPageComponent,
+        title: "Inicio HPMI"
+      },
       {
         path: "farmacia",
         data: {
