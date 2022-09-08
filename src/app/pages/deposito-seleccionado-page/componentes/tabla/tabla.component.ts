@@ -12,7 +12,7 @@ export class TablaComponent implements OnInit {
 
   articulos: IArticuloDeposito[] = [];
 
-  dialog!: boolean;
+  dialog: boolean = true;
 
   idDepositoSeleccionado! : number;
   

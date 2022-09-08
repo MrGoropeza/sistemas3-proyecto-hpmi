@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-axd-dialog',
@@ -9,6 +10,10 @@ export class AxdDialogComponent implements OnInit {
 
   @Input() dialog!: boolean;
   @Output() dialogChange = new EventEmitter<boolean>();
+
+  pasos: MenuItem[] = [
+    {}
+  ];
 
   constructor() { }
 

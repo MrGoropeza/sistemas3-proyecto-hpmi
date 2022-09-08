@@ -23,6 +23,8 @@ import {CalendarModule} from 'primeng/calendar';
 import {BadgeModule} from 'primeng/badge';
 import {MenuModule} from 'primeng/menu';
 import {TooltipModule} from 'primeng/tooltip';
+import {StepsModule} from 'primeng/steps';
+import {ScrollTopModule} from 'primeng/scrolltop';
 
 @NgModule({
   declarations: [],
@@ -52,6 +54,8 @@ import {TooltipModule} from 'primeng/tooltip';
     BadgeModule,
     MenuModule,
     TooltipModule,
+    StepsModule,
+    ScrollTopModule
   ]
 })
 export class PrimengImportsModule { }
