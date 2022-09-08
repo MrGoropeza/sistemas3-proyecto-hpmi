@@ -8,17 +8,17 @@
 
     <ng-template pTemplate="caption">
         <div class="grid">
-            <div class="col">
+            <!-- <div class="col">
                 <div class="flex align-content-center flex-wrap">
-                    <button pButton pRipple label="Borrar"
-                        icon="pi pi-trash" class="p-button-danger" 
+                    <button pButton pRipple label="Transferir Artículos"
+                        icon="pi pi-arrow-up-right" class="p-button-danger" 
                         (click)="transferirSeleccion()"
                         [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
                 </div>
-            </div>
+            </div> -->
             
             <div class="col">
-                <div class="flex justify-content-start lg:justify-content-end align-content-center ">
+                <div class="flex justify-content-start lg:justify-content-center align-content-center ">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText class="p-inputtext-md" type="text" 
@@ -64,8 +64,8 @@
                 <div>
                     <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                         pTooltip="Editar" tooltipPosition="top"></button> -->
-                    <button pButton pRipple icon="pi pi-arrow-up-right" class="p-button-rounded p-button-warning"
-                        pTooltip="Eliminar" tooltipPosition="top" (click)="transferirArticulo(articulo)"></button>
+                    <button pButton pRipple icon="pi pi-arrow-up-right" class="p-button-rounded p-button-danger"
+                        pTooltip="Transferir" tooltipPosition="top" (click)="transferirArticulo(articulo)"></button>
                 </div>
             </td>
         </tr>
@@ -78,4 +78,5 @@
     </ng-template>
 </p-table>
 
-<app-axd-dialog [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"></app-axd-dialog>
+<app-axd-dialog [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"
+    [articulo]="articulo"></app-axd-dialog>

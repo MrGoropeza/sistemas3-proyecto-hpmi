@@ -55,9 +55,7 @@ export class NavigationService{
   
       for (const child of children) {
          const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
-         if (routeURL !== '') {
-            url += `/${routeURL}`;
-         }
+         url += `/${routeURL}`;
          
          let label = child.snapshot.data["breadcrumb"];
 
@@ -68,11 +66,8 @@ export class NavigationService{
          
          if(!(label === null || label === undefined) && label !== '') {
             if(label !== actualroute.snapshot.data["breadcrumb"]){
-              if(url === ""){
-                url = "/";
-              }
               breadcrumbs.push({label, routerLink: url, target: "_self"});
-              console.log(`label: ${label}, routerLink: ${url}`);
+              // console.log(`label: ${label}, routerLink: ${url}`);
             }
             
          }

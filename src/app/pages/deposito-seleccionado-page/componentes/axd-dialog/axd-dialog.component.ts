@@ -17,14 +17,16 @@ export class AxdDialogComponent implements OnInit {
   @Output() dialogChange = new EventEmitter<boolean>();
 
   @Input() articulo!: Articulo;
-  @Input() articulosSeleccionados: Articulo[] = [];
 
   @Input() idDepositoSeleccionado!: number;
   destinos: Deposito[] = [];
 
   formTransferencia = this.formBuilder.group({
-    destino: ["", Validators.required]
+    destino: [null, Validators.required],
+    cantidad: [0, [Validators.required, Validators.min(0)]]
   });
+
+  confirmado: boolean = false;
 
   constructor(
     private supabaseService: SupabaseDepositoSeleccionadoService,
@@ -36,32 +38,33 @@ export class AxdDialogComponent implements OnInit {
   }
 
   async onLazyLoad(event?: LazyLoadEvent){
-    console.log("lazy load del dialog");
-    console.log(event);
-
     if(this.idDepositoSeleccionado){
       let request = await this.supabaseService.getDepositosDestinos(this.idDepositoSeleccionado);
       if(request.data){
         request.data.map(
-          (value, index) => {
-            console.log(value);
-            
+          (value) => {
             this.destinos.push(value);
           }
         )
-        console.log(request.data);
       }else{
         console.log(request.error);
       }
     }
-    
-    
   }
 
   ocultarDialog(){
     this.dialog = false;
     this.dialogChange.emit(false);
-    
+    this.confirmado = false;
   }
+
+  async realizarTransferencia(){
+    await this.supabaseService.realizarTransferencia(
+      this.idDepositoSeleccionado,
+      (this.formTransferencia.controls["destino"].value![0] as any).idDeposito,
+      this.articulo,
+      this.formTransferencia.controls["cantidad"].value!);
+  }
+
 
 }

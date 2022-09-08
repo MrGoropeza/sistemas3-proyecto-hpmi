@@ -1,23 +1,52 @@
 <p-dialog [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true"
-    header="Solicitud de Artículos"
-    styleClass="p-fluid w-10"
+    header="Transferencia de Artículo"
+    styleClass="p-fluid w-30rem"
     contentStyleClass="max-h-full overflow-y-visible">
+
+    <div *ngIf="articulo" class="mb-4">
+        <h3 class="m-1">Artículo seleccionado:</h3>
+        <ul>
+            <li>
+                {{articulo.nombre}}
+                <small>({{articulo.descripcion}})</small>
+            </li>
+        </ul>
+    </div>
     
     <form [formGroup]="formTransferencia">
-        <label for="destino">Depósito destino</label>
-        <p-multiSelect id="destino" formControlName="destino"
-            filterPlaceHolder="Buscar por ID de Depósito..."
-            emptyFilterMessage="Ningún deposito con el ID ingresado."
-            [options]="destinos" [selectionLimit]="1" optionLabel="idDeposito"
-            [lazy]="false" (onLazyLoad)="onLazyLoad($event)"
-            [virtualScroll]="true" [virtualScrollItemSize]="5">
-            <ng-template pTemplate="item" let-destino>
-                Depósito ID: {{destino.idDeposito}} - Sector: {{destino.idSector}} - Planta: {{destino.idPlanta}}
-            </ng-template>
-            
-        </p-multiSelect>
+        <div class="field">
+            <label for="destino">Depósito destino</label>
+            <p-multiSelect id="destino" formControlName="destino"
+                filterPlaceHolder="Buscar por ID de Depósito..."
+                emptyFilterMessage="Ningún deposito con el ID ingresado."
+                [options]="destinos" [selectionLimit]="1" optionLabel="idDeposito"
+                [lazy]="false" (onLazyLoad)="onLazyLoad($event)"
+                [virtualScroll]="true" [virtualScrollItemSize]="5">
+                <ng-template pTemplate="item" let-destino>
+                    Depósito ID: {{destino.idDeposito}} - Sector: {{destino.idSector}} - Planta: {{destino.idPlanta}}
+                </ng-template>
+            </p-multiSelect>
+            <small id="destino-help" class="p-error block">Selección de depósito requerida.</small>
+        </div>
+
+        <div class="field">
+            <label for="cantidad">Cantidad a transferir</label>
+            <input id="cantidad" pInputText type="number" min="0"
+                formControlName="cantidad">
+            <small id="cantidad-help" class="p-error block">Cantidad requerida.</small>
+        </div>
+        
     </form>
 
     <p>{{formTransferencia.getRawValue() | json}}</p>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            class="p-button-text" (click)="ocultarDialog()"
+            [loading]="confirmado"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+            class="p-button-text" (click)="realizarTransferencia()"
+            [loading]="confirmado"></button>
+    </ng-template>
 
 </p-dialog>
