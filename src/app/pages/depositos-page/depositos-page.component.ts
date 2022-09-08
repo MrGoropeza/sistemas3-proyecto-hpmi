@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Deposito } from 'src/app/models/Deposito';
 import { IDeposito } from 'src/app/models/IDeposito';
 import { ConfirmationService, MessageService } from 'primeng/api';

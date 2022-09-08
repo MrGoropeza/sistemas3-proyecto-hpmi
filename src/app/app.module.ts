@@ -25,6 +25,8 @@ import { DialogPlantaComponent } from './pages/plantas-sectores-page/components/
 import { DialogSectorComponent } from './pages/plantas-sectores-page/components/sector-abm/components/dialog-sector/dialog-sector.component';
 import { MovimientosPageComponent } from './pages/movimientos-page/movimientos-page.component';
 import { MovimientoABMComponent } from './pages/movimientos-page/components/movimiento-abm/movimiento-abm.component';
+import { DetalleDialogComponent } from './pages/movimientos-page/components/detalle-dialog/detalle-dialog.component';
+import { DetalleABMComponent } from './pages/movimientos-page/components/detalle-abm/detalle-abm.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { MovimientoABMComponent } from './pages/movimientos-page/components/movi
     DialogPlantaComponent,
     DialogSectorComponent,
     MovimientosPageComponent,
-    MovimientoABMComponent
+    MovimientoABMComponent,
+    DetalleDialogComponent,
+    DetalleABMComponent
   ],
   imports: [
     BrowserModule,

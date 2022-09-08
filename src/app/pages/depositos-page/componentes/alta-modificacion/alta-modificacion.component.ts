@@ -80,17 +80,13 @@ export class AltaModificacionComponent implements OnInit {
   }
   public mostrarSectoresPlanta(){
     this.actualizar();
-    this.servicioSectores.getSectorXPlanta(this.servicioDepositos.getDeposito().planta).then(
-      sectores =>{
-        if(sectores.data){
+    this.servicioSectores
+      .getSectorXPlanta(this.servicioDepositos.getDeposito().planta)
+      .then((sectores) => {
+        if (sectores.data) {
           this.sectores = sectores.data;
           this.verSectores = true;
         }
-      }
-    );
-
+      });
   }
-
-
-
 }

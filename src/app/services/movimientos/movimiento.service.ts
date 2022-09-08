@@ -11,7 +11,12 @@ export class MovimientoService {
   public async getMovimientos(){
     let { data: Movimiento, error } = await this.supabase.getSupabaseClient()
   .from<Movimiento>('Movimiento')
-  .select('*')
+  .select(`
+  idMovimiento,
+  fechaRegistro,
+  idDepositoFuente,
+  idDepositoDestino
+  `)
   return { data: Movimiento, error };
   }
 }

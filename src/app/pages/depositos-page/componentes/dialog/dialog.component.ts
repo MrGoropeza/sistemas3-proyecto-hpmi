@@ -29,12 +29,16 @@ export class DialogComponent implements OnInit {
   }
 
   guardar(){
-    if(this.servicioDepositos.getDeposito().planta != undefined && this.servicioDepositos.getDeposito().sector != undefined && this.servicioDepositos.getDeposito().tipo != undefined){
+    if (
+      this.servicioDepositos.getDeposito().planta != undefined &&
+      this.servicioDepositos.getDeposito().sector != undefined &&
+      this.servicioDepositos.getDeposito().tipo != undefined
+    ) {
       this.depositoGuardado.emit(this.servicioDepositos.getDeposito());
       console.log(this.deposito.idDeposito);
       this.servicioDepositos.limpiarDeposito();
       this.ocultar();
-    }else{
+    } else {
       this.band = true;
     }
   }

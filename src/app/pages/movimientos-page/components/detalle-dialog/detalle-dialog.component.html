@@ -1,0 +1,36 @@
+<p-dialog
+  header="{{ titulo }}"
+  [(visible)]="isVisible"
+  (onHide)="ocultarDialog()"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+>
+  <div class="grid">
+    <div class="col-5">
+      <p>
+        <strong>Fecha de Registro: </strong>
+        {{ movimiento.fechaRegistro | date: "dd/MM/yyyy" }}
+      </p>
+    </div>
+    <div class="col-5">
+      <p>
+        <strong>Hora:</strong> {{ movimiento.fechaRegistro | date: "hh:mm" }}
+      </p>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-4">
+      <p>
+        <strong>Deposito de Origen:</strong> {{ movimiento.idDepositoFuente }}
+      </p>
+    </div>
+
+    <div class="col-8">
+      <p>
+        <strong>Deposito de Destino:</strong> {{ movimiento.idDepositoDestino }}
+      </p>
+    </div>
+  </div>
+  <h3>Detalle:</h3>
+  <app-detalle-abm [id]="movimiento.idMovimiento"></app-detalle-abm>
+</p-dialog>

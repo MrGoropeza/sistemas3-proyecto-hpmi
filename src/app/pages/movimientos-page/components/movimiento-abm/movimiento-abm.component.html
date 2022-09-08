@@ -1,1 +1,92 @@
-<p>hola</p>
+<!-- Toast sirve para mostrar mensajitos -->
+<p-toast></p-toast>
+<!-- Llamando al confirmation service puedo mandar un dialog de confirmacion -->
+
+<!-- Tarjeta del contenido -->
+<!-- <div class="surface-ground flex justify-content-center m-0">
+    <div class="w-11 p-3 my-2 mx-4"> -->
+<!-- Contenido de la pagina -->
+
+<p-table
+  #dt
+  [value]="movimientos"
+  [rows]="5"
+  [paginator]="true"
+  [globalFilterFields]="['id', 'nombre']"
+  responsiveLayout="scroll"
+  [rowHover]="true"
+  dataKey="idPlanta"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="false"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <!-- botones de arriba -->
+      <div>
+        <!-- <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="agregarPlanta()"></button>
+                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarPlantasSeleccionados()"  [disabled]="!plantasSeleccionadas || !plantasSeleccionadas.length"></button> -->
+      </div>
+
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          class="p-inputtext-md"
+          type="text"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar..."
+        />
+      </span>
+    </div>
+  </ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Deposito Origen</th>
+      <th>Deposito Destino</th>
+      <th>Fecha de Registro</th>
+      <th>acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-movimiento>
+    <tr>
+      <td>{{ movimiento.idMovimiento }}</td>
+      <td>{{ movimiento.idDepositoFuente }}</td>
+      <td>{{ movimiento.idDepositoDestino }}</td>
+      <td>{{ movimiento.fechaRegistro | date: "dd/MM/yyyy" }}</td>
+      <td>
+        <button
+          pButton
+          pRipple
+          tooltipPosition="top"
+          pTooltip="Editar"
+          icon="pi pi-search"
+          class="p-button-rounded p-button-info mr-2"
+          (click)="verDetalle(movimiento)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ movimientos ? movimientos.length : 0 }} movimientos
+      registrados.
+    </div>
+  </ng-template>
+</p-table>
+
+<!-- Contenido de la pagina -->
+<!-- </div>
+</div> -->
+<!-- Tarjeta del contenido -->
+<div *ngIf="isVisible">
+  <app-detalle-dialog
+    [isVisible]="isVisible"
+    [titulo]="titulo"
+    [movimiento]="movimientoSeleccionado"
+    (ocultar)="isVisible = $event"
+  ></app-detalle-dialog>
+</div>

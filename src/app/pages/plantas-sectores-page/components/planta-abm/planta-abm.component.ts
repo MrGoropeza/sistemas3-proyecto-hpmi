@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Planta } from 'src/app/models/Planta';
 import { PlantaService } from 'src/app/services/deposito/planta.service';
@@ -8,16 +8,18 @@ import { PlantaService } from 'src/app/services/deposito/planta.service';
   templateUrl: './planta-abm.component.html',
   styleUrls: ['./planta-abm.component.css']
 })
-export class PlantaABMComponent implements OnInit {
+export class PlantaABMComponent implements OnInit{
   plantas : Planta[] = [];
   
   plantaSeleccionada : Planta = {} as Planta;
   display! : boolean;
   titulo : string ="";
   plantasSeleccionadas : Planta[] = [];
-  constructor(private plantaServicio : PlantaService,
+  constructor(
+    private plantaServicio : PlantaService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
+
 
   ngOnInit(): void {
     this.getPlantas();
