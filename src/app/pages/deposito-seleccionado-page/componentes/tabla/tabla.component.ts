@@ -12,6 +12,8 @@ export class TablaComponent implements OnInit {
 
   articulos: IArticuloDeposito[] = [];
 
+  dialog!: boolean;
+
   idDepositoSeleccionado! : number;
   
   constructor(private servicioArticulos : ArticuloDeDepositoService,
@@ -22,6 +24,7 @@ export class TablaComponent implements OnInit {
     this.idDepositoSeleccionado = this.arouter.snapshot.params['id'];
     this.obtenerArticulos(this.idDepositoSeleccionado);
   }
+
   public obtenerArticulos(id: number){
     this.servicioArticulos.getArticulos(id).then(
       (articulos)=>{
@@ -33,5 +36,9 @@ export class TablaComponent implements OnInit {
         }
       }
     );
+  }
+
+  solicitarArticulo(){
+    this.dialog = true;
   }
 }

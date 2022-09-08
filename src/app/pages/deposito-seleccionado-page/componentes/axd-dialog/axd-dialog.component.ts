@@ -13,6 +13,12 @@ export class AxdDialogComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  ocultarDialog(){
+    this.dialog = false;
+    this.dialogChange.emit(false);
   }
 
 }

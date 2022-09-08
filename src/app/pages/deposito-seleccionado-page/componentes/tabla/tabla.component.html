@@ -10,7 +10,8 @@
         <div>
             <button pButton pRipple label="Volver" icon="pi pi-arrow-left" 
                 class="p-button mr-2" [routerLink]="['../..']"></button>
-            <button pButton pRipple label="Solicitar Artículo" icon="pi pi-plus" class="p-button-success"></button>
+            <button pButton pRipple label="Solicitar Artículo" icon="pi pi-plus" class="p-button-success"
+                (click)="solicitarArticulo()"></button>
         </div>
         <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
@@ -51,4 +52,4 @@
 </ng-template>
 </p-table>
 
-<app-axd-dialog></app-axd-dialog>
+<app-axd-dialog [(dialog)]="dialog"></app-axd-dialog>
