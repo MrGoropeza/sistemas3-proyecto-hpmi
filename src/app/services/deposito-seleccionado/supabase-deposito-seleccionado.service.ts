@@ -127,12 +127,28 @@ export class SupabaseDepositoSeleccionadoService {
       // console.log("Error al buscar fila a incrementar:");
       // console.log(filaIncrementada.error);
       
-      await this.supabase.from("ArticuloDeposito")
+      let incremento = await this.supabase.from("ArticuloDeposito")
         .insert({
           idArticulo: articulo.id,
           idDeposito: idDepositoDestino,
           stock: cantidad
         });
+
+      if(incremento.data){
+        let movimiento = await this.supabase
+          .from("Movimiento")
+          .insert({
+            idDepositoFuente: idDepositoFuente,
+            idDepositoDestino: idDepositoDestino,
+          });
+        
+      }else{
+        console.log(incremento.error);
+      }
+
+      // Creacion del registro en la tabla de movimientos
+
+      
     }
 
   }
