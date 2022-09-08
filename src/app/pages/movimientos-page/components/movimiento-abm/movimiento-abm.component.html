@@ -12,13 +12,12 @@
   [value]="movimientos"
   [rows]="5"
   [paginator]="true"
-  [globalFilterFields]="['id', 'nombre']"
+  [globalFilterFields]="['idMovimiento', 'nombre']"
   responsiveLayout="scroll"
   [rowHover]="true"
-  dataKey="idPlanta"
+  dataKey="idMovimiento"
   [showCurrentPageReport]="true"
-  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-  [showCurrentPageReport]="false"
+  
 >
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
@@ -55,13 +54,13 @@
       <td>{{ movimiento.idMovimiento }}</td>
       <td>{{ movimiento.idDepositoFuente }}</td>
       <td>{{ movimiento.idDepositoDestino }}</td>
-      <td>{{ movimiento.fechaRegistro | date: "dd/MM/yyyy" }}</td>
+      <td>{{ movimiento.fechaRegistro | date: "dd/MM/yyyy hh:mm" }}</td>
       <td>
         <button
           pButton
           pRipple
           tooltipPosition="top"
-          pTooltip="Editar"
+          pTooltip="Ver detalles del movimiento"
           icon="pi pi-search"
           class="p-button-rounded p-button-info mr-2"
           (click)="verDetalle(movimiento)"
@@ -77,11 +76,6 @@
     </div>
   </ng-template>
 </p-table>
-
-<!-- Contenido de la pagina -->
-<!-- </div>
-</div> -->
-<!-- Tarjeta del contenido -->
 <div *ngIf="isVisible">
   <app-detalle-dialog
     [isVisible]="isVisible"
