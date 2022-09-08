@@ -4,6 +4,9 @@ import { LazyLoadEvent } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { IArticuloDepositoView } from 'src/app/models/IArticuloDeposito';
+import { Movimiento } from 'src/app/models/Movimiento';
+import { DetalleMovimientoService } from '../movimientos/detalle-movimiento.service';
+import { MovimientoService } from '../movimientos/movimiento.service';
 import { SupabaseService } from '../supabase.service';
 
 @Injectable({
@@ -15,6 +18,8 @@ export class SupabaseDepositoSeleccionadoService {
 
   constructor(
     private supabaseService: SupabaseService,
+    private supabaseMovimientos: MovimientoService,
+    private supabaseDetalleMovimientos: DetalleMovimientoService
   ) {
     this.supabase = supabaseService.getSupabaseClient();
   }
@@ -113,6 +118,31 @@ export class SupabaseDepositoSeleccionadoService {
           'incrementarstockdeposito', 
           {filaid: filaIncrementada.data[0].idArticuloDeposito, cantidad: cantidad}
         );
+
+          // Creacion del registro en la tabla de movimientos
+      
+      let movimiento = await this.supabaseMovimientos
+      .createMovimiento(idDepositoFuente, idDepositoDestino);
+
+      if(movimiento.data){
+        let idMovimiento = movimiento.data[0].idMovimiento;
+
+        let detalle = await this.supabaseDetalleMovimientos
+          .createDetalleMovimiento(idMovimiento, articulo, cantidad);
+
+        if(detalle.data){
+          console.log("Detalle cargado:");
+          console.log(detalle.data);
+        }else{
+          console.log(detalle.error);
+          
+        }
+
+      }else{
+        console.log(movimiento.error);
+        
+      }
+
       }else{
         console.log("Fila no encontrada");
         await this.supabase.from("ArticuloDeposito")
@@ -147,8 +177,28 @@ export class SupabaseDepositoSeleccionadoService {
       }
 
       // Creacion del registro en la tabla de movimientos
-
       
+      let movimiento = await this.supabaseMovimientos
+        .createMovimiento(idDepositoFuente, idDepositoDestino);
+
+      if(movimiento.data){
+        let idMovimiento = movimiento.data[0].idMovimiento;
+
+        let detalle = await this.supabaseDetalleMovimientos
+          .createDetalleMovimiento(idMovimiento, articulo, cantidad);
+
+        if(detalle.data){
+          console.log("Detalle cargado:");
+          console.log(detalle.data);
+        }else{
+          console.log(detalle.error);
+          
+        }
+
+      }else{
+        console.log(movimiento.error);
+        
+      }
     }
 
   }

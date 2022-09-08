@@ -1,5 +1,7 @@
 import { ThisReceiver } from "@angular/compiler";
 import { Injectable } from "@angular/core";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Articulo } from "src/app/models/articulo";
 import { DetalleMovimiento } from "src/app/models/DetalleMovimiento";
 import { SupabaseService } from "../supabase.service";
 
@@ -7,10 +9,15 @@ import { SupabaseService } from "../supabase.service";
   providedIn: "root",
 })
 export class DetalleMovimientoService {
-  constructor(private supabase: SupabaseService) {}
+
+  private supabase : SupabaseClient;
+
+  constructor(private supabaseService: SupabaseService) {
+    this.supabase = supabaseService.getSupabaseClient();
+  }
+
   public async getDetalleMovimiento(idmovimiento: number) {
     let { data: DetalleMovimiento, error } = await this.supabase
-      .getSupabaseClient()
       .from<DetalleMovimiento>("DetalleMovimiento")
       .select(
         `
@@ -20,5 +27,14 @@ export class DetalleMovimientoService {
       )
       .eq("idMovimiento", idmovimiento);
     return { data: DetalleMovimiento, error };
+  }
+
+  async createDetalleMovimiento(idMovimiento: number, articulo: Articulo, stock: number){
+    return await this.supabase.from("DetalleMovimiento")
+      .insert({
+        "idMovimiento": idMovimiento,
+        "idArticulo": articulo.id,
+        "stock": stock
+      });
   }
 }
