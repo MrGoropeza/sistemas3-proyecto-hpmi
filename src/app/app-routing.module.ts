@@ -71,7 +71,11 @@ const routes: Routes = [
                 title: "Artículos en Deposito",
                 component : DepositoSeleccionadoPageComponent
               },
-              {path:"platasSectores",component: PlantasSectoresPageComponent}
+              {
+                path:"platasSectores",
+                data: {breadcrumb: "Plantas y Sectores"},
+                component: PlantasSectoresPageComponent
+              }
             ]
           },
           {
@@ -97,7 +101,12 @@ const routes: Routes = [
             ],
             
           },
-          {path:"abmMovimientos",data: {breadcrumb: "Movimientos"},component: MovimientosPageComponent,title:"Movimientos"}
+          {
+            path:"abmMovimientos",
+            data: {breadcrumb: "Movimientos"},
+            component: MovimientosPageComponent,
+            title:"Movimientos"
+          }
         ]
       },
       {
