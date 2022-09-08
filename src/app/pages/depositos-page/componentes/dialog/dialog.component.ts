@@ -18,7 +18,6 @@ export class DialogComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<boolean>();
   @Output() depositoGuardado = new EventEmitter<IDeposito>();
   constructor(
-    private messageService: MessageService,
     private servicioDepositos : DepositoService
   ) { }
 
@@ -28,6 +27,7 @@ export class DialogComponent implements OnInit {
     this.display = false;
     this.newItemEvent.emit(false);
   }
+
   guardar(){
     if(this.servicioDepositos.getDeposito().planta != undefined && this.servicioDepositos.getDeposito().sector != undefined && this.servicioDepositos.getDeposito().tipo != undefined){
       this.depositoGuardado.emit(this.servicioDepositos.getDeposito());

@@ -13,7 +13,15 @@ export class SectorService {
       let { data: Sector, error } = await this.servicioDatos.getSupabaseClient()
     .from<Sector>('Sector')
     .select('idSector,nombre')
-    .eq('estado',true);
+    .eq('estado',true)
+    return { data: Sector, error };
+    }
+    public async getSectorXPlanta(planta : Planta){
+      let { data: Sector, error } = await this.servicioDatos.getSupabaseClient()
+    .from<Sector>('Sector')
+    .select('idSector,nombre')
+    .eq('estado',true)
+    .eq('idPlanta',planta.idPlanta);;
     return { data: Sector, error };
     }
     public async getNombrePlanta(sector : Sector){

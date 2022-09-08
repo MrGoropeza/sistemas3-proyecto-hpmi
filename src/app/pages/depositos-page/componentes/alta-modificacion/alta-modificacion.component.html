@@ -15,13 +15,13 @@
 </div>
 <div class="field">
     <label for="planta">Planta</label>
-    <p-dropdown [(ngModel)]="deposito.planta" (onChange)="actualizar()" [virtualScrollItemSize]="30" inputId="planta" [options]="plantas" placeholder="Seleccionar planta" optionLabel="nombre"  [showClear]="true"  >
+    <p-dropdown [(ngModel)]="deposito.planta" (onChange)="mostrarSectoresPlanta()" [virtualScrollItemSize]="30" inputId="planta" [options]="plantas" placeholder="Seleccionar planta" optionLabel="nombre"  [showClear]="true"  >
         <ng-template let-option pTemplate="item">
             {{option.nombre}}
         </ng-template>
     </p-dropdown>
 </div>
-<div class="field">
+<div class="field" *ngIf="verSectores">
     <label for="sector">Sector</label>
     <p-dropdown [(ngModel)]="deposito.sector" (onChange)="actualizar()" inputId="sector" [options]="sectores" placeholder="Seleccionar sector" optionLabel="nombre">
         <ng-template let-option pTemplate="item">
