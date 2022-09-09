@@ -1,45 +1,54 @@
 <!-- Tarjeta del contenido -->
 <!-- Contenido de la pagina -->
 
-<p-table #dt [value]="plantas" [rows]="5" [paginator]="true" [globalFilterFields]="['idPlanta','nombre']" responsiveLayout="scroll"
+<p-table #dt [value]="plantas" [rows]="5" [paginator]="true" [globalFilterFields]="['idPlanta','nombre']" responsiveLayout="stack"
     [(selection)]="plantasSeleccionadas" [rowHover]="true" dataKey="idPlanta" [showCurrentPageReport]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
     [showCurrentPageReport]="false" (onRowSelect)="mostrar()">
     <ng-template pTemplate="caption">
-        <div class="flex align-items-center justify-content-between">
-            <!-- botones de arriba -->
-            <div>
-                <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="agregarPlanta()"></button>
-                <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarPlantasSeleccionados()"  [disabled]="!plantasSeleccionadas || !plantasSeleccionadas.length"></button>
+        <div class="grid">
+            <div class="col">
+                <div class="flex justify-content-center lg:justify-content-start">
+                    <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="agregarPlanta()"></button>
+                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarPlantasSeleccionados()" [disabled]="!plantasSeleccionadas || !plantasSeleccionadas.length"></button>
+                </div>
             </div>
 
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-            </span>
+            <div class="col">
+                <div class="flex lg:justify-content-end justify-content-center">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+                    </span>
+                </div>
+            </div>
         </div>
     </ng-template>
 <!-- tabla -->
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
         <tr>
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th>ID</th>
-            <th >Nombre</th>
+            <th>Nombre</th>
             <th>Acciones</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-planta>
+    <ng-template pTemplate="body" let-planta let-columns="columns">
         <tr>
             <td>
+                <span class="p-column-title font-bold">Seleccionar</span>
                 <p-tableCheckbox [value]="planta"></p-tableCheckbox>
             </td>
-            <td>{{planta.idPlanta}}</td>
-            <td>{{planta.nombre}}</td>
+            <td><span class="p-column-title font-bold">ID</span>{{planta.idPlanta}}</td>
+            <td><span class="p-column-title font-bold">Nombre</span>{{planta.nombre}}</td>
             <td>
-                <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarPlanta(planta)"></button>
-                <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarPlanta(planta)"></button>
+                <span class="p-column-title font-bold">Acciones</span>
+                <div>
+                    <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarPlanta(planta)"></button>
+                    <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarPlanta(planta)"></button>    
+                </div>
             </td>
         </tr>
     </ng-template>

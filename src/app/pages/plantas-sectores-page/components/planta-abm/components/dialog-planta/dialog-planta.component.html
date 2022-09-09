@@ -1,4 +1,6 @@
-<p-dialog header="{{titulo}}" [(visible)]="display"  contentStyleClass="overflow-visible" [modal]="true" (onHide)="ocultarDialog()" styleClass="p-fluid w-5 overflow">
+<p-dialog header="{{titulo}}" [(visible)]="display" 
+    styleClass="p-fluid w-30rem overflow-y-scroll" contentStyleClass="max-h-full overflow-visible" 
+    [modal]="true" (onHide)="ocultarDialog()" >
     <form ngform>
         <div class="field" *ngIf="planta.idPlanta !=null">
             <div class="flex justify-content-start p-2">
