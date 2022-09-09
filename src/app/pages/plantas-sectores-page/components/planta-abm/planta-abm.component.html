@@ -1,55 +1,55 @@
 <!-- Tarjeta del contenido -->
 <!-- Contenido de la pagina -->
 
-        <p-table #dt [value]="plantas" [rows]="5" [paginator]="true" [globalFilterFields]="['id','nombre']" responsiveLayout="scroll"
-        [(selection)]="plantasSeleccionadas" [rowHover]="true" dataKey="idPlanta" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-        [showCurrentPageReport]="false" (onRowSelect)="mostrar()">
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <!-- botones de arriba -->
-                <div>
-                    <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="agregarPlanta()"></button>
-                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarPlantasSeleccionados()"  [disabled]="!plantasSeleccionadas || !plantasSeleccionadas.length"></button>
-                </div>
-
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-                </span>
+<p-table #dt [value]="plantas" [rows]="5" [paginator]="true" [globalFilterFields]="['idPlanta','nombre']" responsiveLayout="scroll"
+    [(selection)]="plantasSeleccionadas" [rowHover]="true" dataKey="idPlanta" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [showCurrentPageReport]="false" (onRowSelect)="mostrar()">
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            <!-- botones de arriba -->
+            <div>
+                <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="agregarPlanta()"></button>
+                <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarPlantasSeleccionados()"  [disabled]="!plantasSeleccionadas || !plantasSeleccionadas.length"></button>
             </div>
-        </ng-template>
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+            </span>
+        </div>
+    </ng-template>
 <!-- tabla -->
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th>ID</th>
-                <th >Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-planta>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="planta"></p-tableCheckbox>
-                </td>
-                <td>{{planta.idPlanta}}</td>
-                <td>{{planta.nombre}}</td>
-                <td>
-                    <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarPlanta(planta)"></button>
-                    <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarPlanta(planta)"></button>
-                </td>
-            </tr>
-        </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>ID</th>
+            <th >Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-planta>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="planta"></p-tableCheckbox>
+            </td>
+            <td>{{planta.idPlanta}}</td>
+            <td>{{planta.nombre}}</td>
+            <td>
+                <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarPlanta(planta)"></button>
+                <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarPlanta(planta)"></button>
+            </td>
+        </tr>
+    </ng-template>
 
-        <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">
-                En total hay {{plantas ? plantas.length : 0 }} Plantas registradas.
-            </div>
-        </ng-template>
-    </p-table>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{plantas ? plantas.length : 0 }} Plantas registradas.
+        </div>
+    </ng-template>
+</p-table>
 
         <!-- Contenido de la pagina -->
     <!-- </div>

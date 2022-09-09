@@ -1,65 +1,70 @@
 
 
 <!-- Tarjeta del contenido -->
-<!-- <div class="surface-ground flex justify-content-center m-0">
-    <div class="w-11 p-3 my-2 mx-4"> -->
-        <!-- Contenido de la pagina -->
 
-        <p-table #dt [value]="sectores" [rows]="5" [paginator]="true" [globalFilterFields]="['id','nombre']" responsiveLayout="scroll"
-        [(selection)]="sectoresSeleccionados" [rowHover]="true" dataKey="idSector" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-        [showCurrentPageReport]="false">
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <!-- botones de arriba -->
-                <div>
+<!-- Contenido de la pagina -->
+
+<p-table #dt [value]="sectores" [rows]="5" [paginator]="true" [globalFilterFields]="['idSector','nombre']"
+    responsiveLayout="stack"
+    [(selection)]="sectoresSeleccionados" [rowHover]="true" dataKey="idSector" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [showCurrentPageReport]="false">
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="flex justify-content-center lg:justify-content-start">
                     <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="agregarSector()"></button>
                     <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarSectoresSeleccionados()" [disabled]="!sectoresSeleccionados || !sectoresSeleccionados.length"></button>
                 </div>
-
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-                </span>
             </div>
-        </ng-template>
+
+            <div class="col">
+                <div class="flex lg:justify-content-end justify-content-center">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
 <!-- tabla -->
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th>ID</th>
-                <th >Nombre</th>
-                <th>Planta</th>
-                <th>Acciones</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-sector>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="sector"></p-tableCheckbox>
-                </td>
-                <td>{{sector.idSector}}</td>
-                <td>{{sector.nombre}}</td>
-                <td>
-                    <div>
-                        {{sector.idPlanta.nombre}}
-                    </div>
-                </td>
-                <td>
+    <ng-template pTemplate="header" let-colummns>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Planta</th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-sector let-columns="columns">
+        <tr>
+            <td>
+                <span class="p-column-title font-bold">Seleccionar</span>
+                <p-tableCheckbox [value]="sector"></p-tableCheckbox>
+            </td>
+            <td><span class="p-column-title font-bold">ID</span>{{sector.idSector}}</td>
+            <td><span class="p-column-title font-bold">Nombre</span>{{sector.nombre}}</td>
+            <td><span class="p-column-title font-bold">Planta</span>{{sector.idPlanta.nombre}}</td>
+            <td>
+                <span class="p-column-title font-bold">Acciones</span>
+                <div>
                     <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"  (click)="editarSector(sector)"></button>
-                    <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarSector(sector)"></button>
-                </td>
-            </tr>
-        </ng-template>
+                    <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarSector(sector)"></button>    
+                </div>
+            </td>
+        </tr>
+    </ng-template>
 
-        <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">
-                En total hay {{sectores ? sectores.length : 0 }} Sectores registrados.
-            </div>
-        </ng-template>
-    </p-table>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{sectores ? sectores.length : 0 }} Sectores registrados.
+        </div>
+    </ng-template>
+</p-table>
 
         <!-- Contenido de la pagina -->
     <!-- </div>
