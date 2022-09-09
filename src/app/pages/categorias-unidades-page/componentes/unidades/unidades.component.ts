@@ -35,6 +35,8 @@ export class UnidadesComponent implements OnInit {
   async onLazyLoad(event?: LazyLoadEvent){
     this.cargando = true
 
+    this.unidades = [];
+
     this.cantTotalUnidades = await this.supabaseService.getCantUnidades();
 
     let request = await this.supabaseService.readUnidades(event);
@@ -92,6 +94,7 @@ export class UnidadesComponent implements OnInit {
       accept: async () => {
         let request = await this.supabaseService.deleteUnidad(unidad);
         if(request.data){
+          this.onLazyLoad();
           this.messageService.add({
             severity:'success',
             summary: 'Éxito', 
@@ -127,6 +130,7 @@ export class UnidadesComponent implements OnInit {
             this.unidadesSeleccionadas = this.unidadesSeleccionadas.filter(x => x.id === item.id)
           }
         );
+        this.onLazyLoad();
         this.messageService.add({
           severity:'success',
           summary: 'Éxito', 

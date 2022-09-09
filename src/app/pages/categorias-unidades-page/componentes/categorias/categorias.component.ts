@@ -35,6 +35,8 @@ export class CategoriasComponent implements OnInit {
   async onLazyLoad(event?: LazyLoadEvent){
     this.cargando = true
 
+    this.categorias = [];
+
     this.cantTotalCategorias = await this.supabaseService.getCantCategorias();
 
     let categoriasRequest = await this.supabaseService.readCategorias(event);
@@ -92,6 +94,7 @@ export class CategoriasComponent implements OnInit {
       accept: async () => {
         let request = await this.supabaseService.deleteCategoria(categoria);
         if(request.data){
+          this.onLazyLoad();
           this.messageService.add({
             severity:'success',
             summary: 'Éxito', 
@@ -128,6 +131,7 @@ export class CategoriasComponent implements OnInit {
             this.categoriasSeleccionadas = this.categoriasSeleccionadas.filter(c => c.id === cat.id);
           }
         );
+        this.onLazyLoad();
         this.messageService.add({
           severity:'success',
           summary: 'Éxito', 
