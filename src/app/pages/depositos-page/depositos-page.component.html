@@ -3,65 +3,80 @@
 
 <!-- Contenido de la pagina -->
 
-        <p-table #dt [value]="listaDepositos" [rows]="5" [paginator]="true" [globalFilterFields]="['id','tipo','sector','planta']" responsiveLayout="scroll"
-        [(selection)]="depositosSeleccionados" [rowHover]="true" dataKey="idDeposito" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-        [showCurrentPageReport]="false">
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <!-- botones de arriba -->
-                <div>
-                    <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoDeposito()"></button>
-                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarDepositosSeleccionados()" [disabled]="!depositosSeleccionados || !depositosSeleccionados.length"></button>
-                    <button pButton pRipple  label="Ver plantas y sectores" icon="pi pi-search" class="p-button-info" [routerLink]="['platasSectores']"></button>
+<p-table #dt [value]="listaDepositos" [rows]="5" [paginator]="true" [globalFilterFields]="['idDeposito','tipo.nombre','sector.nombre','planta.nombre']" responsiveLayout="stack"
+    [(selection)]="depositosSeleccionados" [rowHover]="true" dataKey="idDeposito" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [showCurrentPageReport]="false">
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="flex align-content-center flex-wrap">
+                    <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="nuevoDeposito()"></button>
+                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"
+                        (click)="borrarDepositosSeleccionados()" [disabled]="!depositosSeleccionados || !depositosSeleccionados.length"></button>
                 </div>
-
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText class="p-inputtext-md" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-                </span>
             </div>
-        </ng-template>
+            
+            <div class="col">
+                <div class="flex justify-content-start lg:justify-content-center align-content-center ">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" 
+                            (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                            placeholder="Buscar por nombre..." />
+                    </span>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="flex justify-content-start lg:justify-content-end align-content-center">
+                    <button pButton pRipple label="Agregar Categorías/Unidades" icon="pi pi-plus" class="p-button-info" [routerLink]="['platasSectores']"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
 <!-- tabla -->
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th># Deposito</th>
-                <th>Tipo</th>
-                <th>Sector</th>
-                <th>Planta</th>
-                <th>Acciones</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-deposito>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="deposito"></p-tableCheckbox>
-                </td>
-                <td>{{deposito.idDeposito}}</td>
-                <td>{{deposito.tipo.nombre}}</td>
-                <td>{{deposito.sector.nombre}}</td>
-                <td>{{deposito.planta.nombre}}</td>
-                <td>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th># Deposito</th>
+            <th>Tipo</th>
+            <th>Sector</th>
+            <th>Planta</th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-deposito let-columns="columns">
+        <tr>
+            <td>
+                <span class="p-column-title font-bold">Seleccionar</span>
+                <p-tableCheckbox [value]="deposito"></p-tableCheckbox>
+            </td>
+            <td><span class="p-column-title font-bold"># Deposito</span>{{deposito.idDeposito}}</td>
+            <td><span class="p-column-title font-bold">Tipo</span>{{deposito.tipo.nombre}}</td>
+            <td><span class="p-column-title font-bold">Sector</span>{{deposito.sector.nombre}}</td>
+            <td><span class="p-column-title font-bold">Planta</span>{{deposito.planta.nombre}}</td>
+            <td>
+                <span class="p-column-title font-bold">Acciones</span>
+                <div>
                     <button pButton pRipple tooltipPosition="top" pTooltip="Editar" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarDeposito(deposito)"></button>
                     <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" (click)="eliminarDeposito(deposito)"></button>
-                    <button pButton pRipple pTooltip="Ver Deposito" [routerLink]="['depositoSeleccionado',deposito.idDeposito]" tooltipPosition="top" icon="pi pi-search" class="p-button-rounded p-button-info mr-2" ></button>
-                </td>
-            </tr>
-        </ng-template>
+                    <button pButton pRipple pTooltip="Ver Deposito" [routerLink]="['depositoSeleccionado',deposito.idDeposito]" tooltipPosition="top" icon="pi pi-search" class="p-button-rounded p-button-info mr-2" ></button>    
+                </div>
+            </td>
+        </tr>
+    </ng-template>
 
-        <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">
-                En total hay {{listaDepositos ? listaDepositos.length : 0 }} Depositos.
-            </div>
-        </ng-template>
-    </p-table>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{listaDepositos ? listaDepositos.length : 0 }} Depositos.
+        </div>
+    </ng-template>
+</p-table>
 
-        <!-- Contenido de la pagina -->
-    <!-- </div>
-</div> -->
+<!-- Contenido de la pagina -->
 <!-- Tarjeta del contenido -->
 <div *ngIf="display">
     <app-dialog [display]="display" [titulo]="titulo" [deposito]="deposito" (newItemEvent)="ocultarDialog($event)" (depositoGuardado)="guardarDeposito($event)"></app-dialog>
