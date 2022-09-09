@@ -1,6 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
 import { SupabaseDepositoSeleccionadoService } from 'src/app/services/deposito-seleccionado/supabase-deposito-seleccionado.service';
 import { ArticuloDeDepositoService } from 'src/app/services/deposito/articulo-de-deposito.service';
@@ -27,7 +27,8 @@ export class TablaComponent implements OnInit {
     private servicioArticulos : ArticuloDeDepositoService,
     private supabaseService : SupabaseDepositoSeleccionadoService,
     private router : Router,
-    private arouter : ActivatedRoute) { }
+    private arouter : ActivatedRoute,
+    private messageService : MessageService) { }
 
   ngOnInit(): void {
     this.idDepositoSeleccionado = this.arouter.snapshot.params['id'];
@@ -64,5 +65,16 @@ export class TablaComponent implements OnInit {
   transferirArticulo(articulo: Articulo){
     this.articulo = articulo;
     this.dialog = true;
+  }
+
+  transferenciaRealizada(event: boolean){
+    if(event){
+      this.messageService.add(
+        {severity:'success', 
+        summary: 'Éxito',
+        detail: 'Transferencia Realizada',
+        life: 3000}
+      );
+    }
   }
 }

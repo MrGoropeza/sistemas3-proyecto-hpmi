@@ -72,7 +72,7 @@ export class SupabaseDepositoSeleccionadoService {
     articulo: Articulo, 
     cantidad: number
   ){
-    
+    let terminada = false;
 
     let filaDecrementada = await this.supabase
       .from("ArticuloDeposito")
@@ -121,27 +121,29 @@ export class SupabaseDepositoSeleccionadoService {
 
           // Creacion del registro en la tabla de movimientos
       
-      let movimiento = await this.supabaseMovimientos
-      .createMovimiento(idDepositoFuente, idDepositoDestino);
+        let movimiento = await this.supabaseMovimientos
+        .createMovimiento(idDepositoFuente, idDepositoDestino);
 
-      if(movimiento.data){
-        let idMovimiento = movimiento.data[0].idMovimiento;
+        if(movimiento.data){
+          let idMovimiento = movimiento.data[0].idMovimiento;
 
-        let detalle = await this.supabaseDetalleMovimientos
-          .createDetalleMovimiento(idMovimiento, articulo, cantidad);
+          let detalle = await this.supabaseDetalleMovimientos
+            .createDetalleMovimiento(idMovimiento, articulo, cantidad);
 
-        if(detalle.data){
-          console.log("Detalle cargado:");
-          console.log(detalle.data);
+          if(detalle.data){
+            console.log("Detalle cargado:");
+            console.log(detalle.data);
+
+            terminada = true;
+          }else{
+            console.log(detalle.error);
+            
+          }
+
         }else{
-          console.log(detalle.error);
+          console.log(movimiento.error);
           
         }
-
-      }else{
-        console.log(movimiento.error);
-        
-      }
 
       }else{
         console.log("Fila no encontrada");
@@ -190,6 +192,8 @@ export class SupabaseDepositoSeleccionadoService {
         if(detalle.data){
           console.log("Detalle cargado:");
           console.log(detalle.data);
+
+          terminada = true;
         }else{
           console.log(detalle.error);
           
@@ -201,6 +205,7 @@ export class SupabaseDepositoSeleccionadoService {
       }
     }
 
+    return terminada;
   }
 
 }

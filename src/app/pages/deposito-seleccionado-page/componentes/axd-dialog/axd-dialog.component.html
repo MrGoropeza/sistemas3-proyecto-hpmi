@@ -26,19 +26,27 @@
                     Depósito ID: {{destino.idDeposito}} - Sector: {{destino.idSector}} - Planta: {{destino.idPlanta}}
                 </ng-template>
             </p-multiSelect>
-            <small id="destino-help" class="p-error block">Selección de depósito requerida.</small>
+            <small id="destino-help" class="p-error block"
+                *ngIf="formTransferencia.controls['destino'].invalid
+                    && formTransferencia.controls['destino'].touched">
+                Selección de depósito requerida.
+            </small>
         </div>
 
         <div class="field">
             <label for="cantidad">Cantidad a transferir</label>
-            <input id="cantidad" pInputText type="number" min="0"
+            <input id="cantidad" pInputText type="number" min="1"
                 formControlName="cantidad">
-            <small id="cantidad-help" class="p-error block">Cantidad requerida.</small>
+            <small id="cantidad-help" class="p-error block"
+                *ngIf="formTransferencia.controls['cantidad'].invalid 
+                    && formTransferencia.controls['cantidad'].touched">
+                Cantidad requerida mayor a 0.
+            </small>
         </div>
         
     </form>
 
-    <p>{{formTransferencia.getRawValue() | json}}</p>
+    <!-- <p>{{formTransferencia.getRawValue() | json}}</p> -->
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" 

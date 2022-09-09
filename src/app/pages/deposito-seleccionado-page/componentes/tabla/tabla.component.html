@@ -79,4 +79,4 @@
 </p-table>
 
 <app-axd-dialog [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"
-    [articulo]="articulo"></app-axd-dialog>
+    [articulo]="articulo" (creando)="transferenciaRealizada($event)"></app-axd-dialog>

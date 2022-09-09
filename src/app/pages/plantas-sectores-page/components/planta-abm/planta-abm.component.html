@@ -1,12 +1,5 @@
-<!-- Toast sirve para mostrar mensajitos -->
-<p-toast></p-toast>
-<!-- Llamando al confirmation service puedo mandar un dialog de confirmacion -->
-
-
 <!-- Tarjeta del contenido -->
-<!-- <div class="surface-ground flex justify-content-center m-0">
-    <div class="w-11 p-3 my-2 mx-4"> -->
-        <!-- Contenido de la pagina -->
+<!-- Contenido de la pagina -->
 
         <p-table #dt [value]="plantas" [rows]="5" [paginator]="true" [globalFilterFields]="['id','nombre']" responsiveLayout="scroll"
         [(selection)]="plantasSeleccionadas" [rowHover]="true" dataKey="idPlanta" [showCurrentPageReport]="true"
