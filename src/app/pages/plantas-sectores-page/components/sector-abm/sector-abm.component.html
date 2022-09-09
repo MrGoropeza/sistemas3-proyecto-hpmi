@@ -4,7 +4,7 @@
 
 <!-- Contenido de la pagina -->
 
-<p-table #dt [value]="sectores" [rows]="5" [paginator]="true" [globalFilterFields]="['idSector','nombre']"
+<p-table #dt [value]="sectores" [rows]="5" [paginator]="true" [globalFilterFields]="['idSector','nombre','idPlanta.nombre']"
     responsiveLayout="stack"
     [(selection)]="sectoresSeleccionados" [rowHover]="true" dataKey="idSector" [showCurrentPageReport]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
