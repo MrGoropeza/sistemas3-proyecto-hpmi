@@ -10,6 +10,7 @@ import { MovimientosPageComponent } from './pages/movimientos-page/movimientos-p
 import { PlantasSectoresPageComponent } from './pages/plantas-sectores-page/plantas-sectores-page.component';
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
+import { DepositoFarmaciaPageComponent } from './pages/deposito-farmacia-page/deposito-farmacia-page.component';
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -20,40 +21,30 @@ import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.compo
 const routes: Routes = [
   {
     path: "", 
-    data: {
-      breadcrumb: "Inicio"
-    },
+    data: {breadcrumb: "Inicio"},
     children: [
       {
         path: "",
         pathMatch: "full",
-        data: {
-          breadcrumb: ""
-        },
+        data: {breadcrumb: ""},
         component: InicioPageComponent,
         title: "Inicio HPMI"
       },
       {
         path: "farmacia",
-        data: {
-          breadcrumb: "Farmacia"
-        },
+        data: {breadcrumb: "Farmacia"},
         children: [
           {
             // este es el path de /farmacia
             path: "",
             pathMatch: "full",
-            data:{
-              breadcrumb: ""
-            },
+            data:{breadcrumb: ""},
             component: FarmaciaPageComponent,
             title: "Farmacia"
           },
           {
             path: "abmDepositos",
-            data: {
-              breadcrumb: "Depósitos"
-            },
+            data: {breadcrumb: "Depósitos"},
             children:[
               {
                 // este es el path de /farmacia/abmDepositos
@@ -65,9 +56,7 @@ const routes: Routes = [
               },
               {
                 path: "depositoSeleccionado/:id",
-                data: {
-                  breadcrumb: "Artículos en Depósito"
-                },
+                data: {breadcrumb: "Artículos en Depósito"},
                 title: "Artículos en Deposito",
                 component : DepositoSeleccionadoPageComponent
               },
@@ -80,9 +69,7 @@ const routes: Routes = [
           },
           {
             path: "abmArticulos",
-            data: {
-              breadcrumb: "Artículos"
-            },
+            data: {breadcrumb: "Artículos"},
             children: [
               {
                 // este es el path de /farmacia/abmArticulos
@@ -110,17 +97,19 @@ const routes: Routes = [
         ]
       },
       {
+        path: "depositoFarmacia",
+        data: {breadcrumb: "Depósito de Farmacia"},
+        title: "Depósito de Farmacia",
+        component: DepositoFarmaciaPageComponent
+      },
+      {
         path: "usuarios",
-        data: {
-          breadcrumb: "Usuarios"
-        },
+        data: {breadcrumb: "Usuarios"},
         title: "Usuarios",
         children: [
           {
             path: "abm",
-            data: {
-              breadcrumb: "Altas, Bajas y Modificaciones"
-            },
+            data: {breadcrumb: "Altas, Bajas y Modificaciones"},
             component: UsuariosPageComponent,
             title: "ABM Usuarios"
           }

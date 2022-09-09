@@ -34,6 +34,8 @@ import { MovimientosPageComponent } from './pages/movimientos-page/movimientos-p
 import { MovimientoABMComponent } from './pages/movimientos-page/components/movimiento-abm/movimiento-abm.component';
 import { DetalleDialogComponent } from './pages/movimientos-page/components/detalle-dialog/detalle-dialog.component';
 import { DetalleABMComponent } from './pages/movimientos-page/components/detalle-abm/detalle-abm.component';
+import { DepositoFarmaciaPageComponent } from './pages/deposito-farmacia-page/deposito-farmacia-page.component';
+import { BotonComponent } from './pages/farmacia-page/componentes/boton/boton.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { DetalleABMComponent } from './pages/movimientos-page/components/detalle
     UnidadesDialogComponent,
     AxdDialogComponent,
     InicioPageComponent,
+    DepositoFarmaciaPageComponent,
+    BotonComponent,
   ],
   imports: [
     BrowserModule,
