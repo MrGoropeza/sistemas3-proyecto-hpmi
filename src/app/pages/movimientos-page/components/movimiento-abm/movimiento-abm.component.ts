@@ -12,6 +12,9 @@ export class MovimientoABMComponent implements OnInit {
   public isVisible! : boolean;
   public titulo! : string;
   public movimientoSeleccionado : Movimiento = {} as Movimiento;
+
+  cargando! : boolean;
+
   constructor(private movimientoService: MovimientoService) { }
 
   ngOnInit(): void {
@@ -23,12 +26,15 @@ export class MovimientoABMComponent implements OnInit {
     this.titulo ="Movimiento #"+movimiento.idMovimiento.toString();
   }
   public getMovimientos(){
+    this.cargando = true;
     this.movimientoService.getMovimientos().then(
       (movimientos) => {
         if(movimientos.data){
           this.movimientos= movimientos.data;
+          this.cargando = false;
         }
-      }
+      },
+      () => {this.cargando = false}
     );
   }
 }

@@ -10,15 +10,23 @@ import { DetalleMovimientoService } from "src/app/services/movimientos/detalle-m
 export class DetalleABMComponent implements OnInit {
   @Input() id!: number;
   public detalles: DetalleMovimiento[] = [];
+
+  cargando!: boolean;
+
   constructor(private detalleService: DetalleMovimientoService) {}
   ngOnInit(): void {
     this.getDetalle();
   }
   public getDetalle(): void {
-    this.detalleService.getDetalleMovimiento(this.id).then((detalles) => {
-      if (detalles.data) {
-        this.detalles = detalles.data;
-      }
-    });
+    this.cargando = true;
+    this.detalleService.getDetalleMovimiento(this.id).then(
+      (detalles) => {
+        if (detalles.data) {
+          this.detalles = detalles.data;
+          this.cargando = false;
+        }
+      },
+      () => {this.cargando = true}
+    );
   }
 }

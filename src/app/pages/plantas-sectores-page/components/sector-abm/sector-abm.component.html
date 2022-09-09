@@ -8,7 +8,7 @@
     responsiveLayout="stack"
     [(selection)]="sectoresSeleccionados" [rowHover]="true" dataKey="idSector" [showCurrentPageReport]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-    [showCurrentPageReport]="false">
+    [showCurrentPageReport]="false" [loading]="cargando">
     <ng-template pTemplate="caption">
         <div class="grid">
             <div class="col">

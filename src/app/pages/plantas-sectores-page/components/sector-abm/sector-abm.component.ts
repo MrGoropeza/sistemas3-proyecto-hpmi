@@ -14,6 +14,9 @@ export class SectorABMComponent implements OnInit {
   display! : boolean;
   titulo : string ="";
   sectorSeleccionado : Sector = {} as Sector;
+
+  cargando!: boolean;
+
   constructor(private sectorServicio: SectorService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
@@ -22,13 +25,15 @@ export class SectorABMComponent implements OnInit {
     this.getSectores();
   }
   public getSectores(){
+    this.cargando = true;
     this.sectorServicio.getSectorFull().then(
       sectors => {
         if(sectors.data != null){
-          
           this.sectores = sectors.data;
+          this.cargando = false;
         }
-      }
+      },
+      () => {this.cargando = false}
     );
   }
   public agregarSector(): void {

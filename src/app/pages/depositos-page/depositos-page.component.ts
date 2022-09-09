@@ -23,6 +23,8 @@ export class DepositosPageComponent implements OnInit {
   confirmado: boolean = false;
   deposito! : Deposito;
 
+  cargando! : boolean;
+
   titulo : string  = "";
   constructor(private servicioDepositos : DepositoService,
     private messageService: MessageService,
@@ -37,12 +39,15 @@ export class DepositosPageComponent implements OnInit {
     
   }
   private obtenerDepositos(){
+    this.cargando = true;
     this.servicioDepositos.getDepositos().then(
       (depositos)=>{
         if(depositos.data != null){
           this.listaDepositos = depositos.data;
+          this.cargando = false;
         }
-      }
+      },
+      () => {this.cargando = false}
     )
   }
 

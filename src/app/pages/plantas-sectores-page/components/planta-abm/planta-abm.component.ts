@@ -15,6 +15,9 @@ export class PlantaABMComponent implements OnInit{
   display! : boolean;
   titulo : string ="";
   plantasSeleccionadas : Planta[] = [];
+
+  cargando! : boolean;
+
   constructor(
     private plantaServicio : PlantaService,
     private messageService: MessageService,
@@ -25,11 +28,16 @@ export class PlantaABMComponent implements OnInit{
     this.getPlantas();
   }
   public getPlantas(){
-    this.plantaServicio.getPlantas().then(plantas =>{
-      if(plantas.data != null){
-        this.plantas = plantas.data;
-      }
-    });
+    this.cargando = true;
+    this.plantaServicio.getPlantas().then(
+      plantas =>{
+        if(plantas.data != null){
+          this.plantas = plantas.data;
+          this.cargando = false;
+        }
+      },
+      () => {this.cargando = false}
+    );
   }
   public agregarPlanta(): void {
     this.display = true;
