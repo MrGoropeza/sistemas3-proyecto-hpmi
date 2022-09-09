@@ -6,20 +6,15 @@
   [rows]="5"
   [paginator]="true"
   [globalFilterFields]="['idMovimiento', 'nombre']"
-  responsiveLayout="scroll"
+  responsiveLayout="stack"
   [rowHover]="true"
   dataKey="idMovimiento"
-  [showCurrentPageReport]="true"
+  [showCurrentPageReport]="false"
   
 >
   <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-      <!-- botones de arriba -->
-      <div>
-        <!-- <button pButton pRipple  label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="agregarPlanta()"></button>
-                    <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger mr-2" (click)="borrarPlantasSeleccionados()"  [disabled]="!plantasSeleccionadas || !plantasSeleccionadas.length"></button> -->
-      </div>
 
+    <div class="flex justify-content-center align-content-center ">
       <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
         <input
@@ -31,24 +26,25 @@
         />
       </span>
     </div>
+      
   </ng-template>
   <!-- tabla -->
-  <ng-template pTemplate="header">
+  <ng-template pTemplate="header" let-columns>
     <tr>
       <th>ID</th>
       <th>Deposito Origen</th>
       <th>Deposito Destino</th>
       <th>Fecha de Registro</th>
-      <th>acciones</th>
+      <th>Acciones</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-movimiento>
+  <ng-template pTemplate="body" let-movimiento let-columns="columns">
     <tr>
-      <td>{{ movimiento.idMovimiento }}</td>
-      <td>{{ movimiento.idDepositoFuente }}</td>
-      <td>{{ movimiento.idDepositoDestino }}</td>
-      <td>{{ movimiento.fechaRegistro | date: "dd/MM/yyyy H:mm" }}</td>
-      <td>
+      <td><span class="p-column-title font-bold">ID</span>{{ movimiento.idMovimiento }}</td>
+      <td><span class="p-column-title font-bold">Depósito Origen</span>{{ movimiento.idDepositoFuente }}</td>
+      <td><span class="p-column-title font-bold">Depósito Destino</span>{{ movimiento.idDepositoDestino }}</td>
+      <td><span class="p-column-title font-bold">Fecha de Registro</span>{{ movimiento.fechaRegistro | date: "dd/MM/yyyy H:mm" }}</td>
+      <td><span class="p-column-title font-bold">Acciones</span>
         <button
           pButton
           pRipple
