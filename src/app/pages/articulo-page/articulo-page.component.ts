@@ -82,7 +82,7 @@ export class ArticuloPageComponent implements OnInit {
 
   }
 
-  onLazyLoad(event: LazyLoadEvent){
+  onLazyLoad(event?: LazyLoadEvent){
     
 
     // console.log(event);
@@ -323,6 +323,7 @@ export class ArticuloPageComponent implements OnInit {
         acceptLabel: "Sí",
         rejectLabel: "No",
         accept: () => {
+          this.onLazyLoad({first: 0, rows: 5});
             this.articulos = this.articulos.filter(val => !this.articulosSeleccionados.includes(val));
             this.articulosSeleccionados.forEach(async art => {
               await this.supabaseService.deleteArticulo(art);
@@ -350,6 +351,7 @@ export class ArticuloPageComponent implements OnInit {
             this.supabaseService.deleteArticulo(articulo)
               .then(
                 () => {
+                  this.onLazyLoad({first: 0, rows: 5});
                   this.messageService.add({
                     severity:'success',
                     summary: 'Éxito', 
