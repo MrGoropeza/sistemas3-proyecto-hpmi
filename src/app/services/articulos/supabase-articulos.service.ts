@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Articulo } from 'src/app/models/articulo';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { CategoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { IDeposito } from 'src/app/models/IDeposito';
 import { UnidadArticulo } from 'src/app/models/unidadArticulo';
 import { SupabaseService } from '../supabase.service';
 
@@ -14,6 +15,7 @@ import { SupabaseService } from '../supabase.service';
 export class SupabaseArticulosService {
 
   supabase: SupabaseClient;
+  idDepositoFarmacia!: number;
 
   constructor(
     private supabaseService: SupabaseService,
@@ -35,7 +37,20 @@ export class SupabaseArticulosService {
       .select("id, nombre, abreviacion");
   }
 
-  createArticulo(articulo: Articulo){
+  async getDepositoPrincipal(){
+    let request = await this.supabase
+      .from<IDeposito>("Deposito")
+      .select("*");
+
+    console.log(request.data);
+    
+  }
+
+  async createArticulo(articulo: Articulo){
+    // this.supabase.from("ArticuloDeposito")
+      // .insert();
+
+
     return this.supabase.from("Articulo")
       .insert({
         nombre: articulo.nombre,

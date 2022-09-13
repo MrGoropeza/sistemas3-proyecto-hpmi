@@ -61,25 +61,8 @@ export class ArticuloPageComponent implements OnInit {
   ngOnInit(): void {
     this.localeService.setEspaniol();
     this.articulo = new Articulo();
-    // this.categorias = [
-    //   new categoriaArticulo().setId(0).setNombre("Medicamento"),
-    //   new categoriaArticulo().setId(1).setNombre("Botiquín"),
-    //   new categoriaArticulo().setId(2).setNombre("Utensilio"),
-    // ];
 
-    // for (let index = 0; index < 50; index++) {
-    //   this.articulos.push(
-    //     new Articulo()
-    //       .setId(index + 1)
-    //       .setNombre(`producto${index}`)
-    //       .setCategoria(this.categorias[Math.floor(Math.random() * this.categorias.length)])
-    //       .setFechaVencimiento(new Date(`08-${Math.floor(Math.random() * 30) + 1}-2022`))
-    //       .setDescripcion(`descripcion del producto${index}`)
-    //       .setEstadoStock("lowstock")
-    //   );
-    // }
-    
-
+    this.supabaseService.getDepositoPrincipal();
   }
 
   onLazyLoad(event?: LazyLoadEvent){

@@ -43,18 +43,58 @@ export class DepositoService {
     .update({ estado : false})
     .eq('idDeposito', deposito.idDeposito)
   }
-  public async  getDepositos(){
-    let { data: Deposito, error } = await this.servicioDatos.getSupabaseClient()
-  .from<IDeposito>('Deposito')
-  .select('idDeposito,sector:idSector(idSector,nombre),tipo:idTipoDeposito(idTpoDeposito,nombre),planta:idPlanta(idPlanta,nombre)')
-  .eq("estado",true);
-  return { data: Deposito, error };
+
+  async getTipoPrincipal(){
+    let request = await this.servicioDatos.getSupabaseClient()
+      .from<ITipoDeposito>("TipoDeposito")
+      .select("*")
+      .eq("nombre", "Almacén Principal de Farmacia");
+    
+    if(request.data){
+      return request.data[0].idTpoDeposito;
+    }else{
+      return -1;
+    }
   }
-  public async  getTipoDepositos(){
-    let { data: tipoDepositos, error } = await this.servicioDatos.getSupabaseClient()
-    .from<ITipoDeposito>('TipoDeposito')
-    .select('idTpoDeposito,nombre')
-    .limit(10);
+
+  public async  getDepositos(){
+
+    let tipoDepositoPrincipal = await this.getTipoPrincipal();
+
+    let request = this.servicioDatos.getSupabaseClient()
+      .from('Deposito')
+      .select('idDeposito,sector:idSector(idSector,nombre),tipo:idTipoDeposito(idTpoDeposito,nombre),planta:idPlanta(idPlanta,nombre)')
+      .eq("estado",true);
+
+    if(tipoDepositoPrincipal !== -1){
+      request.neq("idTipoDeposito", tipoDepositoPrincipal);
+    }
+
+    let {data, error} = await request;
+
+    if(error){
+      console.log(error);
+      
+    }
+
+    return { data, error };
+  }
+  public async getTipoDepositos(){
+
+    let tipoDepositoPrincipal = await this.getTipoPrincipal();
+
+    
+
+    let request = this.servicioDatos.getSupabaseClient()
+      .from<ITipoDeposito>('TipoDeposito')
+      .select('idTpoDeposito,nombre')
+
+    if(tipoDepositoPrincipal !== -1){
+      request.neq("idTpoDeposito", tipoDepositoPrincipal);
+    }
+      
+    let { data: tipoDepositos, error } = await request;
+    
     return { tipoDepositos, error };
   }
   public async getIdTipoDeposito(nombre: string){
