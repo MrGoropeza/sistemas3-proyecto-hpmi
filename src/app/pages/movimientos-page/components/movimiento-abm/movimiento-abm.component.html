@@ -5,7 +5,7 @@
   [value]="movimientos"
   [rows]="5"
   [paginator]="true"
-  [globalFilterFields]="['idMovimiento', 'idDepositoFuente', 'idDepositoDestino']"
+  [globalFilterFields]="['idMovimiento', 'idDeposito']"
   responsiveLayout="stack"
   [rowHover]="true"
   dataKey="idMovimiento"
@@ -32,8 +32,8 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th>ID</th>
-      <th>Deposito Origen</th>
-      <th>Deposito Destino</th>
+      <th>Tipo de movimiento</th>
+      <th>Deposito </th>
       <th>Fecha de Registro</th>
       <th>Acciones</th>
     </tr>
@@ -41,8 +41,8 @@
   <ng-template pTemplate="body" let-movimiento let-columns="columns">
     <tr>
       <td><span class="p-column-title font-bold">ID</span>{{ movimiento.idMovimiento }}</td>
-      <td><span class="p-column-title font-bold">Depósito Origen</span>{{ movimiento.idDepositoFuente }}</td>
-      <td><span class="p-column-title font-bold">Depósito Destino</span>{{ movimiento.idDepositoDestino }}</td>
+      <td><span class="p-column-title font-bold">Tipo de movimiento</span>{{ movimiento.idTipoMovimiento.nombre}}</td>
+      <td><span class="p-column-title font-bold">Depósito</span>{{ movimiento.idDeposito | nombreDeposito }}</td>
       <td><span class="p-column-title font-bold">Fecha de Registro</span>{{ movimiento.fechaRegistro | date: "dd/MM/yyyy H:mm" }}</td>
       <td><span class="p-column-title font-bold">Acciones</span>
         <button

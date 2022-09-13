@@ -63,27 +63,27 @@ export class AxdDialogComponent implements OnInit {
     this.dialogChange.emit(false);
   }
 
-  async realizarTransferencia(){
-    if(this.formTransferencia.valid){
-      this.confirmado = true;
-      let transferencia = await this.supabaseService.realizarTransferencia(
-        this.idDepositoSeleccionado,
-        (this.formTransferencia.controls["destino"].value![0] as any).idDeposito,
-        this.articulo,
-        this.formTransferencia.controls["cantidad"].value!);
+  // async realizarTransferencia(){
+  //   if(this.formTransferencia.valid){
+  //     this.confirmado = true;
+  //     let transferencia = await this.supabaseService.realizarTransferencia(
+  //       this.idDepositoSeleccionado,
+  //       (this.formTransferencia.controls["destino"].value![0] as any).idDeposito,
+  //       this.articulo,
+  //       this.formTransferencia.controls["cantidad"].value!);
       
-      if(transferencia){
-        this.creando.emit(false);
-        this.ocultarDialog();
-      }else{
+  //     if(transferencia){
+  //       this.creando.emit(false);
+  //       this.ocultarDialog();
+  //     }else{
 
-      }
+  //     }
 
-    }else{
+  //   }else{
 
-    }
+  //   }
     
-  }
+  // }
 
 
 }

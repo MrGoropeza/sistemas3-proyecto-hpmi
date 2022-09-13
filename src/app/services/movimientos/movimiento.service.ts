@@ -20,17 +20,16 @@ export class MovimientoService {
       .select(`
         idMovimiento,
         fechaRegistro,
-        idDepositoFuente,
-        idDepositoDestino
+        idDeposito,
+        idTipoMovimiento : idTipoMovimiento(nombre)
       `)
       return { data: Movimiento, error };
   }
 
-  async createMovimiento(idDepositoFuente: number, idDepositoDestino: number){
+  async createMovimiento(idDeposito: number){
     return await this.supabase.from<Movimiento>("Movimiento")
       .insert({
-        "idDepositoFuente": idDepositoFuente,
-        "idDepositoDestino": idDepositoDestino
+        "idDeposito": idDeposito
       }) as {data: Movimiento[], error: any};
   }
 

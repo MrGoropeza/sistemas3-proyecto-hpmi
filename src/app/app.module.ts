@@ -36,6 +36,7 @@ import { DetalleDialogComponent } from './pages/movimientos-page/components/deta
 import { DetalleABMComponent } from './pages/movimientos-page/components/detalle-abm/detalle-abm.component';
 import { DepositoFarmaciaPageComponent } from './pages/deposito-farmacia-page/deposito-farmacia-page.component';
 import { BotonComponent } from './pages/farmacia-page/componentes/boton/boton.component';
+import { NombreDepositoPipe } from './pipes/nombre-deposito.pipe';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { BotonComponent } from './pages/farmacia-page/componentes/boton/boton.co
     InicioPageComponent,
     DepositoFarmaciaPageComponent,
     BotonComponent,
+    NombreDepositoPipe,
   ],
   imports: [
     BrowserModule,

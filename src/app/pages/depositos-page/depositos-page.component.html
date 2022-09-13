@@ -36,7 +36,7 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th># Deposito</th>
+            <th>Deposito</th>
             <th>Tipo</th>
             <th>Sector</th>
             <th>Planta</th>
@@ -49,7 +49,7 @@
                 <span class="p-column-title font-bold">Seleccionar</span>
                 <p-tableCheckbox [value]="deposito"></p-tableCheckbox>
             </td>
-            <td><span class="p-column-title font-bold"># Deposito</span>{{deposito.idDeposito}}</td>
+            <td><span class="p-column-title font-bold">Deposito</span>{{deposito.idDeposito | nombreDeposito}}</td>
             <td><span class="p-column-title font-bold">Tipo</span>{{deposito.tipo.nombre}}</td>
             <td><span class="p-column-title font-bold">Sector</span>{{deposito.sector.nombre}}</td>
             <td><span class="p-column-title font-bold">Planta</span>{{deposito.planta.nombre}}</td>

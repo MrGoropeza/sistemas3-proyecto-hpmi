@@ -91,8 +91,7 @@ export class SupabaseDepositoSeleccionadoService {
   }
 
   async realizarTransferencia(
-    idDepositoFuente: number,
-    idDepositoDestino: number, 
+    idDeposito: number,
     articulo: Articulo, 
     cantidad: number
   ){
@@ -101,7 +100,7 @@ export class SupabaseDepositoSeleccionadoService {
     let filaDecrementada = await this.supabase
       .from("ArticuloDeposito")
       .select("*")
-      .eq("idDeposito", idDepositoFuente)
+      .eq("idDeposito", idDeposito)
       .eq("idArticulo", articulo.id);
 
     if(filaDecrementada.data){
@@ -133,7 +132,7 @@ export class SupabaseDepositoSeleccionadoService {
       .from("ArticuloDeposito")
       .select("idArticuloDeposito")
       .eq("idArticulo", articulo.id)
-      .eq("idDeposito", idDepositoDestino);
+      .eq("idDeposito", idDeposito);
     
     if(filaIncrementada.data){
       if(filaIncrementada.data.length > 0){
@@ -146,7 +145,7 @@ export class SupabaseDepositoSeleccionadoService {
           // Creacion del registro en la tabla de movimientos
       
         let movimiento = await this.supabaseMovimientos
-        .createMovimiento(idDepositoFuente, idDepositoDestino);
+        .createMovimiento(idDeposito);
 
         if(movimiento.data){
           let idMovimiento = movimiento.data[0].idMovimiento;
@@ -174,7 +173,7 @@ export class SupabaseDepositoSeleccionadoService {
         await this.supabase.from("ArticuloDeposito")
           .insert({
             idArticulo: articulo.id,
-            idDeposito: idDepositoDestino,
+            idDeposito: idDeposito,
             stock: cantidad
           });
       }
@@ -186,7 +185,7 @@ export class SupabaseDepositoSeleccionadoService {
       let incremento = await this.supabase.from("ArticuloDeposito")
         .insert({
           idArticulo: articulo.id,
-          idDeposito: idDepositoDestino,
+          idDeposito: idDeposito,
           stock: cantidad
         });
 
@@ -194,8 +193,8 @@ export class SupabaseDepositoSeleccionadoService {
         let movimiento = await this.supabase
           .from("Movimiento")
           .insert({
-            idDepositoFuente: idDepositoFuente,
-            idDepositoDestino: idDepositoDestino,
+            idDepositoFuente: idDeposito,
+            idDepositoDestino: idDeposito,
           });
         
       }else{
@@ -205,7 +204,7 @@ export class SupabaseDepositoSeleccionadoService {
       // Creacion del registro en la tabla de movimientos
       
       let movimiento = await this.supabaseMovimientos
-        .createMovimiento(idDepositoFuente, idDepositoDestino);
+        .createMovimiento(idDeposito);
 
       if(movimiento.data){
         let idMovimiento = movimiento.data[0].idMovimiento;
