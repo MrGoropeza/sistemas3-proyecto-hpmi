@@ -3,7 +3,7 @@
   [(visible)]="isVisible"
   (onHide)="ocultarDialog()"
   [modal]="true"
-  styleClass="p-fluid w-30rem overflow-y-scroll" contentStyleClass="max-h-full overflow-visible" 
+  styleClass="p-fluid w-8 overflow-y-scroll" contentStyleClass="max-h-full overflow-visible" 
 >
   <div class="grid">
     <div class="col-5">
@@ -21,13 +21,13 @@
   <div class="grid">
     <div class="col-4">
       <p>
-        <strong>Deposito de Origen:</strong> {{ movimiento.idDepositoFuente }}
+        <strong>Deposito:</strong> {{ movimiento.idDeposito   }}
       </p>
     </div>
 
     <div class="col-8">
       <p>
-        <strong>Deposito de Destino:</strong> {{ movimiento.idDepositoDestino }}
+        <strong>Tipo de movimiento:</strong> {{ movimiento.idTipoMovimiento.nombre }}
       </p>
     </div>
   </div>

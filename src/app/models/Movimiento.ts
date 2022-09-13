@@ -1,7 +1,8 @@
-import { Deposito } from './Deposito';
+import { TipoMovimiento } from './TipoMovimiento';
 export interface Movimiento{
     idMovimiento : number;
     fechaRegistro : Date;
-    idDepositoDestino : number;
-    idDepositoFuente : number;
+    idDeposito : number;
+    idTipoMovimiento : TipoMovimiento;
+
 }
