@@ -32,7 +32,7 @@ export class ArticuloPageComponent implements OnInit {
       nombre: [this.articulo.nombre, Validators.required],
       descripcion: [this.articulo.descripcion, Validators.required],
       unidad: [this.articulo.unidad, Validators.required],
-      stock: [this.articulo.stock, [Validators.required, Validators.min(0)]],
+      // stock: [this.articulo.stock, [Validators.required, Validators.min(0)]],
       categoria: [this.articulo.categoria, Validators.required],
       fechaVencimiento: [this.articulo.fechaVencimiento, Validators.required]
     }
@@ -62,7 +62,7 @@ export class ArticuloPageComponent implements OnInit {
     this.localeService.setEspaniol();
     this.articulo = new Articulo();
 
-    this.supabaseService.getDepositoPrincipal();
+    
   }
 
   onLazyLoad(event?: LazyLoadEvent){
@@ -140,7 +140,7 @@ export class ArticuloPageComponent implements OnInit {
                   art.nombre = element.nombre;
                   art.descripcion = element.descripcion;
                   art.estado = element.estado;
-                  art.stock = element.stock;
+                  // art.stock = element.stock;
                   art.fechaVencimiento = element.fechaVencimiento;
 
                   let cat = new CategoriaArticulo();
@@ -184,7 +184,7 @@ export class ArticuloPageComponent implements OnInit {
       this.articulo.categoria = this.formArticulo.controls['categoria'].value;
       this.articulo.fechaVencimiento = this.formArticulo.controls['fechaVencimiento'].value;
       this.articulo.unidad = this.formArticulo.controls['unidad'].value;
-      this.articulo.stock = this.formArticulo.controls['stock'].value;
+      // this.articulo.stock = this.formArticulo.controls['stock'].value;
 
       if(this.articulo.nombre != null){
         if (this.articulo.id) {
@@ -208,6 +208,7 @@ export class ArticuloPageComponent implements OnInit {
         (response) =>{
           if(response.data){
             this.articulo.id = response.data[0].id;
+            this.supabaseService.createArticuloDepositoFarmacia(this.articulo.id);
           }
           this.articulos.push(this.articulo);
           this.articulos = [...this.articulos];
@@ -223,6 +224,7 @@ export class ArticuloPageComponent implements OnInit {
               life: 3000}
           );
           this.formArticulo.reset();
+          this.onLazyLoad({first: 0, rows: 5});
         },
         async () => {
           this.messageService.add(
@@ -294,7 +296,7 @@ export class ArticuloPageComponent implements OnInit {
     this.formArticulo.controls['categoria'].setValue(articulo.categoria);
     this.formArticulo.controls['fechaVencimiento'].setValue(articulo.fechaVencimiento);
     this.formArticulo.controls['unidad'].setValue(articulo.unidad);
-    this.formArticulo.controls['stock'].setValue(articulo.stock);
+    // this.formArticulo.controls['stock'].setValue(articulo.stock);
     this.articuloDialog = true;
   }
 
