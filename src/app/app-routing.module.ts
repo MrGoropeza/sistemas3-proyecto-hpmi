@@ -63,7 +63,8 @@ const routes: Routes = [
               {
                 path:"platasSectores",
                 data: {breadcrumb: "Plantas y Sectores"},
-                component: PlantasSectoresPageComponent
+                component: PlantasSectoresPageComponent,
+                title: "Plantas y Sectores"
               }
             ]
           },
@@ -83,7 +84,8 @@ const routes: Routes = [
                 // este es el path de /farmacia/abmArticulos/categoriasUnidades
                 path: "categoriasUnidades",
                 data: {breadcrumb: "Categorías y Unidades"},
-                component: CategoriasUnidadesPageComponent
+                component: CategoriasUnidadesPageComponent,
+                title: "Categorías y Unidades"
               }
             ],
             
@@ -93,15 +95,16 @@ const routes: Routes = [
             data: {breadcrumb: "Movimientos"},
             component: MovimientosPageComponent,
             title:"Movimientos"
-          }
+          },
+          {
+            path: "depositoFarmacia",
+            data: {breadcrumb: "Depósito de Farmacia"},
+            title: "Depósito de Farmacia",
+            component: DepositoFarmaciaPageComponent
+          },
         ]
       },
-      {
-        path: "depositoFarmacia",
-        data: {breadcrumb: "Depósito de Farmacia"},
-        title: "Depósito de Farmacia",
-        component: DepositoFarmaciaPageComponent
-      },
+      
       {
         path: "usuarios",
         data: {breadcrumb: "Usuarios"},

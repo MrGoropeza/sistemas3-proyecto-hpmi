@@ -27,6 +27,7 @@ import {StepsModule} from 'primeng/steps';
 import {ScrollTopModule} from 'primeng/scrolltop';
 import {ListboxModule} from 'primeng/listbox';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {PanelMenuModule} from 'primeng/panelmenu';
 
 @NgModule({
   declarations: [],
@@ -59,7 +60,8 @@ import {MultiSelectModule} from 'primeng/multiselect';
     StepsModule,
     ScrollTopModule,
     ListboxModule,
-    MultiSelectModule
+    MultiSelectModule,
+    PanelMenuModule
   ]
 })
 export class PrimengImportsModule { }

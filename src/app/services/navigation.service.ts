@@ -9,17 +9,49 @@ export class NavigationService{
 
     sidebarItems : MenuItem[] = [
       {
+        label: "Inicio",
+        icon: 'bi bi-house',
+        routerLink: "/"
+      },
+      {
         label: "Farmacia",
         items:[
+          {
+            label: 'Inicio Farmacia',
+            icon: 'bi bi-house',
+            routerLink: '/farmacia'
+          },
           { 
-            label: 'ABM Depósitos',
+            label: 'Depósitos',
             icon: 'bi bi-box-seam',
-            routerLink: "/farmacia/abmDepositos",
+            items: [
+              {
+                label: 'Depósito de Farmacia',
+                routerLink: "/farmacia/depositoFarmacia",
+              },
+              {
+                label: 'Depósitos del Hospital',
+                routerLink: "/farmacia/abmDepositos",
+              },
+              {
+                label: 'ABM Sectores/Plantas',
+                routerLink: "/farmacia/abmDepositos/platasSectores"
+              },
+            ],
           },
           {
-            label: 'ABM Artículos',
+            label: 'Artículos',
             icon: "bi bi-boxes",
-            routerLink: "/farmacia/abmArticulos",
+            items: [
+              {
+                label: 'Altas, Bajas y Modificaciones',
+                routerLink: "/farmacia/abmArticulos",
+              },
+              {
+                label: 'ABM Categorías/Unidades',
+                routerLink: "/farmacia/abmArticulos/categoriasUnidades"
+              }
+            ],
           },
           {
             label: 'Movimientos',
