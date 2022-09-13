@@ -91,144 +91,154 @@ export class SupabaseDepositoSeleccionadoService {
   }
 
   async realizarTransferencia(
+    idDepositoFuente: number,
+    idDepositoDestino: number,
+    articulo: Articulo, 
+    cantidad: number
+  ){
+    this.supabaseMovimientos.createSalida(idDepositoFuente, articulo.id, cantidad);
+    this.supabaseMovimientos.createEntrada(idDepositoDestino, articulo.id, cantidad);
+  }
+
+  async realizarTransferenciaDEPRECATED(
     idDeposito: number,
     articulo: Articulo, 
     cantidad: number
   ){
-    let terminada = false;
+    // let terminada = false;
 
-    let filaDecrementada = await this.supabase
-      .from("ArticuloDeposito")
-      .select("*")
-      .eq("idDeposito", idDeposito)
-      .eq("idArticulo", articulo.id);
+    // let filaDecrementada = await this.supabase
+    //   .from("ArticuloDeposito")
+    //   .select("*")
+    //   .eq("idDeposito", idDeposito)
+    //   .eq("idArticulo", articulo.id);
 
-    if(filaDecrementada.data){
-      let decremento = await this.supabase.rpc(
-        'decrementarstockdeposito', 
-        {filaid: filaDecrementada.data[0].idArticuloDeposito, cantidad: cantidad}
-      );
-      if(decremento.error){
-        // console.log("Error al decrementar:");
-        // console.log(decremento.error);
-      }else{
-        // console.log("Decrementado exitoso:");
-        // console.log(decremento.data);
+    // if(filaDecrementada.data){
+    //   let decremento = await this.supabase.rpc(
+    //     'decrementarstockdeposito', 
+    //     {filaid: filaDecrementada.data[0].idArticuloDeposito, cantidad: cantidad}
+    //   );
+    //   if(decremento.error){
+    //     // console.log("Error al decrementar:");
+    //     // console.log(decremento.error);
+    //   }else{
+    //     // console.log("Decrementado exitoso:");
+    //     // console.log(decremento.data);
         
-      }
-    }else{
-      // console.log("Error al buscar fila de decremento:");
-      // console.log(filaDecrementada.error);
+    //   }
+    // }else{
+    //   // console.log("Error al buscar fila de decremento:");
+    //   // console.log(filaDecrementada.error);
       
-    }
+    // }
 
-    // console.log("Busqueda fila a incrementar:");
-    // console.log(articulo);
-    // console.log(idDepositoDestino);
+    // // console.log("Busqueda fila a incrementar:");
+    // // console.log(articulo);
+    // // console.log(idDepositoDestino);
     
     
 
-    let filaIncrementada = await this.supabase
-      .from("ArticuloDeposito")
-      .select("idArticuloDeposito")
-      .eq("idArticulo", articulo.id)
-      .eq("idDeposito", idDeposito);
+    // let filaIncrementada = await this.supabase
+    //   .from("ArticuloDeposito")
+    //   .select("idArticuloDeposito")
+    //   .eq("idArticulo", articulo.id)
+    //   .eq("idDeposito", idDeposito);
     
-    if(filaIncrementada.data){
-      if(filaIncrementada.data.length > 0){
-        console.log(filaIncrementada.data);
-        await this.supabase.rpc(
-          'incrementarstockdeposito', 
-          {filaid: filaIncrementada.data[0].idArticuloDeposito, cantidad: cantidad}
-        );
+    // if(filaIncrementada.data){
+    //   if(filaIncrementada.data.length > 0){
+    //     console.log(filaIncrementada.data);
+    //     await this.supabase.rpc(
+    //       'incrementarstockdeposito', 
+    //       {filaid: filaIncrementada.data[0].idArticuloDeposito, cantidad: cantidad}
+    //     );
 
-          // Creacion del registro en la tabla de movimientos
+    //       // Creacion del registro en la tabla de movimientos
       
-        let movimiento = await this.supabaseMovimientos
-        .createMovimiento(idDeposito);
+    //     let movimiento = await this.supabaseMovimientos
+    //     .createMovimiento(idDeposito);
 
-        if(movimiento.data){
-          let idMovimiento = movimiento.data[0].idMovimiento;
+    //     if(movimiento.data){
+    //       let idMovimiento = movimiento.data[0].idMovimiento;
 
-          let detalle = await this.supabaseDetalleMovimientos
-            .createDetalleMovimiento(idMovimiento, articulo, cantidad);
+    //       let detalle = await this.supabaseDetalleMovimientos
+    //         .createDetalleMovimiento(idMovimiento, articulo, cantidad);
 
-          if(detalle.data){
-            console.log("Detalle cargado:");
-            console.log(detalle.data);
+    //       if(detalle.data){
+    //         console.log("Detalle cargado:");
+    //         console.log(detalle.data);
 
-            terminada = true;
-          }else{
-            console.log(detalle.error);
+    //         terminada = true;
+    //       }else{
+    //         console.log(detalle.error);
             
-          }
+    //       }
 
-        }else{
-          console.log(movimiento.error);
+    //     }else{
+    //       console.log(movimiento.error);
           
-        }
+    //     }
 
-      }else{
-        console.log("Fila no encontrada");
-        await this.supabase.from("ArticuloDeposito")
-          .insert({
-            idArticulo: articulo.id,
-            idDeposito: idDeposito,
-            stock: cantidad
-          });
-      }
+    //   }else{
+    //     console.log("Fila no encontrada");
+    //     await this.supabase.from("ArticuloDeposito")
+    //       .insert({
+    //         idArticulo: articulo.id,
+    //         idDeposito: idDeposito,
+    //         stock: cantidad
+    //       });
+    //   }
       
-    }else{
-      // console.log("Error al buscar fila a incrementar:");
-      // console.log(filaIncrementada.error);
+    // }else{
+    //   // console.log("Error al buscar fila a incrementar:");
+    //   // console.log(filaIncrementada.error);
       
-      let incremento = await this.supabase.from("ArticuloDeposito")
-        .insert({
-          idArticulo: articulo.id,
-          idDeposito: idDeposito,
-          stock: cantidad
-        });
+    //   let incremento = await this.supabase.from("ArticuloDeposito")
+    //     .insert({
+    //       idArticulo: articulo.id,
+    //       idDeposito: idDeposito,
+    //       stock: cantidad
+    //     });
 
-      if(incremento.data){
-        let movimiento = await this.supabase
-          .from("Movimiento")
-          .insert({
-            idDepositoFuente: idDeposito,
-            idDepositoDestino: idDeposito,
-          });
+    //   if(incremento.data){
+    //     let movimiento = await this.supabase
+    //       .from("Movimiento")
+    //       .insert({
+    //         idDepositoFuente: idDeposito,
+    //         idDepositoDestino: idDeposito,
+    //       });
         
-      }else{
-        console.log(incremento.error);
-      }
+    //   }else{
+    //     console.log(incremento.error);
+    //   }
 
-      // Creacion del registro en la tabla de movimientos
+    //   // Creacion del registro en la tabla de movimientos
       
-      let movimiento = await this.supabaseMovimientos
-        .createMovimiento(idDeposito);
+    //   let movimiento = await this.supabaseMovimientos
+    //     .createMovimiento(idDeposito);
 
-      if(movimiento.data){
-        let idMovimiento = movimiento.data[0].idMovimiento;
+    //   if(movimiento.data){
+    //     let idMovimiento = movimiento.data[0].idMovimiento;
 
-        let detalle = await this.supabaseDetalleMovimientos
-          .createDetalleMovimiento(idMovimiento, articulo, cantidad);
+    //     let detalle = await this.supabaseDetalleMovimientos
+    //       .createDetalleMovimiento(idMovimiento, articulo, cantidad);
 
-        if(detalle.data){
-          console.log("Detalle cargado:");
-          console.log(detalle.data);
+    //     if(detalle.data){
+    //       console.log("Detalle cargado:");
+    //       console.log(detalle.data);
 
-          terminada = true;
-        }else{
-          console.log(detalle.error);
+    //       terminada = true;
+    //     }else{
+    //       console.log(detalle.error);
           
-        }
+    //     }
 
-      }else{
-        console.log(movimiento.error);
+    //   }else{
+    //     console.log(movimiento.error);
         
-      }
-    }
+    //   }
+    // }
 
-    return terminada;
+    // return terminada;
   }
 
 }

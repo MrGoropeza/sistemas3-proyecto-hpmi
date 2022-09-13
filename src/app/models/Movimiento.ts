@@ -1,8 +1,9 @@
-import { TipoMovimiento } from './TipoMovimiento';
+import { ITipoMovimiento } from './TipoMovimiento';
 export interface Movimiento{
     idMovimiento : number;
     fechaRegistro : Date;
     idDeposito : number;
-    idTipoMovimiento : TipoMovimiento;
+    idTipoMovimiento : ITipoMovimiento;
+    cantidad : number;
 
 }

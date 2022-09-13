@@ -23,49 +23,16 @@ export class DepositoFarmaciaPageComponent implements OnInit {
 
   constructor(
     private supabaseService: SupabaseDepositoSeleccionadoService
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit(): void {
-    this.setIdDepositoFarmacia();
+    this.setIdDeposito();
   }
 
-  async setIdDepositoFarmacia(){
-    
-  }
-
-  async onLazyLoad(event: LazyLoadEvent){
-    this.cargando = true;
-    this.articulos = [];
-
+  async setIdDeposito(){
     this.idDepositoSeleccionado = await this.supabaseService.getDepositoPrincipal();
-    console.log(this.idDepositoSeleccionado); 
-    
-
-    let request = await this.supabaseService.readArticulosView(this.idDepositoSeleccionado, event);
-
-    this.cantTotalArticulos = await this.supabaseService.getCantArticulos(this.idDepositoSeleccionado);
-
-    if(request.data){
-      request.data.forEach(
-        (element) => {
-          this.articulos.push(Articulo.fromArticulosDepositoView(element));
-        }
-      );
-
-      // console.log(request.data);
-    }else{
-      console.log(request.error);
-    }
-
-    this.cargando = false;
-  }
-
-  transferirArticulo(articulo: Articulo){
-
-  }
-
-  transferenciaRealizada(event: boolean){
-
   }
 
 }
