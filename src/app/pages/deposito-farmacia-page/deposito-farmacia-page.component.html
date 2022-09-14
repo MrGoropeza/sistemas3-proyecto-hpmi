@@ -1,3 +1,10 @@
+<button pButton pRipple label="Volver" icon="pi pi-arrow-left" 
+        class="p-button-link mr-2 p-4 pb-3" [routerLink]="['..']"></button>
+
 <app-tabla *ngIf="idDepositoSeleccionado"
     [idDepositoSeleccionado]="idDepositoSeleccionado"
     [idHeredado]="true"></app-tabla>
+
+<p-progressBar *ngIf="!idDepositoSeleccionado" 
+    mode="indeterminate"
+    styleClass="p-1 m-1"></p-progressBar>

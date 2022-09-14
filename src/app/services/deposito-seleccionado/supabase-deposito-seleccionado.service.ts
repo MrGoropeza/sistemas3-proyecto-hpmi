@@ -96,8 +96,40 @@ export class SupabaseDepositoSeleccionadoService {
     articulo: Articulo, 
     cantidad: number
   ){
-    this.supabaseMovimientos.createSalida(idDepositoFuente, articulo.id, cantidad);
-    this.supabaseMovimientos.createEntrada(idDepositoDestino, articulo.id, cantidad);
+    let salida = await this.supabaseMovimientos.createSalida(idDepositoFuente, articulo.id, cantidad);
+
+    if(salida.data){
+      let requestDetalle = await this.supabase.from("DetalleMovimiento")
+        .insert({
+          idMovimiento: salida.data.idMovimiento,
+          idArticulo: articulo.id,
+          stock: cantidad
+        })
+      if(requestDetalle.error){console.log(requestDetalle.error);}
+    }else{
+      console.log(salida.error);
+    }
+
+    let entrada = await this.supabaseMovimientos.createEntrada(idDepositoDestino, articulo.id, cantidad);
+
+    if(entrada.data){
+      let requestDetalle = await this.supabase.from("DetalleMovimiento")
+        .insert({
+          idMovimiento: entrada.data.idMovimiento,
+          idArticulo: articulo.id,
+          stock: cantidad
+        })
+      if(requestDetalle.error){console.log(requestDetalle.error);}
+    }else{
+      console.log(entrada.error);
+    }
+
+    return {
+      dataSalida: salida.data,
+      errorSalida: salida.error,
+      dataEntrada: entrada.data,
+      errorEntrada: entrada.error
+    };
   }
 
   async realizarTransferenciaDEPRECATED(

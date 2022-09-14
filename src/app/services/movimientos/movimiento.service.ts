@@ -25,6 +25,7 @@ export class MovimientoService {
         idDeposito,
         idTipoMovimiento : idTipoMovimiento(nombre)
       `)
+      .order("fechaRegistro")
       return { data: Movimiento, error };
   }
 
@@ -47,42 +48,42 @@ export class MovimientoService {
   }
 
   async createSalida(idDeposito: number, idArticulo: number, cantidad: number){
-    await this.supabase.from("Movimiento")
-      .insert({
-        "idDeposito": idDeposito,
-        "idTipoMovimiento": await this.getIdTipoSalida(),
-        "cantidad": cantidad
-      }).single() as {data: Movimiento[], error: any};
-
-    let requestArticuloDeposito = await this.supabase
-      .from("ArticuloDeposito")
-      .select("*")
-      .eq("idArticulo", idArticulo).eq("idDeposito", idDeposito)
-      .single();
-
-    let idArticuloDeposito = requestArticuloDeposito.data.idArticuloDeposito;
-    
-    let requestDecremento = await this.supabase
-      .rpc('decrementarstockdeposito', {
-        cantidad, 
-        filaid: idArticuloDeposito
-      })
-    
-    if(requestDecremento.error){
-      console.log(requestDecremento.error);
-      console.log(`idArticuloDeposito: ${idArticuloDeposito}`);
-      
-    }
-      
+    return this.crearMovimiento("Salida", idDeposito, idArticulo, cantidad);
   }
 
   async createEntrada(idDeposito: number, idArticulo: number, cantidad: number){
-    await this.supabase.from("Movimiento")
+    return this.crearMovimiento("Entrada", idDeposito, idArticulo, cantidad);
+  }
+
+  private async crearMovimiento(tipo: string, idDeposito: number, idArticulo: number, cantidad: number){
+
+    let procedimientoAlmacenado: string = "";
+    let idTipoMovimiento: number = 0;
+
+    switch(tipo){
+      case TipoMovimiento.Entrada:
+        procedimientoAlmacenado = "incrementarstockdeposito";
+        let requestIDEn = await this.getIdTipoEntrada();
+        if(requestIDEn){
+          idTipoMovimiento = requestIDEn;
+        }
+        break;
+    
+      case TipoMovimiento.Salida:
+        procedimientoAlmacenado = "decrementarstockdeposito";
+        let requestIDSal = await this.getIdTipoSalida();
+        if(requestIDSal){
+          idTipoMovimiento = requestIDSal;
+        }
+        break;
+    }
+
+    let requestMovimiento = await this.supabase.from("Movimiento")
       .insert({
         "idDeposito": idDeposito,
-        "idTipoMovimiento": await this.getIdTipoEntrada(),
+        "idTipoMovimiento": idTipoMovimiento,
         "cantidad": cantidad
-      }).single() as {data: Movimiento[], error: any};
+      }).single() as {data: Movimiento, error: any};
 
     let requestArticuloDeposito = await this.supabase
       .from("ArticuloDeposito")
@@ -90,20 +91,33 @@ export class MovimientoService {
       .eq("idArticulo", idArticulo).eq("idDeposito", idDeposito)
       .single();
 
-    let idArticuloDeposito = requestArticuloDeposito.data.idArticuloDeposito;
+    let idArticuloDeposito = requestArticuloDeposito.data?.idArticuloDeposito;
+
+    if(idArticuloDeposito == null || idArticuloDeposito == undefined){
+      let nuevoArtDep = await this.supabase
+       .from("ArticuloDeposito")
+       .insert({
+          idArticulo: idArticulo,
+          idDeposito: idDeposito,
+          stock: 0
+       }).single();
+
+       idArticuloDeposito = nuevoArtDep.data?.idArticuloDeposito;
+    }
     
-    let requestDecremento = await this.supabase
-      .rpc('incrementarstockdeposito', {
+    await this.supabase
+      .rpc(procedimientoAlmacenado, {
         cantidad, 
         filaid: idArticuloDeposito
       })
     
-    if(requestDecremento.error){
-      console.log(requestDecremento.error);
-      console.log(`idArticuloDeposito: ${idArticuloDeposito}`);
-      
-    }
-      
+    
+    return {data: requestMovimiento.data, error: requestMovimiento.error};
   }
 
+}
+
+enum TipoMovimiento {
+  Entrada = "Entrada",
+  Salida = "Salida",
 }
