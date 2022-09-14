@@ -1,0 +1,101 @@
+<!-- Contenido de la pagina -->
+
+<p-table
+  #dt
+  [value]="proveedores"
+  [rows]="5"
+  [paginator]="true"
+  [globalFilterFields]="['idMovimiento', 'idDeposito']"
+  responsiveLayout="stack"
+  [rowHover]="true"
+  dataKey="idProveedor"
+  [showCurrentPageReport]="false"
+  [loading]="proveedores == []"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-center align-content-center">
+        <div class="col">
+            <div class="flex align-content-center justify-content-center lg:justify-content-start">
+                
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="aniadir()"></button> 
+                <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"></button>
+            </div>
+        </div>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          class="p-inputtext-md"
+          type="text"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar..."
+        />
+      </span>
+    </div>
+  </ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Telefono</th>
+      <th>Correo</th>
+      <th>Domicilio</th>
+      <th>Fecha de registro</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-proveedor let-columns="columns">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">ID</span
+        >{{ proveedor.idProveedor }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Nombre</span
+        >{{ proveedor.nombre }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Telefono</span
+        >{{ proveedor.telefono }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Correo</span
+        >{{ proveedor.correo }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Domicilio</span
+        >{{ proveedor.domicilio }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Fecha de Registro</span
+        >{{ proveedor.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
+      </td>
+      <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        pTooltip="Editar"
+        icon="pi pi-pencil"
+        class="p-button-rounded p-button-success mr-2"
+        (click)="editar(proveedor)"
+      ></button>
+      <button
+        pButton
+        pRipple
+        pTooltip="Eliminar"
+        tooltipPosition="top"
+        icon="pi pi-trash"
+        class="p-button-rounded p-button-warning mr-2"
+        
+      ></button>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ proveedores ? proveedores.length : 0 }} proveedores
+      registrados.
+    </div>
+  </ng-template>
+</p-table>
