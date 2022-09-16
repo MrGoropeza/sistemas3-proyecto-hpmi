@@ -2,10 +2,11 @@
 
 export interface Proveedor{
     idProveedor: number;
-    nombre : string | null;
-    telefono : string | null;
-    correo : string | null;
-    domicilio : string | null;
+    nombre : string;
+    telefono : string ;
+    correo : string ;
+    domicilio : string;
     fechaRegistro : Date;
+    estado : boolean;
 }
 export type proveedorData = Omit<Proveedor,"idProveedor"|"fechaRegistro">
