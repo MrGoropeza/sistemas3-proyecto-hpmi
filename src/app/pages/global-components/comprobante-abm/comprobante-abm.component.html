@@ -40,7 +40,7 @@
       <th>Proveedor</th>
       <th>Fecha de registro</th>
       <th>Sub-Total</th>
-      <th >Tipo de Factura</th>
+      <th *ngIf="comprobantes[0].categoria">Tipo de Factura</th>
       <th>Acciones</th>
     </tr>
   </ng-template>
@@ -62,8 +62,8 @@
         <span class="p-column-title font-bold">Subtotal</span
         >{{ comprobante.subTotal }}
       </td>
-      <td >
-        <span class="p-column-title font-bold" *ngIf="comprobantes[0].categoria">Categoria</span
+      <td *ngIf="comprobantes[0].categoria" >
+        <span class="p-column-title font-bold" >Categoria</span
         >{{ comprobante.categoria }}
       </td>
       

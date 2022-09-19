@@ -13,6 +13,8 @@ import { UsuariosPageComponent } from "./pages/usuarios-page/usuarios-page.compo
 import { DepositoFarmaciaPageComponent } from "./pages/deposito-farmacia-page/deposito-farmacia-page.component";
 import { ProveedorPageComponent } from "./pages/proveedor-page/proveedor-page.component";
 import { FacturaPageComponent } from "./pages/factura-page/factura-page.component";
+import { OrdenCompraPageComponent } from "./pages/orden-compra-page/orden-compra-page.component";
+import { RemitoPageComponent } from "./pages/remito-page/remito-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -114,6 +116,18 @@ const routes: Routes = [
             data: { breadcrumb: "Facturas" },
             title: "Facturas",
             component: FacturaPageComponent,
+          },
+          {
+            path: "ordenesCompra",
+            data: { breadcrumb: "Ordenes de Compra" },
+            title: "Facturas",
+            component: OrdenCompraPageComponent,
+          },
+          {
+            path: "remitos",
+            data: { breadcrumb: "Remitos" },
+            title: "Facturas",
+            component: RemitoPageComponent,
           },
         ],
       },

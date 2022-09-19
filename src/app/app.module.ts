@@ -43,6 +43,8 @@ import { ProveedorDialogComponent } from "./pages/proveedor-page/components/prov
 import { DialogService } from "primeng/dynamicdialog";
 import { ComprobanteABMComponent } from './pages/global-components/comprobante-abm/comprobante-abm.component';
 import { FacturaPageComponent } from './pages/factura-page/factura-page.component';
+import { OrdenCompraPageComponent } from './pages/orden-compra-page/orden-compra-page.component';
+import { RemitoPageComponent } from './pages/remito-page/remito-page.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,8 @@ import { FacturaPageComponent } from './pages/factura-page/factura-page.componen
     ProveedorDialogComponent,
     ComprobanteABMComponent,
     FacturaPageComponent,
+    OrdenCompraPageComponent,
+    RemitoPageComponent,
   ],
   imports: [
     BrowserModule,
