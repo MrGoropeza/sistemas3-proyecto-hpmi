@@ -21,6 +21,7 @@ export class ProveedorDialogComponent implements OnInit {
     telefono: [this.proveedor.telefono, Validators.required],
     correo: [this.proveedor.correo, Validators.required],
     domicilio: [this.proveedor.domicilio, Validators.required],
+    cuit: [this.proveedor.CUIT, Validators.required],
   });
   constructor(
     public ref: DynamicDialogRef,
@@ -43,6 +44,7 @@ export class ProveedorDialogComponent implements OnInit {
       this.proveedor.correo = this.proveedorForm.controls['correo'].value || ""; 
       this.proveedor.domicilio = this.proveedorForm.controls['domicilio'].value || "";
       this.proveedor.telefono = this.proveedorForm.controls['telefono'].value || "";
+      this.proveedor.CUIT = this.proveedorForm.controls['cuit'].value || "";
       if(!this.proveedor.idProveedor){
         this.servicioProveedor.insert(this.proveedor);
       }else{
