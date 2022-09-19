@@ -12,6 +12,7 @@ import { InicioPageComponent } from "./pages/inicio-page/inicio-page.component";
 import { UsuariosPageComponent } from "./pages/usuarios-page/usuarios-page.component";
 import { DepositoFarmaciaPageComponent } from "./pages/deposito-farmacia-page/deposito-farmacia-page.component";
 import { ProveedorPageComponent } from "./pages/proveedor-page/proveedor-page.component";
+import { FacturaPageComponent } from "./pages/factura-page/factura-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -107,6 +108,12 @@ const routes: Routes = [
             data: { breadcrumb: "Proveedores" },
             title: "Proveedores",
             component: ProveedorPageComponent,
+          },
+          {
+            path: "facturas",
+            data: { breadcrumb: "Facturas" },
+            title: "Facturas",
+            component: FacturaPageComponent,
           },
         ],
       },
