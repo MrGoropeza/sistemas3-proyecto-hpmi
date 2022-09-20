@@ -6,26 +6,26 @@
   styleClass="p-fluid w-8 overflow-y-scroll" contentStyleClass="max-h-full overflow-visible" 
 >
   <div class="grid">
-    <div class="col-5">
+    <div class="col-6">
       <p>
         <strong>Fecha de Registro: </strong>
         {{ movimiento.fechaRegistro | date: "dd/MM/yyyy" }}
       </p>
     </div>
-    <div class="col-5">
+    <div class="col-6">
       <p>
         <strong>Hora:</strong> {{ movimiento.fechaRegistro | date: "H:mm" }}
       </p>
     </div>
   </div>
   <div class="grid">
-    <div class="col-4">
+    <div class="col-6">
       <p>
         <strong>Deposito:</strong> {{ movimiento.idDeposito   }}
       </p>
     </div>
 
-    <div class="col-8">
+    <div class="col-6">
       <p>
         <strong>Tipo de movimiento:</strong> {{ movimiento.idTipoMovimiento.nombre }}
       </p>
