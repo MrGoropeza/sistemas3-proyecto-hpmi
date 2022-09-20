@@ -45,6 +45,9 @@ import { ComprobanteABMComponent } from './pages/global-components/comprobante-a
 import { FacturaPageComponent } from './pages/factura-page/factura-page.component';
 import { OrdenCompraPageComponent } from './pages/orden-compra-page/orden-compra-page.component';
 import { RemitoPageComponent } from './pages/remito-page/remito-page.component';
+import { ComprobanteDialogComponent } from './pages/global-components/comprobante-abm/components/comprobante-dialog/comprobante-dialog.component';
+import { SeleccionarArticulosComponent } from './pages/global-components/comprobante-abm/components/seleccionar-articulos/seleccionar-articulos.component';
+import { SetearArticulosComponent } from './pages/global-components/comprobante-abm/components/setear-articulos/setear-articulos.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +89,9 @@ import { RemitoPageComponent } from './pages/remito-page/remito-page.component';
     FacturaPageComponent,
     OrdenCompraPageComponent,
     RemitoPageComponent,
+    ComprobanteDialogComponent,
+    SeleccionarArticulosComponent,
+    SetearArticulosComponent,
   ],
   imports: [
     BrowserModule,

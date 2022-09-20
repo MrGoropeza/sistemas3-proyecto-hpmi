@@ -12,7 +12,7 @@ export class OrdenCompraPageComponent implements OnInit {
   constructor(private comprobanteServicio : ComprobantesService) { }
 
   ngOnInit(): void {
-    this.getOrdenes();
+    
   }
   public getOrdenes(){
     this.comprobanteServicio.getComprobante(2).subscribe(
