@@ -28,13 +28,14 @@ import {ScrollTopModule} from 'primeng/scrolltop';
 import {ListboxModule} from 'primeng/listbox';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {PanelMenuModule} from 'primeng/panelmenu';
-
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
   ],
   exports: [
+    DynamicDialogModule,
     ToolbarModule,
     SlideMenuModule,
     ButtonModule,

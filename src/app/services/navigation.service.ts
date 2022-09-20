@@ -57,6 +57,26 @@ export class NavigationService{
             label: 'Movimientos',
             icon: 'pi pi-sort-alt',
             routerLink: "/farmacia/abmMovimientos"
+          },
+          {
+            label: 'Proveedores',
+            icon: 'bi bi-person-rolodex',
+            routerLink: "/farmacia/proveedores"
+          },
+          {
+            label: 'Facturas',
+            icon: 'bi bi-receipt',
+            routerLink: "/farmacia/facturas"
+          },
+          {
+            label: 'Ordenes de Compra',
+            icon: 'bi bi-cart',
+            routerLink: "/farmacia/ordenesCompra"
+          },
+          {
+            label: 'Remitos',
+            icon: 'bi bi-card-heading',
+            routerLink: "/farmacia/remitos"
           }
         ]
       },

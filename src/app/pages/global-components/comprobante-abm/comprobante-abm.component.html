@@ -1,0 +1,98 @@
+<!-- Contenido de la pagina -->
+
+<p-table
+  #dt
+  [value]="comprobantes"
+  [rows]="5"
+  [paginator]="true"
+  [globalFilterFields]="['idComprobante', 'idTipoComprobante']" 
+  responsiveLayout="stack"
+  [rowHover]="true"
+  dataKey="idComprobante"
+  [showCurrentPageReport]="false"
+  [loading]="comprobantes == []"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-center align-content-center">
+        <div class="col">
+            <div class="flex align-content-center justify-content-center lg:justify-content-start">
+                
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" ></button> 
+                <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"></button>
+            </div>
+        </div>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          class="p-inputtext-md"
+          type="text"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar..."
+        />
+      </span>
+    </div>
+  </ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>ID</th>
+      <th>Proveedor</th>
+      <th>Fecha de registro</th>
+      <th>Sub-Total</th>
+      <th *ngIf="comprobantes[0].categoria">Tipo de Factura</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-comprobante let-columns="columns" let-rowIndex="rowIndex">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">ID</span
+        >{{ rowIndex +1 }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Nombre de Proveedor</span
+        >{{ comprobante.idProveedor.nombre }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Fecha</span
+        >{{ comprobante.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Subtotal</span
+        >{{ comprobante.subTotal }}
+      </td>
+      <td *ngIf="comprobantes[0].categoria" >
+        <span class="p-column-title font-bold" >Categoria</span
+        >{{ comprobante.categoria }}
+      </td>
+      
+      <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        pTooltip="Editar"
+        icon="pi pi-pencil"
+        class="p-button-rounded p-button-success mr-2"
+        
+      ></button>
+      <button
+        pButton
+        pRipple
+        pTooltip="Eliminar"
+        tooltipPosition="top"
+        icon="pi pi-trash"
+        class="p-button-rounded p-button-warning mr-2"
+        
+        
+      ></button>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ comprobantes ? comprobantes.length : 0 }} {{titulo}}
+      registrados.
+    </div>
+  </ng-template>
+</p-table>

@@ -1,12 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'nombreDeposito'
+  name: 'nombreDeposito',
+  pure: true
 })
 export class NombreDepositoPipe implements PipeTransform {
 
   transform(id : number): string {
-    return "Deposito " + id;
+    console.log("holaa");
+    
+    return "Deposito " + id.toString();
   }
 
 }

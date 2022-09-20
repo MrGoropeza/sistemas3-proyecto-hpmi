@@ -1,0 +1,125 @@
+<form [formGroup]="proveedorForm" class="grid"   (ngSubmit)="guardar()" (cancel)="cerrar()">
+  <div class="field">
+    <label for="nombre" class="block">Nombre</label>
+    <input
+      id="nombre"
+      type="text"
+      pInputText
+      placeholder="Nombre del proveedor"
+      formControlName="nombre"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        proveedorForm.controls['nombre'].invalid &&
+        proveedorForm.controls['nombre'].touched
+      "
+      >Nombre requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="domicilio" class="block">Domicilio</label>
+    <input
+      id="domicilio"
+      type="domicilio"
+      pInputText
+      placeholder="Domicilio del proveedor"
+      name="domicilio"
+      formControlName="domicilio"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        proveedorForm.controls['domicilio'].invalid &&
+        proveedorForm.controls['domicilio'].touched
+      "
+      >Domicilio requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="correo" class="block">Correo</label>
+    <input
+      id="correo"
+      type="correo"
+      pInputText
+      placeholder="correo del proveedor"
+      name="correo"
+      formControlName="correo"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        proveedorForm.controls['correo'].invalid &&
+        proveedorForm.controls['correo'].touched
+      "
+      >Correo requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="telefono" class="block">Telefono</label>
+    <input
+      id="telefono"
+      type="telefono"
+      pInputText
+      placeholder="telefono del proveedor"
+      name="telefono"
+      formControlName="telefono"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        proveedorForm.controls['telefono'].invalid &&
+        proveedorForm.controls['telefono'].touched
+      "
+      >Telefono requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="CUIT" class="block">CUIT</label>
+    <input
+      id="CUIT"
+      type="CUIT"
+      pInputText
+      placeholder="CUIT del proveedor"
+      name="telefono"
+      formControlName="cuit"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        proveedorForm.controls['cuit'].invalid &&
+        proveedorForm.controls['cuit'].touched
+      "
+      >CUIT requerido.</small
+    >
+  </div>
+
+  <div class="grid">
+    <div class="col">
+      <button
+        pButton
+        pRipple
+        type="cancel"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="cerrar()"
+      ></button>
+    </div>
+    <div class="col">
+      <button
+        pButton
+        type="submit"
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+      ></button>
+    </div>
+  </div>
+</form>
