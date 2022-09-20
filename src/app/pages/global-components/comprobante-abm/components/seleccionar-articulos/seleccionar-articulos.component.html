@@ -1,0 +1,7 @@
+<p-table
+    #dt [value]="articulos" [rows]="5" [paginator]="true" responsiveLayout="stack"
+    [(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id"
+    [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+    [loading]="cargando" [totalRecords]="cantTotalArticulos">
+
+</p-table>
