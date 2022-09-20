@@ -37,8 +37,8 @@
       <th>ID</th>
       <th>Proveedor</th>
       <th>Fecha de registro</th>
-      <th>Sub-Total</th>
-      <th *ngIf="comprobantes[0].categoria">Tipo de Factura</th>
+      <th>Total</th>
+      <th *ngIf="idTipoComprobante == 1">Tipo de Factura</th>
       <th>Acciones</th>
     </tr>
   </ng-template>
@@ -57,10 +57,10 @@
         >{{ comprobante.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
       </td>
       <td>
-        <span class="p-column-title font-bold">Subtotal</span
-        >{{ comprobante.subTotal }}
+        <span class="p-column-title font-bold">Total</span
+        >{{ comprobante.subTotal | currency}}
       </td>
-      <td *ngIf="comprobantes[0].categoria" >
+      <td *ngIf="idTipoComprobante == 1" >
         <span class="p-column-title font-bold" >Categoria</span
         >{{ comprobante.categoria }}
       </td>
@@ -72,7 +72,7 @@
         pTooltip="Ver Detalle"
         icon="pi pi-search"
         class="p-button-rounded p-button-info mr-2"
-        
+        (click)="verDetalle(comprobante)"
       ></button>
       <button
         pButton
