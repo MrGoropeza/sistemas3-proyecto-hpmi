@@ -79,13 +79,15 @@ export class ProveedorABMComponent implements OnInit, OnDestroy {
       accept: () => {
         this.servicioProveedor.delete(id).subscribe((res) => {
           console.log(res);
-          this.getProveedores();
-          this.messageService.add({
-            severity: "success",
-            summary: "Éxito",
-            detail: "Proveedor eliminado",
-            life: 3000,
-          });
+          if(res){
+            this.getProveedores();
+            this.messageService.add({
+              severity: "success",
+              summary: "Éxito",
+              detail: "Proveedor eliminado",
+              life: 3000,
+            });
+          }
         });
 
       },
@@ -102,13 +104,16 @@ export class ProveedorABMComponent implements OnInit, OnDestroy {
     this.ref.onClose
       .pipe(
         map((result) => {
-          this.messageService.add({
-            severity: "success",
-            summary: "Éxito",
-            detail: "¡Proveedor modificado con exito!",
-            life: 3000,
-          });
-          this.getProveedores();
+          console.log(result);
+          if(result){
+            this.messageService.add({
+              severity: "success",
+              summary: "Éxito",
+              detail: "¡Proveedor modificado con exito!",
+              life: 3000,
+            });
+            this.getProveedores();
+          }
         })
       )
       .subscribe();
