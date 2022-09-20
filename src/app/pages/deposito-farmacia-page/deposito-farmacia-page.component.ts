@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
+import { SupabaseDepositoSeleccionadoService } from 'src/app/services/deposito-seleccionado/supabase-deposito-seleccionado.service';
 
 @Component({
   selector: 'app-deposito-farmacia-page',
@@ -20,22 +21,18 @@ export class DepositoFarmaciaPageComponent implements OnInit {
   dialog!: boolean;
   
 
-  constructor() { }
+  constructor(
+    private supabaseService: SupabaseDepositoSeleccionadoService
+  ) { 
+    
+  }
 
   ngOnInit(): void {
-
+    this.setIdDeposito();
   }
 
-  onLazyLoad(event: LazyLoadEvent){
-
-  }
-
-  transferirArticulo(articulo: Articulo){
-
-  }
-
-  transferenciaRealizada(event: boolean){
-
+  async setIdDeposito(){
+    this.idDepositoSeleccionado = await this.supabaseService.getDepositoPrincipal();
   }
 
 }

@@ -13,12 +13,12 @@
                     <button pButton pRipple label="Transferir Artículos"
                         icon="pi pi-arrow-up-right" class="p-button-danger" 
                         (click)="transferirSeleccion()"
-                        [disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
+                        aFarmacia4)[disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
                 </div>
             </div> -->
             
             <div class="col">
-                <div class="flex justify-content-start lg:justify-content-center align-content-center ">
+                <div class="flex justify-content-center align-content-center ">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText class="p-inputtext-md" type="text" 
@@ -33,9 +33,9 @@
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th style="width: 3rem">
+            <!-- <th style="width: 3rem">
                 <p-tableHeaderCheckbox [disabled]="false" pTooltip="Seleccionar Todos" tooltipPosition="top"></p-tableHeaderCheckbox>
-            </th>
+            </th> -->
             <th>Id. Artículo</th>
             <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
             <th>Descripción</th>
@@ -48,10 +48,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-articulo let-columns="columns">
         <tr>
-            <td>
+            <!-- <td>
                 <span class="p-column-title font-bold">Seleccionar</span>
                 <p-tableCheckbox [value]="articulo" pTooltip="Seleccionar" tooltipPosition="top"></p-tableCheckbox>
-            </td>
+            </td> -->
             <td><span class="p-column-title font-bold">Id. Artículo</span>{{articulo.id}}</td>
             <td><span class="p-column-title font-bold">Nombre</span>{{articulo.nombre}}</td>
             <td><span class="p-column-title font-bold">Descripción</span>{{articulo.descripcion}}</td>

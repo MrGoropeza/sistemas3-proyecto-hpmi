@@ -15,7 +15,7 @@
       <th>#</th>
       <th>Nombre del articulo</th>
       <th>Descripción</th>
-      <th>Stock</th>
+      <th>Cantidad</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-detalle let-rowIndex="rowIndex" let-columns="columns">
@@ -23,7 +23,7 @@
       <td><span class="p-column-title font-bold">#</span>{{ rowIndex+1 }}</td>
       <td><span class="p-column-title font-bold">Nombre del artículo</span>{{ detalle.articulo.nombre }}</td>
       <td><span class="p-column-title font-bold">Descripcion</span>{{ detalle.articulo.descripcion }}</td>
-      <td><span class="p-column-title font-bold">Stock</span>{{ detalle.stock }}</td>
+      <td><span class="p-column-title font-bold">Cantidad</span>{{ detalle.stock }}</td>
     </tr>
   </ng-template>
 </p-table>

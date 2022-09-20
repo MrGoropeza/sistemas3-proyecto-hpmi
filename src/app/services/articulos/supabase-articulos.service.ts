@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { Articulo } from 'src/app/models/articulo';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { CategoriaArticulo } from 'src/app/models/categoriaArticulo';
+import { IArticuloDepositoView } from 'src/app/models/IArticuloDeposito';
+import { IDeposito } from 'src/app/models/IDeposito';
+import { ITipoDeposito } from 'src/app/models/ITipoDeposito';
 import { UnidadArticulo } from 'src/app/models/unidadArticulo';
 import { SupabaseService } from '../supabase.service';
 
@@ -14,6 +17,7 @@ import { SupabaseService } from '../supabase.service';
 export class SupabaseArticulosService {
 
   supabase: SupabaseClient;
+  idDepositoFarmacia!: number;
 
   constructor(
     private supabaseService: SupabaseService,
@@ -35,7 +39,30 @@ export class SupabaseArticulosService {
       .select("id, nombre, abreviacion");
   }
 
-  createArticulo(articulo: Articulo){
+  async getDepositoPrincipal(){
+    let requestTipo = await this.supabase
+      .from<ITipoDeposito>("TipoDeposito")
+      .select("*")
+      .eq("nombre", "Almacén Principal de Farmacia");
+
+    let resultado = -1;    
+
+    if(requestTipo.data){
+      let requestDeposito = await this.supabase
+        .from("Deposito")
+        .select("*")
+        .eq("idTipoDeposito", requestTipo.data[0].idTpoDeposito);
+      
+      if(requestDeposito.data){
+        
+        resultado = requestDeposito.data[0].idDeposito;
+      }
+    }
+
+    return resultado;
+  }
+
+  async createArticulo(articulo: Articulo){
     return this.supabase.from("Articulo")
       .insert({
         nombre: articulo.nombre,
@@ -45,6 +72,18 @@ export class SupabaseArticulosService {
         fechaVencimiento: articulo.fechaVencimiento,
         stock: articulo.stock        
       });
+    
+  }
+
+  async createArticuloDepositoFarmacia(idArticulo: number){
+    let {data, error} = await this.supabase.from("ArticuloDeposito")
+      .insert({
+        idDeposito: await this.getDepositoPrincipal(),
+        idArticulo: idArticulo,
+        stock: 0
+      });
+
+    return {data, error};
   }
 
   async getCantArticulos(){

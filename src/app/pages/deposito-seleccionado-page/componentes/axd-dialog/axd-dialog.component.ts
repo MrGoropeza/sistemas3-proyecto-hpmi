@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
@@ -11,7 +11,8 @@ import { SupabaseDepositoSeleccionadoService } from 'src/app/services/deposito-s
   templateUrl: './axd-dialog.component.html',
   styleUrls: ['./axd-dialog.component.css']
 })
-export class AxdDialogComponent implements OnInit {
+export class AxdDialogComponent implements OnInit, OnChanges {
+
 
   @Input() dialog!: boolean;
   @Output() dialogChange = new EventEmitter<boolean>();
@@ -38,6 +39,14 @@ export class AxdDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.onLazyLoad();
+    
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.articulo){
+      this.formTransferencia.controls["cantidad"].addValidators(Validators.max(this.articulo.stock));
+    }
+    
   }
 
   async onLazyLoad(event?: LazyLoadEvent){
@@ -63,27 +72,43 @@ export class AxdDialogComponent implements OnInit {
     this.dialogChange.emit(false);
   }
 
-  // async realizarTransferencia(){
-  //   if(this.formTransferencia.valid){
-  //     this.confirmado = true;
-  //     let transferencia = await this.supabaseService.realizarTransferencia(
-  //       this.idDepositoSeleccionado,
-  //       (this.formTransferencia.controls["destino"].value![0] as any).idDeposito,
-  //       this.articulo,
-  //       this.formTransferencia.controls["cantidad"].value!);
+  async realizarTransferencia(){
+    if(this.formTransferencia.valid){
+      this.confirmado = true;
+
+      console.log(this.formTransferencia.controls["destino"].value!);
       
-  //     if(transferencia){
-  //       this.creando.emit(false);
-  //       this.ocultarDialog();
-  //     }else{
+      let transferencia = await this.supabaseService.realizarTransferencia(
+        this.idDepositoSeleccionado,
+        (this.formTransferencia.controls["destino"].value![0] as Deposito).idDeposito,
+        this.articulo,
+        this.formTransferencia.controls["cantidad"].value!);
+      
+      if(transferencia.dataEntrada && transferencia.dataSalida){
+        this.ocultarDialog();
+        this.messageService.add(
+          {
+            severity:'success', 
+            summary: 'Éxito', 
+            detail: 'Transferencia realizada correctamente.', 
+            life: 3000}
+        );
+      }else{
+        this.messageService.add(
+          {
+            severity:'error', 
+            summary: 'Error', 
+            detail: 'Algo falló al realizar la transferencia, intente de nuevo.', 
+            life: 3000}
+        );
+      }
+      
 
-  //     }
-
-  //   }else{
-
-  //   }
+    }else{
+      this.formTransferencia.markAllAsTouched();
+    }
     
-  // }
+  }
 
 
 }

@@ -21,7 +21,8 @@
                 emptyFilterMessage="Ningún deposito con el ID ingresado."
                 [options]="destinos" [selectionLimit]="1" optionLabel="idDeposito"
                 [lazy]="false" (onLazyLoad)="onLazyLoad($event)"
-                [virtualScroll]="true" [virtualScrollItemSize]="5">
+                [virtualScroll]="true" [virtualScrollItemSize]="5"
+                >
                 <ng-template pTemplate="item" let-destino>
                     Depósito ID: {{destino.idDeposito}} - Sector: {{destino.idSector}} - Planta: {{destino.idPlanta}}
                 </ng-template>
@@ -40,7 +41,7 @@
             <small id="cantidad-help" class="p-error block"
                 *ngIf="formTransferencia.controls['cantidad'].invalid 
                     && formTransferencia.controls['cantidad'].touched">
-                Cantidad requerida mayor a 0.
+                Cantidad requerida mayor a 0 y menor al stock disponible.
             </small>
         </div>
         
@@ -53,7 +54,7 @@
             class="p-button-text" (click)="ocultarDialog()"
             [loading]="confirmado"></button>
         <button pButton pRipple label="Guardar" icon="pi pi-check" 
-            class="p-button-text" 
+            class="p-button-text" (click)="realizarTransferencia()"
             [loading]="confirmado"></button>
     </ng-template>
 

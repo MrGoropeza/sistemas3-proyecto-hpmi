@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
@@ -10,7 +10,7 @@ import { ArticuloDeDepositoService } from 'src/app/services/deposito/articulo-de
   templateUrl: './tabla.component.html',
   styleUrls: ['./tabla.component.css']
 })
-export class TablaComponent implements OnInit {
+export class TablaComponent implements OnInit{
 
   articulo!: Articulo;
   articulos: Articulo[] = [];
@@ -21,7 +21,8 @@ export class TablaComponent implements OnInit {
   dialog: boolean = false;
   cargando: boolean = false;
 
-  idDepositoSeleccionado! : number;
+  @Input() idDepositoSeleccionado! : number;
+  @Input() idHeredado! : boolean;
   
   constructor(
     private servicioArticulos : ArticuloDeDepositoService,
@@ -31,7 +32,9 @@ export class TablaComponent implements OnInit {
     private messageService : MessageService) { }
 
   ngOnInit(): void {
-    this.idDepositoSeleccionado = this.arouter.snapshot.params['id'];
+    if(!this.idHeredado){
+      this.idDepositoSeleccionado = this.arouter.snapshot.params['id'];
+    }
   }
 
   async onLazyLoad(event: LazyLoadEvent){

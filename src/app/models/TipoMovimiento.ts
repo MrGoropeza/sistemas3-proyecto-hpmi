@@ -1,3 +1,4 @@
-export interface TipoMovimiento{
+export interface ITipoMovimiento{
+    id: number;
     nombre: string;
 }
