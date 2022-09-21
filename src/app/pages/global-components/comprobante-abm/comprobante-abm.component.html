@@ -13,7 +13,7 @@
   [loading]="comprobantes == []"
 >
   <ng-template pTemplate="caption">
-    <div class="flex justify-content-center align-content-center">
+    <div class="flex flex-wrap justify-content-center align-content-center">
         <div class="col">
             <div class="flex align-content-center justify-content-center lg:justify-content-start">
                 <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="aniadir()"></button> 
@@ -38,7 +38,7 @@
       <th>Proveedor</th>
       <th>Fecha de registro</th>
       <th>Sub-Total</th>
-      <th *ngIf="comprobantes[0].categoria">Tipo de Factura</th>
+      <th *ngIf="idTipoComprobante == 1">Tipo de Factura</th>
       <th>Acciones</th>
     </tr>
   </ng-template>
@@ -65,25 +65,30 @@
         >{{ comprobante.categoria }}
       </td>
       
-      <button
-        pButton
-        pRipple
-        tooltipPosition="top"
-        pTooltip="Ver Detalle"
-        icon="pi pi-search"
-        class="p-button-rounded p-button-info mr-2"
-        
-      ></button>
-      <button
-        pButton
-        pRipple
-        pTooltip="Eliminar"
-        tooltipPosition="top"
-        icon="pi pi-trash"
-        class="p-button-rounded p-button-warning mr-2"
-        
-        
-      ></button>
+      <td>
+        <div>
+          <button
+            pButton
+            pRipple
+            tooltipPosition="top"
+            pTooltip="Ver Detalle"
+            icon="pi pi-search"
+            class="p-button-rounded p-button-info mr-2"
+            
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning mr-2"
+            
+            
+          ></button>
+        </div>
+      </td>
+      
     </tr>
   </ng-template>
 

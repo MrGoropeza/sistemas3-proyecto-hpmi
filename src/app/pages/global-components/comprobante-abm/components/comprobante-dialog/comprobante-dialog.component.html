@@ -1,12 +1,61 @@
-<app-seleccionar-articulos></app-seleccionar-articulos>
+<form [formGroup]="formComprobante">
+  <div class="field flex flex-column">
+    <label for="proveedor">Proveedor</label>
+    <p-dropdown inputId="proveedor" [options]="proveedores"
+        placeholder="Seleccionar" formControlName="proveedor"
+        optionLabel="nombre" name="proveedor">
+        <ng-template let-option pTemplate="item">
+            {{option.nombre}}
+        </ng-template>
+    </p-dropdown>
+    <small class="p-error" 
+      *ngIf="formComprobante.controls['proveedor'].invalid 
+      && formComprobante.controls['proveedor'].touched">Proveedor requerido.</small>
+  </div>
 
-<app-setear-articulos></app-setear-articulos>
+  <div class="field flex flex-column">
+    <label for="articulos">Articulos</label>
+    <small class="p-error"
+      *ngIf="formComprobante.controls['articulosSeleccionados'].invalid 
+      && formComprobante.controls['articulosSeleccionados'].touched">Selección de artículos requerida.</small>
+    <app-seleccionar-articulos (articuloSeleccionado)="articuloSeleccionado($event)"></app-seleccionar-articulos>
+  </div>
+  
+  <div *ngFor="let articulo of articulosSeleccionados, let i=index">
+    <h4>Artículo #{{i}}: {{articulo.nombre}}, {{articulo.descripcion}}</h4>
+    
+    <div class="field flex flex-column">
+      <label for="articulo{{i}}-precio">Precio: </label>
+      <input id="articulo{{i}}-precio" type="number" pInputText
+          placeholder="Precio del artículo" formControlName="articulo{{i}}-precio"/>
+      <small class="p-error"
+        *ngIf="formComprobante.controls['articulo{{i}}-precio'].invalid 
+        && formComprobante.controls['articulo{{i}}-precio'].touched">Precio requerido.</small>
+    </div>
+
+    <div class="field flex flex-column">
+      <label for="articulo{{i}}-cantidad">Cantidad: </label>
+
+      <small class="p-error">Cantidad requerida.</small>
+    </div>
+  </div>
+  
+
+</form>
+
+
+
+<p>{{formComprobante.value | json}}</p>
+
+<p>{{formComprobante.controls}}</p>
+
+
 
 <div class="flex justify-content-end">
   <button
     pButton
     pRipple
-    type="cancel"
+    type="button"
     label="Cancelar"
     icon="pi pi-times"
     class="p-button-text"
@@ -15,10 +64,10 @@
 
   <button
     pButton
-    type="submit"
+    type="button"
     pRipple
     label="Guardar"
     icon="pi pi-check"
     class="p-button-text"
   ></button>
-  </div>
+</div>
