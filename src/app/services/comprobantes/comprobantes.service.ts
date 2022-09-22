@@ -24,7 +24,7 @@ export class ComprobantesService {
   }
 
   public async getDetalle(id: number){
-    let { data: DetalleComprobante, error } = await this.supabase.getSupabaseClient()
+    let { data: DetalleComprobante, error } = await this.supabase
   .from<DetalleComprobante>('DetalleComprobante')
   .select(`
   idArticulo : idArticulo(nombre,descripcion),
