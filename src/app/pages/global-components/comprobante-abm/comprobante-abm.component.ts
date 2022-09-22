@@ -19,6 +19,8 @@ export class ComprobanteABMComponent implements OnInit {
 
   ref!: DynamicDialogRef;
 
+  loading: boolean = true;
+
   constructor(
     private dialogService: DialogService,
     private comprobanteServicio: ComprobantesService,
@@ -33,8 +35,9 @@ export class ComprobanteABMComponent implements OnInit {
   public getComprobantes(){
     this.comprobanteServicio.getComprobante(this.idTipoComprobante).subscribe(
       (comprobantes)=>{
-        console.log(comprobantes);
+        this.loading = true;
         this.comprobantes = comprobantes;
+        this.loading = false;
       }
     );
   }
@@ -45,7 +48,7 @@ export class ComprobanteABMComponent implements OnInit {
       width: "90%",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
-      data: { comprobante: {} as Comprobante },
+      data: { comprobante: {} as Comprobante, idTipoComprobante: this.idTipoComprobante},
     });
     this.ref.onClose
       .pipe(

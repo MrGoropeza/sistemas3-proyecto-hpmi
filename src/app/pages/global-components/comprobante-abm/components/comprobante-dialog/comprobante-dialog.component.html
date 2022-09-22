@@ -1,27 +1,54 @@
 <form [formGroup]="formComprobante">
-  <div class="field flex flex-column">
-    <label class="font-bold" for="proveedor">Proveedor</label>
-    <p-dropdown
-      inputId="proveedor"
-      [options]="proveedores"
-      placeholder="Seleccionar"
-      formControlName="proveedor"
-      optionLabel="nombre"
-      name="proveedor"
-    >
-      <ng-template let-option pTemplate="item">
-        {{ option.nombre }}
-      </ng-template>
-    </p-dropdown>
-    <small
-      class="p-error"
-      *ngIf="
-        formComprobante.controls['proveedor'].invalid &&
-        formComprobante.controls['proveedor'].touched
-      "
-      >Proveedor requerido.</small
-    >
+
+  <div class="flex gap-3">
+    <div class="field flex flex-column">
+      <label class="font-bold" for="proveedor">Proveedor</label>
+      <p-dropdown
+        inputId="proveedor"
+        [options]="proveedores"
+        placeholder="Seleccionar"
+        formControlName="proveedor"
+        optionLabel="nombre"
+        name="proveedor"
+      >
+        <ng-template let-option pTemplate="item">
+          {{ option.nombre }}
+        </ng-template>
+      </p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="
+          formComprobante.controls['proveedor'].invalid &&
+          formComprobante.controls['proveedor'].touched
+        "
+        >Proveedor requerido.</small
+      >
+    </div>
+  
+    <div class="field flex flex-column" *ngIf="idTipoComprobante === 1">
+      <label class="font-bold" for="tipoFactura">Tipo de Factura</label>
+      <p-dropdown
+        inputId="tipoFactura"
+        [options]="tiposFactura"
+        placeholder="Seleccionar"
+        formControlName="tipoFactura"
+        name="tipoFactura"
+      >
+        <ng-template let-option pTemplate="item">
+          {{ option }}
+        </ng-template>
+      </p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="
+          formComprobante.controls['tipoFactura'].invalid &&
+          formComprobante.controls['tipoFactura'].touched
+        "
+        >Tipo de Factura requerida.</small
+      >
+    </div>
   </div>
+  
 
 </form>
 
@@ -69,7 +96,8 @@
               <span class="p-column-title font-bold">Cantidad</span>
               <div class="field flex flex-column">
                 <input #inputCant id="cantidad" type="number" pInputText min="0"
-                    placeholder="Cantidad del artículo" [(ngModel)]="articulo.cantidad"/>
+                    placeholder="Cantidad del artículo" [(ngModel)]="articulo.cantidad"
+                    (change)="actualizarSubtotal()"/>
                 <small class="p-error"
                     *ngIf="!articulo.cantidad && articulo.cantidad <= 0">Cantidad requerida mayor a 0.</small>
             </div>
@@ -78,7 +106,8 @@
               <span class="p-column-title font-bold">Precio</span>
               <div class="field flex flex-column">
                 <input #inputCant id="precio" type="number" pInputText min="0"
-                    placeholder="Precio del artículo" [(ngModel)]="articulo.precio"/>
+                    placeholder="Precio del artículo" [(ngModel)]="articulo.precio"
+                    (change)="actualizarSubtotal()"/>
                 <small class="p-error"
                     *ngIf="!articulo.precio && articulo.precio <= 0">Precio requerido mayor a 0.</small>
             </div>
@@ -102,7 +131,11 @@
   </div>
 </div>
 
-<p>{{ formComprobante.value | json }}</p>
+<!-- <p>{{ formComprobante.value | json }}</p> -->
+
+<div class="flex justify-content-end">
+  <p class="m-0 mb-2 p-0 font-bold text-lg">Subtotal: {{ subtotal | currency }}</p>
+</div>
 
 <div class="flex justify-content-end">
   <button

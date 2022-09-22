@@ -6,6 +6,7 @@ import { ArticuloComprobante } from "src/app/models/ArticuloComprobante";
 import { ArticuloView } from "src/app/models/ArticuloView";
 import { Comprobante } from "src/app/models/Comprobante";
 import { SupabaseService } from "../supabase.service";
+import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service"
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +15,10 @@ export class ComprobantesService {
 
   supabase: SupabaseClient;
 
-  constructor(private supabaseService: SupabaseService) {
+  constructor(
+    private supabaseService: SupabaseService,
+    private depositoService: SupabaseDepositoSeleccionadoService
+  ) {
     this.supabase = supabaseService.getSupabaseClient();
   }
 
@@ -89,7 +93,75 @@ export class ComprobantesService {
   } 
 
 
-  async addComprobante(){
-    
+  async addComprobante(
+    idProveedor: number, 
+    idTipoComprobante: number, 
+    articulos: ArticuloComprobante[],
+    categoria?: string, )
+  {
+    let subtotal = 0;
+    let errors = [];
+
+    articulos.forEach(articulo => {
+      subtotal += articulo.cantidad * articulo.precio;
+      
+    });
+
+    let requestComprobante = await this.supabase.from("Comprobante")
+      .insert({
+        idProveedor: idProveedor,
+        idTipoComprobante: idTipoComprobante,
+        categoria: categoria,
+        subTotal: subtotal,
+      }).single();
+
+    if(requestComprobante.data){
+      let idComprobante = requestComprobante.data.idComprobante;
+
+      articulos.forEach(async articulo => {
+        let requestDetalle = await this.supabase
+          .from("DetalleComprobante")
+          .insert({
+            idComprobante: idComprobante,
+            idArticulo: articulo.id,
+            cantidad: articulo.cantidad,
+            precio: articulo.precio
+          }).single();
+
+        if(idTipoComprobante === 3){
+          let idDepositoPrincipal = await this.depositoService.getDepositoPrincipal();
+
+          let requestStockActualizable = await this.supabase
+            .from("ArticuloDeposito")
+            .select("idArticuloDeposito, stock")
+            .eq("idArticulo", articulo.id).eq("idDeposito", idDepositoPrincipal)
+            .single();
+
+          if(requestStockActualizable.data){
+            let requestUpdateStock = await this.supabase
+              .from("ArticuloDeposito")
+              .update({
+                stock: requestStockActualizable.data.stock + articulo.cantidad
+              })
+              .eq("idArticuloDeposito", requestStockActualizable.data.idArticuloDeposito)
+
+            if(requestUpdateStock.error){
+              errors.push(requestUpdateStock.error);
+            }
+          }else{
+            errors.push(requestStockActualizable.error);
+          }
+        }
+
+        if(requestDetalle.error){
+          errors.push(requestDetalle.error);
+        }
+      });
+
+    }else{
+      errors.push(requestComprobante.error);
+    }
+
+    return errors;
   }
 }
