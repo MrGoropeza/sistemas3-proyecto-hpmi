@@ -23,20 +23,34 @@
   
   <div *ngFor="let articulo of articulosSeleccionados, let i=index">
     <h4>Artículo #{{i}}: {{articulo.nombre}}, {{articulo.descripcion}}</h4>
+
+    <button
+      pButton
+      pRipple
+      tooltipPosition="top"
+      pTooltip="Agregar"
+      icon="pi pi-plus"
+      class="p-button-rounded p-button-info mr-2"
+      (click)="quitarArticulo(articulo)"
+  ></button>
     
     <div class="field flex flex-column">
       <label for="articulo{{i}}-precio">Precio: </label>
-      <input id="articulo{{i}}-precio" type="number" pInputText
+      <input #inputPrecio id="articulo{{i}}-precio" type="number" pInputText min="0"
           placeholder="Precio del artículo" formControlName="articulo{{i}}-precio"/>
       <small class="p-error"
-        *ngIf="formComprobante.controls['articulo{{i}}-precio'].invalid 
-        && formComprobante.controls['articulo{{i}}-precio'].touched">Precio requerido.</small>
+        *ngIf="inputPrecio.value !== '' && $any(inputPrecio.value) >= 0
+          && inputPrecio.classList.contains('ng-touched')">Precio requerido.</small>
     </div>
+    
 
     <div class="field flex flex-column">
       <label for="articulo{{i}}-cantidad">Cantidad: </label>
-
-      <small class="p-error">Cantidad requerida.</small>
+      <input #inputCant id="articulo{{i}}-cantidad" type="number" pInputText min="0"
+          placeholder="Cantidad del artículo" formControlName="articulo{{i}}-cantidad"/>
+      <small class="p-error"
+        *ngIf="inputCant.classList.contains('ng-invalid')
+        && inputCant.classList.contains('ng-touched')">Cantidad requerida.</small>
     </div>
   </div>
   
@@ -46,8 +60,6 @@
 
 
 <p>{{formComprobante.value | json}}</p>
-
-<p>{{formComprobante.controls}}</p>
 
 
 

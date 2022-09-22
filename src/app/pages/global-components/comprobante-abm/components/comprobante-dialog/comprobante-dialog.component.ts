@@ -40,13 +40,37 @@ export class ComprobanteDialogComponent implements OnInit {
 
   articuloSeleccionado(articulo: ArticuloView){
     if(!this.articulosSeleccionados.find((element) => element.id === articulo.id)){
-      this.formComprobante.addControl(`articulo${this.articulosSeleccionados.length}-precio`, new FormControl("", Validators.required));
-      this.formComprobante.addControl(`articulo${this.articulosSeleccionados.length}-cantidad`, new FormControl("", Validators.required));
+      
+      this.formComprobante.addControl(
+        `articulo${this.articulosSeleccionados.length}-precio`, 
+        new FormControl(0, [Validators.required, Validators.min(0)])
+      );
+      this.formComprobante.addControl(
+        `articulo${this.articulosSeleccionados.length}-cantidad`, 
+        new FormControl(0, [Validators.required, Validators.min(0)])
+      );
       this.articulosSeleccionados.push(articulo);
-      console.log(this.formComprobante.controls[`articulo${this.articulosSeleccionados.length-1}-precio`]);
       
     }
     this.formComprobante.controls['articulosSeleccionados'].setValue(this.articulosSeleccionados);
+  }
+
+  quitarArticulo(articulo: ArticuloView){
+    let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
+    this.formComprobante
+      .controls[`articulo${this.articulosSeleccionados.length-1}-precio`]
+      .reset();
+    this.formComprobante.removeControl(
+      `articulo${this.articulosSeleccionados.length}-precio`
+    );
+    this.formComprobante
+      .controls[`articulo${this.articulosSeleccionados.length-1}-cantidad`]
+      .reset();
+    this.formComprobante.removeControl(
+      `articulo${this.articulosSeleccionados.length}-cantidad`
+    );
+    this.articulosSeleccionados = [];
+    this.articulosSeleccionados = nuevoArray;
   }
 
   cerrar(){
