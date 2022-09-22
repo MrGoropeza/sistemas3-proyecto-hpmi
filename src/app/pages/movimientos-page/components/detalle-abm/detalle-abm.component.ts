@@ -22,6 +22,8 @@ export class DetalleABMComponent implements OnInit {
     this.detalleService.getDetalleMovimiento(this.id).then(
       (detalles) => {
         if (detalles.data) {
+          console.log(detalles.data);
+          
           this.detalles = detalles.data;
           this.cargando = false;
         }

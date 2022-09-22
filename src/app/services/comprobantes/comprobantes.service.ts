@@ -5,6 +5,7 @@ import { from, map, Observable } from "rxjs";
 import { ArticuloComprobante } from "src/app/models/ArticuloComprobante";
 import { ArticuloView } from "src/app/models/ArticuloView";
 import { Comprobante } from "src/app/models/Comprobante";
+import { DetalleComprobante } from "src/app/models/DetalleComprobante";
 import { SupabaseService } from "../supabase.service";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service"
 
@@ -22,6 +23,18 @@ export class ComprobantesService {
     this.supabase = supabaseService.getSupabaseClient();
   }
 
+  public async getDetalle(id: number){
+    let { data: DetalleComprobante, error } = await this.supabase.getSupabaseClient()
+  .from<DetalleComprobante>('DetalleComprobante')
+  .select(`
+  idArticulo : idArticulo(nombre),
+  cantidad,
+  precio
+  `)
+  .eq("idComprobante",id);
+  return { data: DetalleComprobante, error };
+
+  }
   public getComprobante(id : number): Observable<Comprobante[]> {
     const query = this.supabase
       .from("Comprobante")

@@ -52,18 +52,31 @@ export class ProveedorService {
       })
     );
   }
-  public async insert(proveedor: proveedorData) {
-    const { data, error } = await this.supabase
+  public insert(proveedor: proveedorData): Observable<Proveedor> {
+    const query = this.supabase
       .getSupabaseClient()
       .from<Proveedor>("Proveedor")
-      .insert([
+      .insert(
         {
           correo: proveedor.correo,
           nombre: proveedor.nombre,
           telefono: proveedor.telefono,
           domicilio: proveedor.domicilio,
+          CUIT: proveedor.CUIT
         },
-      ]);
-    return { data, error };
+      )
+      .single();
+      return from(query).pipe(
+        map((res) => res.body as Proveedor)
+      );
+  }
+  public getProvis(){
+    const Proveedor = this.supabase.getSupabaseClient()
+  .from('Proveedor')
+  .on('*', payload => {
+    console.log('Change received!', payload)
+  }).subscribe();
+  return Proveedor;
+  
   }
 }

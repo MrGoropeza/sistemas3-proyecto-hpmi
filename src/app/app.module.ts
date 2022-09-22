@@ -48,6 +48,8 @@ import { RemitoPageComponent } from './pages/remito-page/remito-page.component';
 import { ComprobanteDialogComponent } from './pages/global-components/comprobante-abm/components/comprobante-dialog/comprobante-dialog.component';
 import { SeleccionarArticulosComponent } from './pages/global-components/comprobante-abm/components/seleccionar-articulos/seleccionar-articulos.component';
 import { SetearArticulosComponent } from './pages/global-components/comprobante-abm/components/setear-articulos/setear-articulos.component';
+import { DetalleComprobanteComponent } from './pages/global-components/comprobante-abm/components/detalle-comprobante/detalle-comprobante.component';
+import { ArticuloComprobanteABMComponent } from './pages/global-components/comprobante-abm/components/detalle-comprobante/components/articulo-comprobante-abm/articulo-comprobante-abm.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +94,8 @@ import { SetearArticulosComponent } from './pages/global-components/comprobante-
     ComprobanteDialogComponent,
     SeleccionarArticulosComponent,
     SetearArticulosComponent,
+    DetalleComprobanteComponent,
+    ArticuloComprobanteABMComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { Proveedor, proveedorData } from "src/app/models/Proveedor";
 import { ProveedorService } from "src/app/services/proveedor/proveedor.service";
+import { CustomValidator } from "src/app/validators/CustomValidator";
 
 @Component({
   selector: "app-proveedor-dialog",
@@ -21,7 +22,7 @@ export class ProveedorDialogComponent implements OnInit {
     telefono: [this.proveedor.telefono, Validators.required],
     correo: [this.proveedor.correo, Validators.required],
     domicilio: [this.proveedor.domicilio, Validators.required],
-    cuit: [this.proveedor.CUIT, Validators.required],
+    cuit: [this.proveedor.CUIT, [Validators.required,Validators.pattern(CustomValidator)]],
   });
   constructor(
     public ref: DynamicDialogRef,
@@ -31,7 +32,7 @@ export class ProveedorDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.proveedor);
+    console.log("",this.proveedor);
     
   }
   cerrar() {
@@ -46,14 +47,19 @@ export class ProveedorDialogComponent implements OnInit {
       this.proveedor.telefono = this.proveedorForm.controls['telefono'].value || "";
       this.proveedor.CUIT = this.proveedorForm.controls['cuit'].value || "";
       if(!this.proveedor.idProveedor){
-        this.servicioProveedor.insert(this.proveedor);
-      }else{
-        this.servicioProveedor.update(this.proveedor.idProveedor,this.proveedor).subscribe(
-          (response) => console.log(response)
+        this.servicioProveedor.insert(this.proveedor).subscribe(
+          (res)=>{
+            this.ref.close(res);
+          }
         );
+        
+        
+      }else{
+        this.ref.close(this.servicioProveedor.update(this.proveedor.idProveedor,this.proveedor).subscribe());
+        
       }
 
-      this.ref.close();
+      
     }
     
   }

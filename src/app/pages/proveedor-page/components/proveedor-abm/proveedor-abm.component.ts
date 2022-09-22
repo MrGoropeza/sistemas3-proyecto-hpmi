@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from "primeng/api";
 import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { map, Observable } from "rxjs";
 import { Proveedor } from "src/app/models/Proveedor";
+import { LoginPageComponent } from "src/app/pages/login-page/login-page.component";
 import { ProveedorService } from "src/app/services/proveedor/proveedor.service";
 import { ProveedorDialogComponent } from "../proveedor-dialog/proveedor-dialog.component";
 
@@ -21,12 +22,12 @@ import { ProveedorDialogComponent } from "../proveedor-dialog/proveedor-dialog.c
 })
 export class ProveedorABMComponent implements OnInit, OnDestroy {
   proveedores: Proveedor[] = [];
+  isloading: boolean = true;
   ref!: DynamicDialogRef;
   constructor(
     private confirmationService: ConfirmationService,
     public dialogService: DialogService,
     private servicioProveedor: ProveedorService,
-    private formBuilder: FormBuilder,
     private messageService: MessageService
   ) {}
   ngOnDestroy() {
@@ -42,6 +43,7 @@ export class ProveedorABMComponent implements OnInit, OnDestroy {
     this.servicioProveedor.getProveedores().subscribe((proveedores) => {
       if (proveedores) {
         this.proveedores = proveedores;
+        this.isloading = false;
       }
     });
   }
@@ -53,21 +55,17 @@ export class ProveedorABMComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
       data: { proveedor: {} as Proveedor },
     });
-    this.ref.onClose
-      .pipe(
-        map((result) => {
-          if (result) {
-            this.getProveedores();
-            this.messageService.add({
-              severity: "success",
-              summary: "Éxito",
-              detail: "¡Proveedor modificado con exito!",
-              life: 3000,
-            });
-          }
-        })
-      )
-      .subscribe();
+    this.ref.onClose.subscribe((res) => {
+      if (res) {
+        this.proveedores.push(res);
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "¡Proveedor modificado con exito!",
+          life: 3000,
+        });
+      }
+    });
   }
   eliminar(id: number) {
     this.confirmationService.confirm({
@@ -79,7 +77,7 @@ export class ProveedorABMComponent implements OnInit, OnDestroy {
       accept: () => {
         this.servicioProveedor.delete(id).subscribe((res) => {
           console.log(res);
-          if(res){
+          if (res) {
             this.getProveedores();
             this.messageService.add({
               severity: "success",
@@ -89,7 +87,6 @@ export class ProveedorABMComponent implements OnInit, OnDestroy {
             });
           }
         });
-
       },
     });
   }
@@ -101,21 +98,15 @@ export class ProveedorABMComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
       data: { proveedor: proveedor },
     });
-    this.ref.onClose
-      .pipe(
-        map((result) => {
-          console.log(result);
-          if(result){
-            this.messageService.add({
-              severity: "success",
-              summary: "Éxito",
-              detail: "¡Proveedor modificado con exito!",
-              life: 3000,
-            });
-            this.getProveedores();
-          }
-        })
-      )
-      .subscribe();
+    this.ref.onClose.subscribe((res) => {
+      if (res) {
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "¡Proveedor modificado con exito!",
+          life: 3000,
+        });
+      }
+    });
   }
 }

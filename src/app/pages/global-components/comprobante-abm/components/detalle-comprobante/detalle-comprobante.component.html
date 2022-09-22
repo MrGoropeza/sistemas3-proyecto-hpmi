@@ -1,0 +1,23 @@
+<div class="flex">
+  <div class="col">
+    <p>
+      <strong>Numero de comprobante:</strong> {{ comprobante.idComprobante }}
+    </p>
+    <p><strong>Proveedor:</strong> {{ comprobante.idProveedor.nombre }}</p>
+  </div>
+  <div class="col">
+    <p>
+      <strong>Fecha de Registro:</strong>
+      {{ comprobante.fechaRegistro | date: "dd/MM/yyyy" }}
+    </p>
+    <p>
+      <strong>Hora:</strong>
+      {{ comprobante.fechaRegistro | date: "H:mm" }}
+    </p>
+  </div>
+</div>
+<h3>Detalle:</h3>
+<app-articulo-comprobante-abm
+  [idComprobante]="comprobante.idComprobante"
+></app-articulo-comprobante-abm>
+<h3>Total: {{ comprobante.subTotal | currency }}</h3>
