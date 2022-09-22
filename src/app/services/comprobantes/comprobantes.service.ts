@@ -13,7 +13,7 @@ export class ComprobantesService {
     let { data: DetalleComprobante, error } = await this.supabase.getSupabaseClient()
   .from<DetalleComprobante>('DetalleComprobante')
   .select(`
-  idArticulo : idArticulo(nombre),
+  idArticulo : idArticulo(nombre,descripcion),
   cantidad,
   precio
   `)
