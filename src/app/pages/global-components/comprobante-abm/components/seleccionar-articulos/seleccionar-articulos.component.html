@@ -27,6 +27,8 @@
             <th>Descripción</th>
             <th>Categoría</th>
             <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
+            <!-- <th>Cantidad</th>
+            <th>Precio</th> -->
             <th>Acción</th>
         </tr>
     </ng-template>
@@ -38,6 +40,22 @@
             <td><span class="p-column-title font-bold">Descripción</span>{{articulo.descripcion}}</td>
             <td><span class="p-column-title font-bold">Categoría</span>{{articulo.nombreCategoria}}</td>
             <td><span class="p-column-title font-bold">Fecha de Vencimiento</span>{{articulo.fechaVencimiento | date: "dd/MM/yyyy"}}</td>
+            <!-- <td><span class="p-column-title font-bold">Cantidad</span>
+                <div class="field flex flex-column">
+                    <input #inputCant id="cantidad" type="number" pInputText min="0"
+                        placeholder="Cantidad del artículo" [(ngModel)]="articulo.cantidad"/>
+                    <small class="p-error"
+                        *ngIf="!articulo.cantidad">Cantidad requerida mayor a 0.</small>
+                </div>
+            </td>
+            <td><span class="p-column-title font-bold">Precio</span>
+                <div class="field flex flex-column">
+                    <input #inputCant id="precio" type="number" pInputText min="0"
+                        placeholder="Precio del artículo" [(ngModel)]="articulo.precio"/>
+                    <small class="p-error"
+                        *ngIf="!articulo.precio">Precio requerido mayor a 0.</small>
+                </div>
+            </td> -->
             <td><span class="p-column-title font-bold">Acción</span>
                 <button
                     pButton
@@ -59,5 +77,3 @@
     </ng-template>
 
 </p-table>
-
-<!-- <app-setear-articulos [articulosSeleccionados]="articulosSeleccionados"></app-setear-articulos> -->

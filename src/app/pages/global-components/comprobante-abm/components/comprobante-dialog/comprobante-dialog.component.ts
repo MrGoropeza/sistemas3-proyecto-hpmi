@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SubscriptionLike } from 'rxjs';
+import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
@@ -17,18 +19,21 @@ export class ComprobanteDialogComponent implements OnInit {
 
   proveedoresSub!: SubscriptionLike;
 
+  articulosSeleccionados: ArticuloComprobante[] = [];
+
   formComprobante: FormGroup = this.formBuilder.group({
     proveedor: ["", Validators.required],
-    articulosSeleccionados: [[] as ArticuloView[], Validators.required]
+    
   });
 
-  articulosSeleccionados: ArticuloView[] = [];
+  
 
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private proveedorService: ProveedorService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -38,37 +43,20 @@ export class ComprobanteDialogComponent implements OnInit {
       );
   }
 
-  articuloSeleccionado(articulo: ArticuloView){
-    if(!this.articulosSeleccionados.find((element) => element.id === articulo.id)){
-      
-      this.formComprobante.addControl(
-        `articulo${this.articulosSeleccionados.length}-precio`, 
-        new FormControl(0, [Validators.required, Validators.min(0)])
-      );
-      this.formComprobante.addControl(
-        `articulo${this.articulosSeleccionados.length}-cantidad`, 
-        new FormControl(0, [Validators.required, Validators.min(0)])
-      );
+  articuloSeleccionado(articulo: ArticuloComprobante){
+    let encontrado = this.articulosSeleccionados.find((element) => element.id === articulo.id);
+    
+    if(encontrado === undefined){
       this.articulosSeleccionados.push(articulo);
-      
+    }else{
+      let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
+      nuevoArray.push(articulo);
+      this.articulosSeleccionados = nuevoArray;
     }
-    this.formComprobante.controls['articulosSeleccionados'].setValue(this.articulosSeleccionados);
   }
 
-  quitarArticulo(articulo: ArticuloView){
+  quitarArticulo(articulo: ArticuloComprobante){
     let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
-    this.formComprobante
-      .controls[`articulo${this.articulosSeleccionados.length-1}-precio`]
-      .reset();
-    this.formComprobante.removeControl(
-      `articulo${this.articulosSeleccionados.length}-precio`
-    );
-    this.formComprobante
-      .controls[`articulo${this.articulosSeleccionados.length-1}-cantidad`]
-      .reset();
-    this.formComprobante.removeControl(
-      `articulo${this.articulosSeleccionados.length}-cantidad`
-    );
     this.articulosSeleccionados = [];
     this.articulosSeleccionados = nuevoArray;
   }
@@ -78,6 +66,56 @@ export class ComprobanteDialogComponent implements OnInit {
     this.formComprobante.reset();
   }
 
-  guardar(){}
+  guardar(){
+    this.formComprobante.markAllAsTouched();
+
+    let valido = true;
+    let error = "";
+
+    if(this.formComprobante.valid){
+      valido = this.formComprobante.valid;
+    }else{
+      error += "Elija un proveedor. ";
+    }
+    
+    if(this.articulosSeleccionados.length > 0){
+      this.articulosSeleccionados.forEach(
+        element => {
+          if(element.precio <= 0 || element.cantidad <= 0){
+            valido = false;
+          }
+          if(!element.precio){
+            valido = false;
+          }
+          if(!element.cantidad){
+            valido = false;
+          }
+        }
+      );
+      if(!valido){
+        error += "Verifique que las cantidades y precios sean positivas. ";
+      }
+    }else{
+      valido = false;
+      error += "Elija al menos un artículo. ";
+    }
+    
+
+    if(valido){
+      this.messageService.add(
+        {severity: 'success',
+        summary: 'Éxito',
+        detail: 'Comprobante creado con éxito.'
+        }
+      );
+    }else{
+      this.messageService.add(
+        {severity: 'error',
+        summary: 'Error',
+        detail: error
+        }
+      ); 
+    }
+  }
 
 }
