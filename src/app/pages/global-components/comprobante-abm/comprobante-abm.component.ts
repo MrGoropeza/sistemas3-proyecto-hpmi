@@ -3,6 +3,7 @@ import { MessageService } from "primeng/api";
 import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { map } from "rxjs";
 import { Comprobante } from "src/app/models/Comprobante";
+import { SupabaseArticulosService } from 'src/app/services/articulos/supabase-articulos.service';
 import { ComprobantesService } from "src/app/services/comprobantes/comprobantes.service";
 import { ComprobanteDialogComponent } from "./components/comprobante-dialog/comprobante-dialog.component";
 import { DetalleComprobanteComponent } from "./components/detalle-comprobante/detalle-comprobante.component";
@@ -19,10 +20,13 @@ export class ComprobanteABMComponent implements OnInit {
 
   ref!: DynamicDialogRef;
 
+  loading: boolean = true;
+
   constructor(
     private dialogService: DialogService,
     private comprobanteServicio: ComprobantesService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    
   ) {}
 
   ngOnInit(): void {
@@ -33,8 +37,9 @@ export class ComprobanteABMComponent implements OnInit {
     this.comprobanteServicio
       .getComprobante(this.idTipoComprobante)
       .subscribe((comprobantes) => {
-        console.log(comprobantes);
+        this.loading = true;
         this.comprobantes = comprobantes;
+        this.loading = false;
       });
   }
   public verDetalle(comprobante : Comprobante) {
@@ -49,10 +54,10 @@ export class ComprobanteABMComponent implements OnInit {
   aniadir() {
     this.ref = this.dialogService.open(ComprobanteDialogComponent, {
       header: `Añadir ${this.titulo}`,
-      width: "70%",
+      width: "90%",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
-      data: { comprobante: {} as Comprobante },
+      data: { comprobante: {} as Comprobante, idTipoComprobante: this.idTipoComprobante},
     });
     this.ref.onClose
       .pipe(

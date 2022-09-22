@@ -1,1 +1,9 @@
-<app-comprobante-abm [comprobantes]="remitos"></app-comprobante-abm>
+<button
+  pButton
+  pRipple
+  label="Volver"
+  icon="pi pi-arrow-left"
+  class="p-button-link mr-2 p-4 pb-3"
+  [routerLink]="['..']"
+></button>
+<app-comprobante-abm [idTipoComprobante]="3" titulo="Remito"></app-comprobante-abm>

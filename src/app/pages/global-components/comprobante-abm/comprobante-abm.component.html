@@ -10,25 +10,30 @@
   [rowHover]="true"
   dataKey="idComprobante"
   [showCurrentPageReport]="false"
-  [loading]="comprobantes == []"
+  [loading]="loading"
 >
   <ng-template pTemplate="caption">
-    <div class="flex justify-content-center align-content-center">
-        <div class="col">
-            <div class="flex align-content-center justify-content-center lg:justify-content-start">
-                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="aniadir()"></button> 
-            </div>
+    <div class="grid align-items-center justify-content-between">
+      <div class="md:col col-12">
+          <div class="flex md:justify-content-start justify-content-center">
+              <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="aniadir()"></button> 
+          </div>
+      </div>
+      <div class="md:col col-12">
+        <div class="flex md:justify-content-end justify-content-center">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              class="p-inputtext-md"
+              type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Buscar..."
+            />
+          </span>
         </div>
-      <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input
-          pInputText
-          class="p-inputtext-md"
-          type="text"
-          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-          placeholder="Buscar..."
-        />
-      </span>
+      </div>
+      
     </div>
   </ng-template>
   <!-- tabla -->
@@ -37,7 +42,7 @@
       <th>ID</th>
       <th>Proveedor</th>
       <th>Fecha de registro</th>
-      <th>Total</th>
+      <th>Sub-Total</th>
       <th *ngIf="idTipoComprobante == 1">Tipo de Factura</th>
       <th>Acciones</th>
     </tr>

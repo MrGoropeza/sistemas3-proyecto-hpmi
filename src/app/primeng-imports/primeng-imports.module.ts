@@ -29,6 +29,8 @@ import {ListboxModule} from 'primeng/listbox';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {DividerModule} from 'primeng/divider';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -62,7 +64,8 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
     ScrollTopModule,
     ListboxModule,
     MultiSelectModule,
-    PanelMenuModule
+    PanelMenuModule,
+    DividerModule
   ]
 })
 export class PrimengImportsModule { }

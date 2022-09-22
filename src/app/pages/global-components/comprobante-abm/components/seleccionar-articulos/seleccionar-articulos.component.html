@@ -1,7 +1,79 @@
 <p-table
     #dt [value]="articulos" [rows]="5" [paginator]="true" responsiveLayout="stack"
-    [(selection)]="articulosSeleccionados" [rowHover]="true" dataKey="id"
+    [rowHover]="true" dataKey="id"
     [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
     [loading]="cargando" [totalRecords]="cantTotalArticulos">
+
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="flex justify-content-center align-content-center ">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" 
+                            (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                            placeholder="Buscar por nombre..." />
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Id. Artículo</th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th>Descripción</th>
+            <th>Categoría</th>
+            <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
+            <!-- <th>Cantidad</th>
+            <th>Precio</th> -->
+            <th>Acción</th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-articulo let-columns="columns">
+        <tr>
+            <td><span class="p-column-title font-bold">Id. Artículo</span>{{articulo.id}}</td>
+            <td><span class="p-column-title font-bold">Nombre</span>{{articulo.nombre}}</td>
+            <td><span class="p-column-title font-bold">Descripción</span>{{articulo.descripcion}}</td>
+            <td><span class="p-column-title font-bold">Categoría</span>{{articulo.nombreCategoria}}</td>
+            <td><span class="p-column-title font-bold">Fecha de Vencimiento</span>{{articulo.fechaVencimiento | date: "dd/MM/yyyy"}}</td>
+            <!-- <td><span class="p-column-title font-bold">Cantidad</span>
+                <div class="field flex flex-column">
+                    <input #inputCant id="cantidad" type="number" pInputText min="0"
+                        placeholder="Cantidad del artículo" [(ngModel)]="articulo.cantidad"/>
+                    <small class="p-error"
+                        *ngIf="!articulo.cantidad">Cantidad requerida mayor a 0.</small>
+                </div>
+            </td>
+            <td><span class="p-column-title font-bold">Precio</span>
+                <div class="field flex flex-column">
+                    <input #inputCant id="precio" type="number" pInputText min="0"
+                        placeholder="Precio del artículo" [(ngModel)]="articulo.precio"/>
+                    <small class="p-error"
+                        *ngIf="!articulo.precio">Precio requerido mayor a 0.</small>
+                </div>
+            </td> -->
+            <td><span class="p-column-title font-bold">Acción</span>
+                <button
+                    pButton
+                    pRipple
+                    tooltipPosition="top"
+                    pTooltip="Agregar"
+                    icon="pi pi-plus"
+                    class="p-button-rounded p-button-info mr-2"
+                    (click)="seleccionarArticulo(articulo)"
+                ></button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{cantTotalArticulos ? cantTotalArticulos : 0 }} articulos.
+        </div>
+    </ng-template>
 
 </p-table>
