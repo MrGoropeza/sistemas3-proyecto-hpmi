@@ -8,6 +8,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { Proveedor, proveedorData } from "src/app/models/Proveedor";
 import { ProveedorService } from "src/app/services/proveedor/proveedor.service";
+import { CustomValidator } from "src/app/validators/CustomValidator";
 
 @Component({
   selector: "app-proveedor-dialog",
@@ -21,7 +22,7 @@ export class ProveedorDialogComponent implements OnInit {
     telefono: [this.proveedor.telefono, Validators.required],
     correo: [this.proveedor.correo, Validators.required],
     domicilio: [this.proveedor.domicilio, Validators.required],
-    cuit: [this.proveedor.CUIT, Validators.required],
+    cuit: [this.proveedor.CUIT, [Validators.required,Validators.pattern(CustomValidator)]],
   });
   constructor(
     public ref: DynamicDialogRef,
