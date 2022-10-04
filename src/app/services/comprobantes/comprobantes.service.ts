@@ -25,13 +25,13 @@ export class ComprobantesService {
 
   public async getDetalle(id: number){
     let { data: DetalleComprobante, error } = await this.supabase
-      .from<DetalleComprobante>('DetalleComprobante')
-      .select(`
-      idArticulo : idArticulo(nombre),
-      cantidad,
-      precio
-      `)
-      .eq("idComprobante",id);
+  .from<DetalleComprobante>('DetalleComprobante')
+  .select(`
+  idArticulo : idArticulo(nombre,descripcion),
+  cantidad,
+  precio
+  `)
+  .eq("idComprobante",id);
   return { data: DetalleComprobante, error };
 
   }
