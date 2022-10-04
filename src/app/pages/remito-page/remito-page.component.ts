@@ -17,7 +17,6 @@ export class RemitoPageComponent implements OnInit {
   public getRemitos(){
     this.comprobanteServicio.getComprobante(3).subscribe(
       (comprobantes)=>{
-        console.log(comprobantes);
         this.remitos = comprobantes;
       }
     );

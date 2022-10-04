@@ -17,7 +17,6 @@ export class FacturaPageComponent implements OnInit {
   public getFacturas(){
     this.comprobanteServicio.getComprobante(1).subscribe(
       (comprobantes)=>{
-        console.log(comprobantes);
         this.facturas = comprobantes;
       }
     );

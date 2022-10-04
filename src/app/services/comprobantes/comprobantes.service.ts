@@ -39,14 +39,15 @@ export class ComprobantesService {
     const query = this.supabase
       .from("Comprobante")
       .select(`
-      idComprobante,
-      idProveedor:idProveedor(nombre),
-      idTipoComprobante:idTipoComprobante(nombre),
-      fechaRegistro,
-      subTotal,
-      categoria
+          idComprobante,
+          idProveedor:idProveedor(nombre),
+          idTipoComprobante:idTipoComprobante(nombre),
+          fechaRegistro,
+          subTotal,
+          categoria
       `)
-      .eq('idTipoComprobante', id);
+      .eq('idTipoComprobante', id)
+      .eq("estado", true);
     return from(query).pipe(
       map((comprobantes) => {
         if (comprobantes.data) {
@@ -107,10 +108,9 @@ export class ComprobantesService {
 
 
   async addComprobante(
-    idProveedor: number, 
-    idTipoComprobante: number, 
     articulos: ArticuloComprobante[],
-    categoria?: string, )
+    comprobante: Comprobante,
+  )
   {
     let subtotal = 0;
     let errors = [];
@@ -120,12 +120,19 @@ export class ComprobantesService {
       
     });
 
+    comprobante.subTotal = subtotal;
+
     let requestComprobante = await this.supabase.from("Comprobante")
       .insert({
-        idProveedor: idProveedor,
-        idTipoComprobante: idTipoComprobante,
-        categoria: categoria,
+        idProveedor: comprobante.idProveedor,
+        idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
+        categoria: comprobante.categoria,
         subTotal: subtotal,
+        saldo: subtotal,
+        numero: comprobante.numero,
+        fechaVencimiento: comprobante.fechaVencimiento,
+        fechaComprobante: comprobante.fechaComprobante,
+        estado: true,
       }).single();
 
     if(requestComprobante.data){
@@ -141,7 +148,7 @@ export class ComprobantesService {
             precio: articulo.precio
           }).single();
 
-        if(idTipoComprobante === 3){
+        if(comprobante.idTipoComprobante.idTipoComprobante === 3){
           let idDepositoPrincipal = await this.depositoService.getDepositoPrincipal();
 
           let requestStockActualizable = await this.supabase
@@ -176,5 +183,15 @@ export class ComprobantesService {
     }
 
     return errors;
+  }
+
+
+  async removeComprobante(comprobante: Comprobante){
+    let request = await this.supabase.from("Comprobante")
+      .update({estado: false})
+      .eq("idComprobante",comprobante.idComprobante)
+      .single();
+
+    return {data: request.data, error: request.error};
   }
 }

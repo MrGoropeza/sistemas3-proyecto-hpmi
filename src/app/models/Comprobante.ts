@@ -8,5 +8,9 @@ export interface Comprobante {
   fechaRegistro: Date;
   categoria: string;
   subTotal: number;
+  saldo: number;
+  numero: number;
+  fechaVencimiento: Date;
+  fechaComprobante: Date;
   estado: boolean;
 }
