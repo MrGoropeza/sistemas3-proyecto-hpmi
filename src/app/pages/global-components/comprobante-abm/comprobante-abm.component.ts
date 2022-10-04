@@ -46,7 +46,6 @@ export class ComprobanteABMComponent implements OnInit {
       header: `${this.titulo} #${comprobante.idComprobante}`,
       width: "70%",
       contentStyle: { overflow: "auto" },
-      baseZIndex: 10000,
       data: {comprobante : comprobante}
     });
   }
@@ -54,8 +53,8 @@ export class ComprobanteABMComponent implements OnInit {
     this.ref = this.dialogService.open(ComprobanteDialogComponent, {
       header: `Añadir ${this.titulo}`,
       width: "90%",
-      contentStyle: { overflow: "auto" },
-      baseZIndex: 10000,
+      height: "90%",
+      contentStyle: {"overflow":"auto",},
       data: { comprobante: {} as Comprobante, idTipoComprobante: this.idTipoComprobante},
     });
     this.ref.onClose

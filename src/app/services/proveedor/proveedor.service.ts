@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { LazyLoadEvent } from "primeng/api";
 import { from, map, Observable, of } from "rxjs";
 import { Proveedor, proveedorData } from "src/app/models/Proveedor";
 import { SupabaseService } from "../supabase.service";
@@ -26,6 +27,34 @@ export class ProveedorService {
       })
     );
   }
+
+  async getCantProveedores(){
+    return await this.supabase.getSupabaseClient()
+      .from("Proveedor").select("idProveedor").eq('estado', true);
+  }
+
+  async getProveedoresLazy(params?: LazyLoadEvent) {
+    let query = this.supabase.getSupabaseClient()
+      .from<Proveedor>("Proveedor")
+      .select("*")
+      .eq("estado", true)
+    
+    if(params?.first !== undefined && params?.rows !== undefined){
+      query = query.range(params?.first, params?.first + params?.rows - 1);
+    }
+
+    if(params?.sortField !== undefined  && params?.sortOrder !== undefined ){
+      query = query.order(params.sortField as any, {ascending: params.sortOrder === 1});
+    }
+
+    if(params?.globalFilter){
+      query = query
+        .or(`or(nombre.ilike.%${params.globalFilter}%,CUIT.ilike.%${params.globalFilter}%)`)
+    }
+
+    return query;
+  } 
+
   update(id: number, proveedor: Proveedor): Observable<Proveedor> {
     const query = this.supabase
       .getSupabaseClient()

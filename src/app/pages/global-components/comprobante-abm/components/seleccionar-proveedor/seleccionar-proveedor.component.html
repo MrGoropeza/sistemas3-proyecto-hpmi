@@ -1,0 +1,87 @@
+<p-table
+    #dt [value]="proveedores" [rows]="5" [paginator]="true" responsiveLayout="stack"
+    [rowHover]="true" dataKey="id"
+    [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+    [loading]="cargando" [totalRecords]="cantTotalProveedores">
+
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="flex justify-content-center align-content-center ">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" 
+                            (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                            placeholder="Buscar por nombre..." />
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Correo</th>
+            <th>Domicilio</th>
+            <th>CUIT</th>
+            <th>Fecha de registro</th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-proveedor let-columns="columns">
+        <tr>
+            <td>
+                <span class="p-column-title font-bold">ID</span
+                >{{ proveedor.idProveedor }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Nombre</span
+                >{{ proveedor.nombre }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Telefono</span
+                >{{ proveedor.telefono }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Correo</span
+                >{{ proveedor.correo }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Domicilio</span
+                >{{ proveedor.domicilio }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">CUIT</span
+                >{{ proveedor.CUIT }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Fecha de Registro</span
+                >{{ proveedor.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
+              </td>
+            <td>
+                <span class="p-column-title font-bold">Acción</span>
+                <button
+                    pButton
+                    pRipple
+                    tooltipPosition="top"
+                    pTooltip="Seleccionar"
+                    icon="bi bi-check2-square"
+                    class="p-button-rounded p-button-info mr-2"
+                    (click)="seleccionarProveedor(proveedor)"
+                ></button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{cantTotalProveedores ? cantTotalProveedores : 0 }} proveedores.
+        </div>
+    </ng-template>
+
+</p-table>
