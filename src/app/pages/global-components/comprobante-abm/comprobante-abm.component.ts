@@ -3,7 +3,6 @@ import { MessageService } from "primeng/api";
 import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { map } from "rxjs";
 import { Comprobante } from "src/app/models/Comprobante";
-import { SupabaseArticulosService } from 'src/app/services/articulos/supabase-articulos.service';
 import { ComprobantesService } from "src/app/services/comprobantes/comprobantes.service";
 import { ComprobanteDialogComponent } from "./components/comprobante-dialog/comprobante-dialog.component";
 import { DetalleComprobanteComponent } from "./components/detalle-comprobante/detalle-comprobante.component";
@@ -73,5 +72,8 @@ export class ComprobanteABMComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+  public pagar(comprobante : Comprobante){
+    
   }
 }

@@ -15,6 +15,7 @@ import { ProveedorPageComponent } from "./pages/proveedor-page/proveedor-page.co
 import { FacturaPageComponent } from "./pages/factura-page/factura-page.component";
 import { OrdenCompraPageComponent } from "./pages/orden-compra-page/orden-compra-page.component";
 import { RemitoPageComponent } from "./pages/remito-page/remito-page.component";
+import { PagoComprobantePageComponent } from "./pages/pago-comprobante-page/pago-comprobante-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -129,9 +130,14 @@ const routes: Routes = [
             title: "Facturas",
             component: RemitoPageComponent,
           },
+          {
+            path: "pagoComprobantes",
+            data : {breadcrumb : "Pago de comprobantes"},
+            title : "Pago de comprobantes",
+            component : PagoComprobantePageComponent
+          },
         ],
       },
-
 
       {
         path: "usuarios",

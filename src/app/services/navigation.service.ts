@@ -77,6 +77,11 @@ export class NavigationService{
             label: 'Remitos',
             icon: 'bi bi-card-heading',
             routerLink: "/farmacia/remitos"
+          },
+          {
+            label : 'Pago',
+            icon : 'bi bi-currency-dollar',
+            routerLink : "/farmacia/pagoComprobantes"
           }
         ]
       },

@@ -2,13 +2,14 @@
 
 <p-table
   #dt
-  [value]="comprobantes"
+  [value]="pagos"
   [rows]="5"
   [paginator]="true"
-  [globalFilterFields]="['idComprobante', 'idTipoComprobante']" 
+  (onLazyLoad)="onLazyLoad($event)"
+  [lazy]="true" 
   responsiveLayout="stack"
   [rowHover]="true"
-  dataKey="idComprobante"
+  dataKey="idPago"
   [showCurrentPageReport]="false"
   [loading]="loading"
 >
@@ -39,36 +40,37 @@
   <!-- tabla -->
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th>ID</th>
+      <th>N° de Comprobante</th>
       <th>Proveedor</th>
       <th>Fecha de registro</th>
-      <th>Sub-Total</th>
-      <th *ngIf="idTipoComprobante == 1">Tipo de Factura</th>
+      <th>Metodo de Pago</th>
+      <th>Importe Total</th>
       <th>Acciones</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-comprobante let-columns="columns" let-rowIndex="rowIndex">
+  <ng-template pTemplate="body" let-pago let-columns="columns" let-rowIndex="rowIndex">
     <tr>
       <td>
-        <span class="p-column-title font-bold">ID</span
-        >{{ rowIndex +1 }}
+        <span class="p-column-title font-bold"></span
+        >{{ pago.nroComprobante }}
       </td>
       <td>
         <span class="p-column-title font-bold">Nombre de Proveedor</span
-        >{{ comprobante.idProveedor.nombre }}
+        >{{ pago.nombreProveedor }}
       </td>
       <td>
         <span class="p-column-title font-bold">Fecha</span
-        >{{ comprobante.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
+        >{{ pago.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold"></span
+        >{{ pago.nombreMetodo }}
       </td>
       <td>
         <span class="p-column-title font-bold">Total</span
-        >{{ comprobante.subTotal | currency}}
+        >{{ pago.total | currency}}
       </td>
-      <td *ngIf="idTipoComprobante == 1" >
-        <span class="p-column-title font-bold" >Categoria</span
-        >{{ comprobante.categoria }}
-      </td>
+
       
       <button
         pButton
@@ -77,15 +79,15 @@
         pTooltip="Ver Detalle"
         icon="pi pi-search"
         class="p-button-rounded p-button-info mr-2"
-        (click)="verDetalle(comprobante)"
+        (click)="verDetalle(pago)"
       ></button>
     </tr>
   </ng-template>
 
   <ng-template pTemplate="summary">
     <div class="flex align-items-center justify-content-between">
-      En total hay {{ comprobantes ? comprobantes.length : 0 }} {{titulo}}
-      registrados.
+      En total hay {{ pagos ? this.cantPagos : 0 }} comprobantes pendientes de pago.
     </div>
   </ng-template>
 </p-table>
+
