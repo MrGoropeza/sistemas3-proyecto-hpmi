@@ -54,7 +54,7 @@ import { SeleccionarProveedorComponent } from './pages/global-components/comprob
 import { PagoComprobantePageComponent } from './pages/pago-comprobante-page/pago-comprobante-page.component';
 import { PagoABMComponent } from './pages/pago-comprobante-page/components/pago-abm/pago-abm.component';
 import { PagoDetalleDialogComponent } from './pages/pago-comprobante-page/components/pago-detalle-dialog/pago-detalle-dialog.component';
-import { PagoArticulosABMComponent } from './pages/pago-comprobante-page/components/pago-articulos-abm/pago-articulos-abm.component';
+import { PagoComprobanteABMComponent } from './pages/pago-comprobante-page/components/pago-comprobante-abm/pago-comprobante-abm.component';
 
 @NgModule({
   declarations: [
@@ -101,9 +101,10 @@ import { PagoArticulosABMComponent } from './pages/pago-comprobante-page/compone
     SetearArticulosComponent,
     DetalleComprobanteComponent,
     ArticuloComprobanteABMComponent, 
-    PagoComprobantePageComponent, PagoABMComponent, PagoDetalleDialogComponent, PagoArticulosABMComponent,
+    PagoComprobantePageComponent, PagoABMComponent, PagoDetalleDialogComponent,
     ArticuloComprobanteABMComponent,
     SeleccionarProveedorComponent,
+    PagoComprobanteABMComponent,
   ],
   imports: [
     BrowserModule,

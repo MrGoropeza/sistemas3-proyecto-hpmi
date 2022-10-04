@@ -13,10 +13,10 @@
       <p>
         <strong>Hora:</strong>
         {{ pago.fechaRegistro | date: "H:mm" }}
-      </p>
+      </p> 
     </div>
   </div>
   <h3>Detalle:</h3>
-  <app-pago-articulos-abm [idPago]="this.pago.idPago"></app-pago-articulos-abm>
+  <app-pago-comprobante-abm></app-pago-comprobante-abm>
   <h3>Total: {{ pago.total | currency }}</h3>
   
