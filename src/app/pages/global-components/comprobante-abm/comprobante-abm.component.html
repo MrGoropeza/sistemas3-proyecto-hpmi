@@ -69,26 +69,30 @@
         <span class="p-column-title font-bold" >Categoria</span
         >{{ comprobante.categoria }}
       </td>
+      <td>
+        <span class="p-column-title font-bold" >Acciones</span>
+        <div>
+
+          <button
+            pButton
+            pRipple
+            tooltipPosition="top"
+            pTooltip="Ver Detalle"
+            icon="pi pi-search"
+            class="p-button-rounded p-button-info mr-2"
+            (click)="verDetalle(comprobante)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning mr-2"
+          ></button>
+        </div>
+      </td>
       
-      <button
-        pButton
-        pRipple
-        tooltipPosition="top"
-        pTooltip="Ver Detalle"
-        icon="pi pi-search"
-        class="p-button-rounded p-button-info mr-2"
-        (click)="verDetalle(comprobante)"
-      ></button>
-      <button
-        pButton
-        pRipple
-        pTooltip="Eliminar"
-        tooltipPosition="top"
-        icon="pi pi-trash"
-        class="p-button-rounded p-button-warning mr-2"
-        
-        
-      ></button>
     </tr>
   </ng-template>
 

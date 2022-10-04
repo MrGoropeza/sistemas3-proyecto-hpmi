@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, of, SubscriptionLike } from 'rxjs';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
 import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
+import { SeleccionarArticulosComponent } from '../seleccionar-articulos/seleccionar-articulos.component';
 
 @Component({
   selector: 'app-comprobante-dialog',
@@ -16,10 +17,9 @@ import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
 })
 export class ComprobanteDialogComponent implements OnInit {
 
-
   idTipoComprobante!: number;
 
-  proveedores: Proveedor[] = [];
+  proveedor!: Proveedor;
 
   tiposFactura = ["A", "B", "C", "M", "E", "T"];
 
@@ -31,8 +31,13 @@ export class ComprobanteDialogComponent implements OnInit {
 
   formComprobante: FormGroup = this.formBuilder.group({
     proveedor: [null, Validators.required],
-    
+    tipoFactura: [null, Validators.required],
+    fechaVencimiento: [null, Validators.required],
+    fecha: [null, Validators.required],
   });
+
+  articulosVisible: boolean = false;
+  proveedoresVisible: boolean = false;
 
   actualizarSubtotal() {
     let sub = 0;
@@ -48,8 +53,9 @@ export class ComprobanteDialogComponent implements OnInit {
   }
 
   constructor(
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
+    private ref: DynamicDialogRef,
+    private config: DynamicDialogConfig,
+    private dialogService: DialogService,
     private proveedorService: ProveedorService,
     private comprobanteService: ComprobantesService,
     private formBuilder: FormBuilder,
@@ -58,11 +64,6 @@ export class ComprobanteDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.idTipoComprobante = this.config.data.idTipoComprobante;
-    
-    this.proveedoresSub = this.proveedorService.getProveedores()
-      .subscribe(
-        (response) => {this.proveedores = response}
-      );
 
     if(this.idTipoComprobante === 1){
       this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
@@ -81,6 +82,16 @@ export class ComprobanteDialogComponent implements OnInit {
     }
   }
 
+  proveedorSeleccionado(proveedor: Proveedor) {
+    this.proveedor = proveedor;
+    this.proveedoresVisible = false;
+  }
+
+  agregarArticulo(){
+    this.articulosVisible = true;
+  }
+  
+
   quitarArticulo(articulo: ArticuloComprobante){
     let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
     this.articulosSeleccionados = [];
@@ -94,14 +105,12 @@ export class ComprobanteDialogComponent implements OnInit {
 
   async guardar(){
 
-    console.log(this.formComprobante.controls["proveedor"]);
-    
 
     this.formComprobante.markAllAsTouched();
 
     let error = "";
 
-    if(this.formComprobante.controls["proveedor"].value === null){
+    if(!this.proveedor){
       error += "Elija un proveedor. ";
     }
 
