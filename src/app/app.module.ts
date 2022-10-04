@@ -100,13 +100,10 @@ import { PagoArticulosABMComponent } from './pages/pago-comprobante-page/compone
     SeleccionarArticulosComponent,
     SetearArticulosComponent,
     DetalleComprobanteComponent,
-<<<<<<< HEAD
     ArticuloComprobanteABMComponent, 
     PagoComprobantePageComponent, PagoABMComponent, PagoDetalleDialogComponent, PagoArticulosABMComponent,
-=======
     ArticuloComprobanteABMComponent,
     SeleccionarProveedorComponent,
->>>>>>> Develop
   ],
   imports: [
     BrowserModule,
