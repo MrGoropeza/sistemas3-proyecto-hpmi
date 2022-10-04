@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, of, SubscriptionLike } from 'rxjs';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloView } from 'src/app/models/ArticuloView';
+import { Comprobante } from 'src/app/models/Comprobante';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
 import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
+import { articulosValidator, NroFacturaRegExp } from 'src/app/validators/CustomValidator';
 import { SeleccionarArticulosComponent } from '../seleccionar-articulos/seleccionar-articulos.component';
 
 @Component({
@@ -31,7 +33,8 @@ export class ComprobanteDialogComponent implements OnInit {
 
   formComprobante: FormGroup = this.formBuilder.group({
     proveedor: [null, Validators.required],
-    tipoFactura: [null, Validators.required],
+    cantArticulos: [0, Validators.min(1)],
+    articulosValidos: [this.articulosSeleccionados, [articulosValidator()]],
     fechaVencimiento: [null, Validators.required],
     fecha: [null, Validators.required],
   });
@@ -67,14 +70,19 @@ export class ComprobanteDialogComponent implements OnInit {
 
     if(this.idTipoComprobante === 1){
       this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
+      this.formComprobante.addControl("nroFactura", new FormControl("", [Validators.required, Validators.pattern(NroFacturaRegExp)]));
     }
   }
 
   articuloSeleccionado(articulo: ArticuloComprobante){
     let encontrado = this.articulosSeleccionados.find((element) => element.id === articulo.id);
+
+    
     
     if(encontrado === undefined){
       this.articulosSeleccionados.push(articulo);
+      this.formComprobante.controls["cantArticulos"].setValue(this.articulosSeleccionados.length);
+      this.formComprobante.controls['articulosValidos'].setValue(this.articulosSeleccionados);
     }else{
       let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
       nuevoArray.push(articulo);
@@ -84,6 +92,7 @@ export class ComprobanteDialogComponent implements OnInit {
 
   proveedorSeleccionado(proveedor: Proveedor) {
     this.proveedor = proveedor;
+    this.formComprobante.controls["proveedor"].setValue(proveedor);
     this.proveedoresVisible = false;
   }
 
@@ -99,61 +108,35 @@ export class ComprobanteDialogComponent implements OnInit {
   }
 
   cerrar(){
-    this.ref.close();
     this.formComprobante.reset();
+    this.ref.close();
   }
 
   async guardar(){
 
-
+    this.formComprobante.controls['articulosValidos'].setValue(this.articulosSeleccionados);
     this.formComprobante.markAllAsTouched();
 
-    let error = "";
+    if(this.formComprobante.valid){
 
-    if(!this.proveedor){
-      error += "Elija un proveedor. ";
-    }
+      let nuevoComprobante = {
+        idProveedor: this.formComprobante.controls["proveedor"].value.idProveedor,
+        categoria: this.idTipoComprobante === 1 ? this.formComprobante.controls["tipoFactura"].value : null,
+        numero: this.idTipoComprobante === 1 ? this.formComprobante.controls["nroFactura"].value : null,
+        idTipoComprobante: {idTipoComprobante: this.idTipoComprobante},
+        fechaComprobante: this.formComprobante.controls["fecha"].value,
+        fechaVencimiento: this.formComprobante.controls["fechaVencimiento"].value,
+        
+      } as Comprobante;
 
-    if(this.idTipoComprobante === 1 
-        && this.formComprobante.controls["tipoFactura"].value === ""){
-      error += "Elija un tipo de Factura. ";
-    }
-    
-    if(this.articulosSeleccionados.length > 0){
-      let articulosValidos = true;
-      this.articulosSeleccionados.forEach(
-        element => {
-          if(element.precio <= 0 || element.cantidad <= 0){
-            articulosValidos = false;
-          }
-          if(!element.precio){
-            articulosValidos = false;
-          }
-          if(!element.cantidad){
-            articulosValidos = false;
-          }
-        }
-      );
-      if(!articulosValidos){
-        error += "Verifique que las cantidades y precios sean positivas. ";
-      }
-    }else{
-      error += "Elija al menos un artículo. ";
-    }
-    
-
-    if(error === ""){
-
-      let idProveedor = this.formComprobante.controls["proveedor"].value.idProveedor;
-      let categoria;
-      if(this.idTipoComprobante === 1){
-        categoria = this.formComprobante.controls["tipoFactura"].value;
-      }
+      // let idProveedor = this.formComprobante.controls["proveedor"].value.idProveedor;
+      // let categoria;
+      // if(this.idTipoComprobante === 1){
+      //   categoria = this.formComprobante.controls["tipoFactura"].value;
+      // }
       let request = await this.comprobanteService.addComprobante(
-        idProveedor,
-        this.idTipoComprobante,
         this.articulosSeleccionados,
-        categoria
+        nuevoComprobante
       );
 
       if(request.length == 0){
@@ -165,7 +148,7 @@ export class ComprobanteDialogComponent implements OnInit {
           }
         );
       }else{
-        // console.log(request);
+        console.log(request);
         
         this.messageService.add(
           {severity: 'error',
@@ -173,16 +156,7 @@ export class ComprobanteDialogComponent implements OnInit {
           detail: request.toString()
           }
         ); 
-      }
-
-      
-    }else{
-      this.messageService.add(
-        {severity: 'error',
-        summary: 'Error',
-        detail: error
-        }
-      ); 
+      } 
     }
   }
 

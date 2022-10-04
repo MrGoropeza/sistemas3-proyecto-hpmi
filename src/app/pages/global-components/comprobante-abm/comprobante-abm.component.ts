@@ -26,7 +26,6 @@ export class ComprobanteABMComponent implements OnInit {
     private dialogService: DialogService,
     private comprobanteServicio: ComprobantesService,
     private messageService: MessageService,
-    
   ) {}
 
   ngOnInit(): void {
@@ -34,14 +33,16 @@ export class ComprobanteABMComponent implements OnInit {
   }
 
   public getComprobantes() {
-    this.comprobanteServicio
+    let request =this.comprobanteServicio
       .getComprobante(this.idTipoComprobante)
       .subscribe((comprobantes) => {
         this.loading = true;
         this.comprobantes = comprobantes;
         this.loading = false;
+        request.unsubscribe();
       });
   }
+
   public verDetalle(comprobante : Comprobante) {
     this.ref = this.dialogService.open(DetalleComprobanteComponent, {
       header: `${this.titulo} #${comprobante.idComprobante}`,
@@ -50,6 +51,7 @@ export class ComprobanteABMComponent implements OnInit {
       data: {comprobante : comprobante}
     });
   }
+
   aniadir() {
     this.ref = this.dialogService.open(ComprobanteDialogComponent, {
       header: `Añadir ${this.titulo}`,
@@ -61,16 +63,19 @@ export class ComprobanteABMComponent implements OnInit {
     this.ref.onClose
       .pipe(
         map((result) => {
-          if (result) {
-            this.messageService.add({
-              severity: "success",
-              summary: "Éxito",
-              detail: "¡Proveedor modificado con exito!",
-              life: 3000,
-            });
-          }
+          this.getComprobantes();
         })
       )
       .subscribe();
+  }
+
+  async eliminar(comprobante: Comprobante) {
+    let request = await this.comprobanteServicio.removeComprobante(comprobante);
+
+    if(request.error){
+      console.log(request.error);
+    }else{
+      this.getComprobantes();
+    }
   }
 }
