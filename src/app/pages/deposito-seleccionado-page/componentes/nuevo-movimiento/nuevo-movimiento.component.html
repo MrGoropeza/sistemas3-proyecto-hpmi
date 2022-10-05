@@ -1,6 +1,6 @@
 <p-dialog [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true"
     header="Nuevo Movimiento"
-    styleClass="p-fluid w-11"
+    styleClass="p-fluid w-11 overflow-auto"
     contentStyleClass="max-h-full overflow-y-visible">
     
     <form [formGroup]="formMovimiento">
@@ -11,6 +11,7 @@
                 <label class="font-bold" for="tipoMovimiento">Tipo de Movimiento</label>
                 <p-dropdown id="tipoMovimiento" [options]="tiposMovimiento"
                     optionLabel="nombre" formControlName="tipoMovimiento"
+                    [autoDisplayFirst]="false"
                     (onChange)="tipoSeleccionado()"></p-dropdown>
                 <small class="p-error block"
                     *ngIf="
@@ -49,7 +50,115 @@
 
     </form>
 
+    <div class="flex flex-column min-w-full">
+        <h4 class="m-0 mb-2 p-0 font-bold">Artículos Seleccionados:</h4>
+        
+        <small
+          class="p-error"
+          *ngIf="
+            formMovimiento.controls['cantArticulos'].invalid &&
+            formMovimiento.controls['cantArticulos'].touched
+          "
+          >Selección de artículos requerida.</small
+        >
+        <small
+          class="p-error"
+          *ngIf="
+            formMovimiento.controls['articulosValidos'].invalid &&
+            formMovimiento.controls['articulosValidos'].touched
+          "
+          >Las cantidades de los artículos deben ser positivas.</small
+        >
+    
+        <p-table
+          [value]="articulosSeleccionados"
+          responsiveLayout="stack"
+          dataKey="id"
+        >
+          <ng-template pTemplate="caption">
+            <div class="grid align-items-center justify-content-between">
+                <button
+                    pButton
+                    pRipple
+                    label="Agregar"
+                    icon="pi pi-plus"
+                    class="p-button-success mr-2"
+                    (click)="agregarArticulo()"
+                  ></button>
+              <div class="md:col col-12">
+
+                  
+
+              </div>
+            </div>
+          </ng-template>
+    
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th>Id. Artículo</th>
+              <th pSortableColumn="nombre">
+                Nombre <p-sortIcon field="nombre"></p-sortIcon>
+              </th>
+              <th>Descripción</th>
+              <th>Cantidad</th>
+              <th>Acción</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-articulo let-columns="columns">
+            <tr>
+              <td>
+                <span class="p-column-title font-bold">Id. Artículo</span
+                >{{ articulo.id }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Nombre</span
+                >{{ articulo.nombre }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Descripción</span
+                >{{ articulo.descripcion }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Cantidad</span>
+                <div class="field flex flex-column">
+                  <input
+                    #inputCant
+                    id="cantidad"
+                    type="number"
+                    pInputText
+                    min="0"
+                    oninput="validity.valid||(value='');"
+                    placeholder="Cantidad del artículo"
+                    [(ngModel)]="articulo.cantidad"
+                  />
+                  <small
+                    class="p-error"
+                    *ngIf="!articulo.cantidad && articulo.cantidad <= 0"
+                    >Cantidad requerida mayor a 0.</small
+                  >
+                </div>
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Acción</span>
+                <button
+                  pButton
+                  pRipple
+                  tooltipPosition="top"
+                  pTooltip="Eliminar"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger mr-2"
+                  (click)="quitarArticulo(articulo)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
     <p>{{ formMovimiento.value | json }}</p>
+
+
+
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" 
@@ -60,12 +169,8 @@
             [loading]="confirmado"></button>
     </ng-template>
 
-</p-dialog>
 
-
-
-
-<p-dialog
+    <p-dialog
   header="Agregar Artículos"
   [(visible)]="articulosVisible"
   [modal]="true"
@@ -74,6 +179,7 @@
 >
   <app-seleccionar-articulos
     (articuloSeleccionado)="articuloSeleccionado($event)"
+    [idDepositoActual]="idDepositoSeleccionado"
   ></app-seleccionar-articulos>
 
   <ng-template pTemplate="footer">
@@ -82,3 +188,9 @@
   </ng-template>
   
 </p-dialog>
+
+</p-dialog>
+
+
+
+

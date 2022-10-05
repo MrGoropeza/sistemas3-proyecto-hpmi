@@ -8,6 +8,7 @@ import { Comprobante } from "src/app/models/Comprobante";
 import { DetalleComprobante } from "src/app/models/DetalleComprobante";
 import { SupabaseService } from "../supabase.service";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service"
+import { IArticuloDepositoView } from "src/app/models/IArticuloDeposito";
 
 @Injectable({
   providedIn: "root",
@@ -63,10 +64,14 @@ export class ComprobantesService {
     );
   }
 
-  async readArticulos(params?: LazyLoadEvent) {
-    let query = this.supabase.from<ArticuloView>("ArticuloView")
+  async readArticulos(params?: LazyLoadEvent, idDepositoActual?: number) {
+    let query = this.supabase.from<IArticuloDepositoView>("ArticulosDepositoView")
       .select("*")
       .eq("estado", true)
+
+    if(idDepositoActual !== undefined){
+      query = query.eq("idDeposito", idDepositoActual);
+    }
     
     if(params?.first !== undefined && params?.rows !== undefined){
       query = query.range(params?.first, params?.first + params?.rows - 1);

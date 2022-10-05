@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { SupabaseArticulosService } from 'src/app/services/articulos/supabase-articulos.service';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
+import { SupabaseDepositoSeleccionadoService } from 'src/app/services/deposito-seleccionado/supabase-deposito-seleccionado.service';
 import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
 
 @Component({
@@ -20,10 +21,13 @@ export class SeleccionarArticulosComponent implements OnInit{
 
   @Output() articuloSeleccionado = new EventEmitter<ArticuloComprobante>;
 
+  @Input() idDepositoActual!: number;
+
   cargando: boolean = false;
 
   constructor(
     private articulosService: SupabaseArticulosService,
+    private depositoService: SupabaseDepositoSeleccionadoService,
     private comprobanteService: ComprobantesService,
     private messageService: MessageService
   ) { }
@@ -38,7 +42,8 @@ export class SeleccionarArticulosComponent implements OnInit{
       this.cantTotalArticulos = requestCant.data.length;
     }
 
-    let request = await this.comprobanteService.readArticulos(event);
+    let request = await this.comprobanteService.readArticulos(event, this.idDepositoActual);
+
     if(request.data){
       this.articulos = request.data;
       this.cargando = false;

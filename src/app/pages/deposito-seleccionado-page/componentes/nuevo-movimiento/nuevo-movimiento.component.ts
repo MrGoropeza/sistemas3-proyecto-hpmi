@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MovimientoService } from 'src/app/services/movimientos/movimiento.service';
 import { ITipoMovimiento } from "src/app/models/TipoMovimiento";
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
+import { articulosValidator, cantidadesValidator } from 'src/app/validators/CustomValidator';
 
 @Component({
   selector: 'app-nuevo-movimiento',
@@ -25,9 +26,12 @@ export class NuevoMovimientoComponent implements OnInit {
   idDepositoDestino! : number;
 
   articulosVisible: boolean = false;
+  articulosSeleccionados: ArticuloComprobante[] = [];
 
   formMovimiento = this.formBuilder.group({
     tipoMovimiento: [{} as ITipoMovimiento, Validators.required],
+    cantArticulos: [0, [Validators.required, Validators.min(1)]],
+    articulosValidos: [this.articulosSeleccionados, [cantidadesValidator()]],
     motivo: ["", Validators.required],
     deposito: ["", Validators.required]
   });
@@ -95,16 +99,40 @@ export class NuevoMovimientoComponent implements OnInit {
     }
   }
 
-  articuloSeleccionado(artiuclo: ArticuloComprobante){
+  agregarArticulo(){
+    this.articulosVisible = true;
+  }
 
+  quitarArticulo(articulo: ArticuloComprobante){
+    let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
+    this.articulosSeleccionados = [];
+    this.articulosSeleccionados = nuevoArray;
+  }
+
+  articuloSeleccionado(articulo: ArticuloComprobante){
+    let encontrado = this.articulosSeleccionados.find((element) => element.id === articulo.id);
+
+    
+    
+    if(encontrado === undefined){
+      this.articulosSeleccionados.push(articulo);
+      this.formMovimiento.controls["cantArticulos"].setValue(this.articulosSeleccionados.length);
+      this.formMovimiento.controls['articulosValidos'].setValue(this.articulosSeleccionados);
+    }else{
+      let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
+      nuevoArray.push(articulo);
+      this.articulosSeleccionados = nuevoArray;
+    }
   }
 
   realizarMovimiento(){
     this.formMovimiento.markAllAsTouched();
 
-    this.tipoSeleccionado();
+    if(!this.formMovimiento.controls["tipoMovimiento"].value?.id){
+      this.formMovimiento.controls["tipoMovimiento"].setValue(null);
+    }
 
-    console.log(this.formMovimiento.controls);
+    this.tipoSeleccionado();
     
   }
 

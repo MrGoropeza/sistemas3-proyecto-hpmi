@@ -157,6 +157,9 @@ export class ComprobanteDialogComponent implements OnInit {
           }
         ); 
       } 
+    }else{
+      console.log(this.formComprobante.controls);
+      
     }
   }
 

@@ -11,18 +11,21 @@ export function articulosValidator(): ValidatorFn{
 
     return (control: AbstractControl): ValidationErrors | null => {
         let articulosInvalidos = false;
-        if(articulosInvalidos){
+        if(control.value){
           if(control.value.length > 0){
             control.value.forEach(
                 (element: { precio: number; cantidad: number; }) => {
                 if(element.precio <= 0 || element.cantidad <= 0){
                   articulosInvalidos = true;
+
                 }
                 if(!element.precio){
                   articulosInvalidos = true;
+
                 }
                 if(!element.cantidad){
                   articulosInvalidos = true;
+
                 }
               }
             );
@@ -32,5 +35,31 @@ export function articulosValidator(): ValidatorFn{
         }
         return articulosInvalidos ? {articulos: {value: articulosInvalidos}} : null;
     };
+
+}
+
+
+export function cantidadesValidator(): ValidatorFn{
+
+  return (control: AbstractControl): ValidationErrors | null => {
+      let articulosInvalidos = false;
+
+      if(control.value){
+        if(control.value.length > 0){
+          control.value.forEach(
+              (element: { cantidad: number; }) => {
+              if(element.cantidad <= 0){
+                articulosInvalidos = true;
+              }
+              if(!element.cantidad){
+                articulosInvalidos = true;
+              }
+            }
+          );
+        };
+      }
+
+      return articulosInvalidos ? {articulos: {value: articulosInvalidos}} : null;
+  };
 
 }
