@@ -67,9 +67,7 @@ export class ComprobanteABMComponent implements OnInit {
       )
       .subscribe();
   }
-  public pagar(comprobante : Comprobante){
-    
-  }
+  
 
   async eliminar(comprobante: Comprobante) {
     let request = await this.comprobanteServicio.removeComprobante(comprobante);

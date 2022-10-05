@@ -194,4 +194,28 @@ export class ComprobantesService {
 
     return {data: request.data, error: request.error};
   }
+  async getComprobantes(params?: LazyLoadEvent) {
+    let query = this.supabase
+      .from<Comprobante>("Comprobante")
+      .select("*")
+      .eq("idTipoComprobante",1)
+
+    if (params?.first !== undefined && params?.rows !== undefined) {
+      query = query.range(params?.first, params?.first + params?.rows - 1);
+    }
+
+    if (params?.sortField !== undefined && params?.sortOrder !== undefined) {
+      query = query.order(params.sortField as any, {
+        ascending: params.sortOrder === 1,
+      });
+    }
+
+    if (params?.globalFilter) {
+      query = query.or(
+        `or(numero.ilike.%${params.globalFilter}%)`
+      );
+    }
+    let { data, error } = await query;
+    return { data, error };
+  }
 }

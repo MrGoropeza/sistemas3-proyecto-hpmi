@@ -11,7 +11,7 @@ export function articulosValidator(): ValidatorFn{
 
     return (control: AbstractControl): ValidationErrors | null => {
         let articulosInvalidos = false;
-        if(articulosInvalidos){
+        if(!articulosInvalidos){
           if(control.value.length > 0){
             control.value.forEach(
                 (element: { precio: number; cantidad: number; }) => {

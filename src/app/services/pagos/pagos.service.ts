@@ -26,7 +26,7 @@ export class PagosService {
     let query = this.supabase
       .from<Pago>("PagoView")
       .select("*")
-
+      
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);
