@@ -10,15 +10,17 @@
         <div class="grid">
             <!-- <div class="col">
                 <div class="flex align-content-center flex-wrap">
-                    <button pButton pRipple label="Transferir Artículos"
-                        icon="pi pi-arrow-up-right" class="p-button-danger" 
-                        (click)="transferirSeleccion()"
-                        aFarmacia4)[disabled]="!articulosSeleccionados || !articulosSeleccionados.length"></button>
+                    
                 </div>
             </div> -->
             
             <div class="col">
-                <div class="flex justify-content-center align-content-center ">
+                <div class="flex justify-content-between align-content-center ">
+
+                    <button pButton pRipple label="Nuevo Movimiento"
+                        icon="bi bi-arrow-down-up" class="p-button-success" 
+                        (click)="transferirSeleccion()"></button>
+
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText class="p-inputtext-md" type="text" 
@@ -62,8 +64,8 @@
             <td>
                 <span class="p-column-title font-bold">Acciones</span>
                 <div>
-                    <button pButton pRipple icon="pi pi-arrow-up-right" class="p-button-rounded p-button-danger"
-                        pTooltip="Transferir" tooltipPosition="top" (click)="transferirArticulo(articulo)"></button>
+                    <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-info"
+                        pTooltip="Ver Movimientos" tooltipPosition="top"></button>
                 </div>
             </td>
         </tr>
@@ -76,5 +78,8 @@
     </ng-template>
 </p-table>
 
-<app-axd-dialog [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"
-    [articulo]="articulo" (creando)="transferenciaRealizada($event)"></app-axd-dialog>
+<!-- <app-axd-dialog [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"
+    [articulo]="articulo" (creando)="transferenciaRealizada($event)"></app-axd-dialog> -->
+
+<app-nuevo-movimiento [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"
+    ></app-nuevo-movimiento>

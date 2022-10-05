@@ -1,0 +1,58 @@
+<p-dialog [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true"
+    header="Nuevo Movimiento"
+    styleClass="p-fluid w-30rem"
+    contentStyleClass="max-h-full overflow-y-visible">
+    
+    <form [formGroup]="formMovimiento">
+
+        <div class="field">
+            <label class="font-bold" for="tipoMovimiento">Tipo de Movimiento</label>
+            <p-dropdown id="tipoMovimiento" [options]="tiposMovimiento"
+                optionLabel="nombre" formControlName="tipoMovimiento"></p-dropdown>
+            <small class="p-error block"
+                *ngIf="
+                formMovimiento.controls['tipoMovimiento'].invalid &&
+                formMovimiento.controls['tipoMovimiento'].touched"
+            >Elija un tipo de movimiento</small>
+        </div>
+
+        <div class="field">
+            <label class="font-bold" for="motivo">Motivo</label>
+            <input type="text" id="motivo" pInputText formControlName="motivo">
+            <small class="p-error block"
+                *ngIf="
+                formMovimiento.controls['motivo'].invalid &&
+                formMovimiento.controls['motivo'].touched"
+            >Motivo requerido</small>
+        </div>
+        
+        <div class="field">
+            <label class="font-bold" for="deposito">ID. Deposito Destino</label>
+            <div id="deposito" class="flex align-items-center gap-3">
+                <input type="text" pInputText formControlName="deposito" readonly>
+                <p-button icon="pi pi-search" 
+                    pTooltip="Seleccionar Depósito" tooltipPosition="top"
+                    styleClass="w-full h-full"></p-button>
+            </div>
+            
+            <small class="p-error block"
+                *ngIf="
+                formMovimiento.controls['deposito'].invalid &&
+                formMovimiento.controls['deposito'].touched"
+            >Deposito requerido</small>
+        </div>
+
+    </form>
+
+    <p>{{ formMovimiento.value | json }}</p>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            class="p-button-text" (click)="ocultarDialog()"
+            [loading]="confirmado"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+            class="p-button-text" (click)="realizarMovimiento()"
+            [loading]="confirmado"></button>
+    </ng-template>
+
+</p-dialog>

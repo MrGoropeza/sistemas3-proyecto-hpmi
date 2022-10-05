@@ -51,6 +51,7 @@ import { SetearArticulosComponent } from './pages/global-components/comprobante-
 import { DetalleComprobanteComponent } from './pages/global-components/comprobante-abm/components/detalle-comprobante/detalle-comprobante.component';
 import { ArticuloComprobanteABMComponent } from './pages/global-components/comprobante-abm/components/detalle-comprobante/components/articulo-comprobante-abm/articulo-comprobante-abm.component';
 import { SeleccionarProveedorComponent } from './pages/global-components/comprobante-abm/components/seleccionar-proveedor/seleccionar-proveedor.component';
+import { NuevoMovimientoComponent } from './pages/deposito-seleccionado-page/componentes/nuevo-movimiento/nuevo-movimiento.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { SeleccionarProveedorComponent } from './pages/global-components/comprob
     DetalleComprobanteComponent,
     ArticuloComprobanteABMComponent,
     SeleccionarProveedorComponent,
+    NuevoMovimientoComponent,
   ],
   imports: [
     BrowserModule,
