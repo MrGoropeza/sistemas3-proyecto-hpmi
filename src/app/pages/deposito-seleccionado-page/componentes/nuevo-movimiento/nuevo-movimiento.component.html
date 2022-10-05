@@ -1,46 +1,51 @@
 <p-dialog [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true"
     header="Nuevo Movimiento"
-    styleClass="p-fluid w-30rem"
+    styleClass="p-fluid w-11"
     contentStyleClass="max-h-full overflow-y-visible">
     
     <form [formGroup]="formMovimiento">
 
-        <div class="field">
-            <label class="font-bold" for="tipoMovimiento">Tipo de Movimiento</label>
-            <p-dropdown id="tipoMovimiento" [options]="tiposMovimiento"
-                optionLabel="nombre" formControlName="tipoMovimiento"></p-dropdown>
-            <small class="p-error block"
-                *ngIf="
-                formMovimiento.controls['tipoMovimiento'].invalid &&
-                formMovimiento.controls['tipoMovimiento'].touched"
-            >Elija un tipo de movimiento</small>
-        </div>
+        <div class="grid gap-3">
 
-        <div class="field">
-            <label class="font-bold" for="motivo">Motivo</label>
-            <input type="text" id="motivo" pInputText formControlName="motivo">
-            <small class="p-error block"
-                *ngIf="
-                formMovimiento.controls['motivo'].invalid &&
-                formMovimiento.controls['motivo'].touched"
-            >Motivo requerido</small>
-        </div>
-        
-        <div class="field">
-            <label class="font-bold" for="deposito">ID. Deposito Destino</label>
-            <div id="deposito" class="flex align-items-center gap-3">
-                <input type="text" pInputText formControlName="deposito" readonly>
-                <p-button icon="pi pi-search" 
-                    pTooltip="Seleccionar Depósito" tooltipPosition="top"
-                    styleClass="w-full h-full"></p-button>
+            <div class="field col min-w-max">
+                <label class="font-bold" for="tipoMovimiento">Tipo de Movimiento</label>
+                <p-dropdown id="tipoMovimiento" [options]="tiposMovimiento"
+                    optionLabel="nombre" formControlName="tipoMovimiento"
+                    (onChange)="tipoSeleccionado()"></p-dropdown>
+                <small class="p-error block"
+                    *ngIf="
+                    formMovimiento.controls['tipoMovimiento'].invalid &&
+                    formMovimiento.controls['tipoMovimiento'].touched"
+                >Elija un tipo de movimiento</small>
+            </div>
+    
+            <div class="field col min-w-max">
+                <label class="font-bold" for="motivo">Motivo</label>
+                <input type="text" id="motivo" pInputText formControlName="motivo">
+                <small class="p-error block"
+                    *ngIf="
+                    formMovimiento.controls['motivo'].invalid &&
+                    formMovimiento.controls['motivo'].touched"
+                >Motivo requerido</small>
             </div>
             
-            <small class="p-error block"
-                *ngIf="
-                formMovimiento.controls['deposito'].invalid &&
-                formMovimiento.controls['deposito'].touched"
-            >Deposito requerido</small>
+            <div class="field col min-w-max" *ngIf="formMovimiento.controls['deposito'].enabled">
+                <label class="font-bold" for="deposito">ID. Deposito Destino</label>
+                <div id="deposito" class="flex align-items-center gap-3">
+                    <input type="text" pInputText formControlName="deposito" readonly>
+                    <p-button icon="pi pi-search" 
+                        pTooltip="Seleccionar Depósito" tooltipPosition="top"></p-button>
+                </div>
+                
+                <small class="p-error block"
+                    *ngIf="
+                    formMovimiento.controls['deposito'].invalid &&
+                    formMovimiento.controls['deposito'].touched"
+                >Deposito requerido</small>
+            </div>
+
         </div>
+
 
     </form>
 
@@ -55,4 +60,25 @@
             [loading]="confirmado"></button>
     </ng-template>
 
+</p-dialog>
+
+
+
+
+<p-dialog
+  header="Agregar Artículos"
+  [(visible)]="articulosVisible"
+  [modal]="true"
+  styleClass="w-12"
+  [dismissableMask]="true"
+>
+  <app-seleccionar-articulos
+    (articuloSeleccionado)="articuloSeleccionado($event)"
+  ></app-seleccionar-articulos>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="articulosVisible = false"></button>
+  </ng-template>
+  
 </p-dialog>

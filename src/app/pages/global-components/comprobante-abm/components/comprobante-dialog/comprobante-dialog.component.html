@@ -302,21 +302,34 @@
   header="Agregar Artículos"
   [(visible)]="articulosVisible"
   [modal]="true"
-  contentStyleClass="w-screen"
+  styleClass="w-12"
   [dismissableMask]="true"
 >
   <app-seleccionar-articulos
     (articuloSeleccionado)="articuloSeleccionado($event)"
   ></app-seleccionar-articulos>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="articulosVisible = false"></button>
+  </ng-template>
+  
 </p-dialog>
 
 <p-dialog
   header="Seleccionar Proveedor"
   [(visible)]="proveedoresVisible"
   [modal]="true"
+  styleClass="w-12"
   [dismissableMask]="true"
 >
   <app-seleccionar-proveedor
     (proveedorSeleccionado)="proveedorSeleccionado($event)"
   ></app-seleccionar-proveedor>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="proveedoresVisible = false"></button>
+  </ng-template>
+  
 </p-dialog>

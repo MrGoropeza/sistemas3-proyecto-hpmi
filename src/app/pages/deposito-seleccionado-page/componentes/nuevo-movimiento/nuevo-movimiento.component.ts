@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MovimientoService } from 'src/app/services/movimientos/movimiento.service';
 import { ITipoMovimiento } from "src/app/models/TipoMovimiento";
+import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 
 @Component({
   selector: 'app-nuevo-movimiento',
@@ -9,6 +10,7 @@ import { ITipoMovimiento } from "src/app/models/TipoMovimiento";
   styleUrls: ['./nuevo-movimiento.component.css']
 })
 export class NuevoMovimientoComponent implements OnInit {
+
 
   @Input() dialog!: boolean;
   @Output() dialogChange = new EventEmitter<boolean>();
@@ -22,8 +24,10 @@ export class NuevoMovimientoComponent implements OnInit {
 
   idDepositoDestino! : number;
 
+  articulosVisible: boolean = false;
+
   formMovimiento = this.formBuilder.group({
-    tipoMovimiento: [null, Validators.required],
+    tipoMovimiento: [{} as ITipoMovimiento, Validators.required],
     motivo: ["", Validators.required],
     deposito: ["", Validators.required]
   });
@@ -35,6 +39,7 @@ export class NuevoMovimientoComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTiposMovimientos();
+    this.formMovimiento.controls["deposito"].disable();
   }
 
   async setTiposMovimientos(){
@@ -74,11 +79,30 @@ export class NuevoMovimientoComponent implements OnInit {
     this.dialog = false;
     this.confirmado = false;
     this.formMovimiento.reset();
+    this.formMovimiento.controls["deposito"].disable();
     this.dialogChange.emit(false);
+  }
+
+  tipoSeleccionado() {
+    let movSeleccionado: ITipoMovimiento | null = this.formMovimiento.controls["tipoMovimiento"].value;
+
+    if(movSeleccionado){
+      if(movSeleccionado.id !== 0){
+        this.formMovimiento.controls["deposito"].disable();
+      }else{
+        this.formMovimiento.controls["deposito"].enable();
+      }
+    }
+  }
+
+  articuloSeleccionado(artiuclo: ArticuloComprobante){
+
   }
 
   realizarMovimiento(){
     this.formMovimiento.markAllAsTouched();
+
+    this.tipoSeleccionado();
 
     console.log(this.formMovimiento.controls);
     
