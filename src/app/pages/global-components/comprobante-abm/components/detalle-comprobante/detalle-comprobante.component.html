@@ -1,18 +1,31 @@
-<div class="flex">
+<div class="grid">
   <div class="col">
     <p>
       <strong>Numero de comprobante:</strong> {{ comprobante.idComprobante }}
     </p>
     <p><strong>Proveedor:</strong> {{ comprobante.idProveedor.nombre }}</p>
-  </div>
-  <div class="col">
     <p>
       <strong>Fecha de Registro:</strong>
-      {{ comprobante.fechaRegistro | date: "dd/MM/yyyy" }}
+      {{ comprobante.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
     </p>
     <p>
-      <strong>Hora:</strong>
-      {{ comprobante.fechaRegistro | date: "H:mm" }}
+      <strong>Fecha de {{ comprobante.idTipoComprobante.nombre }}:</strong>
+      {{ comprobante.fechaComprobante | date: "dd/MM/yyyy" }}
+    </p>
+  </div>
+  <div class="col">
+    
+    <p>
+      <strong>Fecha de Vencimiento:</strong>
+      {{ comprobante.fechaVencimiento | date: "dd/MM/yyyy" }}
+    </p>
+    <p *ngIf="comprobante.idTipoComprobante.nombre === 'Factura'">
+      <strong>Nro. de Factura:</strong>
+      {{ comprobante.numero }}
+    </p>
+    <p *ngIf="comprobante.idTipoComprobante.nombre === 'Factura'">
+      <strong>Categoria:</strong>
+      {{ comprobante.categoria }}
     </p>
   </div>
 </div>
@@ -20,4 +33,8 @@
 <app-articulo-comprobante-abm
   [idComprobante]="comprobante.idComprobante"
 ></app-articulo-comprobante-abm>
-<h3>Total: {{ comprobante.subTotal | currency }}</h3>
+<div class="flex justify-content-between">
+  <h3 *ngIf="comprobante.idTipoComprobante.nombre === 'Factura'">Saldo: {{ comprobante.saldo | currency }}</h3>
+  <h3>Total: {{ comprobante.subTotal | currency }}</h3>
+</div>
+

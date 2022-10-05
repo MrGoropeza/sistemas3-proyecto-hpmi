@@ -14,5 +14,8 @@ export class DetalleComprobanteComponent implements OnInit {
     public config: DynamicDialogConfig
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.comprobante);
+    
+  }
 }

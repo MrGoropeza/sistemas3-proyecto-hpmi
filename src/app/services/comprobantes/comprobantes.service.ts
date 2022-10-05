@@ -27,9 +27,9 @@ export class ComprobantesService {
     let { data: DetalleComprobante, error } = await this.supabase
   .from<DetalleComprobante>('DetalleComprobante')
   .select(`
-  idArticulo : idArticulo(nombre,descripcion),
-  cantidad,
-  precio
+    idArticulo : idArticulo(nombre,descripcion),
+    cantidad,
+    precio
   `)
   .eq("idComprobante",id);
   return { data: DetalleComprobante, error };
@@ -37,14 +37,18 @@ export class ComprobantesService {
   }
   public getComprobante(id : number): Observable<Comprobante[]> {
     const query = this.supabase
-      .from("Comprobante")
+      .from<Comprobante>("Comprobante")
       .select(`
           idComprobante,
           idProveedor:idProveedor(nombre),
           idTipoComprobante:idTipoComprobante(nombre),
           fechaRegistro,
+          fechaComprobante,
+          fechaVencimiento,
           subTotal,
-          categoria
+          saldo,
+          categoria,
+          numero
       `)
       .eq('idTipoComprobante', id)
       .eq("estado", true);
