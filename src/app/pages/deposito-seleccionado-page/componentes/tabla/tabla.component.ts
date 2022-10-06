@@ -53,7 +53,7 @@ export class TablaComponent implements OnInit{
         }
       );
 
-      // console.log(request.data);
+      console.log(request.data);
     }else{
       console.log(request.error);
     }
@@ -76,6 +76,18 @@ export class TablaComponent implements OnInit{
         {severity:'success', 
         summary: 'Éxito',
         detail: 'Transferencia Realizada',
+        life: 3000}
+      );
+    }
+  }
+
+  async movimientoRealizado(event: boolean){
+    if(event){
+      await this.onLazyLoad({first: 0, rows: 10});
+      this.messageService.add(
+        {severity:'success', 
+        summary: 'Éxito',
+        detail: 'Movimiento Realizado',
         life: 3000}
       );
     }

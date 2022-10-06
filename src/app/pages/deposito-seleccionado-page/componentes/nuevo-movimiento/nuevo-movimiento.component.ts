@@ -20,6 +20,8 @@ export class NuevoMovimientoComponent implements OnInit {
   @Output() dialogChange = new EventEmitter<boolean>();
 
   @Input() idDepositoSeleccionado!: number;
+  
+  @Output() movimientoRealizado = new EventEmitter<boolean>();
 
   
   confirmado: boolean = false;
@@ -91,6 +93,7 @@ export class NuevoMovimientoComponent implements OnInit {
     this.dialog = false;
     this.confirmado = false;
     this.mostrarArticulos = false;
+    this.articulosSeleccionados = [];
     this.formMovimiento.reset();
     this.formMovimiento.controls["deposito"].disable();
     this.dialogChange.emit(false);
@@ -161,28 +164,36 @@ export class NuevoMovimientoComponent implements OnInit {
       this.formMovimiento.controls["tipoMovimiento"].setValue(null);
     }
 
+    this.confirmado = true;
+
     if(this.formMovimiento.valid){
       let tipo = this.formMovimiento.controls["tipoMovimiento"].value?.nombre;
-      let motivo = this.formMovimiento.controls["motivo"].value;
+      let motivo;
+      if(this.formMovimiento.controls["motivo"].value){
+        motivo = this.formMovimiento.controls["motivo"].value;
+      }
+
+      console.log(`Motivo dentro del componente: ${motivo}`);
+      
       let request;
       if(tipo === "Salida"){
         request = await this.movimientoService.createSalida(
           this.idDepositoSeleccionado,
           this.articulosSeleccionados,
-          motivo ? motivo : undefined
+          motivo = motivo
         );
       }else if(tipo === "Entrada"){
         request = await this.movimientoService.createEntrada(
           this.idDepositoSeleccionado,
           this.articulosSeleccionados,
-          motivo ? motivo : undefined
+          motivo = motivo
         );
       }else{
         request = await this.movimientoService.createTransferencia(
           this.idDepositoSeleccionado, 
           this.idDepositoDestino, 
           this.articulosSeleccionados,
-          motivo ? motivo : undefined
+          motivo = motivo
         );
   
         
@@ -192,12 +203,16 @@ export class NuevoMovimientoComponent implements OnInit {
       console.log(request);
 
       if(request.data){
+        await this.sleep(4000);
         this.ocultarDialog();
+        this.movimientoRealizado.emit(true);
       }
 
     }
+  }
 
-    
+  private sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

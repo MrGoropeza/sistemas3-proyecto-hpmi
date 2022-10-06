@@ -73,11 +73,11 @@ export class NavigationService{
             icon: 'bi bi-cart',
             routerLink: "/farmacia/ordenesCompra"
           },
-          {
-            label: 'Remitos',
-            icon: 'bi bi-card-heading',
-            routerLink: "/farmacia/remitos"
-          },
+          // {
+          //   label: 'Remitos',
+          //   icon: 'bi bi-card-heading',
+          //   routerLink: "/farmacia/remitos"
+          // },
           {
             label : 'Pago',
             icon : 'bi bi-currency-dollar',

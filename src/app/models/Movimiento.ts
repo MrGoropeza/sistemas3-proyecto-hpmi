@@ -5,5 +5,5 @@ export interface Movimiento{
     idDeposito : number;
     idTipoMovimiento : ITipoMovimiento;
     cantidad : number;
-
+    motivo: string;
 }

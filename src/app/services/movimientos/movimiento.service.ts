@@ -25,7 +25,8 @@ export class MovimientoService {
         idMovimiento,
         fechaRegistro,
         idDeposito,
-        idTipoMovimiento : idTipoMovimiento(nombre)
+        idTipoMovimiento : idTipoMovimiento(nombre),
+        motivo
       `)
       .order("fechaRegistro")
       return { data: Movimiento, error };
@@ -50,11 +51,11 @@ export class MovimientoService {
   }
 
   async createSalida(idDeposito: number, articulos: ArticuloMovimiento[], motivo?: string){
-    return this.crearMovimiento("Salida", idDeposito, articulos);
+    return await this.crearMovimiento("Salida", idDeposito, articulos, motivo);
   }
 
   async createEntrada(idDeposito: number, articulos: ArticuloMovimiento[], motivo?: string){
-    return this.crearMovimiento("Entrada", idDeposito, articulos);
+    return await this.crearMovimiento("Entrada", idDeposito, articulos, motivo);
   }
 
   async createTransferencia(
@@ -102,6 +103,8 @@ export class MovimientoService {
         break;
     }
 
+    console.log(`Motivo dentro del servicio: ${motivo}`);
+    
     let requestMovimiento = await this.supabase.from("Movimiento")
       .insert({
         "idDeposito": idDeposito,
@@ -109,7 +112,7 @@ export class MovimientoService {
         "motivo": motivo
       }).single() as {data: Movimiento, error: any};
 
-    let detalles: PostgrestResponse<any>[] = [];
+    let detalles: any = [];
 
     articulos.forEach(async articulo => {
       let requestArticuloDeposito = await this.supabase
@@ -132,20 +135,24 @@ export class MovimientoService {
          idArticuloDeposito = nuevoArtDep.data?.idArticuloDeposito;
       }
       
-      await this.supabase
+      let procedimiento = await this.supabase
         .rpc(procedimientoAlmacenado, {
           cantidad: articulo.cantidad, 
           filaid: idArticuloDeposito
-        })
+        });
 
-      let requestDetalle = await this.supabase.from("DetalleMovimiento")
+      if(procedimiento.data){
+        let requestDetalle = await this.supabase.from("DetalleMovimiento")
         .insert({
           idMovimiento: requestMovimiento.data.idMovimiento,
           idArticulo: articulo.id,
           stock: articulo.cantidad
         })
 
-      detalles.push(requestDetalle);
+        detalles.push(requestDetalle.data);
+      }
+
+      
       
     });
 

@@ -81,5 +81,8 @@
 <!-- <app-axd-dialog [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"
     [articulo]="articulo" (creando)="transferenciaRealizada($event)"></app-axd-dialog> -->
 
-<app-nuevo-movimiento [(dialog)]="dialog" [idDepositoSeleccionado]="idDepositoSeleccionado"
+<app-nuevo-movimiento 
+    [(dialog)]="dialog" 
+    [idDepositoSeleccionado]="idDepositoSeleccionado"
+    (movimientoRealizado)="movimientoRealizado($event)"
     ></app-nuevo-movimiento>

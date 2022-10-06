@@ -180,7 +180,16 @@
     </ng-template>
 
 
+
+
+
+</p-dialog>
+
+
+
+
 <p-dialog
+  *ngIf="articulosVisible"
   header="Agregar Artículos"
   [(visible)]="articulosVisible"
   [modal]="true"
@@ -201,6 +210,7 @@
 
 
 <p-dialog
+  *ngIf="depositosVisible"
   header="Seleccionar Depósito Destino"
   [(visible)]="depositosVisible"
   [modal]="true"
@@ -210,6 +220,7 @@
   <app-seleccionar-deposito
     (depositoSeleccionado)="depositoSeleccionado($event)"
     [idDepositoActual]="idDepositoSeleccionado"
+    
   ></app-seleccionar-deposito>
 
   <ng-template pTemplate="footer">
@@ -218,10 +229,3 @@
   </ng-template>
   
 </p-dialog>
-
-
-</p-dialog>
-
-
-
-
