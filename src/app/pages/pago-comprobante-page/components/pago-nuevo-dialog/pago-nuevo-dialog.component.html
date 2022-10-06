@@ -1,0 +1,259 @@
+<div class="flex flex-wrap justify-content-start min-h-full">
+  <div class="max-h-full p-0">
+    <form [formGroup]="formComprobante">
+      <div class="flex flex-column pb-3">
+        <p-button
+          label="Selecionar Proveedor"
+          icon="pi pi-plus"
+          (onClick)="proveedoresVisible = true"
+        ></p-button>
+        <small
+          class="p-error"
+          *ngIf="
+            formComprobante.controls['proveedor'].invalid &&
+            formComprobante.controls['proveedor'].touched
+          "
+          >Proveedor requerido.</small
+        >
+      </div>
+
+      <div class="grid flex-wrap">
+        <div class="col-12 md:col-3 flex-column">
+          <label class="font-bold" for="idProveedor">ID. Proveedor</label>
+          <input
+            pInputText
+            [disabled]="true"
+            [value]="proveedor ? proveedor.idProveedor : ''"
+            class="w-12"
+          />
+        </div>
+
+        <div class="col-12 md:col-3 flex-column">
+          <label class="font-bold">Nombre Proveedor</label>
+          <input
+            pInputText
+            [disabled]="true"
+            [value]="proveedor ? proveedor.nombre : ''"
+            class="w-12"
+          />
+        </div>
+
+        <div class="col-12 md:col-3 flex flex-column">
+          <label class="font-bold" for="nroComprobante">Nro de Factura</label>
+          <input
+            pInputText
+            id="nroComprobante"
+            formControlName="nroComprobante"
+            placeholder="####-########"
+            class="w-12"
+
+          />
+
+        </div>
+        <div
+        class="col-12 md:col-3 flex flex-column"
+        
+      >
+        <label class="font-bold" for="tipoFactura">Metodo de pago</label>
+        <p-dropdown
+          inputId="metPago"
+          [(ngModel)]="metPagoSeleccionado"
+          [options]="metodosPago"
+          optionLabel="nombre"
+          placeholder="Seleccionar"
+          formControlName="metPago"
+          name="metPago"
+          styleClass="w-12"
+        >
+          <ng-template let-option pTemplate="item">
+            {{ option.nombre }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          class="p-error"
+          *ngIf="
+            formComprobante.controls['metPago'].invalid &&
+            formComprobante.controls['metPago'].touched
+          "
+          >metodo de pago requerido.</small
+        >
+      </div>
+      </div>
+
+      <input
+        pInputText
+        class="hidden"
+        id="comprobantesValidos"
+        formControlName="comprobantesValidos"
+        [value]="comprobantesSeleccionados"
+      />
+    </form>
+  </div>
+
+  <div class="flex flex-column min-w-full">
+    <h4 class="m-0 mb-2 p-0 font-bold">Comprobantes Seleccionados:</h4>
+
+    <small
+      class="p-error"
+      *ngIf="
+        formComprobante.controls['cantComprobantes'].invalid &&
+        formComprobante.controls['cantComprobantes'].touched
+      "
+      >Selección de comprobantes requerida.</small
+    >
+    <small
+      class="p-error"
+      *ngIf="
+        formComprobante.controls['comprobantesValidos'].invalid &&
+        formComprobante.controls['comprobantesValidos'].touched
+      "
+      >Los importes deben ser correctos.</small
+    >
+
+    <p-table
+      [value]="comprobantesSeleccionados"
+      responsiveLayout="stack"
+      dataKey="id"
+    >
+      <ng-template pTemplate="caption">
+        <div class="grid align-items-center justify-content-between">
+          <div class="md:col col-12">
+            <div class="flex md:justify-content-start justify-content-center">
+              <button
+                pButton
+                pRipple
+                label="Agregar"
+                icon="pi pi-plus"
+                class="p-button-success mr-2"
+                (click)="agregarComprobante()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th>N° Comprobante</th>
+          <th>letra</th>
+          <th>fecha de Vencimiento</th>
+          <th>saldo</th>
+          <th>importe</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-detalle let-columns="columns">
+        <tr>
+          <td>
+            <span class="p-column-title font-bold">#</span
+            >{{ detalle.comprobante.numero }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">letra</span
+            >{{ detalle.comprobante.categoria }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">fecha de vencimiento</span
+            >{{ detalle.comprobante.fechaVencimiento | date:'dd/MM/yyyy' }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">fecha de vencimiento</span
+            >{{ detalle.comprobante.saldo | currency }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Importe</span>
+            <div class="field flex flex-column">
+              <input
+                #inputCant
+                id="precio"
+                type="number"
+                pInputText
+                min="0"
+                oninput="validity.valid||(value='');"
+                placeholder="Importe del pago"
+                [(ngModel)]="detalle.importe"
+                (change)="actualizarSubtotal(detalle.importe)"
+              />
+              <small
+                class="p-error"
+                *ngIf="!detalle.importe && detalle.importe <= 0"
+                >Importe requerido mayor a 0.</small
+              >
+              <small
+                class="p-error"
+                *ngIf="detalle.importe > detalle.comprobante.saldo"
+                >el importe a pagar no tiene que ser mayor al saldo.</small
+              >
+            </div>
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Acción</span>
+            <button
+              pButton
+              pRipple
+              tooltipPosition="top"
+              pTooltip="Eliminar"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger mr-2"
+              (click)="quitarComprobante(detalle)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="flex justify-content-end min-w-full">
+    <p class="m-0 mb-2 p-0 font-bold text-lg">
+      Subtotal: {{ subtotal | currency }}
+    </p>
+  </div>
+
+  <div class="flex justify-content-end align-self-end min-w-full">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Cancelar"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="cerrar()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      pRipple
+      label="Guardar"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="guardar()"
+    ></button>
+  </div>
+</div>
+
+<div *ngIf="comprobantesVisible">
+  <p-dialog
+  header="Agregar Comprobantes"
+  [(visible)]="comprobantesVisible"
+  [modal]="true"
+  contentStyleClass="w-screen"
+  [dismissableMask]="true"
+>
+  <app-pago-comprobantes-aseleccionar-abm
+  [proveedor]="proveedor"
+    (compSeleccionado)="comprobanteSeleccionado($event)"
+  ></app-pago-comprobantes-aseleccionar-abm>
+</p-dialog>
+</div>
+
+  <p-dialog
+  header="Seleccionar Proveedor"
+  [(visible)]="proveedoresVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+>
+  <app-seleccionar-proveedor
+    (proveedorSeleccionado)="proveedorSeleccionado($event)"
+  ></app-seleccionar-proveedor>
+</p-dialog>
+  <!-- <p>{{ formComprobante.value | json }}</p> -->

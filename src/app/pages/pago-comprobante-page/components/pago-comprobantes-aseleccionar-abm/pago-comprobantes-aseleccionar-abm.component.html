@@ -1,0 +1,68 @@
+<p-table
+  #dt
+  [value]="comprobantes" 
+  [rows]="5"
+  [totalRecords]="total"
+  [paginator]="true"
+  responsiveLayout="stack"
+  [rowHover]="true"
+  [lazy]="true"
+  responsiveLayout="stack"
+  [rowHover]="true"
+  dataKey="idDetalle"
+  [showCurrentPageReport]="false"
+  [loading]="cargando"
+  (onLazyLoad)="onLazyLoad($event)"
+>
+<ng-template pTemplate="caption">
+    <div class="grid">
+        <div class="col">
+            <div class="flex justify-content-center align-content-center ">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText class="p-inputtext-md" type="text" 
+                        (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                        placeholder="N° comprobante..." />
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>#</th>
+      <th>N° de comprobante</th>
+      <th>Letra</th>
+      <th>fecha de Registro</th>
+      <th>Saldo</th>
+      <th>Acción</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-comprobante let-rowIndex="rowIndex" let-columns="columns">
+    <tr>
+      <td><span class="p-column-title font-bold">#</span>{{ rowIndex+1 }}</td>
+      <td><span class="p-column-title font-bold">Nombre del artículo</span>{{ comprobante.numero }}</td>
+      <td><span class="p-column-title font-bold">letra</span>{{ comprobante.categoria }}</td>
+      <td><span class="p-column-title font-bold">Cantidad</span>{{ comprobante.fechaRegistro | date : "dd/mm/yyyy HH:mm" }}</td>
+      <td><span class="p-column-title font-bold">Precio</span>{{ comprobante.saldo | currency }}</td>
+    
+    <td><span class="p-column-title font-bold">Acción</span>
+        <button
+            pButton
+            pRipple
+            tooltipPosition="top"
+            pTooltip="Agregar"
+            icon="pi pi-plus"
+            class="p-button-rounded p-button-info mr-2"
+            (click)="agregarComprobante(comprobante)"
+            
+        ></button>
+    </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+

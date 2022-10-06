@@ -7,6 +7,7 @@ import { Comprobante } from "src/app/models/Comprobante";
 import { DetalleComprobante } from "src/app/models/DetalleComprobante";
 import { SupabaseService } from "../supabase.service";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service"
+import { Proveedor } from "src/app/models/Proveedor";
 import { IArticuloDepositoView } from "src/app/models/IArticuloDeposito";
 import { ArticuloMovimiento } from "src/app/models/ArticuloMovimiento";
 
@@ -34,7 +35,13 @@ export class ComprobantesService {
   `)
   .eq("idComprobante",id);
   return { data: DetalleComprobante, error };
-
+  }
+  async getCantComprobantes() {
+    return await this.supabase
+      .from<Comprobante>("Comprobante")
+      .select("idComprobante")
+      .eq("estado", true)
+      .eq("idTipoComprobante",1);
   }
   public getComprobante(id : number): Observable<Comprobante[]> {
     const query = this.supabase
@@ -69,6 +76,10 @@ export class ComprobantesService {
       .select("*")
       .eq("estado", true)
 
+    if(idDepositoActual !== undefined){
+      query = query.eq("idDeposito", idDepositoActual);
+    }
+    
     if(idDepositoActual !== undefined){
       query = query.eq("idDeposito", idDepositoActual);
     }
@@ -203,5 +214,31 @@ export class ComprobantesService {
       .single();
 
     return {data: request.data, error: request.error};
+  }
+  async getComprobantes(proveedor : Proveedor,params?: LazyLoadEvent) {
+    let query = this.supabase
+      .from<Comprobante>("Comprobante")
+      .select("*")
+      .eq("idTipoComprobante",1)
+      .neq("saldo",0)
+      .eq("idProveedor", proveedor.idProveedor)
+
+    if (params?.first !== undefined && params?.rows !== undefined) {
+      query = query.range(params?.first, params?.first + params?.rows - 1);
+    }
+
+    if (params?.sortField !== undefined && params?.sortOrder !== undefined) {
+      query = query.order(params.sortField as any, {
+        ascending: params.sortOrder === 1,
+      });
+    }
+
+    if (params?.globalFilter) {
+      query = query.or(
+        `or(numero.ilike.%${params.globalFilter}%)`
+      );
+    }
+    let { data, error } = await query;
+    return { data, error };
   }
 }
