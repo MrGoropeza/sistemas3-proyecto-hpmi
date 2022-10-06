@@ -8,6 +8,7 @@ import { Comprobante } from "src/app/models/Comprobante";
 import { DetalleComprobante } from "src/app/models/DetalleComprobante";
 import { SupabaseService } from "../supabase.service";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service"
+import { Proveedor } from "src/app/models/Proveedor";
 
 @Injectable({
   providedIn: "root",
@@ -33,7 +34,13 @@ export class ComprobantesService {
   `)
   .eq("idComprobante",id);
   return { data: DetalleComprobante, error };
-
+  }
+  async getCantComprobantes() {
+    return await this.supabase
+      .from<Comprobante>("Comprobante")
+      .select("idComprobante")
+      .eq("estado", true)
+      .eq("idTipoComprobante",1);
   }
   public getComprobante(id : number): Observable<Comprobante[]> {
     const query = this.supabase
@@ -194,11 +201,13 @@ export class ComprobantesService {
 
     return {data: request.data, error: request.error};
   }
-  async getComprobantes(params?: LazyLoadEvent) {
+  async getComprobantes(proveedor : Proveedor,params?: LazyLoadEvent) {
     let query = this.supabase
       .from<Comprobante>("Comprobante")
       .select("*")
       .eq("idTipoComprobante",1)
+      .neq("saldo",0)
+      .eq("idProveedor", proveedor.idProveedor)
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);

@@ -16,6 +16,6 @@ export class PagoDetalleDialogComponent implements OnInit {
 
   ngOnInit(): void {
     
-    
   }
+  
 }

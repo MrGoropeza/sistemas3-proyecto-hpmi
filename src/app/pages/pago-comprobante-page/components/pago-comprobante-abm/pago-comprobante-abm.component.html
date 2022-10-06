@@ -20,14 +20,13 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-detalle let-rowIndex="rowIndex" let-columns="columns">
-    <!-- <tr>
+    <tr>
       <td><span class="p-column-title font-bold">#</span>{{ rowIndex+1 }}</td>
-      <td><span class="p-column-title font-bold">Nombre del artículo</span>{{ detalle.idArticulo.nombre }}</td>
-      <td><span class="p-column-title font-bold">Descripcion</span>{{ detalle.idArticulo.descripcion }}</td>
-      <td><span class="p-column-title font-bold">Cantidad</span>{{ detalle.cantidad }}</td>
-      <td><span class="p-column-title font-bold">Precio</span>{{ detalle.precio | currency }}</td>
-      <td><span class="p-column-title font-bold">Precio</span>{{ detalle.precio*detalle.cantidad | currency }}</td>
-    </tr> -->
+      <td><span class="p-column-title font-bold">N° de comprobante</span>{{ detalle.idComprobante.numero}}</td>
+      <td><span class="p-column-title font-bold">Letra</span>{{detalle.idComprobante.categoria}}</td>
+      <td><span class="p-column-title font-bold">fecha</span>{{detalle.fechaRegistro | date : "dd/MM/yyyy"}}</td>
+      <td><span class="p-column-title font-bold">Importe</span>{{ detalle.importe | currency }}</td>
+    </tr>
   </ng-template>
 </p-table>
 

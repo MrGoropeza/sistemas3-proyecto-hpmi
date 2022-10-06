@@ -46,31 +46,27 @@
             formControlName="nroComprobante"
             placeholder="####-########"
             class="w-12"
+
           />
-          <small
-            class="p-error"
-            *ngIf="
-              formComprobante.controls['nroComprobante'].invalid &&
-              formComprobante.controls['nroComprobante'].touched
-            "
-            >Número de Factura requerida.</small
-          >
+
         </div>
         <div
         class="col-12 md:col-3 flex flex-column"
         
       >
-        <label class="font-bold" for="tipoFactura">Tipo de Factura</label>
+        <label class="font-bold" for="tipoFactura">Metodo de pago</label>
         <p-dropdown
           inputId="metPago"
+          [(ngModel)]="metPagoSeleccionado"
           [options]="metodosPago"
+          optionLabel="nombre"
           placeholder="Seleccionar"
           formControlName="metPago"
           name="metPago"
           styleClass="w-12"
         >
           <ng-template let-option pTemplate="item">
-            {{ option }}
+            {{ option.nombre }}
           </ng-template>
         </p-dropdown>
         <small
@@ -141,6 +137,7 @@
           <th>N° Comprobante</th>
           <th>letra</th>
           <th>fecha de Vencimiento</th>
+          <th>saldo</th>
           <th>importe</th>
         </tr>
       </ng-template>
@@ -151,12 +148,16 @@
             >{{ detalle.comprobante.numero }}
           </td>
           <td>
-            <span class="p-column-title font-bold">Nombre</span
+            <span class="p-column-title font-bold">letra</span
             >{{ detalle.comprobante.categoria }}
           </td>
           <td>
-            <span class="p-column-title font-bold">Descripción</span
-            >{{ detalle.comprobante.fechaVencimiento }}
+            <span class="p-column-title font-bold">fecha de vencimiento</span
+            >{{ detalle.comprobante.fechaVencimiento | date:'dd/mm/yyyy' }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">fecha de vencimiento</span
+            >{{ detalle.comprobante.saldo | currency }}
           </td>
           <td>
             <span class="p-column-title font-bold">Importe</span>
@@ -193,6 +194,7 @@
               pTooltip="Eliminar"
               icon="pi pi-trash"
               class="p-button-rounded p-button-danger mr-2"
+              (click)="quitarComprobante(detalle)"
             ></button>
           </td>
         </tr>
@@ -229,7 +231,8 @@
   </div>
 </div>
 
-<p-dialog
+<div *ngIf="comprobantesVisible">
+  <p-dialog
   header="Agregar Comprobantes"
   [(visible)]="comprobantesVisible"
   [modal]="true"
@@ -237,10 +240,13 @@
   [dismissableMask]="true"
 >
   <app-pago-comprobantes-aseleccionar-abm
+  [proveedor]="proveedor"
     (compSeleccionado)="comprobanteSeleccionado($event)"
   ></app-pago-comprobantes-aseleccionar-abm>
 </p-dialog>
-<p-dialog
+</div>
+
+  <p-dialog
   header="Seleccionar Proveedor"
   [(visible)]="proveedoresVisible"
   [modal]="true"
@@ -250,3 +256,4 @@
     (proveedorSeleccionado)="proveedorSeleccionado($event)"
   ></app-seleccionar-proveedor>
 </p-dialog>
+

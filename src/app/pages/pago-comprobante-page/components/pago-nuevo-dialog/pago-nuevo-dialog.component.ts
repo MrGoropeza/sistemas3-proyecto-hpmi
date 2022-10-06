@@ -1,16 +1,21 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MessageService } from "primeng/api";
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
+import { DynamicDialogRef } from "primeng/dynamicdialog";
 import { SubscriptionLike } from "rxjs";
 import { ArticuloComprobante } from "src/app/models/ArticuloComprobante";
 import { Comprobante } from "src/app/models/Comprobante";
 import { Proveedor } from "src/app/models/Proveedor";
-import { ComprobantesService } from "src/app/services/comprobantes/comprobantes.service";
-import { ProveedorService } from "src/app/services/proveedor/proveedor.service";
-import { articulosValidator} from "src/app/validators/CustomValidator";
-import {DetallePago} from "src/app/models/DetallePago";
-import { metPago } from "src/app/models/enums/metPago";
+import { DetallePago } from "src/app/models/DetallePago";
+import { PagosService } from "src/app/services/pagos/pagos.service";
+import { MetPago } from "src/app/models/MetPago";
+import { Pago } from "src/app/models/Pago";
+
 @Component({
   selector: "app-pago-nuevo-dialog",
   templateUrl: "./pago-nuevo-dialog.component.html",
@@ -18,81 +23,135 @@ import { metPago } from "src/app/models/enums/metPago";
 })
 export class PagoNuevoDialogComponent implements OnInit {
   idTipoComprobante!: number;
-
   proveedor!: Proveedor;
-  importe! : number;
-  tiposFactura = ["A", "B", "C", "M", "E", "T"];
-  metodosPago = ["efectivo","transferencia"];
-  
-  
+  importe!: number;
+  metodosPago: MetPago[] = [];
+  metPagoSeleccionado: MetPago = {} as MetPago;
   proveedoresSub!: SubscriptionLike;
-
-  articulosSeleccionados: ArticuloComprobante[] = [];
-  comprobantesSeleccionados : DetallePago[] = [];
-
+  comprobantesSeleccionados: DetallePago[] = [];
   subtotal: number = 0;
+  nroPago: string = "";
+  comprobantesVisible: boolean = false;
+  proveedoresVisible: boolean = false;
 
   formComprobante: FormGroup = this.formBuilder.group({
     proveedor: [null, Validators.required],
     cantComprobantes: [0, Validators.min(1)],
     comprobantesValidos: [this.comprobantesSeleccionados, Validators.required],
-    nroComprobante: [null, Validators.required],
-    metPago: [null, Validators.required]
+    metPago: [null, Validators.required],
   });
-
-  comprobantesVisible: boolean = false;
-  proveedoresVisible: boolean = false;
-
-  actualizarSubtotal(importe : number) {
-    this.subtotal += importe;
-     
-  }
 
   constructor(
     private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig,
-    private dialogService: DialogService,
-    private proveedorService: ProveedorService,
-    private comprobanteService: ComprobantesService,
     private formBuilder: FormBuilder,
+    private pagoServicio: PagosService,
     private messageService: MessageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    this.genNroFactura();
+    this.formComprobante.addControl(
+      "nroComprobante",
+      new FormControl(
+        { value: this.nroPago, disabled: true },
+        Validators.required
+      )
+    );
+    this.getMetodosPago();
     console.log(this.metodosPago);
   }
 
+  actualizarSubtotal(importe: number) {
+    this.subtotal += importe;
+  }
 
+  public getMetodosPago(): void {
+    this.pagoServicio.getMetPago().then((res) => {
+      if (res.MetodosPago) {
+        this.metodosPago = res.MetodosPago;
+      } else {
+        console.log(res.error);
+      }
+    });
+  }
 
   proveedorSeleccionado(proveedor: Proveedor) {
+    if (this.proveedor) {
+      if (this.proveedor.idProveedor != proveedor.idProveedor) {
+        this.comprobantesSeleccionados = [];
+      }
+    }
     this.proveedor = proveedor;
     this.formComprobante.controls["proveedor"].setValue(proveedor);
     this.proveedoresVisible = false;
   }
 
-
-  agregarComprobante(){
-    this.comprobantesVisible = true;
+  agregarComprobante() {
+    if (this.proveedor) {
+      this.comprobantesVisible = true;
+    } else {
+      this.showWarn(
+        "Advertencia",
+        "debe seleccionar un proveedor para continuar..."
+      );
+    }
   }
-  
+  showWarn(resumen: string, detalle: string) {
+    this.messageService.add({
+      severity: "warn",
+      summary: resumen,
+      detail: detalle,
+    });
+  }
+  quitarComprobante(detalle: DetallePago) {
+    let nuevoArray = this.comprobantesSeleccionados.filter(
+      (element) =>
+        element.comprobante.idComprobante !== detalle.comprobante.idComprobante
+    );
+    this.comprobantesSeleccionados = nuevoArray;
+    if (detalle.importe) {
+      this.subtotal -= detalle.importe;
+      console.log(this.subtotal);
+    }
+  }
 
-  // quitarArticulo(articulo: ArticuloComprobante){
-
-  // }
-
-  cerrar(){
+  cerrar() {
     this.formComprobante.reset();
     this.ref.close();
   }
-  comprobanteSeleccionado(comprobante : Comprobante){
+  comprobanteSeleccionado(comprobante: Comprobante) {
     console.log("hola");
     let detalle = {} as DetallePago;
     detalle.comprobante = comprobante;
-      this.comprobantesSeleccionados.push(detalle);
-
+    this.comprobantesSeleccionados.push(detalle);
   }
-  async guardar(){
-
+  async guardar() {
+    this.pagoServicio.insertPagos(
+      this.metPagoSeleccionado.idMetPago,
+      this.comprobantesSeleccionados,
+      this.proveedor.idProveedor,
+      this.subtotal,
+      this.nroPago
+    ).then(
+      (res)=>this.ref.close('¡se logro registrar el pago de manera exitosa!')
+    );
   }
 
+  private genNroFactura() {
+    let sucursal = (
+      Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000
+    ).toString();
+    this.nroPago = sucursal + "-" + this.formatDate(new Date());
+  }
+  private padToNDigits(num: number, n: number) {
+    return num.toString().padStart(n, "0");
+  }
+
+  private formatDate(date: Date) {
+    return (
+      date.getFullYear() +
+      this.padToNDigits(date.getMonth() + 1, 2) +
+      this.padToNDigits(date.getDate(), 1)
+    );
+  }
 }

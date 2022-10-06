@@ -1,7 +1,10 @@
 import { Injectable } from "@angular/core";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { LazyLoadEvent } from "primeng/api";
+import { DetallePago } from "src/app/models/DetallePago";
+import { MetPago } from "src/app/models/MetPago";
 import { Pago } from "src/app/models/Pago";
+import { Proveedor } from "src/app/models/Proveedor";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service";
 import { SupabaseService } from "../supabase.service";
 
@@ -16,17 +19,70 @@ export class PagosService {
   ) {
     this.supabase = supabaseService.getSupabaseClient();
   }
+  public async getMetPago() {
+    let { data: MetodosPago, error } = await this.supabase
+      .from("MetodosPago")
+      .select("idMetPago,nombre");
+    return { MetodosPago, error };
+  }
   async getCantPagos() {
     return await this.supabase
       .from<Pago>("Pagos")
       .select("idPago")
       .eq("estado", true);
   }
+  async insertPagos(
+    idMetPago: number,
+    detalles: DetallePago[],
+    idProveedor: number,
+    total: number,
+    nroComprobante: string
+  ) {
+    let request = await this.supabase
+      .from("Pago")
+      .insert({
+        idProveedor: idProveedor,
+        idMetPago: idMetPago,
+        nroComprobante: nroComprobante,
+        total: total,
+        estado: true,
+      })
+      .single();
+    if (request.data) {
+      let idPago = request.data.idPago;
+      detalles.forEach(async (detalle) => {
+        let requestDetalle = await this.supabase
+          .from("DetallePago")
+          .insert({
+            idPago: idPago,
+            idComprobante: detalle.comprobante.idComprobante,
+            importe: detalle.importe,
+          })
+          .single();
+        if (requestDetalle.data) {
+          let nuevoSaldo = detalle.comprobante.saldo - detalle.importe;
+          let requestComprobante = await this.supabase
+            .from("Comprobante")
+            .update({ saldo: nuevoSaldo })
+            .eq("idComprobante", detalle.comprobante.idComprobante)
+            .single();
+        }
+      });
+    }
+  }
+  async getDetalles(idPago: number) {
+    let requestDetalle = await this.supabase
+      .from<DetallePago>("DetallePago")
+      .select(`idComprobante : idComprobante(numero,categoria),
+      importe,
+      fechaRegistro
+      `)
+      .eq("idPago", idPago);
+    return requestDetalle;
+  }
+
   async getPagos(params?: LazyLoadEvent) {
-    let query = this.supabase
-      .from<Pago>("PagoView")
-      .select("*")
-      
+    let query = this.supabase.from<Pago>("PagoView").select("*");
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);
