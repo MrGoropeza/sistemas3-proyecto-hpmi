@@ -1,6 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { LazyLoadEvent, MessageService } from "primeng/api";
+import {
+  ConfirmationService,
+  LazyLoadEvent,
+  MessageService,
+} from "primeng/api";
 import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { map } from "rxjs";
 import { Pago } from "src/app/models/Pago";
 import { ComprobanteDialogComponent } from "src/app/pages/global-components/comprobante-abm/components/comprobante-dialog/comprobante-dialog.component";
 import { PagosService } from "src/app/services/pagos/pagos.service";
@@ -17,7 +22,9 @@ export class PagoABMComponent implements OnInit {
   cantPagos: Number = 0;
   loading: boolean = true;
   ref!: DynamicDialogRef;
+  total!: number;
   constructor(
+    private confirmationService: ConfirmationService,
     private pagoService: PagosService,
     private dialogService: DialogService,
     private messageService: MessageService
@@ -38,12 +45,17 @@ export class PagoABMComponent implements OnInit {
     }
   }
   public aniadir() {
-    this.ref = this.dialogService.open(PagoNuevoDialogComponent,{
+    this.ref = this.dialogService.open(PagoNuevoDialogComponent, {
       header: `Añadir pago`,
       width: "90%",
       height: "90%",
-      contentStyle: {"overflow":"auto",},
+      contentStyle: { overflow: "auto" },
     });
+    this.ref.onClose.pipe(
+      map(res=>{
+        this.getPagos();
+      })
+    ).subscribe();
   }
   public verDetalle(pago: Pago) {
     this.ref = this.dialogService.open(PagoDetalleDialogComponent, {
@@ -51,13 +63,39 @@ export class PagoABMComponent implements OnInit {
       width: "70%",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
-      data: {pago : pago}
+      data: { pago: pago },
+    });
+  }
+  public delete(pago: Pago) {
+    this.confirmationService.confirm({
+      message: "¿Estás seguro que desea borrar este pago?",
+      header: "Confirmar",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Sí",
+      rejectLabel: "No",
+      accept: () => {
+        this.pagoService.delete(pago.idPago).then((res) => {
+          if (res.data) {
+            this.getPagos();
+          }
+        });
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Pago eliminado",
+          life: 3000,
+        });
+      },
     });
   }
 
   async onLazyLoad(event: LazyLoadEvent) {
     this.loading = true;
-
+    let requestCant = await this.pagoService.getPagos();
+    if(requestCant.data){
+      this.total = requestCant.data.length;
+    }
     let request = await this.pagoService.getPagos(event);
     if (request.data) {
       this.pagos = request.data;

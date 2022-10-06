@@ -75,7 +75,7 @@
             formComprobante.controls['metPago'].invalid &&
             formComprobante.controls['metPago'].touched
           "
-          >Tipo de Factura requerida.</small
+          >metodo de pago requerido.</small
         >
       </div>
       </div>
@@ -99,7 +99,7 @@
         formComprobante.controls['cantComprobantes'].invalid &&
         formComprobante.controls['cantComprobantes'].touched
       "
-      >Selección de artículos requerida.</small
+      >Selección de comprobantes requerida.</small
     >
     <small
       class="p-error"
@@ -107,7 +107,7 @@
         formComprobante.controls['comprobantesValidos'].invalid &&
         formComprobante.controls['comprobantesValidos'].touched
       "
-      >Las cantidades y precios de los artículos deben ser positivas.</small
+      >Los importes deben ser correctos.</small
     >
 
     <p-table
@@ -256,4 +256,4 @@
     (proveedorSeleccionado)="proveedorSeleccionado($event)"
   ></app-seleccionar-proveedor>
 </p-dialog>
-
+  <!-- <p>{{ formComprobante.value | json }}</p> -->

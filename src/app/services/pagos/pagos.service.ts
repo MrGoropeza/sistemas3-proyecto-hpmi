@@ -80,9 +80,12 @@ export class PagosService {
       .eq("idPago", idPago);
     return requestDetalle;
   }
-
+  async delete(idPago : number){
+    let query = this.supabase.from<Pago>("Pago").update({estado:false}).eq("idPago",idPago);
+    return query;
+  }
   async getPagos(params?: LazyLoadEvent) {
-    let query = this.supabase.from<Pago>("PagoView").select("*");
+    let query = this.supabase.from<Pago>("PagoView").select("*").eq("estado",true);
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);

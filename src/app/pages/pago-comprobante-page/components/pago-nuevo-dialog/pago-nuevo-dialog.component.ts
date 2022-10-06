@@ -38,7 +38,7 @@ export class PagoNuevoDialogComponent implements OnInit {
     proveedor: [null, Validators.required],
     cantComprobantes: [0, Validators.min(1)],
     comprobantesValidos: [this.comprobantesSeleccionados, Validators.required],
-    metPago: [null, Validators.required],
+    metPago: ["", Validators.required],
   });
 
   constructor(
@@ -120,21 +120,60 @@ export class PagoNuevoDialogComponent implements OnInit {
     this.ref.close();
   }
   comprobanteSeleccionado(comprobante: Comprobante) {
-    console.log("hola");
+    let encontrado = this.comprobantesSeleccionados.find(
+      (element) =>
+        element.comprobante.idComprobante === comprobante.idComprobante
+    );
     let detalle = {} as DetallePago;
     detalle.comprobante = comprobante;
-    this.comprobantesSeleccionados.push(detalle);
+    console.log(encontrado);
+    if (encontrado === undefined) {
+      this.formComprobante.controls["comprobantesValidos"].setValue(
+        this.comprobantesSeleccionados
+      );
+      this.comprobantesSeleccionados.push(detalle);
+      this.formComprobante.controls["cantComprobantes"].setValue(
+        this.comprobantesSeleccionados.length
+      );
+    } else {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "No se puede añadir la misma factura mas de una vez",
+      });
+    }
   }
   async guardar() {
-    this.pagoServicio.insertPagos(
-      this.metPagoSeleccionado.idMetPago,
-      this.comprobantesSeleccionados,
-      this.proveedor.idProveedor,
-      this.subtotal,
-      this.nroPago
-    ).then(
-      (res)=>this.ref.close('¡se logro registrar el pago de manera exitosa!')
+    this.formComprobante.controls["comprobantesValidos"].setValue(
+      this.comprobantesSeleccionados
     );
+    this.formComprobante.markAllAsTouched();
+
+    if (this.formComprobante.valid) {
+      this.pagoServicio
+        .insertPagos(
+          this.metPagoSeleccionado.idMetPago,
+          this.comprobantesSeleccionados,
+          this.proveedor.idProveedor,
+          this.subtotal,
+          this.nroPago
+        )
+        .then((res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "Pago registrado con Exito!",
+            life: 3000,
+          });
+          this.ref.close();
+        });
+    } else {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "No se puede registrar este pago",
+      });
+    }
   }
 
   private genNroFactura() {

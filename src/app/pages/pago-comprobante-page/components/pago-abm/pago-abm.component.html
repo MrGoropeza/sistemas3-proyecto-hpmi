@@ -3,8 +3,9 @@
 <p-table
   #dt
   [value]="pagos"
-  [rows]="5"
+  [rows]="3"
   [paginator]="true"
+  [totalRecords]="total"
   (onLazyLoad)="onLazyLoad($event)"
   [lazy]="true" 
   responsiveLayout="stack"
@@ -81,6 +82,15 @@
         class="p-button-rounded p-button-info mr-2"
         (click)="verDetalle(pago)"
       ></button>
+      <button
+      pButton
+      pRipple
+      tooltipPosition="top"
+      pTooltip="Ver Detalle"
+      icon="pi pi-trash"
+      class="p-button-rounded p-button-warning mr-2"
+      (click)="delete(pago)"
+    ></button>
     </tr>
   </ng-template>
 
