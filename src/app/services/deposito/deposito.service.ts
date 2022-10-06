@@ -57,7 +57,7 @@ export class DepositoService {
     }
   }
 
-  public async  getDepositos(){
+  public async getDepositos(){
 
     let tipoDepositoPrincipal = await this.getTipoPrincipal();
 

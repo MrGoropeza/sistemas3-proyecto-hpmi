@@ -4,6 +4,9 @@ import { MovimientoService } from 'src/app/services/movimientos/movimiento.servi
 import { ITipoMovimiento } from "src/app/models/TipoMovimiento";
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { articulosValidator, cantidadesValidator } from 'src/app/validators/CustomValidator';
+import { Deposito } from 'src/app/models/Deposito';
+import { SupabaseDepositoSeleccionadoService } from 'src/app/services/deposito-seleccionado/supabase-deposito-seleccionado.service';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 
 @Component({
   selector: 'app-nuevo-movimiento',
@@ -26,19 +29,24 @@ export class NuevoMovimientoComponent implements OnInit {
   idDepositoDestino! : number;
 
   articulosVisible: boolean = false;
-  articulosSeleccionados: ArticuloComprobante[] = [];
+  articulosSeleccionados: ArticuloMovimiento[] = [];
+
+  depositosVisible: boolean = false;
 
   formMovimiento = this.formBuilder.group({
     tipoMovimiento: [{} as ITipoMovimiento, Validators.required],
-    cantArticulos: [0, [Validators.required, Validators.min(1)]],
-    articulosValidos: [this.articulosSeleccionados, [cantidadesValidator()]],
+    cantArticulos: [this.articulosSeleccionados.length, [Validators.required, Validators.min(1)]],
+    articulosValidos: [this.articulosSeleccionados, cantidadesValidator()],
     motivo: ["", Validators.required],
-    deposito: ["", Validators.required]
+    deposito: [this.idDepositoDestino, Validators.required]
   });
+
+  mostrarArticulos: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private movimientoService: MovimientoService
+    private movimientoService: MovimientoService,
+    private depSeleccionadoService: SupabaseDepositoSeleccionadoService
   ) { }
 
   ngOnInit(): void {
@@ -82,6 +90,7 @@ export class NuevoMovimientoComponent implements OnInit {
   ocultarDialog(){
     this.dialog = false;
     this.confirmado = false;
+    this.mostrarArticulos = false;
     this.formMovimiento.reset();
     this.formMovimiento.controls["deposito"].disable();
     this.dialogChange.emit(false);
@@ -89,6 +98,11 @@ export class NuevoMovimientoComponent implements OnInit {
 
   tipoSeleccionado() {
     let movSeleccionado: ITipoMovimiento | null = this.formMovimiento.controls["tipoMovimiento"].value;
+    this.mostrarArticulos = true;
+
+    this.articulosSeleccionados.forEach(
+      art => art.cantidad = 0
+    );
 
     if(movSeleccionado){
       if(movSeleccionado.id !== 0){
@@ -107,12 +121,15 @@ export class NuevoMovimientoComponent implements OnInit {
     let nuevoArray = this.articulosSeleccionados.filter(element => element.id !== articulo.id);
     this.articulosSeleccionados = [];
     this.articulosSeleccionados = nuevoArray;
+    this.formMovimiento.controls["cantArticulos"].setValue(this.articulosSeleccionados.length);
+    this.formMovimiento.controls['articulosValidos'].setValue(this.articulosSeleccionados);
   }
 
-  articuloSeleccionado(articulo: ArticuloComprobante){
+  articuloSeleccionado(articulo: ArticuloMovimiento){
     let encontrado = this.articulosSeleccionados.find((element) => element.id === articulo.id);
 
-    
+    // console.log(this.formMovimiento.controls['tipoMovimiento'].value!.nombre === 'Entrada');
+    // console.log(this.formMovimiento.controls['tipoMovimiento'].value!.nombre);
     
     if(encontrado === undefined){
       this.articulosSeleccionados.push(articulo);
@@ -125,14 +142,61 @@ export class NuevoMovimientoComponent implements OnInit {
     }
   }
 
-  realizarMovimiento(){
+  depositoSeleccionado(deposito: Deposito){
+    this.idDepositoDestino = deposito.idDeposito;
+    this.formMovimiento.controls["deposito"].setValue(this.idDepositoDestino);
+    this.depositosVisible = false;
+    // console.log(`Deposito Seleccionado: ${deposito.idDeposito}`);
+    
+  }
+
+  async realizarMovimiento(){
     this.formMovimiento.markAllAsTouched();
 
-    if(!this.formMovimiento.controls["tipoMovimiento"].value?.id){
+    this.formMovimiento.controls["cantArticulos"].setValue(this.articulosSeleccionados.length);
+    this.formMovimiento.controls['articulosValidos'].setValue(this.articulosSeleccionados);
+    
+    
+    if(this.formMovimiento.controls["tipoMovimiento"].value?.id === undefined){
       this.formMovimiento.controls["tipoMovimiento"].setValue(null);
     }
 
-    this.tipoSeleccionado();
+    if(this.formMovimiento.valid){
+      let tipo = this.formMovimiento.controls["tipoMovimiento"].value?.nombre;
+      let motivo = this.formMovimiento.controls["motivo"].value;
+      let request;
+      if(tipo === "Salida"){
+        request = await this.movimientoService.createSalida(
+          this.idDepositoSeleccionado,
+          this.articulosSeleccionados,
+          motivo ? motivo : undefined
+        );
+      }else if(tipo === "Entrada"){
+        request = await this.movimientoService.createEntrada(
+          this.idDepositoSeleccionado,
+          this.articulosSeleccionados,
+          motivo ? motivo : undefined
+        );
+      }else{
+        request = await this.movimientoService.createTransferencia(
+          this.idDepositoSeleccionado, 
+          this.idDepositoDestino, 
+          this.articulosSeleccionados,
+          motivo ? motivo : undefined
+        );
+  
+        
+          
+      }
+
+      console.log(request);
+
+      if(request.data){
+        this.ocultarDialog();
+      }
+
+    }
+
     
   }
 

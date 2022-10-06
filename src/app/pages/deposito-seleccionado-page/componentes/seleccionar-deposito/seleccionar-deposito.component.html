@@ -1,0 +1,60 @@
+<p-table
+    #dt [value]="depositos" [rows]="5" [paginator]="true" responsiveLayout="stack"
+    [rowHover]="true" dataKey="id"
+    [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+    [loading]="cargando">
+
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="flex justify-content-center align-content-center ">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" 
+                            (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                            placeholder="Buscar por nombre..." />
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Deposito</th>
+            <th>Tipo</th>
+            <th>Sector</th>
+            <th>Planta</th>
+            <th>Acciones</th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-deposito let-columns="columns">
+        <tr>
+            <td><span class="p-column-title font-bold">Deposito</span>{{deposito.idDeposito | nombreDeposito}}</td>
+            <td><span class="p-column-title font-bold">Tipo</span>{{deposito.tipo.nombre}}</td>
+            <td><span class="p-column-title font-bold">Sector</span>{{deposito.sector.nombre}}</td>
+            <td><span class="p-column-title font-bold">Planta</span>{{deposito.planta.nombre}}</td>
+            <td>
+                <span class="p-column-title font-bold">Acción</span>
+                <button
+                    pButton
+                    pRipple
+                    tooltipPosition="top"
+                    pTooltip="Seleccionar"
+                    icon="bi bi-check2-square"
+                    class="p-button-rounded p-button-info mr-2"
+                    (click)="seleccionarDeposito(deposito)"
+                ></button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <!-- <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            Mostrando {{cantTotalDepositos ? cantTotalDepositos : 0 }} depósitos.
+        </div>
+    </ng-template> -->
+
+</p-table>

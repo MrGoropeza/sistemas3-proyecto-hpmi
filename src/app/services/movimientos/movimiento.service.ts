@@ -1,9 +1,11 @@
 import { Movimiento } from './../../models/Movimiento';
 import { SupabaseService } from './../supabase.service';
 import { Injectable } from '@angular/core';
-import { SupabaseClient } from '@supabase/supabase-js';
+import { PostgrestResponse, SupabaseClient } from '@supabase/supabase-js';
 import { ITipoMovimiento } from 'src/app/models/TipoMovimiento';
 import { IArticuloDepositoView } from 'src/app/models/IArticuloDeposito';
+import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 
 @Injectable({
   providedIn: 'root'
@@ -47,15 +49,37 @@ export class MovimientoService {
     return request.data?.id;
   }
 
-  async createSalida(idDeposito: number, idArticulo: number, cantidad: number){
-    return this.crearMovimiento("Salida", idDeposito, idArticulo, cantidad);
+  async createSalida(idDeposito: number, articulos: ArticuloMovimiento[], motivo?: string){
+    return this.crearMovimiento("Salida", idDeposito, articulos);
   }
 
-  async createEntrada(idDeposito: number, idArticulo: number, cantidad: number){
-    return this.crearMovimiento("Entrada", idDeposito, idArticulo, cantidad);
+  async createEntrada(idDeposito: number, articulos: ArticuloMovimiento[], motivo?: string){
+    return this.crearMovimiento("Entrada", idDeposito, articulos);
   }
 
-  private async crearMovimiento(tipo: string, idDeposito: number, idArticulo: number, cantidad: number){
+  async createTransferencia(
+    idDepositoFuente: number,
+    idDepositoDestino: number,
+    articulos: ArticuloMovimiento[],
+    motivo?: string
+  ){
+    let salida = await this.createSalida(idDepositoFuente, articulos, motivo);
+    let entrada = await this.createEntrada(idDepositoDestino, articulos, motivo);
+
+    return {
+      data: {
+        salida: salida.data,
+        entrada: entrada.data
+      },
+      error: {
+        salida: salida.error,
+        entrada: entrada.error
+      }
+    }
+  }
+
+
+  private async crearMovimiento(tipo: string, idDeposito: number, articulos: ArticuloMovimiento[], motivo?: string){
 
     let procedimientoAlmacenado: string = "";
     let idTipoMovimiento: number = 0;
@@ -82,37 +106,61 @@ export class MovimientoService {
       .insert({
         "idDeposito": idDeposito,
         "idTipoMovimiento": idTipoMovimiento,
-        "cantidad": cantidad
+        "motivo": motivo
       }).single() as {data: Movimiento, error: any};
 
-    let requestArticuloDeposito = await this.supabase
-      .from("ArticuloDeposito")
-      .select("*")
-      .eq("idArticulo", idArticulo).eq("idDeposito", idDeposito)
-      .single();
+    let detalles: PostgrestResponse<any>[] = [];
 
-    let idArticuloDeposito = requestArticuloDeposito.data?.idArticuloDeposito;
+    articulos.forEach(async articulo => {
+      let requestArticuloDeposito = await this.supabase
+        .from("ArticuloDeposito")
+        .select("*")
+        .eq("idArticulo", articulo.id).eq("idDeposito", idDeposito)
+        .single();
+  
+      let idArticuloDeposito = requestArticuloDeposito.data?.idArticuloDeposito;
+  
+      if(idArticuloDeposito == null || idArticuloDeposito == undefined){
+        let nuevoArtDep = await this.supabase
+         .from("ArticuloDeposito")
+         .insert({
+            idArticulo: articulo.id,
+            idDeposito: idDeposito,
+            stock: 0
+         }).single();
+  
+         idArticuloDeposito = nuevoArtDep.data?.idArticuloDeposito;
+      }
+      
+      await this.supabase
+        .rpc(procedimientoAlmacenado, {
+          cantidad: articulo.cantidad, 
+          filaid: idArticuloDeposito
+        })
 
-    if(idArticuloDeposito == null || idArticuloDeposito == undefined){
-      let nuevoArtDep = await this.supabase
-       .from("ArticuloDeposito")
-       .insert({
-          idArticulo: idArticulo,
-          idDeposito: idDeposito,
-          stock: 0
-       }).single();
+      let requestDetalle = await this.supabase.from("DetalleMovimiento")
+        .insert({
+          idMovimiento: requestMovimiento.data.idMovimiento,
+          idArticulo: articulo.id,
+          stock: articulo.cantidad
+        })
 
-       idArticuloDeposito = nuevoArtDep.data?.idArticuloDeposito;
-    }
-    
-    await this.supabase
-      .rpc(procedimientoAlmacenado, {
-        cantidad, 
-        filaid: idArticuloDeposito
-      })
+      detalles.push(requestDetalle);
+      
+    });
+
     
     
-    return {data: requestMovimiento.data, error: requestMovimiento.error};
+    return {
+      data: {
+        movimiento: requestMovimiento.data,
+        detalles: detalles
+      },
+      error: {
+        movimiento: requestMovimiento.error,
+      }
+      
+    };
   }
 
 }

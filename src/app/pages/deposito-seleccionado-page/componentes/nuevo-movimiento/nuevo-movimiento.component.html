@@ -33,9 +33,12 @@
             <div class="field col min-w-max" *ngIf="formMovimiento.controls['deposito'].enabled">
                 <label class="font-bold" for="deposito">ID. Deposito Destino</label>
                 <div id="deposito" class="flex align-items-center gap-3">
-                    <input type="text" pInputText formControlName="deposito" readonly>
+                    <input type="text" pInputText formControlName="deposito" readonly
+                        [value]="idDepositoDestino">
                     <p-button icon="pi pi-search" 
-                        pTooltip="Seleccionar Depósito" tooltipPosition="top"></p-button>
+                        pTooltip="Seleccionar Depósito" tooltipPosition="top"
+                        (onClick)="depositosVisible = true"
+                    ></p-button>
                 </div>
                 
                 <small class="p-error block"
@@ -47,10 +50,13 @@
 
         </div>
 
+        <input pInputText class="hidden" readonly
+            id="articulosValidos" formControlName="articulosValidos" [value]="articulosSeleccionados">
+
 
     </form>
 
-    <div class="flex flex-column min-w-full">
+    <div *ngIf="mostrarArticulos" class="flex flex-column min-w-full">
         <h4 class="m-0 mb-2 p-0 font-bold">Artículos Seleccionados:</h4>
         
         <small
@@ -83,13 +89,8 @@
                     label="Agregar"
                     icon="pi pi-plus"
                     class="p-button-success mr-2"
-                    (click)="agregarArticulo()"
+                    (click)="articulosVisible = true"
                   ></button>
-              <div class="md:col col-12">
-
-                  
-
-              </div>
             </div>
           </ng-template>
     
@@ -100,6 +101,7 @@
                 Nombre <p-sortIcon field="nombre"></p-sortIcon>
               </th>
               <th>Descripción</th>
+              <th>Cantidad en Depósito</th>
               <th>Cantidad</th>
               <th>Acción</th>
             </tr>
@@ -119,6 +121,10 @@
                 >{{ articulo.descripcion }}
               </td>
               <td>
+                <span class="p-column-title font-bold">Cantidad en Depósito</span
+                >{{ articulo.cantidadActual }}
+              </td>
+              <td>
                 <span class="p-column-title font-bold">Cantidad</span>
                 <div class="field flex flex-column">
                   <input
@@ -127,6 +133,10 @@
                     type="number"
                     pInputText
                     min="0"
+                    max="{{ 
+                        (formMovimiento.controls['tipoMovimiento'].value!.nombre === 'Entrada') 
+                        || (formMovimiento.controls['tipoMovimiento'].value!.nombre === undefined) 
+                        ? 1000000 : articulo.cantidadActual }}"
                     oninput="validity.valid||(value='');"
                     placeholder="Cantidad del artículo"
                     [(ngModel)]="articulo.cantidad"
@@ -170,11 +180,11 @@
     </ng-template>
 
 
-    <p-dialog
+<p-dialog
   header="Agregar Artículos"
   [(visible)]="articulosVisible"
   [modal]="true"
-  styleClass="w-12"
+  styleClass="w-11"
   [dismissableMask]="true"
 >
   <app-seleccionar-articulos
@@ -188,6 +198,27 @@
   </ng-template>
   
 </p-dialog>
+
+
+<p-dialog
+  header="Seleccionar Depósito Destino"
+  [(visible)]="depositosVisible"
+  [modal]="true"
+  styleClass="w-12"
+  [dismissableMask]="true"
+>
+  <app-seleccionar-deposito
+    (depositoSeleccionado)="depositoSeleccionado($event)"
+    [idDepositoActual]="idDepositoSeleccionado"
+  ></app-seleccionar-deposito>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="depositosVisible = false"></button>
+  </ng-template>
+  
+</p-dialog>
+
 
 </p-dialog>
 

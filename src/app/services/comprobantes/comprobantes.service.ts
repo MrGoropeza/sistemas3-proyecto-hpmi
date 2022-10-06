@@ -3,12 +3,12 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { LazyLoadEvent } from "primeng/api";
 import { from, map, Observable } from "rxjs";
 import { ArticuloComprobante } from "src/app/models/ArticuloComprobante";
-import { ArticuloView } from "src/app/models/ArticuloView";
 import { Comprobante } from "src/app/models/Comprobante";
 import { DetalleComprobante } from "src/app/models/DetalleComprobante";
 import { SupabaseService } from "../supabase.service";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service"
 import { IArticuloDepositoView } from "src/app/models/IArticuloDeposito";
+import { ArticuloMovimiento } from "src/app/models/ArticuloMovimiento";
 
 @Injectable({
   providedIn: "root",
@@ -88,17 +88,18 @@ export class ComprobantesService {
 
     let {data, error} = await query;
 
-    let newData: ArticuloComprobante[] = [];
+    let newData: ArticuloMovimiento[] = [];
 
     if(data){
       data.forEach(
         element => {
-          let aux: ArticuloComprobante = {} as ArticuloComprobante;
+          let aux: ArticuloMovimiento = {} as ArticuloMovimiento;
           aux.id = element.id;
           aux.nombre = element.nombre;
           aux.descripcion = element.descripcion;
           aux.estado = element.estado;
           aux.fechaVencimiento = element.fechaVencimiento;
+          aux.cantidadActual = element.stock;
 
           aux.idCategoriaArticulo = element.idCategoriaArticulo;
           aux.nombreCategoria = element.nombreCategoria;

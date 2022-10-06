@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { SupabaseArticulosService } from 'src/app/services/articulos/supabase-articulos.service';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
@@ -15,11 +16,11 @@ import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
 })
 export class SeleccionarArticulosComponent implements OnInit{
 
-  articulos: ArticuloComprobante[] = [];
+  articulos: ArticuloMovimiento[] = [];
 
   cantTotalArticulos!: number;
 
-  @Output() articuloSeleccionado = new EventEmitter<ArticuloComprobante>;
+  @Output() articuloSeleccionado = new EventEmitter<ArticuloMovimiento>;
 
   @Input() idDepositoActual!: number;
 
@@ -52,7 +53,7 @@ export class SeleccionarArticulosComponent implements OnInit{
     }
   }
 
-  seleccionarArticulo(articulo: ArticuloComprobante){
+  seleccionarArticulo(articulo: ArticuloMovimiento){
     this.articuloSeleccionado.emit(articulo);
     // if(articulo.cantidad && articulo.precio
     //     && articulo.precio > 0 && articulo.cantidad > 0){

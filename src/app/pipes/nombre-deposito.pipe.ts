@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NombreDepositoPipe implements PipeTransform {
 
   transform(id : number): string {
-    console.log("holaa");
+    // console.log("holaa");
     
     return "Deposito " + id.toString();
   }

@@ -77,35 +77,37 @@ export class AxdDialogComponent implements OnInit, OnChanges {
       this.confirmado = true;
 
       console.log(this.formTransferencia.controls["destino"].value!);
+
       
-      let transferencia = await this.supabaseService.realizarTransferencia(
-        this.idDepositoSeleccionado,
-        (this.formTransferencia.controls["destino"].value![0] as Deposito).idDeposito,
-        this.articulo,
-        this.formTransferencia.controls["cantidad"].value!);
       
-      if(transferencia.dataEntrada && transferencia.dataSalida){
-        this.ocultarDialog();
-        this.messageService.add(
-          {
-            severity:'success', 
-            summary: 'Éxito', 
-            detail: 'Transferencia realizada correctamente.', 
-            life: 3000}
-        );
-      }else{
-        this.messageService.add(
-          {
-            severity:'error', 
-            summary: 'Error', 
-            detail: 'Algo falló al realizar la transferencia, intente de nuevo.', 
-            life: 3000}
-        );
-      }
+      // let transferencia = await this.supabaseService.realizarTransferencia(
+      //   this.idDepositoSeleccionado,
+      //   (this.formTransferencia.controls["destino"].value![0] as Deposito).idDeposito,
+      //   [this.articulo],
+      //   this.formTransferencia.controls["cantidad"].value!);
+      
+    //   if(transferencia.dataEntrada && transferencia.dataSalida){
+    //     this.ocultarDialog();
+    //     this.messageService.add(
+    //       {
+    //         severity:'success', 
+    //         summary: 'Éxito', 
+    //         detail: 'Transferencia realizada correctamente.', 
+    //         life: 3000}
+    //     );
+    //   }else{
+    //     this.messageService.add(
+    //       {
+    //         severity:'error', 
+    //         summary: 'Error', 
+    //         detail: 'Algo falló al realizar la transferencia, intente de nuevo.', 
+    //         life: 3000}
+    //     );
+    //   }
       
 
-    }else{
-      this.formTransferencia.markAllAsTouched();
+    // }else{
+    //   this.formTransferencia.markAllAsTouched();
     }
     
   }
