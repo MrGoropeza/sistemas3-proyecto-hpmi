@@ -16,6 +16,7 @@ import { FacturaPageComponent } from "./pages/factura-page/factura-page.componen
 import { OrdenCompraPageComponent } from "./pages/orden-compra-page/orden-compra-page.component";
 import { RemitoPageComponent } from "./pages/remito-page/remito-page.component";
 import { PagoComprobantePageComponent } from "./pages/pago-comprobante-page/pago-comprobante-page.component";
+import { PedidosPageComponent } from "./pages/pedidos-page/pedidos-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -135,6 +136,12 @@ const routes: Routes = [
             data : {breadcrumb : "Pago de comprobantes"},
             title : "Pago de comprobantes",
             component : PagoComprobantePageComponent
+          },
+          {
+            path: "pedidos",
+            data : {breadcrumb : "Pedidos"},
+            title : "Pedidos",
+            component : PedidosPageComponent
           },
         ],
       },

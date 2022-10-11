@@ -82,6 +82,11 @@ export class NavigationService{
             label : 'Pago',
             icon : 'bi bi-currency-dollar',
             routerLink : "/farmacia/pagoComprobantes"
+          },
+          {
+            label : 'Pedidos',
+            icon : 'bi bi-bag-check',
+            routerLink : "/farmacia/pedidos"
           }
         ]
       },
