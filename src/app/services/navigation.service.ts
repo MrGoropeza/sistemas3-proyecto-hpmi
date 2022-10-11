@@ -53,11 +53,11 @@ export class NavigationService{
               }
             ],
           },
-          {
-            label: 'Movimientos',
-            icon: 'pi pi-sort-alt',
-            routerLink: "/farmacia/abmMovimientos"
-          },
+          // {
+          //   label: 'Movimientos',
+          //   icon: 'pi pi-sort-alt',
+          //   routerLink: "/farmacia/abmMovimientos"
+          // },
           {
             label: 'Proveedores',
             icon: 'bi bi-person-rolodex',

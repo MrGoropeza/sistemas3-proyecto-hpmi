@@ -1,9 +1,11 @@
 <p-dialog
   header="{{ titulo }}"
   [(visible)]="isVisible"
+  [dismissableMask]="true"
   (onHide)="ocultarDialog()"
   [modal]="true"
-  styleClass="p-fluid w-8 overflow-y-scroll" contentStyleClass="max-h-full overflow-visible" 
+  [dismissableMask]="true"
+  styleClass="p-fluid w-11 overflow-y-scroll" contentStyleClass="max-h-full overflow-visible" 
 >
   <div class="grid">
     <div class="col-6">
@@ -29,6 +31,14 @@
       <p>
         <strong>Tipo de movimiento:</strong> {{ movimiento.idTipoMovimiento.nombre }}
       </p>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col">
+      <p>
+        <strong>Motivo:</strong> {{ movimiento.motivo }}
+      </p>
+
     </div>
   </div>
   <h3>Detalle:</h3>
