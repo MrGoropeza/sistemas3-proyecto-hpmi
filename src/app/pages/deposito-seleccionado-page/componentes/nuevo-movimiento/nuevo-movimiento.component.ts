@@ -208,6 +208,8 @@ export class NuevoMovimientoComponent implements OnInit {
         this.movimientoRealizado.emit(true);
       }
 
+    }else{
+      this.confirmado = false;
     }
   }
 
