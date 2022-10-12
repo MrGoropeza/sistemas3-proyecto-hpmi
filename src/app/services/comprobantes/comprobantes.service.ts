@@ -78,10 +78,8 @@ export class ComprobantesService {
 
     if(idDepositoActual !== undefined){
       query = query.eq("idDeposito", idDepositoActual);
-    }
-    
-    if(idDepositoActual !== undefined){
-      query = query.eq("idDeposito", idDepositoActual);
+    }else{
+      query = query.eq("idDeposito", await this.depositoService.getDepositoPrincipal())
     }
     
     if(params?.first !== undefined && params?.rows !== undefined){
