@@ -300,6 +300,7 @@
 </div>
 
 <p-dialog
+  *ngIf="articulosVisible"
   header="Agregar Artículos"
   [(visible)]="articulosVisible"
   [modal]="true"
@@ -307,7 +308,9 @@
   [dismissableMask]="true"
 >
   <app-seleccionar-articulos
+    [articulosSeleccionados]="articulosSeleccionados"
     (articuloSeleccionado)="articuloSeleccionado($event)"
+    (articuloQuitado)="quitarArticulo($event)"  
   ></app-seleccionar-articulos>
 
   <ng-template pTemplate="footer">

@@ -20,7 +20,10 @@ export class SeleccionarArticulosComponent implements OnInit{
 
   cantTotalArticulos!: number;
 
+  @Input() articulosSeleccionados: ArticuloMovimiento[] = [];
+
   @Output() articuloSeleccionado = new EventEmitter<ArticuloMovimiento>;
+  @Output() articuloQuitado = new EventEmitter<ArticuloMovimiento>;
 
   @Input() idDepositoActual!: number;
 
@@ -55,6 +58,9 @@ export class SeleccionarArticulosComponent implements OnInit{
 
   seleccionarArticulo(articulo: ArticuloMovimiento){
     this.articuloSeleccionado.emit(articulo);
+
+
+
     // if(articulo.cantidad && articulo.precio
     //     && articulo.precio > 0 && articulo.cantidad > 0){
         
@@ -65,6 +71,15 @@ export class SeleccionarArticulosComponent implements OnInit{
     //     detail: 'Ingrese precio y cantidad con valores mayores a 0 antes de agregar un artículo.'}
     //   );
     // }
+  }
+
+
+  articuloIsSelected(articulo: ArticuloMovimiento){
+    return this.articulosSeleccionados.findIndex(art => art.id === articulo.id) !== -1;
+  }
+
+  quitarArticulo(articulo: ArticuloMovimiento){
+    this.articuloQuitado.emit(articulo);
   }
 
 }

@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, of, SubscriptionLike } from 'rxjs';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { Comprobante } from 'src/app/models/Comprobante';
 import { Proveedor } from 'src/app/models/Proveedor';
@@ -27,7 +28,7 @@ export class ComprobanteDialogComponent implements OnInit {
 
   proveedoresSub!: SubscriptionLike;
 
-  articulosSeleccionados: ArticuloComprobante[] = [];
+  articulosSeleccionados: ArticuloMovimiento[] = [];
 
   subtotal: number = 0;
 
@@ -74,7 +75,7 @@ export class ComprobanteDialogComponent implements OnInit {
     }
   }
 
-  articuloSeleccionado(articulo: ArticuloComprobante){
+  articuloSeleccionado(articulo: ArticuloMovimiento){
     let encontrado = this.articulosSeleccionados.find((element) => element.id === articulo.id);
 
     

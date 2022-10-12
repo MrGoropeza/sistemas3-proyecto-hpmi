@@ -57,15 +57,38 @@
                 </div>
             </td> -->
             <td><span class="p-column-title font-bold">Acción</span>
-                <button
-                    pButton
-                    pRipple
-                    tooltipPosition="top"
-                    pTooltip="Agregar"
-                    icon="pi pi-plus"
-                    class="p-button-rounded p-button-info mr-2"
-                    (click)="seleccionarArticulo(articulo)"
-                ></button>
+                <div class="flex flex-wrap gap-2">
+                    <div>
+                        <button
+                            *ngIf="!articuloIsSelected(articulo)"
+                            pButton
+                            pRipple
+                            tooltipPosition="top"
+                            pTooltip="Agregar"
+                            icon="pi pi-plus"
+                            class="p-button-rounded p-button-info mr-2"
+                            (click)="seleccionarArticulo(articulo)"
+                        ></button>
+                        <div
+                            *ngIf="articuloIsSelected(articulo)"
+                            pButton 
+                            pRipple 
+                            icon="pi pi-check" 
+                            class="p-button-rounded p-button-success"
+                        ></div>
+                    </div>
+                    <button
+                        *ngIf="articuloIsSelected(articulo)"
+                        pButton
+                        pRipple
+                        tooltipPosition="top"
+                        pTooltip="Eliminar"
+                        icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger mr-2"
+                        (click)="quitarArticulo(articulo)"
+                    ></button>
+
+                </div>
             </td>
         </tr>
     </ng-template>
