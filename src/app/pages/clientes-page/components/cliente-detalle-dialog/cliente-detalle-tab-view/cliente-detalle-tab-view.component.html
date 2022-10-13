@@ -1,12 +1,16 @@
 <p-tabView>
   <p-tabPanel header="Datos" leftIcon="bi bi-clipboard-data">
-    <p class="text-justify">DNI: {{ cliente.dniCliente }}</p>
+    <div *ngIf="cliente.tipoPersona == 'fisica'">
+      <p class="text-justify" >DNI: {{ cliente.dniCliente }}</p>
+    </div>
     <p class="text-justify">Correo: {{ cliente.correo }}</p>
     <p class="text-justify">Telefono: {{ cliente.telefono }}</p>
     <p class="text-justify">Domicilio: {{ cliente.domicilio }}</p>
-    <p class="text-justify">
-      Fecha de Nacimiento: {{ cliente.fechaNacimiento | date: "dd/M/yyyy" }}
-    </p>
+    <div *ngIf="cliente.tipoPersona == 'fisica'">
+      <p class="text-justify">
+        Fecha de Nacimiento: {{ cliente.fechaNacimiento | date: "dd/M/yyyy" }}
+      </p>
+    </div>
   </p-tabPanel>
   <p-tabPanel header="Descripción" rightIcon="pi pi-search"> </p-tabPanel>
 </p-tabView>
