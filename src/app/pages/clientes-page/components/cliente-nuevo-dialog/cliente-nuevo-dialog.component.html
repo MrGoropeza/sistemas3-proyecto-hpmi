@@ -1,0 +1,198 @@
+<form
+  [formGroup]="clienteForm"
+  class="max-h-full overflow-y-visible p-fluid "
+  (ngSubmit)="guardar()"
+  (cancel)="cerrar()"
+>
+  <div class="field">
+    <label for="tipo">Tipo de Persona</label>
+    <p-dropdown
+      inputId="tipo"
+      [options]="tposPersona"
+      placeholder="Seleccionar"
+      emptyMessage="No hay tipos de personas cargadas cargadas"
+      name="tipo"
+      [(ngModel)]="this.cliente.tipoPersona"
+      formControlName="tipo"
+    >
+      <ng-template let-option pTemplate="item">
+        {{ option }}
+      </ng-template>
+    </p-dropdown>
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['tipo'].invalid &&
+        clienteForm.controls['tipo'].touched
+      "
+      >Tipo de persona requerida.</small
+    >
+  </div>
+  <div class="field" *ngIf="this.cliente.tipoPersona=='fisica'">
+    <label for="dni" class="block">DNI</label>
+    <input
+      id="dni"
+      type="text"
+      pInputText
+      placeholder="DNI del cliente"
+      formControlName="dni"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['dni'].invalid &&
+        clienteForm.controls['dni'].touched
+      "
+      >DNI requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="nombre" class="block">Nombre</label>
+    <input
+      id="nombre"
+      type="text"
+      pInputText
+      placeholder="Nombre del cliente"
+      formControlName="nombre"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['nombre'].invalid &&
+        clienteForm.controls['nombre'].touched
+      "
+      >Nombre requerido.</small
+    >
+  </div>
+  <div class="field" *ngIf="this.cliente.tipoPersona=='fisica'">
+    <label for="apellido" class="block">Apellido</label>
+    <input
+      id="apellido"
+      type="text"
+      pInputText
+      placeholder="Apellido del cliente"
+      formControlName="apellido"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['apellido'].invalid &&
+        clienteForm.controls['apellido'].touched
+      "
+      >Apellido requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="domicilio" class="block">Domicilio</label>
+    <input
+      id="domicilio"
+      type="domicilio"
+      pInputText
+      placeholder="Domicilio del cliente"
+      name="domicilio"
+      formControlName="domicilio"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['domicilio'].invalid &&
+        clienteForm.controls['domicilio'].touched
+      "
+      >Domicilio requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="correo" class="block">Correo</label>
+    <input
+      id="correo"
+      type="correo"
+      pInputText
+      placeholder="correo del cliente"
+      name="correo"
+      formControlName="correo"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['correo'].invalid &&
+        clienteForm.controls['correo'].touched
+      "
+      >Correo requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="telefono" class="block">Telefono</label>
+    <input
+      id="telefono"
+      type="telefono"
+      pInputText
+      placeholder="telefono del cliente"
+      name="telefono"
+      formControlName="telefono"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['telefono'].invalid &&
+        clienteForm.controls['telefono'].touched
+      "
+      >Telefono requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="CUIT" class="block">CUIT</label>
+    <input
+      id="CUIT"
+      type="CUIT"
+      pInputText
+      placeholder="CUIT del cliente"
+      name="telefono"
+      formControlName="cuit"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+        clienteForm.controls['cuit'].invalid &&
+        clienteForm.controls['cuit'].touched
+      "
+      >CUIT requerido.</small
+    >
+  </div>
+  <div class="field" *ngIf="this.cliente.tipoPersona=='fisica'">
+    <label for="fechaNacimiento">Fecha de Nacimiento(dd-mm-yy)</label>
+    <p-calendar inputId="fechaNacimiento" 
+        dateFormat="dd-mm-yy" [showIcon]="true" formControlName="fechaNacimiento"
+        styleClass="overflow-visible" name="fechaNacimiento"></p-calendar>
+    <small class="p-error" *ngIf="clienteForm.controls['fechaNacimiento'].invalid && clienteForm.controls['fechaNacimiento'].touched">fecha de Nacimiento requerida.</small>
+</div>
+  <div class="grid">
+    <div class="col">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="cerrar()"
+      ></button>
+    </div>
+    <div class="col">
+      <button
+        pButton
+        type="submit"
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+      ></button>
+    </div>
+  </div>
+</form>

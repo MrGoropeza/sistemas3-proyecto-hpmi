@@ -16,6 +16,7 @@ import { FacturaPageComponent } from "./pages/factura-page/factura-page.componen
 import { OrdenCompraPageComponent } from "./pages/orden-compra-page/orden-compra-page.component";
 import { RemitoPageComponent } from "./pages/remito-page/remito-page.component";
 import { PagoComprobantePageComponent } from "./pages/pago-comprobante-page/pago-comprobante-page.component";
+import { ClientesPageComponent } from "./pages/clientes-page/clientes-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -111,6 +112,12 @@ const routes: Routes = [
             data: { breadcrumb: "Proveedores" },
             title: "Proveedores",
             component: ProveedorPageComponent,
+          },
+          {
+            path: "clientes",
+            data: { breadcrumb: "Clientes" },
+            title: "Clientes",
+            component: ClientesPageComponent,
           },
           {
             path: "facturas",

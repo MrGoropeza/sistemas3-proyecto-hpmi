@@ -64,6 +64,11 @@ export class NavigationService{
             routerLink: "/farmacia/proveedores"
           },
           {
+            label: 'Clientes',
+            icon: 'bi bi-people-fill',
+            routerLink: "/farmacia/clientes"
+          },
+          {
             label: 'Facturas',
             icon: 'bi bi-receipt',
             routerLink: "/farmacia/facturas"

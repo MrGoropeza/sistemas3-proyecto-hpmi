@@ -59,6 +59,11 @@ import { PagoDetalleDialogComponent } from './pages/pago-comprobante-page/compon
 import { PagoComprobanteABMComponent } from './pages/pago-comprobante-page/components/pago-comprobante-abm/pago-comprobante-abm.component';
 import { PagoNuevoDialogComponent } from './pages/pago-comprobante-page/components/pago-nuevo-dialog/pago-nuevo-dialog.component';
 import { PagoComprobantesASeleccionarABMComponent } from './pages/pago-comprobante-page/components/pago-comprobantes-aseleccionar-abm/pago-comprobantes-aseleccionar-abm.component';
+import { ClientesPageComponent } from './pages/clientes-page/clientes-page.component';
+import { ClienteABMComponent } from './pages/clientes-page/components/cliente-abm/cliente-abm.component';
+import { ClienteDetalleDialogComponent } from './pages/clientes-page/components/cliente-detalle-dialog/cliente-detalle-dialog.component';
+import { ClienteDetalleTabViewComponent } from './pages/clientes-page/components/cliente-detalle-dialog/cliente-detalle-tab-view/cliente-detalle-tab-view.component';
+import { ClienteNuevoDialogComponent } from './pages/clientes-page/components/cliente-nuevo-dialog/cliente-nuevo-dialog.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +118,11 @@ import { PagoComprobantesASeleccionarABMComponent } from './pages/pago-comproban
     PagoComprobanteABMComponent,
     PagoNuevoDialogComponent,
     PagoComprobantesASeleccionarABMComponent,
+    ClientesPageComponent,
+    ClienteABMComponent,
+    ClienteDetalleDialogComponent,
+    ClienteDetalleTabViewComponent,
+    ClienteNuevoDialogComponent,
   ],
   imports: [
     BrowserModule,
