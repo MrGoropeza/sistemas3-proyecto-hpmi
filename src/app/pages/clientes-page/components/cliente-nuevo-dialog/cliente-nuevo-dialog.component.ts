@@ -39,6 +39,8 @@ export class ClienteNuevoDialogComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("hola");
+    console.log(this.cliente.idCliente);
+    
   }
 
   cerrar() {
@@ -58,17 +60,31 @@ export class ClienteNuevoDialogComponent implements OnInit {
     this.cliente.telefono = this.clienteForm.controls["telefono"].value || "";
     this.cliente.CUIT = this.clienteForm.controls["cuit"].value || "";
     console.log(this.cliente);
-    this.clienteService.insert(this.cliente).then(
-      (res)=>{
-        this.ref.close(this.cliente);
-        this.messageService.add({
-          severity: "success",
-          summary: "Éxito",
-          detail: "¡Cliente registrado con exito!",
-          life: 3000,
-        });
-      }
-    )
+    if(!this.cliente.idCliente){
+      this.clienteService.insert(this.cliente).then(
+        (res)=>{
+          this.ref.close(this.cliente);
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "¡Cliente registrado con exito!",
+            life: 3000,
+          });
+        }
+      );
+    }else{
+      this.clienteService.update(this.cliente).then(
+        (res)=>{
+          this.ref.close(this.cliente);
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "¡Cliente modificado con exito!",
+            life: 3000,
+          });
+        }
+      );
+    }
 
   }
 }

@@ -4,7 +4,7 @@
   (ngSubmit)="guardar()"
   (cancel)="cerrar()"
 >
-  <div class="field">
+  <div class="field" *ngIf="!this.cliente.idCliente">
     <label for="tipo">Tipo de Persona</label>
     <p-dropdown
       inputId="tipo"

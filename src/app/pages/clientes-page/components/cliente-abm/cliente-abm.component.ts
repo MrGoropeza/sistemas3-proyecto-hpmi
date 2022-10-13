@@ -65,13 +65,20 @@ export class ClienteABMComponent implements OnInit {
     ).subscribe();
   }
   public editar(cliente: Cliente) {
-    this.dialogService.open(ClienteNuevoDialogComponent,{
+    this.ref = this.dialogService.open(ClienteNuevoDialogComponent,{
       header: "Editar Proveedor",
       width: "40rem",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
       data: { cliente: cliente} 
     })
+    this.ref.onClose.pipe(
+      map((res)=>{
+        if(res){
+          this.getClientes();
+        }
+      })
+    ).subscribe();
   }
   public verDetalle(cliente: Cliente) {
     let nombre = "";
@@ -87,7 +94,29 @@ export class ClienteABMComponent implements OnInit {
     });
   }
   public eliminar(idCliente: number) {
+    this.confirmationService.confirm({
+      message: "¿Estás seguro que desea borrar este cliente?",
+      header: "Confirmar",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Sí",
+      rejectLabel: "No",
+      accept: () => {
+        this.clienteService.delete(idCliente).then(
+          (res)=>{
+            if(res.data){
+              this.getClientes();
+            }
+          }
+        )
 
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Cliente eliminado",
+          life: 3000,
+        });
+      },
+    });
   }
   public async getClientes(): Promise<void> {
     let request = await this.clienteService.getClientes();

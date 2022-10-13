@@ -44,13 +44,38 @@ export class ClienteService {
           fechaNacimiento : cliente.fechaNacimiento,
           dniCliente : cliente.dniCliente
         })
+        .eq('idCliente',idCliente)
         .single();
       }
     }
   }
-    
+  async update(cliente: Cliente){
+    if(cliente.tipoPersona == 'fisica'){
+      let req = await this.supabase
+      .from<Cliente>("Cliente")
+      .update({
+        apellido : cliente.apellido,
+        fechaNacimiento : cliente.fechaNacimiento,
+        dniCliente : cliente.dniCliente
+      })
+      .eq('idCliente',cliente.idCliente)
+      .single();
+    }
+    let req = await this.supabase
+    .from<Cliente>("Cliente")
+    .update({
+      correo: cliente.correo,
+      CUIT : cliente.CUIT,
+      domicilio : cliente.domicilio,
+      nombre : cliente.nombre,
+      tipoPersona : cliente.tipoPersona,
+      telefono : cliente.telefono
+    })
+    .eq('idCliente',cliente.idCliente)
+    .single();
+  }
   async getClientes(params?: LazyLoadEvent) {
-    let query = this.supabase.from<Cliente>("Cliente").select("*").eq("estado",true);
+    let query = this.supabase.from<Cliente>("Cliente").select("*").eq("estado",true).order('idCliente',{ascending: false});
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);
@@ -70,4 +95,8 @@ export class ClienteService {
     let { data, error } = await query;
     return { data, error };
   }
+   async delete(id: number){
+    let query = this.supabase.from<Cliente>("Cliente").update({estado:false}).eq("idCliente",id);
+    return query;
+   }
 }
