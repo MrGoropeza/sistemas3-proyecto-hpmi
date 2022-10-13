@@ -2,7 +2,8 @@
 
   <div class="max-h-full p-0">
     <form [formGroup]="formComprobante">
-      <div class="flex flex-column pb-3">
+      <div class="flex flex-column pb-3"
+      *ngIf="!isEntrada">
         <p-button
           label="Selecionar Proveedor"
           icon="pi pi-plus"
@@ -17,9 +18,27 @@
           >Proveedor requerido.</small
         >
       </div>
+
+      <div class="flex flex-column pb-3"
+        *ngIf="isEntrada">
+        <p-button
+          label="Selecionar Cliente"
+          icon="pi pi-plus"
+          (onClick)="clientesVisible = true"
+        ></p-button>
+        <small
+          class="p-error"
+          *ngIf="
+            formComprobante.controls['cliente'].invalid &&
+            formComprobante.controls['cliente'].touched
+          "
+          >Cliente requerido.</small
+        >
+      </div>
   
       <div class="grid flex-wrap">
-        <div class="col-12 md:col-3 flex-column">
+        <div class="col-12 md:col-3 flex-column"
+          *ngIf="!isEntrada">
           <label class="font-bold" for="idProveedor">ID. Proveedor</label>
           <input
             pInputText
@@ -29,12 +48,35 @@
           />
         </div>
   
-        <div class="col-12 md:col-3 flex-column">
+        <div class="col-12 md:col-3 flex-column"
+          *ngIf="!isEntrada">
           <label class="font-bold">Nombre Proveedor</label>
           <input
             pInputText
             [disabled]="true"
             [value]="proveedor ? proveedor.nombre : ''"
+            class="w-12"
+          />
+        </div>
+
+        <div class="col-12 md:col-3 flex-column"
+          *ngIf="isEntrada">
+          <label class="font-bold" for="idProveedor">DNI Cliente</label>
+          <input
+            pInputText
+            [disabled]="true"
+            [value]="cliente ? cliente.dniCliente : ''"
+            class="w-12"
+          />
+        </div>
+  
+        <div class="col-12 md:col-3 flex-column"
+          *ngIf="isEntrada">
+          <label class="font-bold">Nombre Cliente</label>
+          <input
+            pInputText
+            [disabled]="true"
+            [value]="cliente ? cliente.nombre : ''"
             class="w-12"
           />
         </div>
@@ -88,7 +130,8 @@
           >
         </div>
   
-        <div class="col-12 md:col-3 flex flex-column">
+        <div class="col-12 md:col-3 flex flex-column"
+          *ngIf="idTipoComprobante === 1">
           <label class="font-bold" for="fechaVencimiento">Fecha de Vencimiento</label>
           <p-calendar
             inputId="fechaVencimiento"

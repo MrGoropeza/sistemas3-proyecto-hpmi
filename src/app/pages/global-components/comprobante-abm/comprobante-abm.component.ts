@@ -4,6 +4,7 @@ import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { map } from "rxjs";
 import { Comprobante } from "src/app/models/Comprobante";
 import { ComprobantesService } from "src/app/services/comprobantes/comprobantes.service";
+import { PedidosService } from "src/app/services/pedidos/pedidos.service";
 import { ComprobanteDialogComponent } from "./components/comprobante-dialog/comprobante-dialog.component";
 import { DetalleComprobanteComponent } from "./components/detalle-comprobante/detalle-comprobante.component";
 
@@ -16,6 +17,7 @@ export class ComprobanteABMComponent implements OnInit {
   @Input() comprobantes!: Comprobante[];
   @Input() titulo!: string;
   @Input() idTipoComprobante!: number;
+  @Input() isComprobanteEntrada: boolean = false;
 
   ref!: DynamicDialogRef;
 
@@ -24,15 +26,17 @@ export class ComprobanteABMComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private comprobanteServicio: ComprobantesService,
+    private pedidosService: PedidosService,
     private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
+    this.comprobanteServicio.setModoEntrada(this.isComprobanteEntrada);
     this.getComprobantes();
   }
 
   public getComprobantes() {
-    let request =this.comprobanteServicio
+    let request = this.comprobanteServicio
       .getComprobante(this.idTipoComprobante)
       .subscribe((comprobantes) => {
         this.loading = true;
@@ -57,7 +61,11 @@ export class ComprobanteABMComponent implements OnInit {
       width: "90%",
       height: "90%",
       contentStyle: {"overflow":"auto",},
-      data: { comprobante: {} as Comprobante, idTipoComprobante: this.idTipoComprobante},
+      data: { 
+        comprobante: {} as Comprobante, 
+        idTipoComprobante: this.idTipoComprobante,
+        isEntrada: this.isComprobanteEntrada
+      },
     });
     this.ref.onClose
       .pipe(

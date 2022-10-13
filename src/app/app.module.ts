@@ -62,6 +62,7 @@ import { PagoComprobantesASeleccionarABMComponent } from './pages/pago-comproban
 import { PedidosPageComponent } from './pages/pedidos-page/pedidos-page.component';
 import { UiButtonVolverComponent } from './pages/global-components/ui-button-volver/ui-button-volver.component';
 import { MovimientosDepositoComponent } from './pages/deposito-seleccionado-page/componentes/movimientos-deposito/movimientos-deposito.component';
+import { SeleccionarClienteComponent } from './pages/global-components/comprobante-abm/components/seleccionar-cliente/seleccionar-cliente.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { MovimientosDepositoComponent } from './pages/deposito-seleccionado-page
     PedidosPageComponent,
     UiButtonVolverComponent,
     MovimientosDepositoComponent,
+    SeleccionarClienteComponent,
   ],
   imports: [
     BrowserModule,

@@ -21,8 +21,10 @@ import { SeleccionarArticulosComponent } from '../seleccionar-articulos/seleccio
 export class ComprobanteDialogComponent implements OnInit {
 
   idTipoComprobante!: number;
+  isEntrada! : boolean;
 
   proveedor!: Proveedor;
+  cliente!: any;
 
   tiposFactura = ["A", "B", "C", "M", "E", "T"];
 
@@ -33,15 +35,14 @@ export class ComprobanteDialogComponent implements OnInit {
   subtotal: number = 0;
 
   formComprobante: FormGroup = this.formBuilder.group({
-    proveedor: [null, Validators.required],
     cantArticulos: [0, Validators.min(1)],
     articulosValidos: [this.articulosSeleccionados, [articulosValidator()]],
-    fechaVencimiento: [null, Validators.required],
     fecha: [null, Validators.required],
   });
 
   articulosVisible: boolean = false;
   proveedoresVisible: boolean = false;
+  clientesVisible: boolean = false;
 
   actualizarSubtotal() {
     let sub = 0;
@@ -68,8 +69,16 @@ export class ComprobanteDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.idTipoComprobante = this.config.data.idTipoComprobante;
+    this.isEntrada = this.config.data.isEntrada;
+
+    if(this.isEntrada){
+      this.formComprobante.addControl("cliente", new FormControl(null, Validators.required))
+    }else{
+      this.formComprobante.addControl("proveedor", new FormControl(null, Validators.required))
+    }
 
     if(this.idTipoComprobante === 1){
+      this.formComprobante.addControl("fechaVencimiento", new FormControl(null, Validators.required));
       this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
       this.formComprobante.addControl("nroFactura", new FormControl("", [Validators.required, Validators.pattern(NroFacturaRegExp)]));
     }

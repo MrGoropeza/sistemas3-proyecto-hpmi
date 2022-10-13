@@ -8,5 +8,9 @@
 ></button>
 
 <div *ngIf="facturas!=null">
-    <app-comprobante-abm [idTipoComprobante]="1" titulo="Factura"></app-comprobante-abm>
+    <app-comprobante-abm 
+      [idTipoComprobante]="1" 
+      titulo="Factura"
+      [isComprobanteEntrada]="false"
+    ></app-comprobante-abm>
 </div>
