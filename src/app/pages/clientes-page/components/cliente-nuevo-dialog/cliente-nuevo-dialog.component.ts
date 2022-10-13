@@ -41,7 +41,9 @@ export class ClienteNuevoDialogComponent implements OnInit {
     console.log("hola");
   }
 
-  cerrar() {}
+  cerrar() {
+    this.ref.close();
+  }
   guardar() {
     if (this.cliente.tipoPersona == "fisica") {
       this.cliente.apellido =

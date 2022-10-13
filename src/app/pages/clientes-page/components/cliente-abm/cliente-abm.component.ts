@@ -58,7 +58,9 @@ export class ClienteABMComponent implements OnInit {
     );
     this.ref.onClose.pipe(
       map((res)=>{
-        this.clientes.push(res);
+        if(res){
+          this.clientes.push(res);
+        }
       })
     ).subscribe();
   }
