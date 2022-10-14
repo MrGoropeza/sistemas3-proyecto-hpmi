@@ -3,7 +3,12 @@
     <p>
       <strong>Numero de comprobante:</strong> {{ comprobante.idComprobante }}
     </p>
-    <p><strong>Proveedor:</strong> {{ comprobante.idProveedor.nombre }}</p>
+    <p *ngIf="!isEntrada">
+      <strong>Proveedor:</strong> {{ comprobante.idProveedor.nombre }}
+    </p>
+    <p *ngIf="isEntrada">
+      <strong>Cliente:</strong> {{ comprobante.idCliente.nombre }}
+    </p>
     <p>
       <strong>Fecha de Registro:</strong>
       {{ comprobante.fechaRegistro | date: "dd/MM/yyyy H:mm" }}

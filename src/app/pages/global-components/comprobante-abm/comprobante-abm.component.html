@@ -40,7 +40,8 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th>ID</th>
-      <th>Proveedor</th>
+      <th *ngIf="!isComprobanteEntrada">Proveedor</th>
+      <th *ngIf="isComprobanteEntrada">Cliente</th>
       <th>Fecha de Registro</th>
       <th>Fecha de {{titulo}}</th>
       <th>Fecha de Vencimiento</th>
@@ -57,9 +58,13 @@
         <span class="p-column-title font-bold">ID</span
         >{{ rowIndex +1 }}
       </td>
-      <td>
+      <td *ngIf="!isComprobanteEntrada">
         <span class="p-column-title font-bold">Nombre de Proveedor</span
         >{{ comprobante.idProveedor.nombre }}
+      </td>
+      <td *ngIf="isComprobanteEntrada">
+        <span class="p-column-title font-bold">Nombre de Cliente</span
+        >{{ comprobante.idCliente.nombre }}
       </td>
       <td>
         <span class="p-column-title font-bold">Fecha de Registro</span

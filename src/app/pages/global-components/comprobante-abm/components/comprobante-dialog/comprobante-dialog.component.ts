@@ -38,7 +38,6 @@ export class ComprobanteDialogComponent implements OnInit {
   formComprobante: FormGroup = this.formBuilder.group({
     cantArticulos: [0, Validators.min(1)],
     articulosValidos: [this.articulosSeleccionados, [articulosValidator()]],
-    fecha: [null, Validators.required],
   });
 
   articulosVisible: boolean = false;
@@ -73,9 +72,10 @@ export class ComprobanteDialogComponent implements OnInit {
     this.isEntrada = this.config.data.isEntrada;
 
     if(this.isEntrada){
-      this.formComprobante.addControl("cliente", new FormControl(null, Validators.required))
+      this.formComprobante.addControl("cliente", new FormControl(null, Validators.required));
     }else{
-      this.formComprobante.addControl("proveedor", new FormControl(null, Validators.required))
+      this.formComprobante.addControl("proveedor", new FormControl(null, Validators.required));
+      this.formComprobante.addControl("fecha", new FormControl(null, Validators.required))
     }
 
     if(this.idTipoComprobante === 1){
@@ -136,13 +136,17 @@ export class ComprobanteDialogComponent implements OnInit {
 
     if(this.formComprobante.valid){
 
+      let hoy = new Date(Date.now());
+
+
       let nuevoComprobante = {
-        idProveedor: this.formComprobante.controls["proveedor"].value.idProveedor,
+        idProveedor: !this.isEntrada ? this.formComprobante.controls["proveedor"].value.idProveedor : null,
+        idCliente: this.isEntrada ? this.formComprobante.controls["cliente"].value.idCliente : null,
         categoria: this.idTipoComprobante === 1 ? this.formComprobante.controls["tipoFactura"].value : null,
         numero: this.idTipoComprobante === 1 ? this.formComprobante.controls["nroFactura"].value : null,
         idTipoComprobante: {idTipoComprobante: this.idTipoComprobante},
-        fechaComprobante: this.formComprobante.controls["fecha"].value,
-        fechaVencimiento: this.formComprobante.controls["fechaVencimiento"].value,
+        fechaComprobante: this.isEntrada ? null : this.formComprobante.controls["fecha"].value,
+        fechaVencimiento: this.idTipoComprobante === 1 ? this.formComprobante.controls["fechaVencimiento"].value : null,
         
       } as Comprobante;
 

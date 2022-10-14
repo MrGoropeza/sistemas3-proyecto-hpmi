@@ -153,7 +153,8 @@
           >
         </div>
   
-        <div class="col-12 md:col-3 flex flex-column">
+        <div class="col-12 md:col-3 flex flex-column"
+          *ngIf="!isEntrada">
           <label class="font-bold" for="fecha">Fecha de Comprobante</label>
           <p-calendar
             inputId="fecha"

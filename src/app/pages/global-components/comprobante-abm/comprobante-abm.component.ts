@@ -51,7 +51,7 @@ export class ComprobanteABMComponent implements OnInit {
       header: `${this.titulo} #${comprobante.idComprobante}`,
       width: "70%",
       contentStyle: { overflow: "auto" },
-      data: {comprobante : comprobante}
+      data: {comprobante : comprobante, isEntrada: this.isComprobanteEntrada}
     });
   }
 

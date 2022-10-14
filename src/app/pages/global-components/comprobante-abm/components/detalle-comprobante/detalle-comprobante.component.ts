@@ -9,13 +9,14 @@ import { Comprobante } from "src/app/models/Comprobante";
 })
 export class DetalleComprobanteComponent implements OnInit {
   comprobante : Comprobante = this.config.data.comprobante;
+  isEntrada!: boolean;
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig
   ) {}
 
   ngOnInit(): void {
-    console.log(this.comprobante);
-    
+    // console.log(this.comprobante);
+    this.isEntrada = this.config.data.isEntrada;
   }
 }

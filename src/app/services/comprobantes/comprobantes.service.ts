@@ -147,18 +147,43 @@ export class ComprobantesService {
 
     comprobante.subTotal = subtotal;
 
-    let requestComprobante = await this.supabase.from(`${this.nombreTabla}`)
-      .insert({
-        idProveedor: comprobante.idProveedor,
-        idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
-        categoria: comprobante.categoria,
-        subTotal: subtotal,
-        saldo: subtotal,
-        numero: comprobante.numero,
-        fechaVencimiento: comprobante.fechaVencimiento,
-        fechaComprobante: comprobante.fechaComprobante,
-        estado: true,
-      }).single();
+    let requestComprobante;
+
+    if(this.nombreTabla === "Comprobante"){
+      requestComprobante = await this.supabase.from(`${this.nombreTabla}`)
+        .insert({
+          idProveedor: comprobante.idProveedor,
+          idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
+          categoria: comprobante.categoria,
+          subTotal: subtotal,
+          saldo: subtotal,
+          numero: comprobante.numero,
+          fechaVencimiento: comprobante.fechaVencimiento,
+          fechaComprobante: comprobante.fechaComprobante,
+          estado: true,
+        }).single();
+    }else{
+      console.log(comprobante);
+
+      let hoy = new Date(Date.now());
+      console.log(`Mes hoy: ${hoy.getMonth()}`);
+      
+      let vencimiento = new Date(hoy.setMonth(hoy.getMonth() + 2));
+      
+
+      requestComprobante = await this.supabase.from(`${this.nombreTabla}`)
+        .insert({
+          idCliente: comprobante.idCliente,
+          idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
+          categoria: comprobante.categoria,
+          subTotal: subtotal,
+          saldo: subtotal,
+          numero: comprobante.numero,
+          fechaVencimiento: vencimiento.toDateString(),
+          fechaComprobante: hoy.toDateString(),
+          estado: true,
+        }).single();
+    }
 
     if(requestComprobante.data){
       let idComprobante = requestComprobante.data.idComprobante;
