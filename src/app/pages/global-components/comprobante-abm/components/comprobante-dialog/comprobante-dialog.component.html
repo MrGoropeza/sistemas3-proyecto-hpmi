@@ -61,11 +61,11 @@
 
         <div class="col-12 md:col-3 flex-column"
           *ngIf="isEntrada">
-          <label class="font-bold" for="idProveedor">DNI Cliente</label>
+          <label class="font-bold" for="idProveedor">CUIL/CUIT Cliente</label>
           <input
             pInputText
             [disabled]="true"
-            [value]="cliente ? cliente.dniCliente : ''"
+            [value]="cliente ? cliente.CUIT: ''"
             class="w-12"
           />
         </div>
@@ -377,6 +377,24 @@
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cerrar" icon="pi pi-times" 
             class="p-button-text" (click)="proveedoresVisible = false"></button>
+  </ng-template>
+  
+</p-dialog>
+
+<p-dialog
+  header="Seleccionar Cliente"
+  [(visible)]="clientesVisible"
+  [modal]="true"
+  styleClass="w-12"
+  [dismissableMask]="true"
+>
+  <app-seleccionar-cliente
+    (clienteSeleccionado)="clienteSeleccionado($event)"
+  ></app-seleccionar-cliente>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="clientesVisible = false"></button>
   </ng-template>
   
 </p-dialog>

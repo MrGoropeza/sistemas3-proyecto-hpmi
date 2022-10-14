@@ -74,6 +74,12 @@ export class ClienteService {
     .eq('idCliente',cliente.idCliente)
     .single();
   }
+
+  async getCantClientes(){
+    return await this.supabase
+      .from("Cliente").select("idCliente").eq('estado', true);
+  }
+
   async getClientes(params?: LazyLoadEvent) {
     let query = this.supabase.from<Cliente>("Cliente").select("*").eq("estado",true).order('idCliente',{ascending: false});
 

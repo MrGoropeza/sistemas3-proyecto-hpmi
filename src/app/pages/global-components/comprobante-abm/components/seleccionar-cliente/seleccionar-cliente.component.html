@@ -1,1 +1,108 @@
-<p>seleccionar-cliente works!</p>
+<!-- Contenido de la pagina -->
+
+<p-table
+#dt
+[value]="clientes"
+[rows]="5"
+[paginator]="true"
+[totalRecords]="cantTotalClientes"
+(onLazyLoad)="onLazyLoad($event)"
+[lazy]="true" 
+responsiveLayout="stack"
+[rowHover]="true"
+dataKey="idCliente"
+[showCurrentPageReport]="false"
+[loading]="cargando"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-center align-content-center">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          class="p-inputtext-md"
+          type="text"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar..."
+        />
+      </span>
+    </div>
+  </ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <!-- <th>Telefono</th>
+      <th>Correo</th>
+      <th>Domicilio</th> -->
+      <th>Tipo de Persona</th>
+      <th>CUIT</th>
+      <!-- <th>Fecha de Nacimiento</th> -->
+      <th>Fecha de registro</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-cliente let-columns="columns" let-index="rowIndex">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">ID</span
+        >{{ index+1 }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Nombre</span
+        >
+        <div *ngIf="cliente.apellido;else elseblock">{{ cliente.apellido+', '+cliente.nombre }}</div>
+        <ng-template #elseblock>{{cliente.nombre}}</ng-template>
+      </td>
+      <!-- <td>
+        <span class="p-column-title font-bold">Telefono</span
+        >{{ cliente.telefono }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Correo</span
+        >{{ cliente.correo }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Domicilio</span
+        >{{ cliente.domicilio }}
+      </td> -->
+      <td>
+        <span class="p-column-title font-bold">Tipo de Persona</span
+        >{{ cliente.tipoPersona }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">CUIL/CUIT</span
+        >{{ cliente.CUIT }}
+      </td>
+      <!-- <td>
+        <span class="p-column-title font-bold">Fecha de Nacimiento</span
+        >{{ cliente.fechaNacimiento | date: "dd/MM/yyyy" }}
+      </td> -->
+      <td>
+        <span class="p-column-title font-bold">Fecha de Registro</span
+        >{{ cliente.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
+      </td>
+
+      <td>
+        <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        pTooltip="Seleccionar"
+        icon="bi bi-check2-square"
+        class="p-button-rounded p-button-info mr-2"
+        (click)="seleccionarCliente(cliente)"
+      ></button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ clientes ? cantTotalClientes : 0 }} clientes
+      registrados.
+    </div>
+  </ng-template>
+</p-table>
+

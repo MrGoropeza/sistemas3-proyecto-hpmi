@@ -6,6 +6,7 @@ import { Observable, of, SubscriptionLike } from 'rxjs';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { ArticuloView } from 'src/app/models/ArticuloView';
+import { Cliente } from 'src/app/models/Cliente';
 import { Comprobante } from 'src/app/models/Comprobante';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
@@ -104,6 +105,12 @@ export class ComprobanteDialogComponent implements OnInit {
     this.proveedor = proveedor;
     this.formComprobante.controls["proveedor"].setValue(proveedor);
     this.proveedoresVisible = false;
+  }
+
+  clienteSeleccionado(cliente: Cliente) {
+    this.cliente = cliente;
+    this.formComprobante.controls["cliente"].setValue(cliente);
+    this.clientesVisible = false;
   }
 
   agregarArticulo(){
