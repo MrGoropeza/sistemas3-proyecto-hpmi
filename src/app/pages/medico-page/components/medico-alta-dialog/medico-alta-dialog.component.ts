@@ -48,6 +48,7 @@ export class MedicoAltaDialogComponent implements OnInit {
       await this.personaService.getPersona(this.medico.persona.idPersona).then((res)=>{
         if(res.data){
           this.medico.persona = res.data;
+          // this.medicoForm.setValue(fechaNacimiento : this.medico.persona.fechaNacimiento);
           this.medicoForm.patchValue(this.medico.persona);
           
         }else{
