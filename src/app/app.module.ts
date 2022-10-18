@@ -68,6 +68,10 @@ import { PedidosPageComponent } from './pages/pedidos-page/pedidos-page.componen
 import { UiButtonVolverComponent } from './pages/global-components/ui-button-volver/ui-button-volver.component';
 import { MovimientosDepositoComponent } from './pages/deposito-seleccionado-page/componentes/movimientos-deposito/movimientos-deposito.component';
 import { SeleccionarClienteComponent } from './pages/global-components/comprobante-abm/components/seleccionar-cliente/seleccionar-cliente.component';
+import { PrestacionesPageComponent } from './pages/prestaciones-page/prestaciones-page.component';
+import { PrestacionesAbmComponent } from './pages/prestaciones-page/componentes/prestaciones-abm/prestaciones-abm.component';
+import { PrestacionesDialogComponent } from './pages/prestaciones-page/componentes/prestaciones-dialog/prestaciones-dialog.component';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -131,6 +135,9 @@ import { SeleccionarClienteComponent } from './pages/global-components/comproban
     UiButtonVolverComponent,
     MovimientosDepositoComponent,
     SeleccionarClienteComponent,
+    PrestacionesPageComponent,
+    PrestacionesAbmComponent,
+    PrestacionesDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,6 +147,7 @@ import { SeleccionarClienteComponent } from './pages/global-components/comproban
     PrimengImportsModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [MessageService, ConfirmationService,DialogService],
   bootstrap: [AppComponent],
