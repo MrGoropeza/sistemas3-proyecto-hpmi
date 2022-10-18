@@ -5,5 +5,6 @@ export interface Medico{
     persona : Persona;
     Cargo : string;
     Especialidad : string;
+    nombreApellido : string;
     estado : boolean;
 }

@@ -1,0 +1,4 @@
+:host >>> .p-datepicker table td > span {
+    height: unset;
+    width: unset;
+}

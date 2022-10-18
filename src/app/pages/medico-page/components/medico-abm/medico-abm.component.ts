@@ -3,6 +3,7 @@ import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { map } from 'rxjs';
 import { Medico } from 'src/app/models/Medico';
+import { Persona } from 'src/app/models/Persona';
 import { MedicoService } from 'src/app/services/medicos/medico.service';
 import { MedicoAltaDialogComponent } from '../medico-alta-dialog/medico-alta-dialog.component';
 import { MedicoDetalleDialogComponent } from '../medico-detalle-dialog/medico-detalle-dialog.component';
@@ -26,7 +27,7 @@ export class MedicoABMComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getClientes();
+    this.getMedicos();
   }
   public async onLazyLoad(event: LazyLoadEvent) {
     this.loading = true;
@@ -44,37 +45,40 @@ export class MedicoABMComponent implements OnInit {
     }
   }
   public aniadir() {
+    let medico = {} as Medico;
+    medico.persona = {} as Persona;
+    console.log(medico);
     this.ref = this.dialogService.open(MedicoAltaDialogComponent,{
       header: "Añadir Medico",
       width: "40rem",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
-      data: { medico: {} as Medico} 
+      data: { medico: medico} 
     }
     );
     this.ref.onClose.pipe(
       map((res)=>{
         if(res){
-          this.medicos.push(res);
+          this.getMedicos();
         }
       })
     ).subscribe();
   }
   public editar(medico : Medico) {
-    // this.ref = this.dialogService.open(ClienteNuevoDialogComponent,{
-    //   header: "Editar Proveedor",
-    //   width: "40rem",
-    //   contentStyle: { overflow: "auto" },
-    //   baseZIndex: 10000,
-    //   data: { cliente: cliente} 
-    // })
-    // this.ref.onClose.pipe(
-    //   map((res)=>{
-    //     if(res){
-    //       this.getClientes();
-    //     }
-    //   })
-    // ).subscribe();
+    this.ref = this.dialogService.open(MedicoAltaDialogComponent,{
+      header: "Editar Medico",
+      width: "40rem",
+      contentStyle: { overflow: "auto" },
+      baseZIndex: 10000,
+      data: { medico: medico} 
+    })
+    this.ref.onClose.pipe(
+      map((res)=>{
+        if(res){
+          this.getMedicos();
+        }
+      })
+    ).subscribe();
   }
   public verDetalle(medico : Medico) {
     let nombre = medico.persona.apellido+', '+medico.persona.nombre;
@@ -87,31 +91,31 @@ export class MedicoABMComponent implements OnInit {
     });
   }
   public eliminar(idMedico: number) {
-    // this.confirmationService.confirm({
-    //   message: "¿Estás seguro que desea borrar este cliente?",
-    //   header: "Confirmar",
-    //   icon: "pi pi-exclamation-triangle",
-    //   acceptLabel: "Sí",
-    //   rejectLabel: "No",
-    //   accept: () => {
-    //     this.clienteService.delete(idCliente).then(
-    //       (res)=>{
-    //         if(res.data){
-    //           this.getClientes();
-    //         }
-    //       }
-    //     )
+    this.confirmationService.confirm({
+      message: "¿Estás seguro que desea borrar este medico?",
+      header: "Confirmar",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Sí",
+      rejectLabel: "No",
+      accept: () => {
+        this.medicoService.delete(idMedico).then(
+          (res)=>{
+            if(res.data){
+              this.getMedicos();
+            }
+          }
+        )
 
-    //     this.messageService.add({
-    //       severity: "success",
-    //       summary: "Éxito",
-    //       detail: "Cliente eliminado",
-    //       life: 3000,
-    //     });
-    //   },
-    // });
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Medico eliminado",
+          life: 3000,
+        });
+      },
+    });
   }
-  public async getClientes(): Promise<void> {
+  public async getMedicos(): Promise<void> {
     let request = await this.medicoService.getMedicos();
     if (request.data) {
       this.medicos = request.data;

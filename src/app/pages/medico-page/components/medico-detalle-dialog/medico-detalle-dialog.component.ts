@@ -10,7 +10,7 @@ import { PersonaService } from 'src/app/services/personas/persona.service';
   styleUrls: ['./medico-detalle-dialog.component.css']
 })
 export class MedicoDetalleDialogComponent implements OnInit {
-  persona! : Persona;
+  persona : Persona = {} as Persona;
   medico : Medico = this.config.data.medico;
   constructor(    public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,

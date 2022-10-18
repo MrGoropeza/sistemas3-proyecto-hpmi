@@ -11,6 +11,28 @@ export class PersonaService {
   constructor(private supabaseService: SupabaseService) {
     this.supabase = supabaseService.getSupabaseClient();
   }
+  async insert(persona : Persona) {
+    let request = await this.supabase
+    .from<Persona>("Persona")
+    .insert({
+      email : persona.email,
+      cuil : persona.cuil,
+      domicilio : persona.domicilio,
+      nombre : persona.nombre,
+      apellido : persona.apellido,
+      fechaNacimiento : persona.fechaNacimiento,
+      dni : persona.dni,
+      telefono : persona.telefono
+      
+    }).single();
+    if(request.data){
+      return request.data.idPersona;
+    }else{
+      console.log(request.error);
+      return 0
+      
+    }
+  }
   public async getPersona(idPersona : number){
     let query = this.supabase
     .from<Persona>("Persona")
