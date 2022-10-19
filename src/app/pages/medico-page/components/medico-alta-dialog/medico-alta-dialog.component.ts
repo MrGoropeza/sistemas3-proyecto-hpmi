@@ -50,6 +50,10 @@ export class MedicoAltaDialogComponent implements OnInit {
           this.medico.persona = res.data;
           // this.medicoForm.setValue(fechaNacimiento : this.medico.persona.fechaNacimiento);
           this.medicoForm.patchValue(this.medico.persona);
+          this.medicoForm.patchValue({
+            fechaNacimiento : this.medico.persona.fechaNacimiento,
+            correo : this.medico.persona.email
+          });
           
         }else{
           console.log(res.error);
