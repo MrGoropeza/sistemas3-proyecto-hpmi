@@ -13,7 +13,7 @@ export class CalendarComponent implements OnInit {
   @Input() label!: string;
   @Input() labelError!: string;
   @Input() control!: FormControl;
-  @Input() selectionMode!: string;
+  @Input() selectionMode: string = "single";
 
   constructor(
     

@@ -5,7 +5,7 @@
         [formControl]="control"
         [touchUI]="true"
         panelStyleClass="min-w-min"
-        selectionMode="{{ selectionMode ? selectionMode : 'single' }}"
+        [selectionMode]="selectionMode"
     ></p-calendar>
     <small 
         id="{{ id }}-help"
@@ -13,4 +13,13 @@
         *ngIf="control.invalid 
         && control.touched"
     >{{ labelError }}</small>
+    <div *ngIf="control.value">
+        <small 
+            id="{{ id }}-help"
+            class="p-error block"
+            *ngIf="selectionMode === 'range'
+            && control.value[1] === null"
+        >Seleccione un rango de fechas.</small>
+
+    </div>
 </div>

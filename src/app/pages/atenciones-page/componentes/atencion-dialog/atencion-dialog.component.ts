@@ -15,7 +15,8 @@ export class AtencionDialogComponent implements OnInit {
   confirmado: boolean = false;
 
   formAtencion = this.formBuilder.group({
-    fechaInicio: [null, Validators.required],
+    periodo: [null, Validators.required],
+    fechaInicio: [null, [Validators.required, Validators.minLength(2), Validators.nullValidator]],
     fechaFin: [null, Validators.required]
   });
 
