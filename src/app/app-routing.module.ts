@@ -18,6 +18,7 @@ import { RemitoPageComponent } from "./pages/remito-page/remito-page.component";
 import { PagoComprobantePageComponent } from "./pages/pago-comprobante-page/pago-comprobante-page.component";
 import { ClientesPageComponent } from "./pages/clientes-page/clientes-page.component";
 import { PedidosPageComponent } from "./pages/pedidos-page/pedidos-page.component";
+import { PrestacionesPageComponent } from "./pages/prestaciones-page/prestaciones-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -152,7 +153,12 @@ const routes: Routes = [
           },
         ],
       },
-
+      {
+        path: "prestaciones",
+        data: { breadcrumb: "Prestaciones" },
+        title: "Prestaciones",
+        component: PrestacionesPageComponent
+      },
       {
         path: "usuarios",
         data: { breadcrumb: "Usuarios" },
