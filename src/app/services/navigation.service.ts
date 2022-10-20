@@ -15,6 +15,8 @@ export class NavigationService{
       },
       {
         label: "Farmacia",
+        icon: "bi bi-bandaid",
+        expanded: true,
         items:[
           {
             label: 'Inicio Farmacia',

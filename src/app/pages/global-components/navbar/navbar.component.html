@@ -1,22 +1,32 @@
-<p-toolbar styleClass="p-1 align-content-center">
-    <div class="p-toolbar-group-left">
-        <p-button (click)="sidebarVisible = true" icon="pi pi-bars" class="mr-2"></p-button>
-        <p-sidebar [(visible)]="sidebarVisible">
-            <ng-template pTemplate="content" class="p-0">
-                <app-sidebar></app-sidebar>
-            </ng-template>
-        </p-sidebar>
-        <p-toggleButton [(ngModel)]="darkMode"onIcon="pi pi-sun" offIcon="pi pi-moon" (onChange)="cambiarTema()"></p-toggleButton>
-        <h1 class="mx-3 p-0 my-0 md:text-3xl text-xl">Hospital Materno Infantil</h1>
-    </div>
-    
-    <div class="p-toolbar-group-right hidden">
-        <p class="mx-3 my-0">¡Bienvenido, 
-            <p-button label="Usuario" styleClass="p-button-text p-button-plain p-0 m-0"></p-button>
-        !</p>
+<div class="w-full m-1">
+    <p-toolbar styleClass="p-0 py-1 align-content-center">
+        <div class="p-toolbar-group-left">
+            <p-button (click)="sidebarVisible = true" icon="pi pi-bars" 
+                class="mr-2 md:hidden"></p-button>
+            
+            <p-toggleButton [(ngModel)]="darkMode"onIcon="pi pi-sun" offIcon="pi pi-moon" (onChange)="cambiarTema()"></p-toggleButton>
+            <h1 class="mx-3 p-0 my-0 md:text-3xl text-xl">Hospital Materno Infantil</h1>
+        </div>
         
-        <p-image imageClass="border-circle overflow-hidden" src="assets/blank-profile-picture.png" height="40" width="40"></p-image>
-    </div>
-</p-toolbar>
+        <!-- <div class="p-toolbar-group-right hidden">
+            <p class="mx-3 my-0">¡Bienvenido, 
+                <p-button label="Usuario" styleClass="p-button-text p-button-plain p-0 m-0"></p-button>
+            </p>
+            
+            <p-image imageClass="border-circle overflow-hidden" src="assets/blank-profile-picture.png" height="40" width="40"></p-image>
+        </div> -->
+    </p-toolbar>
+    
+    
+    <p-breadcrumb [model]="breadcrumbItems" 
+        styleClass="white-space-nowrap w-full max-w-screen"
+    ></p-breadcrumb>
 
-<p-breadcrumb [model]="breadcrumbItems" styleClass="white-space-nowrap"></p-breadcrumb>
+</div>
+
+<p-sidebar [(visible)]="sidebarVisible"
+    class="md:hidden">
+    <ng-template pTemplate="content" class="p-0">
+        <app-sidebar></app-sidebar>
+    </ng-template>
+</p-sidebar>
