@@ -1,0 +1,16 @@
+<div class="field">
+    <label for="{{ id }}" class="block">{{ label }}</label>
+    <p-calendar 
+        id="{{ id }}"
+        [formControl]="control"
+        [touchUI]="true"
+        panelStyleClass="min-w-min"
+        selectionMode="{{ selectionMode ? selectionMode : 'single' }}"
+    ></p-calendar>
+    <small 
+        id="{{ id }}-help"
+        class="p-error block"
+        *ngIf="control.invalid 
+        && control.touched"
+    >{{ labelError }}</small>
+</div>

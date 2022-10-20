@@ -1,4 +1,138 @@
 <app-ui-button-volver></app-ui-button-volver>
 
+<p-table
+  #dt
+  [value]="atenciones"
+  [rows]="5"
+  [paginator]="true"
+  responsiveLayout="stack"
+  [(selection)]="atencionesSeleccionadas"
+  [rowHover]="true"
+  dataKey="idAtencion"
+  [showCurrentPageReport]="false"
+  [lazy]="true"
+  (onLazyLoad)="onLazyLoad($event)"
+  [loading]="cargando"
+  [totalRecords]="cantTotalAtenciones"
+>
+  <ng-template pTemplate="caption">
+    <div class="grid">
+      <div class="col">
+        <div
+          class="flex align-content-center justify-content-center lg:justify-content-start"
+        >
+          <button
+            pButton
+            pRipple
+            label="Nuevo"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="nuevaAtencion()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Borrar"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="borrarAtencionesSeleccionadas()"
+            [disabled]="
+              !atencionesSeleccionadas || !atencionesSeleccionadas.length
+            "
+          ></button>
+        </div>
+      </div>
 
-<app-atencion-dialog></app-atencion-dialog>
+      <div class="col">
+        <div
+          class="flex justify-content-center lg:justify-content-end align-content-center"
+        >
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              class="p-inputtext-md"
+              type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Buscar por nombre..."
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox
+          pTooltip="Seleccionar Todos"
+          tooltipPosition="top"
+        ></p-tableHeaderCheckbox>
+      </th>
+      <th>ID. Atención</th>
+      <th>Tipo</th>
+      <th>Periodo</th>
+      <th>Paciente</th>
+      <th>Médico</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-atencion let-columns="columns">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">Seleccionar</span>
+        <p-tableCheckbox
+          [value]="atencion"
+          pTooltip="Seleccionar"
+          tooltipPosition="top"
+        ></p-tableCheckbox>
+      </td>
+
+      <td>
+        <span class="p-column-title font-bold">Acciones</span>
+        <div>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editarAtencion(atencion)"
+            pTooltip="Editar"
+            tooltipPosition="top"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editarAtencion(atencion)"
+            pTooltip="Editar"
+            tooltipPosition="top"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="editarAtencion(atencion)"
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+          ></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay
+      {{ cantTotalAtenciones ? cantTotalAtenciones : 0 }} atenciones
+      registradas.
+    </div>
+  </ng-template>
+</p-table>
+
+<app-atencion-dialog
+    [(dialogVisible)]="atencionDialog"
+></app-atencion-dialog>

@@ -77,6 +77,7 @@ import { PrestacionesDialogComponent } from './pages/prestaciones-page/component
 import { StoreModule } from '@ngrx/store';
 import { AtencionesPageComponent } from './pages/atenciones-page/atenciones-page.component';
 import { AtencionDialogComponent } from './pages/atenciones-page/componentes/atencion-dialog/atencion-dialog.component';
+import { CalendarComponent } from './pages/global-components/forms/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -148,6 +149,7 @@ import { AtencionDialogComponent } from './pages/atenciones-page/componentes/ate
     PrestacionesDialogComponent,
     AtencionesPageComponent,
     AtencionDialogComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

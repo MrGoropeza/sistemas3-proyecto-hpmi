@@ -1,1 +1,40 @@
-<p>atencion-dialog works!</p>
+<p-dialog
+    [modal]="true"
+    [(visible)]="dialogVisible"
+    (onHide)="ocultarDialog()"
+    header="Agregar nueva atención"
+    styleClass="w-11"
+>
+
+<form [formGroup]="formAtencion">
+
+    <app-form-calendar
+        id="fechaInicio"
+        label="Fecha de Ingreso"
+        labelError="Fecha de Ingreso requerida."
+        [control]="formAtencion.controls['fechaInicio']"
+        selectionMode="range"
+    ></app-form-calendar>
+
+    <app-form-calendar
+        id="fechaFin"
+        label="Fecha de Egreso"
+        labelError="Fecha de Egreso requerida."
+        [control]="formAtencion.controls['fechaFin']"
+    ></app-form-calendar>
+
+</form>
+
+<p>{{ formAtencion.value | json }}</p>
+
+<ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            class="p-button-text" (click)="ocultarDialog()"
+            [loading]="confirmado"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+            class="p-button-text" (click)="cargarAtencion()"
+            [loading]="confirmado"></button>
+</ng-template>
+
+
+</p-dialog>
