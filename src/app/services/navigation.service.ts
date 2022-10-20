@@ -97,6 +97,16 @@ export class NavigationService{
           }
         ]
       },
+      {
+        label: "Prestaciones",
+        icon: 'bi bi-file-earmark-medical',
+        routerLink: "/prestaciones"
+      },
+      {
+        label: "Atenciones",
+        icon: 'bi bi-bookmark-plus',
+        routerLink: "/atenciones"
+      },
       // {
       //   label: "Usuarios",
       //   items: [

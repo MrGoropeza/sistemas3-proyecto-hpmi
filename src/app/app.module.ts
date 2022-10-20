@@ -75,6 +75,8 @@ import { MedicoAltaDialogComponent } from './pages/medico-page/components/medico
 import { PrestacionesPageComponent } from './pages/prestaciones-page/prestaciones-page.component';
 import { PrestacionesDialogComponent } from './pages/prestaciones-page/componentes/prestaciones-dialog/prestaciones-dialog.component';
 import { StoreModule } from '@ngrx/store';
+import { AtencionesPageComponent } from './pages/atenciones-page/atenciones-page.component';
+import { AtencionDialogComponent } from './pages/atenciones-page/componentes/atencion-dialog/atencion-dialog.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +146,8 @@ import { StoreModule } from '@ngrx/store';
     MedicoAltaDialogComponent,
     PrestacionesPageComponent,
     PrestacionesDialogComponent,
+    AtencionesPageComponent,
+    AtencionDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -20,6 +20,7 @@ import { ClientesPageComponent } from "./pages/clientes-page/clientes-page.compo
 import { PedidosPageComponent } from "./pages/pedidos-page/pedidos-page.component";
 import { MedicoPageComponent } from "./pages/medico-page/medico-page.component";
 import { PrestacionesPageComponent } from "./pages/prestaciones-page/prestaciones-page.component";
+import { AtencionesPageComponent } from "./pages/atenciones-page/atenciones-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -165,6 +166,12 @@ const routes: Routes = [
         data: { breadcrumb: "Prestaciones" },
         title: "Prestaciones",
         component: PrestacionesPageComponent
+      },
+      {
+        path: "atenciones",
+        data: { breadcrumb: "Atenciones" },
+        title: "Atenciones",
+        component: AtencionesPageComponent
       },
       {
         path: "usuarios",
