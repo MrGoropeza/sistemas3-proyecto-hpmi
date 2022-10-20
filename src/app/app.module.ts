@@ -72,6 +72,14 @@ import { MedicoPageComponent } from './pages/medico-page/medico-page.component';
 import { MedicoABMComponent } from './pages/medico-page/components/medico-abm/medico-abm.component';
 import { MedicoDetalleDialogComponent } from './pages/medico-page/components/medico-detalle-dialog/medico-detalle-dialog.component';
 import { MedicoAltaDialogComponent } from './pages/medico-page/components/medico-alta-dialog/medico-alta-dialog.component';
+import { PacientePageComponent } from './pages/paciente-page/paciente-page.component';
+import { PacientesABMComponent } from './pages/paciente-page/components/pacientes-abm/pacientes-abm.component';
+import { PacienteDetalleDialogComponent } from './pages/paciente-page/components/paciente-detalle-dialog/paciente-detalle-dialog.component';
+import { PacienteAltaDialogComponent } from './pages/paciente-page/components/paciente-alta-dialog/paciente-alta-dialog.component';
+import { ObraSocialPageComponent } from './pages/obra-social-page/obra-social-page.component';
+import { ObraSocialABMComponent } from './pages/obra-social-page/components/obra-social-abm/obra-social-abm.component';
+import { ObraSocialAltaDialogComponent } from './pages/obra-social-page/components/obra-social-alta-dialog/obra-social-alta-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -139,6 +147,13 @@ import { MedicoAltaDialogComponent } from './pages/medico-page/components/medico
     MedicoABMComponent,
     MedicoDetalleDialogComponent,
     MedicoAltaDialogComponent,
+    PacientePageComponent,
+    PacientesABMComponent,
+    PacienteDetalleDialogComponent,
+    PacienteAltaDialogComponent,
+    ObraSocialPageComponent,
+    ObraSocialABMComponent,
+    ObraSocialAltaDialogComponent,
   ],
   imports: [
     BrowserModule,

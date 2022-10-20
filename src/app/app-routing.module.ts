@@ -19,6 +19,8 @@ import { PagoComprobantePageComponent } from "./pages/pago-comprobante-page/pago
 import { ClientesPageComponent } from "./pages/clientes-page/clientes-page.component";
 import { PedidosPageComponent } from "./pages/pedidos-page/pedidos-page.component";
 import { MedicoPageComponent } from "./pages/medico-page/medico-page.component";
+import { PacientePageComponent } from "./pages/paciente-page/paciente-page.component";
+import { ObraSocialPageComponent } from "./pages/obra-social-page/obra-social-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -43,6 +45,18 @@ const routes: Routes = [
         data:{ breadcrumb: "Medicos" },
         title: "Medicos",
         component: MedicoPageComponent
+      },
+      {
+        path: "pacientes",
+        data:{ breadcrumb: "Pacientes" },
+        title: "Pacientes",
+        component: PacientePageComponent
+      },
+      {
+        path: "obrassociales",
+        data:{ breadcrumb: "Obras Sociales" },
+        title: "Obras Sociales",
+        component: ObraSocialPageComponent
       },
       {
         path: "farmacia",

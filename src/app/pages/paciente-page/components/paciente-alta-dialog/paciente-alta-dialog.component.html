@@ -1,0 +1,218 @@
+<div>
+  <form
+    [formGroup]="Form"
+    class="max-h-full overflow-y-visible p-fluid"
+    (ngSubmit)="guardar()"
+    (cancel)="cerrar()"
+  >
+    <div class="field">
+      <label for="nombre" class="block">Nombre</label>
+      <input
+        id="nombre"
+        type="text"
+        pInputText
+        placeholder="Nombre"
+        formControlName="nombre"
+        class="block"
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          Form.controls['nombre'].invalid && Form.controls['nombre'].touched
+        "
+        >Nombre requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="apellido" class="block">Apellido</label>
+      <input
+        id="apellido"
+        type="text"
+        pInputText
+        placeholder="Apellido"
+        formControlName="apellido"
+        class="block"
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          Form.controls['apellido'].invalid && Form.controls['apellido'].touched
+        "
+        >Apellido requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="dni" class="block">DNI</label>
+      <input
+        id="dni"
+        type="text"
+        pInputText
+        placeholder="DNI"
+        formControlName="dni"
+        class="block"
+      />
+      <small
+        class="p-error"
+        *ngIf="Form.controls['dni'].invalid && Form.controls['dni'].touched"
+        >DNI requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="fechaNacimiento">Fecha de Nacimiento(dd-mm-yy)</label>
+      <p-calendar
+        inputId="fechaNacimiento"
+        dateFormat="dd-mm-yy"
+        [touchUI]="true"
+        [showIcon]="true"
+        formControlName="fechaIngreso"
+        styleClass="overflow-visible"
+        panelStyleClass="min-w-min"
+      ></p-calendar>
+      <small
+        class="p-error"
+        *ngIf="
+          Form.controls['fechaNacimiento'].invalid &&
+          Form.controls['fechaNacimiento'].touched
+        "
+        >fecha de Nacimiento requerida.</small
+      >
+    </div>
+    <div class="field">
+      <label for="domicilio" class="block">Domicilio</label>
+      <input
+        id="domicilio"
+        type="domicilio"
+        pInputText
+        placeholder="Domicilio"
+        name="domicilio"
+        formControlName="domicilio"
+        class="block"
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          Form.controls['domicilio'].invalid &&
+          Form.controls['domicilio'].touched
+        "
+        >Domicilio requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="correo" class="block">Correo</label>
+      <input
+        id="correo"
+        type="correo"
+        pInputText
+        placeholder="correo"
+        name="correo"
+        formControlName="correo"
+        class="block"
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          Form.controls['correo'].invalid && Form.controls['correo'].touched
+        "
+        >Correo requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="telefono" class="block">Telefono</label>
+      <input
+        id="telefono"
+        type="telefono"
+        pInputText
+        placeholder="telefono"
+        name="telefono"
+        formControlName="telefono"
+        class="block"
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          Form.controls['telefono'].invalid && Form.controls['telefono'].touched
+        "
+        >Telefono requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="cuil" class="block">CUIL</label>
+      <input
+        id="cuil"
+        type="cuil"
+        pInputText
+        placeholder="CUIL"
+        name="telefono"
+        formControlName="cuil"
+        class="block"
+      />
+      <small
+        class="p-error"
+        *ngIf="Form.controls['cuil'].invalid && Form.controls['cuil'].touched"
+        >CUIT requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="fechaIngreso">Fecha de Ingreso(dd-mm-yy)</label>
+      <p-calendar
+        inputId="fechaingreso"
+        dateFormat="dd-mm-yy"
+        [touchUI]="true"
+        [showIcon]="true"
+        formControlName="fechaIngreso"
+        styleClass="overflow-visible"
+        panelStyleClass="min-w-min"
+        name="fechaIngreso"
+      ></p-calendar>
+      <small
+        class="p-error"
+        *ngIf="
+          Form.controls['fechaIngreso'].invalid &&
+          Form.controls['fechaIngreso'].touched
+        "
+        >fecha de Ingreso requerida.</small
+      >
+    </div>
+
+    <div class="field">
+      <div class="grid flex-wrap align-items-end">
+        <div class="col-12 md:col-10 flex-column">
+          <!-- <label>Nombre Obra Social</label> -->
+          <input
+            pInputText
+            [disabled]="true"
+            placeholder="Obra Social"
+            [value]="paciente.idPaciente ? paciente.nombreObraSocial : '' "
+            class="w-12"
+          />
+        </div>
+        <div class="col-12 md:col-2 flex-column">
+            <button pButton pRipple type="button" pTooltip="Selecionar Obra Social" icon="pi pi-plus" class="p-button-rounded"></button>
+        </div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Cancelar"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="cerrar()"
+        ></button>
+      </div>
+      <div class="col">
+        <button
+          pButton
+          type="submit"
+          pRipple
+          label="Guardar"
+          icon="pi pi-check"
+          class="p-button-text"
+        ></button>
+      </div>
+    </div>
+  </form>
+</div>

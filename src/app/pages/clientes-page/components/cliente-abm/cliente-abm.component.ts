@@ -49,7 +49,7 @@ export class ClienteABMComponent implements OnInit {
   }
   public aniadir() {
     this.ref = this.dialogService.open(ClienteNuevoDialogComponent,{
-      header: "Añadir Proveedor",
+      header: "Añadir Cliente",
       width: "40rem",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
@@ -66,7 +66,7 @@ export class ClienteABMComponent implements OnInit {
   }
   public editar(cliente: Cliente) {
     this.ref = this.dialogService.open(ClienteNuevoDialogComponent,{
-      header: "Editar Proveedor",
+      header: "Editar Cliente",
       width: "40rem",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,

@@ -1,0 +1,105 @@
+<!-- Contenido de la pagina -->
+
+<p-table
+#dt
+[value]="items"
+[rows]="5"
+[paginator]="true"
+[totalRecords]="total"
+(onLazyLoad)="onLazyLoad($event)"
+[lazy]="true" 
+responsiveLayout="stack"
+[rowHover]="true"
+dataKey="idMedico"
+[showCurrentPageReport]="false"
+[loading]="loading"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-center align-content-center">
+        <div class="col">
+            <div class="flex align-content-center justify-content-center lg:justify-content-start">
+                
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="aniadir()"></button> 
+            </div>
+        </div>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          class="p-inputtext-md"
+          type="text"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar..."
+        />
+      </span>
+    </div>
+  </ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>CUIT</th>
+      <th>Nombre</th>
+      <th>Fecha de Registro</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item let-columns="columns" let-index="rowIndex">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">CUIT</span
+        >{{ item.cuit }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Nombre</span
+        >{{ item.nombre }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Fecha de Registro</span
+        >{{ item.fechaRegistro  | date: "dd/MM/yyyy H:mm"}}
+      </td>
+
+
+
+      <td>
+        <!-- <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        pTooltip="Ver Detalle"
+        icon="pi pi-search"
+        class="p-button-rounded p-button-info mr-2"
+        (click)="verDetalle(item)"
+      ></button> -->
+        <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        pTooltip="Editar"
+        icon="pi pi-pencil"
+        class="p-button-rounded p-button-success mr-2"
+        (click)="editar(item)"
+      ></button>
+      <button
+        pButton
+        pRipple
+        pTooltip="Eliminar"
+        tooltipPosition="top"
+        icon="pi pi-trash"
+        class="p-button-rounded p-button-warning mr-2"
+        (click)="eliminar(item.idPaciente)"
+        
+      ></button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ items ? this.cant : 0 }} obras sociales
+      registradas.
+    </div>
+  </ng-template>
+</p-table>
+
+
+
