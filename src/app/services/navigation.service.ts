@@ -53,15 +53,20 @@ export class NavigationService{
               }
             ],
           },
-          {
-            label: 'Movimientos',
-            icon: 'pi pi-sort-alt',
-            routerLink: "/farmacia/abmMovimientos"
-          },
+          // {
+          //   label: 'Movimientos',
+          //   icon: 'pi pi-sort-alt',
+          //   routerLink: "/farmacia/abmMovimientos"
+          // },
           {
             label: 'Proveedores',
             icon: 'bi bi-person-rolodex',
             routerLink: "/farmacia/proveedores"
+          },
+          {
+            label: 'Clientes',
+            icon: 'bi bi-people-fill',
+            routerLink: "/farmacia/clientes"
           },
           {
             label: 'Facturas',
@@ -82,6 +87,11 @@ export class NavigationService{
             label : 'Pago',
             icon : 'bi bi-currency-dollar',
             routerLink : "/farmacia/pagoComprobantes"
+          },
+          {
+            label : 'Pedidos',
+            icon : 'bi bi-bag-check',
+            routerLink : "/farmacia/pedidos"
           }
         ]
       },

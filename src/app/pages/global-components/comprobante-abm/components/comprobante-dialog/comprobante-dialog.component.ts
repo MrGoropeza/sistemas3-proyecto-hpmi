@@ -4,7 +4,9 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, of, SubscriptionLike } from 'rxjs';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { ArticuloView } from 'src/app/models/ArticuloView';
+import { Cliente } from 'src/app/models/Cliente';
 import { Comprobante } from 'src/app/models/Comprobante';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
@@ -20,27 +22,27 @@ import { SeleccionarArticulosComponent } from '../seleccionar-articulos/seleccio
 export class ComprobanteDialogComponent implements OnInit {
 
   idTipoComprobante!: number;
+  isEntrada! : boolean;
 
   proveedor!: Proveedor;
+  cliente!: any;
 
   tiposFactura = ["A", "B", "C", "M", "E", "T"];
 
   proveedoresSub!: SubscriptionLike;
 
-  articulosSeleccionados: ArticuloComprobante[] = [];
+  articulosSeleccionados: ArticuloMovimiento[] = [];
 
   subtotal: number = 0;
 
   formComprobante: FormGroup = this.formBuilder.group({
-    proveedor: [null, Validators.required],
     cantArticulos: [0, Validators.min(1)],
     articulosValidos: [this.articulosSeleccionados, [articulosValidator()]],
-    fechaVencimiento: [null, Validators.required],
-    fecha: [null, Validators.required],
   });
 
   articulosVisible: boolean = false;
   proveedoresVisible: boolean = false;
+  clientesVisible: boolean = false;
 
   actualizarSubtotal() {
     let sub = 0;
@@ -67,14 +69,23 @@ export class ComprobanteDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.idTipoComprobante = this.config.data.idTipoComprobante;
+    this.isEntrada = this.config.data.isEntrada;
+
+    if(this.isEntrada){
+      this.formComprobante.addControl("cliente", new FormControl(null, Validators.required));
+    }else{
+      this.formComprobante.addControl("proveedor", new FormControl(null, Validators.required));
+      this.formComprobante.addControl("fecha", new FormControl(null, Validators.required))
+    }
 
     if(this.idTipoComprobante === 1){
+      this.formComprobante.addControl("fechaVencimiento", new FormControl(null, Validators.required));
       this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
       this.formComprobante.addControl("nroFactura", new FormControl("", [Validators.required, Validators.pattern(NroFacturaRegExp)]));
     }
   }
 
-  articuloSeleccionado(articulo: ArticuloComprobante){
+  articuloSeleccionado(articulo: ArticuloMovimiento){
     let encontrado = this.articulosSeleccionados.find((element) => element.id === articulo.id);
 
     
@@ -94,6 +105,12 @@ export class ComprobanteDialogComponent implements OnInit {
     this.proveedor = proveedor;
     this.formComprobante.controls["proveedor"].setValue(proveedor);
     this.proveedoresVisible = false;
+  }
+
+  clienteSeleccionado(cliente: Cliente) {
+    this.cliente = cliente;
+    this.formComprobante.controls["cliente"].setValue(cliente);
+    this.clientesVisible = false;
   }
 
   agregarArticulo(){
@@ -119,13 +136,17 @@ export class ComprobanteDialogComponent implements OnInit {
 
     if(this.formComprobante.valid){
 
+      let hoy = new Date(Date.now());
+
+
       let nuevoComprobante = {
-        idProveedor: this.formComprobante.controls["proveedor"].value.idProveedor,
+        idProveedor: !this.isEntrada ? this.formComprobante.controls["proveedor"].value.idProveedor : null,
+        idCliente: this.isEntrada ? this.formComprobante.controls["cliente"].value.idCliente : null,
         categoria: this.idTipoComprobante === 1 ? this.formComprobante.controls["tipoFactura"].value : null,
         numero: this.idTipoComprobante === 1 ? this.formComprobante.controls["nroFactura"].value : null,
         idTipoComprobante: {idTipoComprobante: this.idTipoComprobante},
-        fechaComprobante: this.formComprobante.controls["fecha"].value,
-        fechaVencimiento: this.formComprobante.controls["fechaVencimiento"].value,
+        fechaComprobante: this.isEntrada ? null : this.formComprobante.controls["fecha"].value,
+        fechaVencimiento: this.idTipoComprobante === 1 ? this.formComprobante.controls["fechaVencimiento"].value : null,
         
       } as Comprobante;
 

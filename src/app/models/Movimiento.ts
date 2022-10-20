@@ -6,4 +6,5 @@ export interface Movimiento{
     idTipoMovimiento : ITipoMovimiento;
     cantidad : number;
     motivo: string;
+    estado : boolean;
 }

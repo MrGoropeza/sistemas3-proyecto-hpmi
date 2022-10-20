@@ -6,6 +6,7 @@ import { ITipoMovimiento } from 'src/app/models/TipoMovimiento';
 import { IArticuloDepositoView } from 'src/app/models/IArticuloDeposito';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
+import { LazyLoadEvent } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,49 @@ export class MovimientoService {
       `)
       .order("fechaRegistro")
       return { data: Movimiento, error };
+  }
+
+  async getMovimientosLazy(params?: LazyLoadEvent, idDeposito?: number){
+    let query = this.supabase
+      .from<Movimiento>('Movimiento')
+      .select(`
+        idMovimiento,
+        fechaRegistro,
+        idDeposito,
+        idTipoMovimiento : idTipoMovimiento(nombre),
+        motivo
+      `)
+      .eq("estado", true)
+
+    if(idDeposito !== undefined){
+      query = query.eq("idDeposito", idDeposito);
+    }
+    
+    if(params?.first !== undefined && params?.rows !== undefined){
+      query = query.range(params?.first, params?.first + params?.rows - 1);
+    }
+
+    if(params?.sortField !== undefined  && params?.sortOrder !== undefined ){
+      query = query.order(params.sortField as any, {ascending: params.sortOrder === 1});
+    }
+
+    if(params?.globalFilter){
+      query = query
+        .or(`or(nombre.ilike.%${params.globalFilter}%,CUIT.ilike.%${params.globalFilter}%)`)
+    }
+
+    return query;
+  }
+
+  async getCantMovimientos(idDeposito?: number){
+    let query = this.supabase
+      .from("Movimiento").select("idMovimiento").eq('estado', true);
+
+    if(idDeposito !== undefined){
+      query = query.eq("idDeposito", idDeposito);
+    }
+
+    return await query;
   }
 
   async getIdTipoSalida(){
@@ -140,17 +184,15 @@ export class MovimientoService {
           cantidad: articulo.cantidad, 
           filaid: idArticuloDeposito
         });
+      
+      let requestDetalle = await this.supabase.from("DetalleMovimiento")
+      .insert({
+        idMovimiento: requestMovimiento.data.idMovimiento,
+        idArticulo: articulo.id,
+        stock: articulo.cantidad
+      })
 
-      if(procedimiento.data){
-        let requestDetalle = await this.supabase.from("DetalleMovimiento")
-        .insert({
-          idMovimiento: requestMovimiento.data.idMovimiento,
-          idArticulo: articulo.id,
-          stock: articulo.cantidad
-        })
-
-        detalles.push(requestDetalle.data);
-      }
+      detalles.push(requestDetalle.data);
 
       
       

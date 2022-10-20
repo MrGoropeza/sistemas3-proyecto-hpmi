@@ -5,9 +5,11 @@
   [value]="movimientos"
   [rows]="5"
   [paginator]="true"
-  [globalFilterFields]="['idMovimiento', 'idDeposito']"
   responsiveLayout="stack"
   [rowHover]="true"
+  [lazy]="true"
+  (onLazyLoad)="onLazyLoad($event)"
+  [totalRecords]="cantMovimientos"
   dataKey="idMovimiento"
   [showCurrentPageReport]="false"
   [loading]="cargando"
@@ -62,7 +64,7 @@
 
   <ng-template pTemplate="summary">
     <div class="flex align-items-center justify-content-between">
-      En total hay {{ movimientos ? movimientos.length : 0 }} movimientos
+      En total hay {{ movimientos ? cantMovimientos : 0 }} movimientos
       registrados.
     </div>
   </ng-template>

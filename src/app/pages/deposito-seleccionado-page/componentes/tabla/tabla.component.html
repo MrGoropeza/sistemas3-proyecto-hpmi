@@ -15,11 +15,18 @@
             </div> -->
             
             <div class="col">
-                <div class="flex justify-content-between align-content-center ">
+                <div class="flex flex-wrap gap-3 justify-content-center md:justify-content-between align-content-center">
 
-                    <button pButton pRipple label="Nuevo Movimiento"
-                        icon="bi bi-arrow-down-up" class="p-button-success" 
-                        (click)="transferirSeleccion()"></button>
+                    <div class="flex flex-wrap gap-3 justify-content-center">
+                        <button pButton pRipple label="Nuevo Movimiento"
+                            icon="pi pi-plus" class="p-button-success" 
+                            (click)="transferirSeleccion()"></button>
+    
+                        <button pButton pRipple label="Ver Movimientos"
+                            icon="bi bi-arrow-down-up" class="p-button-info" 
+                            (click)="verMovimientos()"></button>
+                        
+                    </div>
 
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
@@ -45,7 +52,6 @@
             <th>Categoría</th>
             <th pSortableColumn="fechaVencimiento">Fecha de Vencimiento<p-sortIcon field="fechaVencimiento"></p-sortIcon></th>
             <th>Stock</th>
-            <th>Acciones</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-articulo let-columns="columns">
@@ -61,13 +67,6 @@
             <td><span class="p-column-title font-bold">Categoría</span>{{articulo.categoria.nombreCategoria}}</td>
             <td><span class="p-column-title font-bold">Fecha de Vencimiento</span>{{articulo.fechaVencimiento! | date:"dd/MM/yyyy"}}</td>
             <td><span class="p-column-title font-bold">Stock</span>{{articulo.stock}}</td>
-            <td>
-                <span class="p-column-title font-bold">Acciones</span>
-                <div>
-                    <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-info"
-                        pTooltip="Ver Movimientos" tooltipPosition="top"></button>
-                </div>
-            </td>
         </tr>
     </ng-template>
 
@@ -86,3 +85,25 @@
     [idDepositoSeleccionado]="idDepositoSeleccionado"
     (movimientoRealizado)="movimientoRealizado($event)"
     ></app-nuevo-movimiento>
+
+
+<p-dialog [(visible)]="dialogMovimientos"
+    [modal]="true"
+    header="Movimientos del Depósito"
+    styleClass="p-fluid w-11 overflow-auto"
+    contentStyleClass="max-h-full overflow-y-visible"
+    [blockScroll]="true"
+>
+    <app-movimiento-abm 
+        [idDepositoSeleccionado]="idDepositoSeleccionado"
+        (depositoSeleccionado)="verDetalleMovimientos($event)"
+        ></app-movimiento-abm>
+</p-dialog>
+
+<app-detalle-dialog
+    *ngIf="dialogDetalleMovimiento"
+    [isVisible]="dialogDetalleMovimiento"
+    [titulo]="tituloDetalleDialog"
+    [movimiento]="movimientoSeleccionado"
+    (ocultar)="dialogDetalleMovimiento = $event"
+  ></app-detalle-dialog>

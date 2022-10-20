@@ -1,7 +1,7 @@
 <p-dialog [(visible)]="dialog" (onHide)="ocultarDialog()" [modal]="true"
     header="Nuevo Movimiento"
-    styleClass="p-fluid w-11 overflow-auto"
-    contentStyleClass="max-h-full overflow-y-visible">
+    styleClass="p-fluid w-11 min-h-full"
+    contentStyleClass="max-h-full overflow-y-scroll">
     
     <form [formGroup]="formMovimiento">
 
@@ -165,7 +165,7 @@
         </p-table>
       </div>
 
-    <p>{{ formMovimiento.value | json }}</p>
+    <!-- <p>{{ formMovimiento.value | json }}</p> -->
 
 
 
@@ -198,6 +198,8 @@
 >
   <app-seleccionar-articulos
     (articuloSeleccionado)="articuloSeleccionado($event)"
+    (articuloQuitado)="quitarArticulo($event)"
+    [articulosSeleccionados]="articulosSeleccionados"
     [idDepositoActual]="idDepositoSeleccionado"
   ></app-seleccionar-articulos>
 

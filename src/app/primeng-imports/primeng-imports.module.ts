@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {PanelModule} from 'primeng/panel';
 import {ToolbarModule} from 'primeng/toolbar';
 import {SlideMenuModule} from 'primeng/slidemenu';
 import {ButtonModule} from 'primeng/button';
@@ -30,7 +30,8 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {DividerModule} from 'primeng/divider';
-
+import {CardModule} from 'primeng/card';
+import {TabViewModule} from 'primeng/tabview';
 @NgModule({
   declarations: [],
   imports: [
@@ -65,7 +66,10 @@ import {DividerModule} from 'primeng/divider';
     ListboxModule,
     MultiSelectModule,
     PanelMenuModule,
-    DividerModule
+    DividerModule,
+    CardModule,
+    TabViewModule,
+    PanelModule
   ]
 })
 export class PrimengImportsModule { }

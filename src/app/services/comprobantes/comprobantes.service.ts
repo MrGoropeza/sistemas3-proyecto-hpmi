@@ -18,6 +18,8 @@ export class ComprobantesService {
 
   supabase: SupabaseClient;
 
+  nombreTabla: string = "Comprobante";
+
   constructor(
     private supabaseService: SupabaseService,
     private depositoService: SupabaseDepositoSeleccionadoService
@@ -25,30 +27,34 @@ export class ComprobantesService {
     this.supabase = supabaseService.getSupabaseClient();
   }
 
+  setModoEntrada(isEntrada: boolean){
+    this.nombreTabla = isEntrada ? "ComprobanteEntrada" : "Comprobante";
+  }
+
   public async getDetalle(id: number){
     let { data: DetalleComprobante, error } = await this.supabase
-  .from<DetalleComprobante>('DetalleComprobante')
-  .select(`
-    idArticulo : idArticulo(nombre,descripcion),
-    cantidad,
-    precio
-  `)
-  .eq("idComprobante",id);
+      .from<DetalleComprobante>(`Detalle${this.nombreTabla}`)
+      .select(`
+        idArticulo : idArticulo(nombre,descripcion),
+        cantidad,
+        precio
+      `)
+      .eq("idComprobante",id);
   return { data: DetalleComprobante, error };
   }
-  async getCantComprobantes() {
+  async getCantComprobantes(idTipoComprobante?: number) {
     return await this.supabase
-      .from<Comprobante>("Comprobante")
+      .from<Comprobante>(`${this.nombreTabla}`)
       .select("idComprobante")
       .eq("estado", true)
-      .eq("idTipoComprobante",1);
+      .eq("idTipoComprobante", idTipoComprobante !== undefined ? idTipoComprobante : 1);
   }
   public getComprobante(id : number): Observable<Comprobante[]> {
     const query = this.supabase
-      .from<Comprobante>("Comprobante")
+      .from<Comprobante>(`${this.nombreTabla}`)
       .select(`
           idComprobante,
-          idProveedor:idProveedor(nombre),
+          ${this.nombreTabla === "Comprobante" ? "idProveedor:idProveedor(nombre)" : "idCliente(nombre)"},
           idTipoComprobante:idTipoComprobante(nombre),
           fechaRegistro,
           fechaComprobante,
@@ -78,10 +84,8 @@ export class ComprobantesService {
 
     if(idDepositoActual !== undefined){
       query = query.eq("idDeposito", idDepositoActual);
-    }
-    
-    if(idDepositoActual !== undefined){
-      query = query.eq("idDeposito", idDepositoActual);
+    }else{
+      query = query.eq("idDeposito", await this.depositoService.getDepositoPrincipal())
     }
     
     if(params?.first !== undefined && params?.rows !== undefined){
@@ -143,25 +147,50 @@ export class ComprobantesService {
 
     comprobante.subTotal = subtotal;
 
-    let requestComprobante = await this.supabase.from("Comprobante")
-      .insert({
-        idProveedor: comprobante.idProveedor,
-        idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
-        categoria: comprobante.categoria,
-        subTotal: subtotal,
-        saldo: subtotal,
-        numero: comprobante.numero,
-        fechaVencimiento: comprobante.fechaVencimiento,
-        fechaComprobante: comprobante.fechaComprobante,
-        estado: true,
-      }).single();
+    let requestComprobante;
+
+    if(this.nombreTabla === "Comprobante"){
+      requestComprobante = await this.supabase.from(`${this.nombreTabla}`)
+        .insert({
+          idProveedor: comprobante.idProveedor,
+          idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
+          categoria: comprobante.categoria,
+          subTotal: subtotal,
+          saldo: subtotal,
+          numero: comprobante.numero,
+          fechaVencimiento: comprobante.fechaVencimiento,
+          fechaComprobante: comprobante.fechaComprobante,
+          estado: true,
+        }).single();
+    }else{
+      console.log(comprobante);
+
+      let hoy = new Date(Date.now());
+      console.log(`Mes hoy: ${hoy.getMonth()}`);
+      
+      let vencimiento = new Date(hoy.setMonth(hoy.getMonth() + 2));
+      
+
+      requestComprobante = await this.supabase.from(`${this.nombreTabla}`)
+        .insert({
+          idCliente: comprobante.idCliente,
+          idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
+          categoria: comprobante.categoria,
+          subTotal: subtotal,
+          saldo: subtotal,
+          numero: comprobante.numero,
+          fechaVencimiento: vencimiento.toDateString(),
+          fechaComprobante: hoy.toDateString(),
+          estado: true,
+        }).single();
+    }
 
     if(requestComprobante.data){
       let idComprobante = requestComprobante.data.idComprobante;
 
       articulos.forEach(async articulo => {
         let requestDetalle = await this.supabase
-          .from("DetalleComprobante")
+          .from(`Detalle${this.nombreTabla}`)
           .insert({
             idComprobante: idComprobante,
             idArticulo: articulo.id,
@@ -208,7 +237,7 @@ export class ComprobantesService {
 
 
   async removeComprobante(comprobante: Comprobante){
-    let request = await this.supabase.from("Comprobante")
+    let request = await this.supabase.from(`${this.nombreTabla}`)
       .update({estado: false})
       .eq("idComprobante",comprobante.idComprobante)
       .single();
@@ -217,7 +246,7 @@ export class ComprobantesService {
   }
   async getComprobantes(proveedor : Proveedor,params?: LazyLoadEvent) {
     let query = this.supabase
-      .from<Comprobante>("Comprobante")
+      .from<Comprobante>(`${this.nombreTabla}`)
       .select("*")
       .eq("idTipoComprobante",1)
       .neq("saldo",0)

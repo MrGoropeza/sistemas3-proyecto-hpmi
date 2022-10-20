@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { Articulo } from 'src/app/models/articulo';
+import { Movimiento } from 'src/app/models/Movimiento';
 import { SupabaseDepositoSeleccionadoService } from 'src/app/services/deposito-seleccionado/supabase-deposito-seleccionado.service';
 import { ArticuloDeDepositoService } from 'src/app/services/deposito/articulo-de-deposito.service';
 
@@ -23,6 +24,12 @@ export class TablaComponent implements OnInit{
 
   @Input() idDepositoSeleccionado! : number;
   @Input() idHeredado! : boolean;
+
+  dialogMovimientos: boolean = false;
+
+  dialogDetalleMovimiento : boolean = false;
+  tituloDetalleDialog: string = "";
+  movimientoSeleccionado!: Movimiento;
   
   constructor(
     private servicioArticulos : ArticuloDeDepositoService,
@@ -91,5 +98,15 @@ export class TablaComponent implements OnInit{
         life: 3000}
       );
     }
+  }
+
+  verMovimientos(){
+    this.dialogMovimientos = true;
+  }
+
+  verDetalleMovimientos(movimiento: Movimiento){
+    this.movimientoSeleccionado = movimiento;
+    this.dialogDetalleMovimiento = true;
+    this.tituloDetalleDialog ="Movimiento #"+movimiento.idMovimiento.toString();
   }
 }

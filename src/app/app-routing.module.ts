@@ -16,6 +16,9 @@ import { FacturaPageComponent } from "./pages/factura-page/factura-page.componen
 import { OrdenCompraPageComponent } from "./pages/orden-compra-page/orden-compra-page.component";
 import { RemitoPageComponent } from "./pages/remito-page/remito-page.component";
 import { PagoComprobantePageComponent } from "./pages/pago-comprobante-page/pago-comprobante-page.component";
+import { ClientesPageComponent } from "./pages/clientes-page/clientes-page.component";
+import { PedidosPageComponent } from "./pages/pedidos-page/pedidos-page.component";
+import { MedicoPageComponent } from "./pages/medico-page/medico-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -34,6 +37,12 @@ const routes: Routes = [
         data: { breadcrumb: "" },
         component: InicioPageComponent,
         title: "Inicio HPMI",
+      },
+      {
+        path: "medicos",
+        data:{ breadcrumb: "Medicos" },
+        title: "Medicos",
+        component: MedicoPageComponent
       },
       {
         path: "farmacia",
@@ -113,6 +122,12 @@ const routes: Routes = [
             component: ProveedorPageComponent,
           },
           {
+            path: "clientes",
+            data: { breadcrumb: "Clientes" },
+            title: "Clientes",
+            component: ClientesPageComponent,
+          },
+          {
             path: "facturas",
             data: { breadcrumb: "Facturas" },
             title: "Facturas",
@@ -135,6 +150,12 @@ const routes: Routes = [
             data : {breadcrumb : "Pago de comprobantes"},
             title : "Pago de comprobantes",
             component : PagoComprobantePageComponent
+          },
+          {
+            path: "pedidos",
+            data : {breadcrumb : "Pedidos"},
+            title : "Pedidos",
+            component : PedidosPageComponent
           },
         ],
       },
