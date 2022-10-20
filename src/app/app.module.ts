@@ -68,6 +68,10 @@ import { PedidosPageComponent } from './pages/pedidos-page/pedidos-page.componen
 import { UiButtonVolverComponent } from './pages/global-components/ui-button-volver/ui-button-volver.component';
 import { MovimientosDepositoComponent } from './pages/deposito-seleccionado-page/componentes/movimientos-deposito/movimientos-deposito.component';
 import { SeleccionarClienteComponent } from './pages/global-components/comprobante-abm/components/seleccionar-cliente/seleccionar-cliente.component';
+import { MedicoPageComponent } from './pages/medico-page/medico-page.component';
+import { MedicoABMComponent } from './pages/medico-page/components/medico-abm/medico-abm.component';
+import { MedicoDetalleDialogComponent } from './pages/medico-page/components/medico-detalle-dialog/medico-detalle-dialog.component';
+import { MedicoAltaDialogComponent } from './pages/medico-page/components/medico-alta-dialog/medico-alta-dialog.component';
 import { PrestacionesPageComponent } from './pages/prestaciones-page/prestaciones-page.component';
 import { PrestacionesAbmComponent } from './pages/prestaciones-page/componentes/prestaciones-abm/prestaciones-abm.component';
 import { PrestacionesDialogComponent } from './pages/prestaciones-page/componentes/prestaciones-dialog/prestaciones-dialog.component';
@@ -135,6 +139,10 @@ import { StoreModule } from '@ngrx/store';
     UiButtonVolverComponent,
     MovimientosDepositoComponent,
     SeleccionarClienteComponent,
+    MedicoPageComponent,
+    MedicoABMComponent,
+    MedicoDetalleDialogComponent,
+    MedicoAltaDialogComponent,
     PrestacionesPageComponent,
     PrestacionesAbmComponent,
     PrestacionesDialogComponent,

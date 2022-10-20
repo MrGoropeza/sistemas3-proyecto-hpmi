@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {PanelModule} from 'primeng/panel';
 import {ToolbarModule} from 'primeng/toolbar';
 import {SlideMenuModule} from 'primeng/slidemenu';
 import {ButtonModule} from 'primeng/button';
@@ -68,7 +68,8 @@ import {TabViewModule} from 'primeng/tabview';
     PanelMenuModule,
     DividerModule,
     CardModule,
-    TabViewModule
+    TabViewModule,
+    PanelModule
   ]
 })
 export class PrimengImportsModule { }

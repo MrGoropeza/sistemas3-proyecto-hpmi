@@ -1,0 +1,214 @@
+<div >
+  <form
+  [formGroup]="medicoForm"
+  class="max-h-full overflow-y-visible p-fluid "
+  (ngSubmit)="guardar()"
+  (cancel)="cerrar()"
+>
+<div class="field">
+  <label for="nombre" class="block">Nombre</label>
+  <input
+    id="nombre"
+    type="text"
+    pInputText
+    placeholder="Nombre"
+    formControlName="nombre"
+    class="block"
+  />
+  <small
+    class="p-error"
+    *ngIf="
+    medicoForm.controls['nombre'].invalid &&
+    medicoForm.controls['nombre'].touched
+    "
+    >Nombre requerido.</small
+  >
+</div>
+<div class="field">
+  <label for="apellido" class="block">Apellido</label>
+  <input
+    id="apellido"
+    type="text"
+    pInputText
+    placeholder="Apellido"
+    formControlName="apellido"
+    class="block"
+  />
+  <small
+  class="p-error"
+  *ngIf="
+  medicoForm.controls['apellido'].invalid &&
+  medicoForm.controls['apellido'].touched
+  "
+  >Apellido requerido.</small
+  >
+</div>
+<div class="field">
+    <label for="dni" class="block">DNI</label>
+    <input
+    id="dni"
+    type="text"
+    pInputText
+    placeholder="DNI"
+    formControlName="dni"
+    class="block"
+    />
+    <small
+    class="p-error"
+    *ngIf="
+    medicoForm.controls['dni'].invalid &&
+    medicoForm.controls['dni'].touched
+    "
+    >DNI requerido.</small
+    >
+  </div>
+<div class="field">
+  <label for="fechaNacimiento">Fecha de Nacimiento(dd-mm-yy)</label>
+  <p-calendar inputId="fechaNacimiento" 
+      dateFormat="dd-mm-yy" [showIcon]="true" formControlName="fechaNacimiento"
+      styleClass="overflow-visible"  name="fechaNacimiento"></p-calendar>
+  <small class="p-error" *ngIf="medicoForm.controls['fechaNacimiento'].invalid && medicoForm.controls['fechaNacimiento'].touched">fecha de Nacimiento requerida.</small>
+</div>
+<div class="field">
+    <label for="domicilio" class="block">Domicilio</label>
+    <input
+      id="domicilio"
+      type="domicilio"
+      pInputText
+      placeholder="Domicilio"
+      name="domicilio"
+      formControlName="domicilio"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+      medicoForm.controls['domicilio'].invalid &&
+      medicoForm.controls['domicilio'].touched
+      "
+      >Domicilio requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="correo" class="block">Correo</label>
+    <input
+      id="correo"
+      type="correo"
+      pInputText
+      placeholder="correo"
+      name="correo"
+      formControlName="correo"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+      medicoForm.controls['correo'].invalid &&
+      medicoForm.controls['correo'].touched
+      "
+      >Correo requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="telefono" class="block">Telefono</label>
+    <input
+      id="telefono"
+      type="telefono"
+      pInputText
+      placeholder="telefono"
+      name="telefono"
+      formControlName="telefono"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+      medicoForm.controls['telefono'].invalid &&
+      medicoForm.controls['telefono'].touched
+      "
+      >Telefono requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="cuil" class="block">CUIL</label>
+    <input
+      id="cuil"
+      type="cuil"
+      pInputText
+      placeholder="CUIL"
+      name="telefono"
+      formControlName="cuil"
+      class="block"
+    />
+    <small
+      class="p-error"
+      *ngIf="
+      medicoForm.controls['cuil'].invalid &&
+      medicoForm.controls['cuil'].touched
+      "
+      >CUIT requerido.</small
+    >
+  </div>
+  <div class="field">
+    <label for="especialidad" class="block">Especialidad</label>
+    <input
+      id="especialidad"
+      type="text"
+      pInputText
+      placeholder="especialidad"
+      formControlName="especialidad"
+      class="block"
+    />
+    <small
+    class="p-error"
+    *ngIf="
+    medicoForm.controls['especialidad'].invalid &&
+    medicoForm.controls['especialidad'].touched
+    "
+    >especialidad requerida.</small
+    >
+  </div>
+  <div class="field">
+    <label for="cargo" class="block">Cargo</label>
+    <input
+      id="cargo"
+      type="text"
+      pInputText
+      placeholder="Cargo"
+      formControlName="cargo"
+      class="block"
+    />
+    <small
+    class="p-error"
+    *ngIf="
+    medicoForm.controls['cargo'].invalid &&
+    medicoForm.controls['cargo'].touched
+    "
+    >Cargo requerido.</small
+    >
+  </div>
+  <div class="grid">
+    <div class="col">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="cerrar()"
+      ></button>
+    </div>
+    <div class="col">
+      <button
+        pButton
+        type="submit"
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+      ></button>
+    </div>
+  </div>
+</form>
+</div>
