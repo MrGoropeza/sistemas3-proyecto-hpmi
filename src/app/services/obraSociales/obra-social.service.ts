@@ -23,7 +23,10 @@ export class ObraSocialService {
     .from<ObraSocial>("ObraSocial")
     .update({
       "nombre" : item.nombre,
-      "cuit" : item.cuit
+      "cuit" : item.cuit,
+      correo : item.correo,
+      telefono : item.telefono,
+      domicilio : item.domicilio
     })
     .eq('idObraSocial',item.idObraSocial)
     .single();
@@ -49,7 +52,10 @@ export class ObraSocialService {
     .from<ObraSocial>("ObraSocial")
     .insert({
       "nombre" : item.nombre,
-      "cuit" : item.cuit
+      "cuit" : item.cuit,
+      correo : item.correo,
+      telefono : item.telefono,
+      domicilio : item.domicilio
     }).single();
     // if(request.data){
     //   return request.data as ObraSocial;
