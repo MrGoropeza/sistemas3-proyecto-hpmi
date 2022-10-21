@@ -22,22 +22,18 @@
       label="Prestaciones"
     ></app-boton-navegacion>
 
-    <p-button routerLink="pacientes" styleClass="w-10rem h-10rem flex justify-content-center align-content-center">
-        <ng-template pTemplate="content">
-            <div class="flex flex-column">
-                <i class="bi bi-journal-medical text-8xl"></i>
-                <p class="mt-2 mb-0 mx-0">Pacientes</p>
-            </div>
-        </ng-template>
-    </p-button>
-    <p-button routerLink="obrassociales" styleClass="w-10rem h-10rem flex justify-content-center align-content-center">
-        <ng-template pTemplate="content">
-            <div class="flex flex-column">
-                <i class="bi bi-file-earmark-medical-fill text-8xl"></i>
-                <p class="mt-2 mb-0 mx-0">Obras Sociales</p>
-            </div>
-        </ng-template>
-    </p-button>
+    <app-boton-navegacion
+        routerLink="pacientes"
+        icon="bi bi-journal-medical"
+        label="Pacientes"
+    ></app-boton-navegacion>
+
+    <app-boton-navegacion
+        routerLink="obrassociales"
+        icon="bi bi-building"
+        label="Obras Sociales"
+    ></app-boton-navegacion>
+
     <app-boton-navegacion
       routerLink="atenciones"
       icon="bi bi-bookmark-plus"

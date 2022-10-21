@@ -109,7 +109,7 @@ export class NavigationService{
       },
       {
         label: "Obras Sociales",
-        icon: "bi bi-journal-medical",
+        icon: "bi bi-building",
         routerLink : "/obrassociales"
       },
       {
