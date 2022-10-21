@@ -19,6 +19,7 @@ import { PagoComprobantePageComponent } from "./pages/pago-comprobante-page/pago
 import { ClientesPageComponent } from "./pages/clientes-page/clientes-page.component";
 import { PedidosPageComponent } from "./pages/pedidos-page/pedidos-page.component";
 import { MedicoPageComponent } from "./pages/medico-page/medico-page.component";
+import { PrestacionesPageComponent } from "./pages/prestaciones-page/prestaciones-page.component";
 import { PacientePageComponent } from "./pages/paciente-page/paciente-page.component";
 import { ObraSocialPageComponent } from "./pages/obra-social-page/obra-social-page.component";
 
@@ -173,7 +174,12 @@ const routes: Routes = [
           },
         ],
       },
-
+      {
+        path: "prestaciones",
+        data: { breadcrumb: "Prestaciones" },
+        title: "Prestaciones",
+        component: PrestacionesPageComponent
+      },
       {
         path: "usuarios",
         data: { breadcrumb: "Usuarios" },

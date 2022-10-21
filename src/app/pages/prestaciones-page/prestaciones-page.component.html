@@ -1,0 +1,146 @@
+<app-ui-button-volver></app-ui-button-volver>
+
+
+<p-table
+  #dt
+  [value]="prestaciones"
+  [rows]="5"
+  [paginator]="true"
+  responsiveLayout="stack"
+  [(selection)]="prestacionesSeleccionadas"
+  [rowHover]="true"
+  dataKey="codigo"
+  [showCurrentPageReport]="false"
+  [lazy]="true"
+  (onLazyLoad)="onLazyLoad($event)"
+  [loading]="cargando"
+  [totalRecords]="cantTotalPrestaciones"
+>
+  <ng-template pTemplate="caption">
+    <div class="grid">
+      <div class="col">
+        <div
+          class="flex align-content-center justify-content-center lg:justify-content-start"
+        >
+          <button
+            pButton
+            pRipple
+            label="Nuevo"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="nuevaPrestacion()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Borrar"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="borrarPrestacionesSeleccionadas()"
+            [disabled]="
+              !prestacionesSeleccionadas || !prestacionesSeleccionadas.length
+            "
+          ></button>
+        </div>
+      </div>
+
+      <div class="col">
+        <div
+          class="flex justify-content-center lg:justify-content-end align-content-center"
+        >
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              class="p-inputtext-md"
+              type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Buscar por nombre..."
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox
+          pTooltip="Seleccionar Todos"
+          tooltipPosition="top"
+        ></p-tableHeaderCheckbox>
+      </th>
+      <th>Código Prestación</th>
+      <th pSortableColumn="nombre">
+        Nombre <p-sortIcon field="nombre"></p-sortIcon>
+      </th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-prestacion let-columns="columns">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">Seleccionar</span>
+        <p-tableCheckbox
+          [value]="prestacion"
+          pTooltip="Seleccionar"
+          tooltipPosition="top"
+        ></p-tableCheckbox>
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Código Prestación</span
+        >{{ prestacion.codigo }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Nombre</span
+        >{{ prestacion.nombre }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Precio</span
+        >{{ prestacion.precio }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Acciones</span>
+        <div>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editarPrestacion(prestacion)"
+            pTooltip="Editar"
+            tooltipPosition="top"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="eliminarPrestacion(prestacion)"
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+          ></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay
+      {{ cantTotalPrestaciones ? cantTotalPrestaciones : 0 }} prestaciones
+      registradas.
+    </div>
+  </ng-template>
+</p-table>
+
+
+
+
+<app-prestaciones-dialog
+    [(visible)]="prestacionDialog"
+    [prestacion]="prestacion"
+    (prestacionCargada)="nuevaPrestacionCargada()"
+></app-prestaciones-dialog>

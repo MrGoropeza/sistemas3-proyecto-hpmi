@@ -1,0 +1,50 @@
+<p-dialog
+    [(visible)]="visible"
+    (onHide)="ocultarDialog()"
+    [modal]="true"
+    header="Agregar Prestación"
+>
+
+<form [formGroup]="formPrestacion">
+
+    <div class="field flex flex-column">
+        <label for="codigo">Codigo</label>
+        <input id="codigo" type="codigo" pInputText autofocus 
+            placeholder="##.##.##" formControlName="codigo"/>
+        <small class="p-error" 
+            id="codigo-help"
+            *ngIf="formPrestacion.controls['codigo'].invalid 
+            && formPrestacion.controls['codigo'].touched">Código requerido.</small>
+    </div>
+
+    <div class="field flex flex-column">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="nombre" pInputText
+            placeholder="Nombre de la prestacion" formControlName="nombre"/>
+        <small class="p-error block" 
+            *ngIf="formPrestacion.controls['nombre'].invalid 
+            && formPrestacion.controls['nombre'].touched">Nombre requerido.</small>
+    </div>
+
+    <div class="field flex flex-column">
+        <label for="precio">Precio</label>
+        <input id="precio" type="number" min="0" pInputText
+            placeholder="###" formControlName="precio"/>
+        <small class="p-error" 
+            *ngIf="formPrestacion.controls['precio'].invalid 
+            && formPrestacion.controls['precio'].touched">Precio requerido.</small>
+    </div>
+
+</form>
+
+<ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            class="p-button-text" (click)="ocultarDialog()"
+            [loading]="confirmado"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+            class="p-button-text" (click)="cargarPrestacion()"
+            [loading]="confirmado"></button>
+</ng-template>
+
+
+</p-dialog>

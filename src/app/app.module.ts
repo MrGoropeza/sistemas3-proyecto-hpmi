@@ -72,6 +72,10 @@ import { MedicoPageComponent } from './pages/medico-page/medico-page.component';
 import { MedicoABMComponent } from './pages/medico-page/components/medico-abm/medico-abm.component';
 import { MedicoDetalleDialogComponent } from './pages/medico-page/components/medico-detalle-dialog/medico-detalle-dialog.component';
 import { MedicoAltaDialogComponent } from './pages/medico-page/components/medico-alta-dialog/medico-alta-dialog.component';
+import { PrestacionesPageComponent } from './pages/prestaciones-page/prestaciones-page.component';
+import { PrestacionesAbmComponent } from './pages/prestaciones-page/componentes/prestaciones-abm/prestaciones-abm.component';
+import { PrestacionesDialogComponent } from './pages/prestaciones-page/componentes/prestaciones-dialog/prestaciones-dialog.component';
+import { StoreModule } from '@ngrx/store';
 import { PacientePageComponent } from './pages/paciente-page/paciente-page.component';
 import { PacientesABMComponent } from './pages/paciente-page/components/pacientes-abm/pacientes-abm.component';
 import { PacienteDetalleDialogComponent } from './pages/paciente-page/components/paciente-detalle-dialog/paciente-detalle-dialog.component';
@@ -148,6 +152,9 @@ import { ObraSocialASeleccionarComponent } from './pages/paciente-page/component
     MedicoABMComponent,
     MedicoDetalleDialogComponent,
     MedicoAltaDialogComponent,
+    PrestacionesPageComponent,
+    PrestacionesAbmComponent,
+    PrestacionesDialogComponent,
     PacientePageComponent,
     PacientesABMComponent,
     PacienteDetalleDialogComponent,
@@ -165,6 +172,7 @@ import { ObraSocialASeleccionarComponent } from './pages/paciente-page/component
     PrimengImportsModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [MessageService, ConfirmationService,DialogService],
   bootstrap: [AppComponent],
