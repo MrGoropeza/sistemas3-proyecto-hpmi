@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, IterableDiffers, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -33,9 +33,13 @@ export class ObraSocialAltaDialogComponent implements OnInit {
     if(this.Form.valid){
       this.obraSocial.nombre = this.Form.controls["nombre"].value || "";
       this.obraSocial.cuit = this.Form.controls["cuit"].value || "";
-      if(this.obraSocial.idObraSocial){
+      console.log("hola");
+      
+      if(!this.obraSocial.idObraSocial){
+        console.log("holis");
+        
         this.obraSocialService.insert(this.obraSocial).then((res)=>{
-          
+          this.ref.close();         
           this.messageService.add({
             severity: "success",
             summary: "Éxito",
@@ -45,7 +49,16 @@ export class ObraSocialAltaDialogComponent implements OnInit {
         });
           
       }else{
-
+        this.obraSocialService.update(this.obraSocial).then((res)=>{
+          this.ref.close();         
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "¡Obra Social modificada con exito!",
+            life: 3000,
+          });
+        });
+        
       }
     }
   }

@@ -19,14 +19,14 @@ export class ObraSocialService {
       .eq("estado", true);
   }
   async update(item : ObraSocial) {
-    // let req = await this.supabase
-    // .from<Paciente>("Paciente")
-    // .update({
-    //   fechaEgreso : paciente.fechaEgreso,
-    //   fechaIngreso : paciente.fechaIngreso
-    // })
-    // .eq('idPaciente',paciente.idPaciente)
-    // .single();
+    let req = await this.supabase
+    .from<ObraSocial>("ObraSocial")
+    .update({
+      "nombre" : item.nombre,
+      "cuit" : item.cuit
+    })
+    .eq('idObraSocial',item.idObraSocial)
+    .single();
     // if(req.data){
     //   let reqPersona = await this.supabase
     //   .from<Persona>("Persona")
@@ -51,12 +51,12 @@ export class ObraSocialService {
       "nombre" : item.nombre,
       "cuit" : item.cuit
     }).single();
-    if(request.data){
-      return request.data as ObraSocial;
-    }else{
-      console.log(request.error);
-      return {} as ObraSocial;
-    }
+    // if(request.data){
+    //   return request.data as ObraSocial;
+    // }else{
+    //   console.log(request.error);
+    //   return {} as ObraSocial;
+    // }
     // if(request.data){
     //   return request.data as Medico;
     // }else{

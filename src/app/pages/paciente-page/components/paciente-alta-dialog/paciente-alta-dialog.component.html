@@ -179,17 +179,28 @@
         <div class="col-12 md:col-10 flex-column">
           <!-- <label>Nombre Obra Social</label> -->
           <input
+          inputId="nombreOS"
             pInputText
-            [disabled]="true"
+            readonly
+            name="nombreOS"
             placeholder="Obra Social"
+            formControlName="nombreOS"
             [value]="paciente.idPaciente ? paciente.nombreObraSocial : '' "
             class="w-12"
           />
         </div>
         <div class="col-12 md:col-2 flex-column">
-            <button pButton pRipple type="button" pTooltip="Selecionar Obra Social" icon="pi pi-plus" class="p-button-rounded"></button>
+            <button pButton pRipple type="button" pTooltip="Selecionar Obra Social" icon="pi pi-plus" (click)="seleccionarObraSocial()" class="p-button-rounded"></button>
         </div>
       </div>
+      <small
+      class="p-error"
+      *ngIf="
+        Form.controls['nombreOS'].invalid &&
+        Form.controls['nombreOS'].touched
+      "
+      >Obra Social requerida.</small
+    >
     </div>
     <div class="grid">
       <div class="col">

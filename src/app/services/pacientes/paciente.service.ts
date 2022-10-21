@@ -19,47 +19,46 @@ export class PacienteService {
       .select("idPaciente")
       .eq("estado", true);
   }
-  async update(paciente: Paciente) {
-    // let req = await this.supabase
-    // .from<Paciente>("Paciente")
-    // .update({
-    //   fechaEgreso : paciente.fechaEgreso,
-    //   fechaIngreso : paciente.fechaIngreso
-    // })
-    // .eq('idPaciente',paciente.idPaciente)
-    // .single();
-    // if(req.data){
-    //   let reqPersona = await this.supabase
-    //   .from<Persona>("Persona")
-    //   .update({
-    //     apellido : paciente.persona.apellido,
-    //     nombre : paciente.persona.nombre,
-    //     dni : paciente.persona.dni,
-    //     cuil : paciente.persona.cuil,
-    //     domicilio : paciente.persona.domicilio,
-    //     fechaNacimiento: paciente.persona.fechaNacimiento,
-    //     telefono : paciente.persona.telefono,
-    //     email : paciente.persona.email
-    //   })
-    //   .eq('idPersona',paciente.persona.idPersona)
-    //   .single();
-    // }
+  async update(paciente: Paciente,persona : Persona) {
+    let req = await this.supabase
+    .from<Paciente>("Paciente")
+    .update({
+      idObraSocial : paciente.idObraSocial,
+      fechaIngreso : paciente.fechaIngreso
+    })
+    .eq('idPaciente',paciente.idPaciente)
+    .single();
+    if(req.data){
+      let reqPersona = await this.supabase
+      .from<Persona>("Persona")
+      .update({
+        apellido :persona.apellido,
+        nombre : persona.nombre,
+        dni : persona.dni,
+        cuil : persona.cuil,
+        domicilio : persona.domicilio,
+        fechaNacimiento: persona.fechaNacimiento,
+        telefono : persona.telefono,
+        email : persona.email
+      })
+      .eq('idPersona',persona.idPersona)
+      .single();
+    }
   }
   async insert(paciente: Paciente) {
-    // let request = await this.supabase
-    // .from("Medico")
-    // .insert({
-    //   "Cargo" : medico.Cargo,
-    //   "Especialidad" : medico.Especialidad,
-    //   "idPersona" : medico.persona.idPersona,
-    //   "nombreApellido" : medico.persona.apellido+','+medico.persona.nombre
-    // }).single();
-    // if(request.data){
-    //   return request.data as Medico;
-    // }else{
-    //   console.log(request.error);
-    //   return {} as Medico;
-    // }
+    let request = await this.supabase
+    .from<Paciente>("Paciente")
+    .insert({
+      idPersona : paciente.idPersona,
+      idObraSocial : paciente.idObraSocial,
+      fechaIngreso : paciente.fechaIngreso
+    }).single();
+    if(request.data){
+      return request.data as Paciente;
+    }else{
+      console.log(request.error);
+      return {} as Paciente;
+    }
   }
   async getItems(params?: LazyLoadEvent) {
     let query = this.supabase

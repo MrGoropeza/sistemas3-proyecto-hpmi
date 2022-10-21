@@ -54,9 +54,7 @@ export class ObraSocialABMComponent implements OnInit {
     );
     this.ref.onClose.pipe(
       map((res)=>{
-        if(res){
           this.getItems();
-        }
       })
     ).subscribe();
   }
@@ -70,9 +68,7 @@ export class ObraSocialABMComponent implements OnInit {
     })
     this.ref.onClose.pipe(
       map((res)=>{
-        if(res){
           this.getItems();
-        }
       })
     ).subscribe();
   }

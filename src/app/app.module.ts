@@ -79,6 +79,7 @@ import { PacienteAltaDialogComponent } from './pages/paciente-page/components/pa
 import { ObraSocialPageComponent } from './pages/obra-social-page/obra-social-page.component';
 import { ObraSocialABMComponent } from './pages/obra-social-page/components/obra-social-abm/obra-social-abm.component';
 import { ObraSocialAltaDialogComponent } from './pages/obra-social-page/components/obra-social-alta-dialog/obra-social-alta-dialog.component';
+import { ObraSocialASeleccionarComponent } from './pages/paciente-page/components/obra-social-aseleccionar/obra-social-aseleccionar.component';
 
 
 @NgModule({
@@ -154,6 +155,7 @@ import { ObraSocialAltaDialogComponent } from './pages/obra-social-page/componen
     ObraSocialPageComponent,
     ObraSocialABMComponent,
     ObraSocialAltaDialogComponent,
+    ObraSocialASeleccionarComponent,
   ],
   imports: [
     BrowserModule,
