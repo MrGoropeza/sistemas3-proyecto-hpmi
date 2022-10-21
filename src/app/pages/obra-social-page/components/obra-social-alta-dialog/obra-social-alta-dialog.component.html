@@ -40,6 +40,66 @@ class="max-h-full overflow-y-visible p-fluid"
     >CUIT requerido.</small
   >
 </div>
+<div class="field">
+  <label for="domicilio" class="block">Domicilio</label>
+  <input
+    id="domicilio"
+    type="domicilio"
+    pInputText
+    placeholder="Domicilio"
+    name="domicilio"
+    formControlName="domicilio"
+    class="block"
+  />
+  <small
+    class="p-error"
+    *ngIf="
+    Form.controls['domicilio'].invalid &&
+    Form.controls['domicilio'].touched
+    "
+    >Domicilio requerido.</small
+  >
+</div>
+<div class="field">
+  <label for="correo" class="block">Correo</label>
+  <input
+    id="correo"
+    type="correo"
+    pInputText
+    placeholder="correo"
+    name="correo"
+    formControlName="correo"
+    class="block"
+  />
+  <small
+    class="p-error"
+    *ngIf="
+    Form.controls['correo'].invalid &&
+    Form.controls['correo'].touched
+    "
+    >Correo requerido.</small
+  >
+</div>
+<div class="field">
+  <label for="telefono" class="block">Telefono</label>
+  <input
+    id="telefono"
+    type="telefono"
+    pInputText
+    placeholder="telefono"
+    name="telefono"
+    formControlName="telefono"
+    class="block"
+  />
+  <small
+    class="p-error"
+    *ngIf="
+    Form.controls['telefono'].invalid &&
+    Form.controls['telefono'].touched
+    "
+    >Telefono requerido.</small
+  >
+</div>
 <div class="grid">
     <div class="col">
       <button

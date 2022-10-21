@@ -4,4 +4,7 @@ export interface ObraSocial{
     cuit : string;
     fechaRegistro : Date;
     estado : boolean;
+    correo : string;
+    telefono : string;
+    domicilio : string;
 }

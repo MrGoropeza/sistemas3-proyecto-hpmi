@@ -18,7 +18,10 @@ export class ObraSocialAltaDialogComponent implements OnInit {
     cuit: [
       this.obraSocial.cuit,
       [Validators.required, Validators.pattern(CustomValidator)],
-    ]
+    ],
+    telefono: [this.obraSocial.telefono, Validators.required],
+    correo: [this.obraSocial.correo, Validators.required],
+    domicilio: [this.obraSocial.domicilio, Validators.required],
   });
   constructor(
     public ref: DynamicDialogRef,
@@ -33,6 +36,9 @@ export class ObraSocialAltaDialogComponent implements OnInit {
     if(this.Form.valid){
       this.obraSocial.nombre = this.Form.controls["nombre"].value || "";
       this.obraSocial.cuit = this.Form.controls["cuit"].value || "";
+      this.obraSocial.domicilio = this.Form.controls["domicilio"].value || "";
+      this.obraSocial.correo = this.Form.controls["correo"].value || "";
+      this.obraSocial.telefono = this.Form.controls["telefono"].value || "";
       console.log("hola");
       
       if(!this.obraSocial.idObraSocial){

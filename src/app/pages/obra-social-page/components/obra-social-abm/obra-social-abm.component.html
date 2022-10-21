@@ -39,6 +39,9 @@ dataKey="idMedico"
     <tr>
       <th>CUIT</th>
       <th>Nombre</th>
+      <th>correo</th>
+      <th>domicilio</th>
+      <th>telefono</th>
       <th>Fecha de Registro</th>
       <th>Acciones</th>
     </tr>
@@ -52,6 +55,23 @@ dataKey="idMedico"
       <td>
         <span class="p-column-title font-bold">Nombre</span
         >{{ item.nombre }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Correo</span
+        >{{ item.correo }}
+      </td>
+      <!-- <td>
+        <span class="p-column-title font-bold">Domicilio<span
+        >
+        {{ item.domicilio }}
+      </td> -->
+      <td>
+        <span class="p-column-title font-bold">Domicilio</span
+        >{{ item.domicilio }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Telefono</span
+        >{{ item.telefono }}
       </td>
       <td>
         <span class="p-column-title font-bold">Fecha de Registro</span
