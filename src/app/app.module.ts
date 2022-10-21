@@ -78,6 +78,10 @@ import { StoreModule } from '@ngrx/store';
 import { AtencionesPageComponent } from './pages/atenciones-page/atenciones-page.component';
 import { AtencionDialogComponent } from './pages/atenciones-page/componentes/atencion-dialog/atencion-dialog.component';
 import { CalendarComponent } from './pages/global-components/forms/calendar/calendar.component';
+import { FormDropdownComponent } from './pages/global-components/forms/form-dropdown/form-dropdown.component';
+import { SeleccionarMedicoComponent } from "./pages/atenciones-page/componentes/seleccionar-medico/seleccionar-medico.component";
+import { FormSeleccionadorComponent } from './pages/global-components/forms/form-seleccionador/form-seleccionador.component';
+import { SeleccionarPacienteComponent } from './pages/atenciones-page/componentes/seleccionar-paciente/seleccionar-paciente.component';
 
 @NgModule({
   declarations: [
@@ -150,6 +154,10 @@ import { CalendarComponent } from './pages/global-components/forms/calendar/cale
     AtencionesPageComponent,
     AtencionDialogComponent,
     CalendarComponent,
+    FormDropdownComponent,
+    SeleccionarMedicoComponent,
+    FormSeleccionadorComponent,
+    SeleccionarPacienteComponent
   ],
   imports: [
     BrowserModule,

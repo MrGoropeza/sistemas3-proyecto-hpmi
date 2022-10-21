@@ -1,0 +1,20 @@
+<div class="field">
+    <label 
+        for="{{ id }}" 
+        class="block font-bold"
+    >{{ label }}</label>
+
+    <p-dropdown 
+        id="{{ id }}" 
+        [options]="options"
+        [autoDisplayFirst]="false"
+        [formControl]="control"
+    ></p-dropdown>
+    
+    <small 
+        id="{{ id }}-help" 
+        class="p-error block"
+        *ngIf="control.invalid 
+        && control.touched"
+    >{{ labelError }}</small>
+</div>

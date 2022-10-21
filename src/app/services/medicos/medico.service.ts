@@ -69,7 +69,7 @@ export class MedicoService {
       .select(
         `
     idMedico,
-    persona : idPersona(idPersona,nombre,apellido),
+    persona : idPersona(idPersona,nombre,apellido,dni),
     Cargo,
     fechaRegistro,
     Especialidad`

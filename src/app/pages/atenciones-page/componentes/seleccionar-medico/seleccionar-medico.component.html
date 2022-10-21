@@ -1,0 +1,95 @@
+<p-dialog
+    [modal]="true"
+    [(visible)]="dialogVisible"
+    (onHide)="ocultarDialog()"
+    header="Seleccionar Medico"
+    styleClass="w-11 h-full"
+>
+
+    <p-table
+        #dt
+        [value]="medicos"
+        [rows]="5"
+        [paginator]="true"
+        [totalRecords]="cantTotalMedicos"
+        (onLazyLoad)="onLazyLoad($event)"
+        [lazy]="true" 
+        responsiveLayout="stack"
+        [rowHover]="true"
+        dataKey="idMedico"
+        [showCurrentPageReport]="false"
+        [loading]="cargando"
+    >
+
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-center align-content-center">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    class="p-inputtext-md"
+                    type="text"
+                    (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                    placeholder="Buscar..."
+                />
+            </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Especialidad</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-medico let-columns="columns">
+            <tr>
+              <td>
+                <span class="p-column-title font-bold">DNI</span
+                >{{ medico.persona.dni }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Nombre</span
+                >{{ medico.persona.nombre + " " + medico.persona.apellido }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Especialidad</span
+                >{{ medico.Especialidad }}
+              </td>
+              <td>
+                <span class="p-column-title font-bold">Cargo</span
+                >{{ medico.Cargo }}
+              </td>
+        
+              <td>
+                <button
+                    pButton
+                    pRipple
+                    tooltipPosition="top"
+                    pTooltip="Seleccionar"
+                    icon="bi bi-check2-square"
+                    class="p-button-rounded p-button-info mr-2"
+                    (click)="seleccionarMedico(medico)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+            En total hay {{ medicos ? cantTotalMedicos : 0 }} medicos registrados.
+            </div>
+        </ng-template>
+
+    </p-table>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+                class="p-button-text" (click)="dialogVisibleChange.emit(false)"></button>
+    </ng-template>
+
+</p-dialog>

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { tipoAtencion } from 'src/app/models/AtencionDetalles';
+import { Medico } from 'src/app/models/Medico';
 
 @Component({
   selector: 'app-atencion-dialog',
@@ -11,13 +13,22 @@ export class AtencionDialogComponent implements OnInit {
 
   @Input() dialogVisible: boolean = false;
   @Output() dialogVisibleChange: EventEmitter<boolean> = new EventEmitter();
+
+  tiposAtencion = [tipoAtencion[0], tipoAtencion[1], tipoAtencion[2]];
   
   confirmado: boolean = false;
 
+  dialogMedicos: boolean = false;
+
   formAtencion = this.formBuilder.group({
     periodo: [null, Validators.required],
-    fechaInicio: [null, [Validators.required, Validators.minLength(2), Validators.nullValidator]],
-    fechaFin: [null, Validators.required]
+    tipoAtencion: ["", Validators.required],
+    paciente: [null as any, Validators.required],
+    medico: [null as any, Validators.required],
+    sintomas: ["", Validators.required],
+    diagnostico: ["", Validators.required],
+    articulos: [null, Validators.required],
+    prestaciones: [null, Validators.required]
   });
 
   constructor(
@@ -37,7 +48,7 @@ export class AtencionDialogComponent implements OnInit {
   }
 
   cargarAtencion() {
-    
+    this.formAtencion.markAllAsTouched();
   }
     
 

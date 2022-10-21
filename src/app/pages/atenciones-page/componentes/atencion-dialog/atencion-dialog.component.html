@@ -3,38 +3,76 @@
     [(visible)]="dialogVisible"
     (onHide)="ocultarDialog()"
     header="Agregar nueva atención"
-    styleClass="w-11"
+    styleClass="w-11 h-full"
 >
 
-<form [formGroup]="formAtencion">
+    <form [formGroup]="formAtencion">
 
-    <app-form-calendar
-        id="fechaInicio"
-        label="Fecha de Ingreso"
-        labelError="Fecha de Ingreso requerida."
-        [control]="formAtencion.controls['fechaInicio']"
-        selectionMode="range"
-    ></app-form-calendar>
+        <app-form-calendar
+            id="periodo"
+            label="Periodo de Atención"
+            labelError="Periodo de Atención requerido."
+            [control]="formAtencion.controls['periodo']"
+            selectionMode="range"
+        ></app-form-calendar>
 
-    <!-- <app-form-calendar
-        id="fechaFin"
-        label="Fecha de Egreso"
-        labelError="Fecha de Egreso requerida."
-        [control]="formAtencion.controls['fechaFin']"
-    ></app-form-calendar> -->
+        <app-form-dropdown
+            id="tipoAtencion"
+            label="Tipo de Atención"
+            labelError="Tipo de Atención requerida."
+            [control]="formAtencion.controls['tipoAtencion']"
+            [options]="tiposAtencion"
+        ></app-form-dropdown>
 
-</form>
+        <app-form-seleccionador
+            [control]="formAtencion.controls['paciente']"
+            nameItem="Paciente"
 
-<p>{{ formAtencion.value | json }}</p>
+            idItem="persona.dni"
+            labelIdItem="DNI del Paciente"
 
-<ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+            valueItem="nombre"
+            valueItem2="apellido"
+            labelValueItem="Nombre del Paciente"
+        ></app-form-seleccionador>
+
+        <app-form-seleccionador
+            [control]="formAtencion.controls['medico']"
+            [(dialogVisible)]="dialogMedicos"
+            nameItem="Medico"
+
+            labelIdItem="DNI del Medico"
+            [idItem]="formAtencion.controls['medico'].value 
+                ? formAtencion.controls['medico'].value.persona.dni 
+                : ''"
+
+            labelValueItem="Nombre del Medico"
+            [valueItem]="formAtencion.controls['medico'].value 
+                ? formAtencion.controls['medico'].value.persona.nombre 
+                + ' ' + formAtencion.controls['medico'].value.persona.apellido
+                : ''"
+        ></app-form-seleccionador>
+
+    </form>
+
+    <p>{{ formAtencion.value | json }}</p>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
             class="p-button-text" (click)="ocultarDialog()"
             [loading]="confirmado"></button>
         <button pButton pRipple label="Guardar" icon="pi pi-check" 
             class="p-button-text" (click)="cargarAtencion()"
             [loading]="confirmado"></button>
-</ng-template>
+    </ng-template>
 
 
 </p-dialog>
+
+
+<app-seleccionar-medico
+    [(dialogVisible)]="dialogMedicos"
+    (medicoSeleccionado)="formAtencion.controls.medico.setValue($event)"
+></app-seleccionar-medico>
+
+ 

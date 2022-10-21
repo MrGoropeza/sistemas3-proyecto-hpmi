@@ -1,0 +1,36 @@
+<div class="flex flex-column pb-3">
+    <p-button
+      label="Selecionar {{ nameItem }}"
+      icon="pi pi-plus"
+      (onClick)="dialogVisibleChange.emit(true)"
+    ></p-button>
+    <small
+      class="p-error"
+      *ngIf="
+        control.invalid &&
+        control.touched
+      "
+      >{{ nameItem }} requerido.</small
+    >
+</div>
+<div class="grid flex-wrap">
+    <div class="col-12 md:col-3 flex-column">
+      <label class="font-bold">{{ labelIdItem }}</label>
+      <input
+        pInputText
+        [disabled]="true"
+        [value]="idItem"
+        class="w-12"
+      />
+    </div>
+
+    <div class="col-12 md:col-3 flex-column">
+      <label class="font-bold">{{ labelValueItem }}</label>
+      <input
+        pInputText
+        [disabled]="true"
+        [value]="valueItem"
+        class="w-12"
+      />
+    </div>
+</div>
