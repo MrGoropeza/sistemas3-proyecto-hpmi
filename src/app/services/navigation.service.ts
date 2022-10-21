@@ -65,11 +65,11 @@ export class NavigationService{
             icon: 'bi bi-person-rolodex',
             routerLink: "/farmacia/proveedores"
           },
-          {
-            label: 'Clientes',
-            icon: 'bi bi-people-fill',
-            routerLink: "/farmacia/clientes"
-          },
+          // {
+          //   label: 'Clientes',
+          //   icon: 'bi bi-people-fill',
+          //   routerLink: "/farmacia/clientes"
+          // },
           {
             label: 'Facturas',
             icon: 'bi bi-receipt',
@@ -90,11 +90,11 @@ export class NavigationService{
             icon : 'bi bi-currency-dollar',
             routerLink : "/farmacia/pagoComprobantes"
           },
-          {
-            label : 'Pedidos',
-            icon : 'bi bi-bag-check',
-            routerLink : "/farmacia/pedidos"
-          }
+          // {
+          //   label : 'Pedidos',
+          //   icon : 'bi bi-bag-check',
+          //   routerLink : "/farmacia/pedidos"
+          // }
         ]
       },
       {
