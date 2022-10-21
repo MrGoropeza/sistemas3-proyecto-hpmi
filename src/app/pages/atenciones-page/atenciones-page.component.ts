@@ -33,7 +33,7 @@ export class AtencionesPageComponent implements OnInit {
     else {console.log(requestCant.error);}
 
     let request = await this.atencionService.getAtenciones(event);
-    if(request.data){this.atenciones = request.data;}
+    if(request.data){this.atenciones = request.data; console.log(this.atenciones);}
     else{console.log(request.error);}
     
     this.cargando = false;

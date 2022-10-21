@@ -27,11 +27,7 @@ export class SeleccionarMedicoComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
-  ocultarDialog(){
-    this.dialogVisibleChange.emit(false);
-  }
-
+  
   async onLazyLoad(event: LazyLoadEvent) {
     this.cargando = true;
 

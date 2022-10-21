@@ -1,5 +1,6 @@
 <p-dialog
     [modal]="true"
+    [blockScroll]="true"
     [(visible)]="dialogVisible"
     (onHide)="ocultarDialog()"
     header="Agregar nueva atención"
@@ -8,54 +9,91 @@
 
     <form [formGroup]="formAtencion">
 
-        <app-form-calendar
-            id="periodo"
-            label="Periodo de Atención"
-            labelError="Periodo de Atención requerido."
-            [control]="formAtencion.controls['periodo']"
-            selectionMode="range"
-        ></app-form-calendar>
+        <div class="grid">
+            <app-form-calendar
+                class="col-12 md:col-6"
+                id="periodo"
+                label="Periodo de Atención"
+                labelError="Periodo de Atención requerido."
+                [control]="formAtencion.controls['periodo']"
+                selectionMode="range"
+            ></app-form-calendar>
+    
+            <app-form-dropdown
+                class="col-12 md:col-6"
+                id="tipoAtencion"
+                label="Tipo de Atención"
+                labelError="Tipo de Atención requerida."
+                [control]="formAtencion.controls['tipoAtencion']"
+                [options]="tiposAtencion"
+            ></app-form-dropdown>
 
-        <app-form-dropdown
-            id="tipoAtencion"
-            label="Tipo de Atención"
-            labelError="Tipo de Atención requerida."
-            [control]="formAtencion.controls['tipoAtencion']"
-            [options]="tiposAtencion"
-        ></app-form-dropdown>
+        </div>
 
-        <app-form-seleccionador
-            [control]="formAtencion.controls['paciente']"
-            nameItem="Paciente"
+        <div class="grid">
+            <app-form-seleccionador
+                class="col-12 md:col-6"
+                [control]="formAtencion.controls['paciente']"
+                [(dialogVisible)]="dialogPacientes"
+                nameItem="Paciente"
+    
+                labelIdItem="DNI del Paciente"
+                [idItem]="formAtencion.controls['paciente'].value 
+                    ? formAtencion.controls['paciente'].value.pacienteCuil
+                    : ''"
+    
+                labelValueItem="Nombre del Paciente"
+                [valueItem]="formAtencion.controls['paciente'].value 
+                    ? formAtencion.controls['paciente'].value.pacienteNombre 
+                    + ' ' + formAtencion.controls['paciente'].value.pacienteApellido
+                    : ''"
+            ></app-form-seleccionador>
+    
+            <app-form-seleccionador
+                class="col-12 md:col-6"
+                [control]="formAtencion.controls['medico']"
+                [(dialogVisible)]="dialogMedicos"
+                nameItem="Medico"
+    
+                labelIdItem="DNI del Medico"
+                [idItem]="formAtencion.controls['medico'].value 
+                    ? formAtencion.controls['medico'].value.persona.dni 
+                    : ''"
+    
+                labelValueItem="Nombre del Medico"
+                [valueItem]="formAtencion.controls['medico'].value 
+                    ? formAtencion.controls['medico'].value.persona.nombre 
+                    + ' ' + formAtencion.controls['medico'].value.persona.apellido
+                    : ''"
+            ></app-form-seleccionador>
 
-            idItem="persona.dni"
-            labelIdItem="DNI del Paciente"
+        </div>
 
-            valueItem="nombre"
-            valueItem2="apellido"
-            labelValueItem="Nombre del Paciente"
-        ></app-form-seleccionador>
+        <div class="grid">
 
-        <app-form-seleccionador
-            [control]="formAtencion.controls['medico']"
-            [(dialogVisible)]="dialogMedicos"
-            nameItem="Medico"
+            <app-form-textarea
+                class="col-12 md:col-6"
+                id="sintomas"
+                label="Síntomas del Paciente"
+                labelError="Síntomas requeridos."
+                [control]="formAtencion.controls['sintomas']"
+            ></app-form-textarea>
 
-            labelIdItem="DNI del Medico"
-            [idItem]="formAtencion.controls['medico'].value 
-                ? formAtencion.controls['medico'].value.persona.dni 
-                : ''"
+            <app-form-textarea
+                class="col-12 md:col-6"
+                id="diagnostico"
+                label="Diagnóstico del Paciente"
+                labelError="Diagnóstico requerido."
+                [control]="formAtencion.controls['diagnostico']"
+            ></app-form-textarea>
 
-            labelValueItem="Nombre del Medico"
-            [valueItem]="formAtencion.controls['medico'].value 
-                ? formAtencion.controls['medico'].value.persona.nombre 
-                + ' ' + formAtencion.controls['medico'].value.persona.apellido
-                : ''"
-        ></app-form-seleccionador>
+        </div>
+
+        
 
     </form>
 
-    <p>{{ formAtencion.value | json }}</p>
+    <!-- <p>{{ formAtencion.value | json }}</p> -->
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" 
@@ -75,4 +113,7 @@
     (medicoSeleccionado)="formAtencion.controls.medico.setValue($event)"
 ></app-seleccionar-medico>
 
- 
+<app-seleccionar-paciente
+    [(dialogVisible)]="dialogPacientes"
+    (pacienteSeleccionado)="formAtencion.controls.paciente.setValue($event)"
+></app-seleccionar-paciente> 

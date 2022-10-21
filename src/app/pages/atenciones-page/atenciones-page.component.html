@@ -88,15 +88,19 @@
           tooltipPosition="top"
         ></p-tableCheckbox>
       </td>
-
+      <td><span class="p-column-title font-bold">ID. Atención</span>{{ atencion.idAtencion }}</td>
+      <td><span class="p-column-title font-bold">Tipo</span>{{ atencion.tipoAtencion }}</td>
+      <td><span class="p-column-title font-bold">Periodo</span>{{ atencion.fechaInicio }} - {{ atencion.fechaFin }}</td>
+      <td><span class="p-column-title font-bold">Paciente</span>{{ atencion.apellidoPaciente }}, {{ atencion.nombrePaciente }}</td>
+      <td><span class="p-column-title font-bold">Medico</span>{{ atencion.apellidoMedico }}, {{ atencion.nombreMedico }}</td>
       <td>
         <span class="p-column-title font-bold">Acciones</span>
         <div>
           <button
             pButton
             pRipple
-            icon="pi pi-pencil"
-            class="p-button-rounded p-button-success mr-2"
+            icon="pi pi-search"
+            class="p-button-rounded p-button-info mr-2"
             (click)="editarAtencion(atencion)"
             pTooltip="Editar"
             tooltipPosition="top"
@@ -135,4 +139,5 @@
 
 <app-atencion-dialog
     [(dialogVisible)]="atencionDialog"
+    (atencionCreada)="onLazyLoad({first: 0, rows: 5})"
 ></app-atencion-dialog>

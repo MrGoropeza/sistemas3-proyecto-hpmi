@@ -13,24 +13,24 @@
       >{{ nameItem }} requerido.</small
     >
 </div>
-<div class="grid flex-wrap">
-    <div class="col-12 md:col-3 flex-column">
+<div class="grid w-full m-0">
+    <div class="col-12 md:col-6 flex-column pl-0 pr-2">
       <label class="font-bold">{{ labelIdItem }}</label>
       <input
         pInputText
         [disabled]="true"
         [value]="idItem"
-        class="w-12"
+        class="w-full"
       />
     </div>
 
-    <div class="col-12 md:col-3 flex-column">
+    <div class="col-12 md:col-6 flex-column pl-0 pr-0">
       <label class="font-bold">{{ labelValueItem }}</label>
       <input
         pInputText
         [disabled]="true"
         [value]="valueItem"
-        class="w-12"
+        class="w-full"
       />
     </div>
 </div>

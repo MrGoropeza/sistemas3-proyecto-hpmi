@@ -1,0 +1,17 @@
+<div class="field">
+    <label class="block font-bold" for="{{ id }}">{{ label }}</label>
+    <textarea 
+        class="w-full"
+        id="{{ id }}"
+        pInputTextarea
+        [formControl]="control"
+        [autoResize]="true"
+    ></textarea>
+    <small
+        class="p-error block"
+        *ngIf="
+            control.invalid &&
+            control.touched
+        "
+    >{{ labelError }}</small>
+</div>

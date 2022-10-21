@@ -1,7 +1,7 @@
 <p-dialog
     [modal]="true"
     [(visible)]="dialogVisible"
-    (onHide)="ocultarDialog()"
+    (onHide)="dialogVisibleChange.emit(false)"
     header="Seleccionar Medico"
     styleClass="w-11 h-full"
 >

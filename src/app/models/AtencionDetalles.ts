@@ -6,19 +6,9 @@ export interface AtencionEncabezado{
     sintomas: string;
     diagnostico: string;
     estado: boolean;
-
     idPaciente: number;
-    dniPaciente: string;
-    nombrePaciente: string;
-    apellidoPaciente: string;
-
-    idObraSocial: number;
-    nombreObraSocial: string;
-
     idMedico: number;
-    dniMedico: string;
-    nombreMedico: string;
-    apellidoMedico: string;
+
 }
 
 export interface AtencionDetalleArticulo{

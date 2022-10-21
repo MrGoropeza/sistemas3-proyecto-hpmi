@@ -91,6 +91,7 @@ import { FormDropdownComponent } from './pages/global-components/forms/form-drop
 import { SeleccionarMedicoComponent } from "./pages/atenciones-page/componentes/seleccionar-medico/seleccionar-medico.component";
 import { FormSeleccionadorComponent } from './pages/global-components/forms/form-seleccionador/form-seleccionador.component';
 import { SeleccionarPacienteComponent } from './pages/atenciones-page/componentes/seleccionar-paciente/seleccionar-paciente.component';
+import { FormTextareaComponent } from './pages/global-components/forms/form-textarea/form-textarea.component';
 
 @NgModule({
   declarations: [
@@ -174,7 +175,8 @@ import { SeleccionarPacienteComponent } from './pages/atenciones-page/componente
     FormDropdownComponent,
     SeleccionarMedicoComponent,
     FormSeleccionadorComponent,
-    SeleccionarPacienteComponent
+    SeleccionarPacienteComponent,
+    FormTextareaComponent
   ],
   imports: [
     BrowserModule,

@@ -32,6 +32,7 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {DividerModule} from 'primeng/divider';
 import {CardModule} from 'primeng/card';
 import {TabViewModule} from 'primeng/tabview';
+
 @NgModule({
   exports: [
     DynamicDialogModule,

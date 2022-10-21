@@ -45,5 +45,13 @@ export class AtencionService {
     let { data, error } = await query;
     return { data, error };
   }
+
+  async createAtencion(atencion: any){
+    let request = await this.supabase.from<AtencionEncabezado>("Atencion")
+      .insert(atencion)
+      .single();
+
+    return {data: request.data, error: request.error};
+  }
   
 }
