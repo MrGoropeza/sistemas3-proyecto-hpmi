@@ -75,6 +75,15 @@ import { MedicoAltaDialogComponent } from './pages/medico-page/components/medico
 import { PrestacionesPageComponent } from './pages/prestaciones-page/prestaciones-page.component';
 import { PrestacionesDialogComponent } from './pages/prestaciones-page/componentes/prestaciones-dialog/prestaciones-dialog.component';
 import { StoreModule } from '@ngrx/store';
+import { PacientePageComponent } from './pages/paciente-page/paciente-page.component';
+import { PacientesABMComponent } from './pages/paciente-page/components/pacientes-abm/pacientes-abm.component';
+import { PacienteDetalleDialogComponent } from './pages/paciente-page/components/paciente-detalle-dialog/paciente-detalle-dialog.component';
+import { PacienteAltaDialogComponent } from './pages/paciente-page/components/paciente-alta-dialog/paciente-alta-dialog.component';
+import { ObraSocialPageComponent } from './pages/obra-social-page/obra-social-page.component';
+import { ObraSocialABMComponent } from './pages/obra-social-page/components/obra-social-abm/obra-social-abm.component';
+import { ObraSocialAltaDialogComponent } from './pages/obra-social-page/components/obra-social-alta-dialog/obra-social-alta-dialog.component';
+import { ObraSocialASeleccionarComponent } from './pages/paciente-page/components/obra-social-aseleccionar/obra-social-aseleccionar.component';
+
 import { AtencionesPageComponent } from './pages/atenciones-page/atenciones-page.component';
 import { AtencionDialogComponent } from './pages/atenciones-page/componentes/atencion-dialog/atencion-dialog.component';
 import { CalendarComponent } from './pages/global-components/forms/calendar/calendar.component';
@@ -151,6 +160,14 @@ import { SeleccionarPacienteComponent } from './pages/atenciones-page/componente
     MedicoAltaDialogComponent,
     PrestacionesPageComponent,
     PrestacionesDialogComponent,
+    PacientePageComponent,
+    PacientesABMComponent,
+    PacienteDetalleDialogComponent,
+    PacienteAltaDialogComponent,
+    ObraSocialPageComponent,
+    ObraSocialABMComponent,
+    ObraSocialAltaDialogComponent,
+    ObraSocialASeleccionarComponent,
     AtencionesPageComponent,
     AtencionDialogComponent,
     CalendarComponent,

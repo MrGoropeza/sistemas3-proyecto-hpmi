@@ -98,6 +98,21 @@ export class NavigationService{
         ]
       },
       {
+        label: "Medicos",
+        icon: "bi bi-heart-pulse-fill",
+        routerLink : "/medicos"
+      },
+      {
+        label: "Pacientes",
+        icon: "bi bi-journal-medical",
+        routerLink : "/pacientes"
+      },
+      {
+        label: "Obras Sociales",
+        icon: "bi bi-journal-medical",
+        routerLink : "/obrassociales"
+      },
+      {
         label: "Prestaciones",
         icon: 'bi bi-file-earmark-medical',
         routerLink: "/prestaciones"

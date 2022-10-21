@@ -1,5 +1,5 @@
 <div class="flex justify-content-center my-1">
-    <h2 class="m-0 text-5xl text-center">Sistema de Gestíon Hospitalaria</h2>
+    <h2 class="m-0 text-5xl text-center">Sistema de Gestión Hospitalaria</h2>
 </div>
 
 <div class="flex flex-wrap justify-content-center gap-4 py-3">
@@ -22,6 +22,22 @@
       label="Prestaciones"
     ></app-boton-navegacion>
 
+    <p-button routerLink="pacientes" styleClass="w-10rem h-10rem flex justify-content-center align-content-center">
+        <ng-template pTemplate="content">
+            <div class="flex flex-column">
+                <i class="bi bi-journal-medical text-8xl"></i>
+                <p class="mt-2 mb-0 mx-0">Pacientes</p>
+            </div>
+        </ng-template>
+    </p-button>
+    <p-button routerLink="obrassociales" styleClass="w-10rem h-10rem flex justify-content-center align-content-center">
+        <ng-template pTemplate="content">
+            <div class="flex flex-column">
+                <i class="bi bi-file-earmark-medical-fill text-8xl"></i>
+                <p class="mt-2 mb-0 mx-0">Obras Sociales</p>
+            </div>
+        </ng-template>
+    </p-button>
     <app-boton-navegacion
       routerLink="atenciones"
       icon="bi bi-bookmark-plus"

@@ -1,0 +1,67 @@
+<form
+[formGroup]="Form"
+class="max-h-full overflow-y-visible p-fluid"
+(ngSubmit)="guardar()"
+(cancel)="cerrar()"
+>
+<div class="field">
+  <label for="nombre" class="block">Nombre</label>
+  <input
+    id="nombre"
+    type="text"
+    pInputText
+    placeholder="Nombre"
+    formControlName="nombre"
+    class="block"
+  />
+  <small
+    class="p-error"
+    *ngIf="
+      Form.controls['nombre'].invalid && Form.controls['nombre'].touched
+    "
+    >Nombre requerido.</small
+  >
+</div>
+<div class="field">
+  <label for="cuit" class="block">CUIT</label>
+  <input
+    id="cuit"
+    type="text"
+    pInputText
+    placeholder="cuit"
+    formControlName="cuit"
+    class="block"
+  />
+  <small
+    class="p-error"
+    *ngIf="
+      Form.controls['cuit'].invalid && Form.controls['cuit'].touched
+    "
+    >CUIT requerido.</small
+  >
+</div>
+<div class="grid">
+    <div class="col">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="cerrar()"
+      ></button>
+    </div>
+    <div class="col">
+      <button
+        pButton
+        type="submit"
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+      ></button>
+    </div>
+  </div>
+</form>
+
