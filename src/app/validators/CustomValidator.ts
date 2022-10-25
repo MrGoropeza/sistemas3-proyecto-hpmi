@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { ArticuloComprobante } from "../models/ArticuloComprobante";
 
-export const CustomValidator = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
+export const CustomValidator = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/;
 
 export const correoValidator = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 

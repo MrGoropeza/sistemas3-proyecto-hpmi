@@ -17,7 +17,7 @@ export class ObraSocialAltaDialogComponent implements OnInit {
     nombre: [this.obraSocial.nombre, Validators.required],
     cuit: [
       this.obraSocial.cuit,
-      [Validators.required],
+      [Validators.required,Validators.pattern(CustomValidator)],
     ],
     telefono: [this.obraSocial.telefono, [Validators.required,Validators.pattern(telefonoValidator)]],
     correo: [this.obraSocial.correo, [Validators.required,Validators.pattern(correoValidator)]],
