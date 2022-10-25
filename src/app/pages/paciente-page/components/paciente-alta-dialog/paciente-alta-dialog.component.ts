@@ -26,33 +26,9 @@ import { ObraSocialASeleccionarComponent } from "../obra-social-aseleccionar/obr
 })
 export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
   paciente: PacienteView = this.config.data.paciente;
-  persona: Persona = {} as Persona;
+  persona: Persona = this.config.data.persona;
   osref!: DynamicDialogRef;
-  Form = this.formBuilder.group({
-    nombre: [this.persona.nombre, Validators.required],
-    apellido: [this.persona.apellido, Validators.required],
-    telefono: [
-      this.persona.telefono,
-      [Validators.required, Validators.pattern(telefonoValidator)],
-    ],
-    dni: [
-      this.persona.dni,
-      [Validators.required, Validators.pattern(dniValidator)],
-    ],
-    correo: [
-      this.persona.email,
-      [Validators.required, Validators.pattern(correoValidator)],
-    ],
-    domicilio: [this.persona.domicilio, Validators.required],
-    cuil: [
-      this.persona.cuil,
-      [Validators.required, Validators.pattern(CustomValidator)],
-    ],
-    fechaNacimiento: [this.persona.fechaNacimiento],
-    fechaIngreso: [this.paciente.fechaIngreso, Validators.required],
-    // idObraSocial : [this.paciente.idObraSocial],
-    nombreOS: [this.paciente.nombreObraSocial, Validators.required],
-  });
+  Form ! : FormGroup
   constructor(
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
@@ -62,8 +38,31 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
     private messageService: MessageService,
     private pacienteService: PacienteService
   ) {
-    // this.getPersona();
-    // console.log(this.paciente, this.persona);
+    this.Form = this.formBuilder.group({
+      nombre: [this.persona.nombre, Validators.required],
+      apellido: [this.persona.apellido, Validators.required],
+      telefono: [
+        this.persona.telefono,
+        [Validators.required, Validators.pattern(telefonoValidator)],
+      ],
+      dni: [
+        this.persona.dni,
+        [Validators.required, Validators.pattern(dniValidator)],
+      ],
+      correo: [
+        this.persona.email,
+        [Validators.required, Validators.pattern(correoValidator)],
+      ],
+      domicilio: [this.persona.domicilio, Validators.required],
+      cuil: [
+        this.persona.cuil,
+        [Validators.required, Validators.pattern(CustomValidator)],
+      ],
+      fechaNacimiento: [this.persona.fechaNacimiento],
+      fechaIngreso: [this.paciente.fechaIngreso, Validators.required],
+      // idObraSocial : [this.paciente.idObraSocial],
+      nombreOS: [this.paciente.nombreObraSocial, Validators.required],
+    });
   }
    
   ngOnDestroy(): void {
@@ -73,11 +72,12 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
     //   detail: "¡Componente destruido con exito!",
     //   life: 3000,
     // });
+    this.Form.reset();
     
   }
 
   ngOnInit(): void  {
-      this.getPersona();
+      // this.getPersona();
       console.log(this.paciente, this.persona);
   }
   public cerrar() {
@@ -85,6 +85,8 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
     this.Form.reset();
   }
   guardar() {
+    console.log(this.Form);
+    
     if (this.Form.valid) {
       // this.paciente.idObraSocial = this.Form.controls["idObraSocial"].value || 0;
       this.paciente.fechaIngreso =
@@ -184,9 +186,9 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
       );
       if (request.data) {
         this.persona = request.data;
-        console.log(this.persona)
-        console.log(this.Form.controls['cuil'].invalid);
-        this.Form.patchValue({
+          this.Form.markAsTouched();
+          console.log(this.Form)
+          this.Form.patchValue({
           correo: this.persona.email,
           cuil : this.persona.cuil,
           dni : this.persona.dni,
@@ -196,7 +198,8 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
           domicilio : this.persona.domicilio,
           fechaNacimiento : this.persona.fechaNacimiento
         });
-        console.log(this.Form.controls['cuil'].invalid);
+        // console.log(this.Form.controls);
+        // console.log(this.Form.controls['cuil'].invalid);
       } else {
         console.log(request.error);
       }

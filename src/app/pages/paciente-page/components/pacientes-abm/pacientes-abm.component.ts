@@ -4,6 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { map } from 'rxjs';
 import { Paciente, PacienteView } from 'src/app/models/Paciente';
 import { PacienteService } from 'src/app/services/pacientes/paciente.service';
+import { PersonaService } from 'src/app/services/personas/persona.service';
 import { PacienteAltaDialogComponent } from '../paciente-alta-dialog/paciente-alta-dialog.component';
 import { PacienteDetalleDialogComponent } from '../paciente-detalle-dialog/paciente-detalle-dialog.component';
 
@@ -22,7 +23,8 @@ export class PacientesABMComponent implements OnInit {
     private pacienteService : PacienteService,
     private confirmationService: ConfirmationService,
     private dialogService: DialogService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private personaService: PersonaService
   ) {}
   ngOnInit(): void {
     this.getItems();
@@ -62,13 +64,15 @@ export class PacientesABMComponent implements OnInit {
       })
     ).subscribe();
   }
-  public editar(paciente : PacienteView) {
+  public async editar (paciente : PacienteView) {
+    let request = await this.personaService.getPersona(paciente.idPersona);
+    
     this.ref = this.dialogService.open(PacienteAltaDialogComponent,{
       header: "Editar Paciente",
       width: "50rem",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
-      data: { paciente : paciente} 
+      data: { paciente : paciente, persona: request.data} 
     })
     this.ref.onClose.pipe(
       map((res)=>{
