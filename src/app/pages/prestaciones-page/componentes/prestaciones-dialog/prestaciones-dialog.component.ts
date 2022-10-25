@@ -20,7 +20,7 @@ export class PrestacionesDialogComponent implements OnInit {
   confirmado: boolean = false;
 
   formPrestacion = this.formBuilder.group({
-    codigo: [this.prestacion !== undefined ? this.prestacion.codigo : "", [Validators.required, Validators.pattern("[0-9][0-9](\.[0-9][0-9])+")]],
+    codigo: [this.prestacion !== undefined ? this.prestacion.codigo : "", [Validators.required]],
     nombre: [this.prestacion !== undefined ? this.prestacion.nombre : "", Validators.required],
     precio: [this.prestacion !== undefined ? this.prestacion.precio : 0, [Validators.required, Validators.min(1)]],
   })
@@ -53,6 +53,7 @@ export class PrestacionesDialogComponent implements OnInit {
   async cargarPrestacion(){
     this.confirmado = true;
 
+    this.formPrestacion.markAllAsTouched();
 
     if(this.formPrestacion.valid){
       this.prestacion = {} as Prestacion;

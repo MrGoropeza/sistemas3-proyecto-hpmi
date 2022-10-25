@@ -9,8 +9,9 @@ export class NavigationService{
 
     sidebarItems : MenuItem[] = [
       {
-        label: "Inicio",
-        icon: 'bi bi-house',
+        label: "Hospital Materno Infantil",
+        icon: 'bi bi-hospital',
+        styleClass: "text-2xl",
         routerLink: "/"
       },
       {
