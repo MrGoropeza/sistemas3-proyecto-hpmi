@@ -140,7 +140,9 @@
 
 
 <app-prestaciones-dialog
+  *ngIf="prestacionDialog"
     [(visible)]="prestacionDialog"
+    (visibleChange)="prestacion = {};"
     [prestacion]="prestacion"
     (prestacionCargada)="nuevaPrestacionCargada()"
 ></app-prestaciones-dialog>
