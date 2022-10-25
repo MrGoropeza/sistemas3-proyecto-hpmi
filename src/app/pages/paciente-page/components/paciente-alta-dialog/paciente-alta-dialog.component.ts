@@ -1,4 +1,10 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import {
@@ -24,9 +30,9 @@ import { ObraSocialASeleccionarComponent } from "../obra-social-aseleccionar/obr
   templateUrl: "./paciente-alta-dialog.component.html",
   styleUrls: ["./paciente-alta-dialog.component.css"],
 })
-export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
+export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
   paciente: PacienteView = this.config.data.paciente;
-  persona: Persona = {} as Persona;
+  persona: Persona = this.config.data.persona;
   osref!: DynamicDialogRef;
   Form = this.formBuilder.group({
     nombre: [this.persona.nombre, Validators.required],
@@ -65,7 +71,7 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
     // this.getPersona();
     // console.log(this.paciente, this.persona);
   }
-   
+
   ngOnDestroy(): void {
     // this.messageService.add({
     //   severity: "success",
@@ -73,18 +79,17 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
     //   detail: "¡Componente destruido con exito!",
     //   life: 3000,
     // });
-    
   }
 
-  ngOnInit(): void  {
-      this.getPersona();
-      console.log(this.paciente, this.persona);
+  ngOnInit(): void {
+    console.log(this.paciente, this.persona);
   }
   public cerrar() {
     this.ref.close();
     this.Form.reset();
   }
   guardar() {
+    this.Form.markAllAsTouched();
     if (this.Form.valid) {
       // this.paciente.idObraSocial = this.Form.controls["idObraSocial"].value || 0;
       this.paciente.fechaIngreso =
@@ -97,7 +102,7 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
       this.persona.domicilio = this.Form.controls["domicilio"].value || "";
       this.persona.telefono = this.Form.controls["telefono"].value || "";
       this.persona.cuil = this.Form.controls["cuil"].value || "";
-      this.persona.nombre = this.Form.controls["nombre"].value || ""; 
+      this.persona.nombre = this.Form.controls["nombre"].value || "";
       if (!this.paciente.idPaciente) {
         this.personaService.insert(this.persona).then((res) => {
           if (res != 0) {
@@ -116,7 +121,7 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
           }
         });
       } else {
-        console.log("update:",this.paciente, this.persona);
+        console.log("update:", this.paciente, this.persona);
         this.pacienteService.update(this.paciente, this.persona).then((res) => {
           this.ref.close(this.paciente);
           this.messageService.add({
@@ -132,7 +137,9 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
       this.messageService.add({
         severity: "warn",
         summary: "Advertencia",
-        detail: `${this.findInvalidControlsRecursive(this.Form)} ${this.Form.controls['cuil'].invalid} ${this.Form.controls['cuil'].touched}`,
+        detail: `${this.findInvalidControlsRecursive(this.Form)} ${
+          this.Form.controls["cuil"].invalid
+        } ${this.Form.controls["cuil"].touched}`,
         life: 3000,
       });
     }
@@ -184,19 +191,20 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
       );
       if (request.data) {
         this.persona = request.data;
-        console.log(this.persona)
-        console.log(this.Form.controls['cuil'].invalid);
+        console.log(this.persona);
+        console.log(this.Form.controls["cuil"].invalid);
         this.Form.patchValue({
           correo: this.persona.email,
-          cuil : this.persona.cuil,
-          dni : this.persona.dni,
-          nombre : this.persona.nombre,
-          apellido : this.persona.apellido,
-          telefono : this.persona.telefono,
-          domicilio : this.persona.domicilio,
-          fechaNacimiento : this.persona.fechaNacimiento
+          cuil: this.persona.cuil,
+          dni: this.persona.dni,
+          nombre: this.persona.nombre,
+          apellido: this.persona.apellido,
+          telefono: this.persona.telefono,
+          domicilio: this.persona.domicilio,
+          fechaNacimiento: this.persona.fechaNacimiento,
         });
-        console.log(this.Form.controls['cuil'].invalid);
+        
+        console.log(this.Form.controls["cuil"].invalid);
       } else {
         console.log(request.error);
       }

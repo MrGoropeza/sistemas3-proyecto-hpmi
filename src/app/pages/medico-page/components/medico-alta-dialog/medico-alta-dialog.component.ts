@@ -38,7 +38,7 @@ export class MedicoAltaDialogComponent implements OnInit {
     domicilio: [this.medico.persona.domicilio, Validators.required],
     cuil: [
       this.medico.persona.cuil,
-      [Validators.required, Validators.pattern(CustomValidator)],
+      [Validators.required,Validators.pattern(CustomValidator)],
     ],
     especialidad: [this.medico.Especialidad, Validators.required],
     cargo: [this.medico.Cargo, Validators.required],

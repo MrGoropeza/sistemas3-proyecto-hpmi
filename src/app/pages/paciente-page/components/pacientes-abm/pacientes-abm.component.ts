@@ -3,7 +3,9 @@ import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { map } from 'rxjs';
 import { Paciente, PacienteView } from 'src/app/models/Paciente';
+import { Persona } from 'src/app/models/Persona';
 import { PacienteService } from 'src/app/services/pacientes/paciente.service';
+import { PersonaService } from 'src/app/services/personas/persona.service';
 import { PacienteAltaDialogComponent } from '../paciente-alta-dialog/paciente-alta-dialog.component';
 import { PacienteDetalleDialogComponent } from '../paciente-detalle-dialog/paciente-detalle-dialog.component';
 
@@ -15,10 +17,12 @@ import { PacienteDetalleDialogComponent } from '../paciente-detalle-dialog/pacie
 export class PacientesABMComponent implements OnInit {
   pacientes: PacienteView[] = [];
   cantPacientes: Number = 0;
+  persona! : Persona;
   total!: number;
   loading!: boolean;
   ref!: DynamicDialogRef;
   constructor(
+    private personaService : PersonaService,
     private pacienteService : PacienteService,
     private confirmationService: ConfirmationService,
     private dialogService: DialogService,
@@ -62,21 +66,37 @@ export class PacientesABMComponent implements OnInit {
       })
     ).subscribe();
   }
+  private async getPersona(idPersona : number): Promise<void> {
+      let request = await this.personaService.getPersona(
+        idPersona
+      );
+      if (request.data) {
+        this.persona = request.data;
+      } else {
+        console.log(request.error);
+      }
+    
+  }
+
   public editar(paciente : PacienteView) {
-    this.ref = this.dialogService.open(PacienteAltaDialogComponent,{
-      header: "Editar Paciente",
-      width: "50rem",
-      contentStyle: { overflow: "auto" },
-      baseZIndex: 10000,
-      data: { paciente : paciente} 
-    })
-    this.ref.onClose.pipe(
-      map((res)=>{
-        if(res){
-          this.getItems();
-        }
+    this.getPersona(paciente.idPersona).then((res)=>{
+      this.ref = this.dialogService.open(PacienteAltaDialogComponent,{
+        header: "Editar Paciente",
+        width: "50rem",
+        contentStyle: { overflow: "auto" },
+        baseZIndex: 10000,
+        data: { paciente : paciente, persona : this.persona} 
       })
-    ).subscribe();
+      this.ref.onClose.pipe(
+        map((res)=>{
+          if(res){
+            this.getItems();
+          }
+        })
+      ).subscribe();
+
+    } 
+    );
   }
   public verDetalle(paciente : PacienteView) {
     this.ref = this.dialogService.open(PacienteDetalleDialogComponent, {
