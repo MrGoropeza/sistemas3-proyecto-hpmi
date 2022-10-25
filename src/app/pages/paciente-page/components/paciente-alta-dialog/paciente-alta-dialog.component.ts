@@ -77,8 +77,8 @@ export class PacienteAltaDialogComponent implements OnDestroy,OnInit {
   }
 
   ngOnInit(): void  {
-    this.getPersona();
-    console.log(this.paciente, this.persona);
+      this.getPersona();
+      console.log(this.paciente, this.persona);
   }
   public cerrar() {
     this.ref.close();
