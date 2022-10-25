@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { LazyLoadEvent } from 'primeng/api';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { AtencionEncabezado } from 'src/app/models/AtencionDetalles';
 import { SupabaseService } from '../supabase.service';
 
@@ -46,12 +47,36 @@ export class AtencionService {
     return { data, error };
   }
 
-  async createAtencion(atencion: any){
+  async createAtencion(
+    atencion: any,
+    articulos: ArticuloMovimiento[]
+  ){
     let request = await this.supabase.from<AtencionEncabezado>("Atencion")
-      .insert(atencion)
+      .upsert(atencion)
       .single();
 
-    return {data: request.data, error: request.error};
+    if(request.error) return {data: request.data, error: request.error};
+    
+    let idAtencion = request.data.idAtencion;
+    let dataArticulos: any[] = []
+    let errorArticulos: any[] = []
+    articulos.forEach(
+      async articulo => {
+        let requestArticulo = await this.supabase
+          .from("AtencionDetalleArticulo")
+          .insert({
+            idAtencion,
+            idArticulo: articulo.id,
+            cantidad: articulo.cantidad,
+            precio: articulo.precio
+          }).single();
+
+        if(requestArticulo.data){dataArticulos.push(requestArticulo.data)}
+        else{errorArticulos.push(requestArticulo.error)}
+      }
+    );
+
+    return {data: request.data, error: request.error, dataArticulos, errorArticulos};
   }
   
 }

@@ -20,6 +20,9 @@ export class FormSeleccionadorComponent implements OnInit {
   @Input() valueItem!: string;
   @Input() labelValueItem!: string;
 
+  @Input() value2Item!: string;
+  @Input() labelValue2Item!: string;
+
   constructor() { }
 
   ngOnInit(): void {

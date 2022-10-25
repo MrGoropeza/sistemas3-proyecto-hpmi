@@ -47,6 +47,11 @@
                     ? formAtencion.controls['paciente'].value.pacienteNombre 
                     + ' ' + formAtencion.controls['paciente'].value.pacienteApellido
                     : ''"
+
+                labelValue2Item="Obra Social"
+                [value2Item]="formAtencion.controls['paciente'].value 
+                    ? formAtencion.controls['paciente'].value.nombreObraSocial
+                    : ' '"
             ></app-form-seleccionador>
     
             <app-form-seleccionador
@@ -87,13 +92,44 @@
                 [control]="formAtencion.controls['diagnostico']"
             ></app-form-textarea>
 
+            <input pInputText class="hidden"
+                id="articulos" 
+                formControlName="articulos" 
+                [value]="articulosSeleccionados">
+
         </div>
 
+        <div class="flex flex-column min-w-full">
+            <h4 class="m-0 mb-2 p-0 font-bold">Artículos Seleccionados:</h4>
         
+            <small
+                class="p-error"
+                *ngIf="
+                    formAtencion.controls['articulos'].invalid &&
+                    formAtencion.controls['articulos'].touched
+                "
+            >Selección de artículos requerida. Las cantidades y precios de los artículos deben ser positivas.</small>
+    
+            <app-articulos-seleccionados
+                [(articulosSeleccionados)]="articulosSeleccionados"
+                (seleccionarArticulo)="dialogArticulos = true"
+                (quitarArticulo)="quitarArticulo($event)"
+                (subtotal)="
+                    subtotal = $event; 
+                    formAtencion.controls['articulos'].setValue(articulosSeleccionados)"
+            ></app-articulos-seleccionados>
+
+            <div class="flex justify-content-end min-w-full">
+                <p class="m-0 mb-2 p-0 font-bold text-lg">
+                  Subtotal: {{ subtotal | currency }}
+                </p>
+              </div>
+
+        </div>
 
     </form>
 
-    <!-- <p>{{ formAtencion.value | json }}</p> -->
+    <p>{{ formAtencion.value | json }}</p>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" 
@@ -117,3 +153,24 @@
     [(dialogVisible)]="dialogPacientes"
     (pacienteSeleccionado)="formAtencion.controls.paciente.setValue($event)"
 ></app-seleccionar-paciente> 
+
+<p-dialog
+  *ngIf="dialogArticulos"
+  header="Agregar Artículos"
+  [(visible)]="dialogArticulos"
+  [modal]="true"
+  styleClass="w-12"
+  [dismissableMask]="true"
+>
+  <app-seleccionar-articulos
+    [articulosSeleccionados]="articulosSeleccionados"
+    (articuloSeleccionado)="articuloSeleccionado($event)"
+    (articuloQuitado)="quitarArticulo($event)"  
+  ></app-seleccionar-articulos>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="dialogArticulos = false"></button>
+  </ng-template>
+  
+</p-dialog>

@@ -11,8 +11,14 @@ export function articulosValidator(): ValidatorFn{
 
     return (control: AbstractControl): ValidationErrors | null => {
         let articulosInvalidos = false;
+        // console.log("Inicio Articulos Validator:");
+        
         if(control.value){
+          // console.log("El control tiene un valor.");
+          
           if(control.value.length > 0){
+            // console.log("Hay más de un artículo.");
+
             control.value.forEach(
                 (element: { precio: number; cantidad: number; }) => {
                 if(element.precio <= 0 || element.cantidad <= 0){
@@ -29,10 +35,14 @@ export function articulosValidator(): ValidatorFn{
                 }
               }
             );
-          };
+          }else{
+            articulosInvalidos = true;
+          }
         }else{
           articulosInvalidos = true;
         }
+        // console.log("Articulos Validator", articulosInvalidos);
+        
         return articulosInvalidos ? {articulos: {value: articulosInvalidos}} : null;
     };
 
