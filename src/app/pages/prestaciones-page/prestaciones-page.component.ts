@@ -16,7 +16,7 @@ export class PrestacionesPageComponent implements OnInit, OnDestroy {
   prestaciones: Prestacion[] = [];
   // prestaciones$: Observable<Prestacion[]>;
 
-  prestacion!: Prestacion;
+  prestacion!: any;
 
   cantTotalPrestaciones!: number;
 
@@ -68,8 +68,9 @@ export class PrestacionesPageComponent implements OnInit, OnDestroy {
   }
 
   editarPrestacion(prestacion: Prestacion) {
-    this.prestacionDialog = true;
     this.prestacion = prestacion;
+    this.prestacionDialog = true;
+    
   }
 
   async eliminarPrestacion(prestacion: Prestacion) {

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { LazyLoadEvent } from 'primeng/api';
-import { AtencionEncabezado } from 'src/app/models/AtencionDetalles';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
+import { Atencion, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
+import { PrestacionAtencion } from 'src/app/models/prestacion';
 import { SupabaseService } from '../supabase.service';
 
 @Injectable({
@@ -46,12 +48,72 @@ export class AtencionService {
     return { data, error };
   }
 
-  async createAtencion(atencion: any){
+  async createAtencion(
+    atencion: any,
+    articulos: ArticuloMovimiento[],
+    prestaciones: PrestacionAtencion[]
+  ){
     let request = await this.supabase.from<AtencionEncabezado>("Atencion")
-      .insert(atencion)
+      .upsert(atencion)
       .single();
 
-    return {data: request.data, error: request.error};
+    if(request.error) return {data: request.data, error: request.error};
+    
+    let idAtencion = request.data.idAtencion;
+
+    let dataArticulos: any[] = []
+    let errorArticulos: any[] = []
+    articulos.forEach(
+      async articulo => {
+        let requestArticulo = await this.supabase
+          .from("AtencionDetalleArticulo")
+          .insert({
+            idAtencion,
+            idArticulo: articulo.id,
+            cantidad: articulo.cantidad,
+            precio: articulo.precio
+          }).single();
+
+        if(requestArticulo.data){dataArticulos.push(requestArticulo.data)}
+        else{errorArticulos.push(requestArticulo.error)}
+      }
+    );
+
+    let dataPrestaciones: any[] = []
+    let errorPrestaciones: any[] = []
+    prestaciones.forEach(
+      async prestacion => {
+        let requestPrestacion = await this.supabase
+          .from("AtencionDetallePrestacion")
+          .insert({
+            idAtencion,
+            codigo: prestacion.codigo,
+            cantidad: prestacion.cantidad,
+            precio: prestacion.precio
+          }).single()
+        
+        if(requestPrestacion.data){dataPrestaciones.push(requestPrestacion.data)}
+        else{errorPrestaciones.push(requestPrestacion.error)}
+      }
+    );
+
+    return {
+      data: request.data, 
+      error: request.error,
+      dataArticulos, 
+      errorArticulos,
+      dataPrestaciones,
+      errorPrestaciones
+    };
   }
   
+  async deleteAtencion(atencion: AtencionEncabezado){
+    let request = await this.supabase.from("Atencion")
+      .update({estado: false})
+      .eq("idAtencion", atencion.idAtencion)
+      .single();
+
+    return {data: request.data, error: request.error}
+  }
+
 }

@@ -13,8 +13,8 @@
       >{{ nameItem }} requerido.</small
     >
 </div>
-<div class="grid w-full m-0">
-    <div class="col-12 md:col-6 flex-column pl-0 pr-2">
+<div class="grid w-full m-0 gap-2">
+    <div class="col-12 md:col-6 lg:col flex-column px-0 w-full">
       <label class="font-bold">{{ labelIdItem }}</label>
       <input
         pInputText
@@ -24,12 +24,24 @@
       />
     </div>
 
-    <div class="col-12 md:col-6 flex-column pl-0 pr-0">
+    <div class="col-12 md:col-6 lg:col flex-column px-0 w-full">
       <label class="font-bold">{{ labelValueItem }}</label>
       <input
         pInputText
         [disabled]="true"
         [value]="valueItem"
+        class="w-full"
+      />
+    </div>
+
+    <div 
+      class="col-12 md:col-6 lg:col flex-column px-0 w-full"
+      *ngIf="labelValue2Item && value2Item">
+      <label class="font-bold">{{ labelValue2Item }}</label>
+      <input
+        pInputText
+        [disabled]="true"
+        [value]="value2Item"
         class="w-full"
       />
     </div>

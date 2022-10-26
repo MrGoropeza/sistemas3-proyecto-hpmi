@@ -92,6 +92,9 @@ import { SeleccionarMedicoComponent } from "./pages/atenciones-page/componentes/
 import { FormSeleccionadorComponent } from './pages/global-components/forms/form-seleccionador/form-seleccionador.component';
 import { SeleccionarPacienteComponent } from './pages/atenciones-page/componentes/seleccionar-paciente/seleccionar-paciente.component';
 import { FormTextareaComponent } from './pages/global-components/forms/form-textarea/form-textarea.component';
+import { ArticulosSeleccionadosComponent } from './pages/atenciones-page/componentes/articulos-seleccionados/articulos-seleccionados.component';
+import { PrestacionesSeleccionadasComponent } from './pages/atenciones-page/componentes/prestaciones-seleccionadas/prestaciones-seleccionadas.component';
+import { SeleccionarPrestacionComponent } from "./pages/atenciones-page/componentes/seleccionar-prestacion/seleccionar-prestacion.component";
 import { AtencionDetalleDialogComponent } from './pages/atenciones-page/componentes/atencion-detalle-dialog/atencion-detalle-dialog.component';
 
 @NgModule({
@@ -178,6 +181,9 @@ import { AtencionDetalleDialogComponent } from './pages/atenciones-page/componen
     FormSeleccionadorComponent,
     SeleccionarPacienteComponent,
     FormTextareaComponent,
+    ArticulosSeleccionadosComponent,
+    PrestacionesSeleccionadasComponent,
+    SeleccionarPrestacionComponent,
     AtencionDetalleDialogComponent
   ],
   imports: [

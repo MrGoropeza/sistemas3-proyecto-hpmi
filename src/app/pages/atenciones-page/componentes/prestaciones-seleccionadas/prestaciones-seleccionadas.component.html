@@ -1,0 +1,105 @@
+<p-table
+      [value]="prestacionesSeleccionadas"
+      responsiveLayout="stack"
+      dataKey="id"
+    >
+      <ng-template pTemplate="caption">
+        <div class="grid align-items-center justify-content-between">
+          <div class="md:col col-12">
+            <div class="flex md:justify-content-start justify-content-center">
+              <button
+                pButton
+                pRipple
+                label="Agregar"
+                icon="pi pi-plus"
+                class="p-button-success mr-2"
+                (click)="seleccionarPrestacion.emit()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th>Código Prestación</th>
+          <th pSortableColumn="nombre">
+            Nombre <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Subtotal</th>
+          <th>Acción</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-prestacion let-columns="columns">
+        <tr>
+          <td>
+            <span class="p-column-title font-bold">Código Prestación</span
+            >{{ prestacion.codigo }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Nombre</span
+            >{{ prestacion.nombre }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Cantidad</span>
+            <div class="field flex flex-column">
+              <input
+                #inputCant
+                id="cantidad"
+                type="number"
+                pInputText
+                min="0"
+                oninput="validity.valid||(value='');"
+                placeholder="Cantidad de la pretación"
+                [(ngModel)]="prestacion.cantidad"
+                (change)="actualizarSubtotal()"
+              />
+              <small
+                class="p-error"
+                *ngIf="!prestacion.cantidad && prestacion.cantidad <= 0"
+                >Cantidad requerida mayor a 0.</small
+              >
+            </div>
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Precio</span>
+            <div class="field flex flex-column">
+              <input
+                #inputCant
+                id="precio"
+                type="number"
+                pInputText
+                min="0"
+                oninput="validity.valid||(value='');"
+                placeholder="Precio de la prestacion"
+                [(ngModel)]="prestacion.precio"
+                (change)="actualizarSubtotal()"
+              />
+              <small
+                class="p-error"
+                *ngIf="!prestacion.precio && prestacion.precio <= 0"
+                >Precio requerido mayor a 0.</small
+              >
+            </div>
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Subtotal</span>
+            {{ prestacion.precio * prestacion.cantidad | currency }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Acción</span>
+            <button
+              pButton
+              pRipple
+              tooltipPosition="top"
+              pTooltip="Eliminar"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger mr-2"
+              (click)="quitarPrestacion.emit(prestacion)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>

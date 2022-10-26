@@ -1,0 +1,110 @@
+<p-table
+      [value]="articulosSeleccionados"
+      responsiveLayout="stack"
+      dataKey="id"
+    >
+      <ng-template pTemplate="caption">
+        <div class="grid align-items-center justify-content-between">
+          <div class="md:col col-12">
+            <div class="flex md:justify-content-start justify-content-center">
+              <button
+                pButton
+                pRipple
+                label="Agregar"
+                icon="pi pi-plus"
+                class="p-button-success mr-2"
+                (click)="seleccionarArticulo.emit()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th>Id. Artículo</th>
+          <th pSortableColumn="nombre">
+            Nombre <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Subtotal</th>
+          <th>Acción</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-articulo let-columns="columns">
+        <tr>
+          <td>
+            <span class="p-column-title font-bold">Id. Artículo</span
+            >{{ articulo.id }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Nombre</span
+            >{{ articulo.nombre }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Descripción</span
+            >{{ articulo.descripcion }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Cantidad</span>
+            <div class="field flex flex-column">
+              <input
+                #inputCant
+                id="cantidad"
+                type="number"
+                pInputText
+                min="0"
+                oninput="validity.valid||(value='');"
+                placeholder="Cantidad del artículo"
+                [(ngModel)]="articulo.cantidad"
+                (change)="actualizarSubtotal()"
+              />
+              <small
+                class="p-error"
+                *ngIf="!articulo.cantidad && articulo.cantidad <= 0"
+                >Cantidad requerida mayor a 0.</small
+              >
+            </div>
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Precio</span>
+            <div class="field flex flex-column">
+              <input
+                #inputCant
+                id="precio"
+                type="number"
+                pInputText
+                min="0"
+                oninput="validity.valid||(value='');"
+                placeholder="Precio del artículo"
+                [(ngModel)]="articulo.precio"
+                (change)="actualizarSubtotal()"
+              />
+              <small
+                class="p-error"
+                *ngIf="!articulo.precio && articulo.precio <= 0"
+                >Precio requerido mayor a 0.</small
+              >
+            </div>
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Subtotal</span>
+            {{ articulo.precio * articulo.cantidad | currency }}
+          </td>
+          <td>
+            <span class="p-column-title font-bold">Acción</span>
+            <button
+              pButton
+              pRipple
+              tooltipPosition="top"
+              pTooltip="Eliminar"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger mr-2"
+              (click)="quitarArticulo.emit(articulo)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>

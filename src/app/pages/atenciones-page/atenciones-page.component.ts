@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Atencion, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
 import { AtencionService } from 'src/app/services/atenciones/atencion.service';
@@ -21,6 +21,7 @@ export class AtencionesPageComponent implements OnInit {
   ref!: DynamicDialogRef;
   constructor(
     private atencionService: AtencionService,
+    private messageService: MessageService,
     private dialogService: DialogService
   ) { }
 
@@ -46,8 +47,27 @@ export class AtencionesPageComponent implements OnInit {
     
   }
 
+  async borrarAtencion(atencion: AtencionEncabezado){
+    let request = await this.atencionService.deleteAtencion(atencion);
+
+    if(request.data){
+      this.messageService.add({
+        summary: "Éxito",
+        detail: "Prestación eliminada con éxito.",
+        severity: "success",
+      });
+      this.onLazyLoad({first: 0, rows: 5});
+    }
+  }
+
   borrarAtencionesSeleccionadas() {
-    
+    this.atencionesSeleccionadas.forEach(
+      atencion => {
+        this.borrarAtencion(atencion);
+        this.atencionesSeleccionadas = this.atencionesSeleccionadas
+          .filter(element => element.idAtencion !== atencion.idAtencion);
+      }
+    );
   }
   verDetalle(atencion : AtencionEncabezado){
     this.ref = this.dialogService.open(AtencionDetalleDialogComponent, {

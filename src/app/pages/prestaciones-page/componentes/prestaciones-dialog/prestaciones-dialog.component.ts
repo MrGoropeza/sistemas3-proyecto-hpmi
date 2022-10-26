@@ -14,15 +14,15 @@ export class PrestacionesDialogComponent implements OnInit {
   @Input() visible: boolean = false;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter();
 
-  @Input() prestacion!: Prestacion;
+  @Input() prestacion!: any;
   @Output() prestacionCargada = new EventEmitter();
   
   confirmado: boolean = false;
 
   formPrestacion = this.formBuilder.group({
-    codigo: [this.prestacion ? this.prestacion.codigo : "", [Validators.required, Validators.pattern("([0-9][0-9]\.)+")]],
-    nombre: [this.prestacion ? this.prestacion.nombre : "", Validators.required],
-    precio: [this.prestacion ? this.prestacion.precio : 0, [Validators.required, Validators.min(1)]],
+    codigo: [this.prestacion !== undefined ? this.prestacion.codigo : "", [Validators.required]],
+    nombre: [this.prestacion !== undefined ? this.prestacion.nombre : "", Validators.required],
+    precio: [this.prestacion !== undefined ? this.prestacion.precio : 0, [Validators.required, Validators.min(1)]],
   })
 
   constructor(
@@ -32,10 +32,18 @@ export class PrestacionesDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    console.log("Prestacion:", this.prestacion);
+    if(this.prestacion){
+      this.formPrestacion.patchValue({
+        codigo: this.prestacion.codigo,
+        nombre: this.prestacion.nombre,
+        precio: this.prestacion.precio
+      });
+    }
   }
 
   ocultarDialog(){
+    this.prestacion = {};
     this.formPrestacion.reset();
     this.confirmado = false;
     this.visibleChange.emit(false);
@@ -45,6 +53,7 @@ export class PrestacionesDialogComponent implements OnInit {
   async cargarPrestacion(){
     this.confirmado = true;
 
+    this.formPrestacion.markAllAsTouched();
 
     if(this.formPrestacion.valid){
       this.prestacion = {} as Prestacion;

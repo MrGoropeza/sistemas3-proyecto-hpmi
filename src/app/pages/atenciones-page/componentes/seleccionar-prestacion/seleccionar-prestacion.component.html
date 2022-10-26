@@ -1,0 +1,80 @@
+<p-table
+    #dt [value]="prestaciones" [rows]="5" [paginator]="true" responsiveLayout="stack"
+    [rowHover]="true" dataKey="id"
+    [showCurrentPageReport]="false" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+    [loading]="cargando" [totalRecords]="cantTotalPrestaciones">
+
+    <ng-template pTemplate="caption">
+        <div class="grid">
+            <div class="col">
+                <div class="flex justify-content-center align-content-center ">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-md" type="text" 
+                            (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                            placeholder="Buscar por nombre..." />
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Código Prestación</th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th>Precio</th>
+            <th>Acción</th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-prestacion let-columns="columns">
+        <tr>
+            <td><span class="p-column-title font-bold">Código Prestación</span>{{ prestacion.codigo }}</td>
+            <td><span class="p-column-title font-bold">Nombre</span>{{ prestacion.nombre }}</td>
+            <td><span class="p-column-title font-bold">Precio</span>{{ prestacion.precio }}</td>
+            <td><span class="p-column-title font-bold">Acción</span>
+                <div class="flex flex-wrap gap-2">
+                    <div>
+                        <button
+                            *ngIf="!prestacinoIsSelected(prestacion)"
+                            pButton
+                            pRipple
+                            tooltipPosition="top"
+                            pTooltip="Agregar"
+                            icon="pi pi-plus"
+                            class="p-button-rounded p-button-info mr-2"
+                            (click)="seleccionarPrestacion(prestacion)"
+                        ></button>
+                        <div
+                            *ngIf="prestacinoIsSelected(prestacion)"
+                            pButton 
+                            pRipple 
+                            icon="pi pi-check" 
+                            class="p-button-rounded p-button-success"
+                        ></div>
+                    </div>
+                    <button
+                        *ngIf="prestacinoIsSelected(prestacion)"
+                        pButton
+                        pRipple
+                        tooltipPosition="top"
+                        pTooltip="Eliminar"
+                        icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger mr-2"
+                        (click)="quitarPrestacion(prestacion)"
+                    ></button>
+
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            En total hay {{cantTotalPrestaciones ? cantTotalPrestaciones : 0 }} prestaciones.
+        </div>
+    </ng-template>
+
+</p-table>

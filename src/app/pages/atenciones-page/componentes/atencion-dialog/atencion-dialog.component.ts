@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { AtencionEncabezado, tipoAtencion } from 'src/app/models/AtencionDetalles';
 import { Medico } from 'src/app/models/Medico';
+import { Prestacion, PrestacionAtencion } from 'src/app/models/prestacion';
 import { AtencionService } from 'src/app/services/atenciones/atencion.service';
+import { articulosValidator } from 'src/app/validators/CustomValidator';
 
 @Component({
   selector: 'app-atencion-dialog',
@@ -12,15 +15,20 @@ import { AtencionService } from 'src/app/services/atenciones/atencion.service';
 })
 export class AtencionDialogComponent implements OnInit {
 
+
   @Input() dialogVisible: boolean = false;
   @Output() dialogVisibleChange: EventEmitter<boolean> = new EventEmitter();
 
   tiposAtencion = [tipoAtencion[0], tipoAtencion[1], tipoAtencion[2]];
+  articulosSeleccionados: ArticuloMovimiento[] = [];
+  prestacionesSeleccionadas: PrestacionAtencion[] = [];
   
   confirmado: boolean = false;
 
   dialogMedicos: boolean = false;
   dialogPacientes: boolean = false;
+  dialogArticulos: boolean = false;
+  dialogPrestaciones: boolean = false;
 
   formAtencion = this.formBuilder.group({
     periodo: [null, Validators.required],
@@ -29,11 +37,15 @@ export class AtencionDialogComponent implements OnInit {
     medico: [null as any, Validators.required],
     sintomas: ["", Validators.required],
     diagnostico: ["", Validators.required],
-    // articulos: [null, Validators.required],
-    // prestaciones: [null, Validators.required]
+    articulos: [this.articulosSeleccionados, articulosValidator()],
+    prestaciones: [this.prestacionesSeleccionadas, articulosValidator()]
   });
 
+  
+
   @Output() atencionCreada = new EventEmitter();
+  subtotalArticulos: number = 0;
+  subtotalPrestaciones: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,6 +59,9 @@ export class AtencionDialogComponent implements OnInit {
 
   ocultarDialog(){
     this.confirmado = false;
+    this.articulosSeleccionados = [];
+    this.subtotalArticulos = 0;
+    this.subtotalPrestaciones = 0;
     this.formAtencion.reset();
     this.dialogVisibleChange.emit(false);
   }
@@ -75,9 +90,14 @@ export class AtencionDialogComponent implements OnInit {
       idMedico
     }
 
-    let request = await this.atencionService.createAtencion(nuevaAtencion);
+    let request = await this.atencionService
+      .createAtencion(
+        nuevaAtencion, 
+        this.articulosSeleccionados,
+        this.prestacionesSeleccionadas
+      );
 
-    if(request.error){
+    if(request.error || request.errorArticulos.length > 0 || request.errorPrestaciones.length > 0){
       console.log(); 
       this.confirmado = false; 
       this.messageService.add({
@@ -96,6 +116,26 @@ export class AtencionDialogComponent implements OnInit {
       summary: "Éxito",
       detail: "Atención creada con éxito."
     });
+  }
+
+  quitarArticulo(articulo: ArticuloMovimiento) {
+    this.articulosSeleccionados = this.articulosSeleccionados.filter(element => element.id != articulo.id);
+    this.formAtencion.controls["articulos"].setValue(this.articulosSeleccionados);
+  }
+
+  articuloSeleccionado(articulo: ArticuloMovimiento) {
+    this.articulosSeleccionados.push(articulo);
+    this.formAtencion.controls["articulos"].setValue(this.articulosSeleccionados);
+  }
+
+  quitarPrestacion(prestacion: PrestacionAtencion){
+    this.prestacionesSeleccionadas = this.prestacionesSeleccionadas.filter(element => element.codigo != prestacion.codigo);
+    this.formAtencion.controls["prestaciones"].setValue(this.prestacionesSeleccionadas);
+  }
+
+  prestacionSeleccionada(prestacion: PrestacionAtencion){
+    this.prestacionesSeleccionadas.push(prestacion);
+    this.formAtencion.controls["prestaciones"].setValue(this.prestacionesSeleccionadas);
   }
     
 
