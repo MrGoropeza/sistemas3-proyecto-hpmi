@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { LazyLoadEvent } from 'primeng/api';
 import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
-import { AtencionEncabezado } from 'src/app/models/AtencionDetalles';
+import { Atencion, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
 import { PrestacionAtencion } from 'src/app/models/prestacion';
 import { SupabaseService } from '../supabase.service';
 
@@ -107,4 +107,13 @@ export class AtencionService {
     };
   }
   
+  async deleteAtencion(atencion: AtencionEncabezado){
+    let request = await this.supabase.from("Atencion")
+      .update({estado: false})
+      .eq("idAtencion", atencion.idAtencion)
+      .single();
+
+    return {data: request.data, error: request.error}
+  }
+
 }
