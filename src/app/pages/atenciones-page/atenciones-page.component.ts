@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Atencion, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
+import { Atencion, AtencionEncabezado, AtencionView } from 'src/app/models/AtencionDetalles';
 import { AtencionService } from 'src/app/services/atenciones/atencion.service';
 import { AtencionDetalleDialogComponent } from './componentes/atencion-detalle-dialog/atencion-detalle-dialog.component';
 
@@ -69,7 +69,7 @@ export class AtencionesPageComponent implements OnInit {
       }
     );
   }
-  verDetalle(atencion : AtencionEncabezado){
+  verDetalle(atencion : AtencionView){
     this.ref = this.dialogService.open(AtencionDetalleDialogComponent, {
       header: `Atención # ${atencion.idAtencion}`,
       width: "70%",

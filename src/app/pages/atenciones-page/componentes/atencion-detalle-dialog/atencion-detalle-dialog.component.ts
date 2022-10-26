@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { AtencionEncabezado } from 'src/app/models/AtencionDetalles';
+import { AtencionEncabezado, AtencionView } from 'src/app/models/AtencionDetalles';
 
 @Component({
   selector: 'app-atencion-detalle-dialog',
@@ -8,7 +8,7 @@ import { AtencionEncabezado } from 'src/app/models/AtencionDetalles';
   styleUrls: ['./atencion-detalle-dialog.component.css']
 })
 export class AtencionDetalleDialogComponent implements OnInit {
-  atencion : AtencionEncabezado = this.config.data.data;
+  atencion : AtencionView = this.config.data.data;
   constructor(public ref: DynamicDialogRef,
     public config: DynamicDialogConfig) { }
 

@@ -1,1 +1,25 @@
-{{atencion | json}}
+<!-- {{ atencion | json }} -->
+<p-tabView>
+  <p-tabPanel header="Datos del paciente" leftIcon="bi bi-clipboard-data">
+    <p>Nombre: {{ atencion.nombrePaciente }}</p>
+    <p>Apellido: {{ atencion.apellidoPaciente }}</p>
+    <p>DNI: {{ atencion.dniPaciente }}</p>
+    <p>Obra Social: {{ atencion.nombreObraSocial }}</p>
+  </p-tabPanel>
+  <p-tabPanel header="Datos del medico" leftIcon="bi bi-heart-pulse">
+    <p>Nombre: {{ atencion.nombreMedico }}</p>
+    <p>Apellido: {{ atencion.apellidoMedico }}</p>
+    <p>DNI: {{ atencion.dniMedico }}</p>
+  </p-tabPanel>
+  <p-tabPanel header="Detalle de Atención" leftIcon="pi pi-search">
+    <p>Tipo de Atención: {{ atencion.tipoAtencion }}</p>
+    <p>Sintomas: {{ atencion.sintomas }}</p>
+    <p>Diagnostico: <strong>{{ atencion.diagnostico }}</strong></p>
+    <p>Fecha de Inicio: {{atencion.fechaInicio | date : 'dd/M/yyyy'}}</p>
+    <p>Fecha de Fin: {{atencion.fechaFin | date : 'dd/M/yyyy'}}</p>
+  </p-tabPanel>
+</p-tabView>
+<H3>Articulos:</H3>
+<app-atencion-detalle-articulos-abm [idAtencion]="atencion.idAtencion"></app-atencion-detalle-articulos-abm>
+<H3>Prestaciones:</H3>
+<app-atencion-detalle-prestaciones-abm></app-atencion-detalle-prestaciones-abm>
