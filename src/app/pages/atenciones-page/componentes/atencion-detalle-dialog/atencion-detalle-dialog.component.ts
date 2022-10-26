@@ -9,10 +9,14 @@ import { AtencionEncabezado, AtencionView } from 'src/app/models/AtencionDetalle
 })
 export class AtencionDetalleDialogComponent implements OnInit {
   atencion : AtencionView = this.config.data.data;
+  total : number = 0;
   constructor(public ref: DynamicDialogRef,
     public config: DynamicDialogConfig) { }
 
   ngOnInit(): void {
+  }
+  getTotal(subtotal : number){
+    this.total += subtotal;
   }
 
 }

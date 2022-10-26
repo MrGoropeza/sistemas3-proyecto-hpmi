@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { LazyLoadEvent } from 'primeng/api';
 import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
-import { Atencion, AtencionDetalleArticulo, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
+import { Atencion, AtencionDetalleArticulo, AtencionDetallePrestacion, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
 import { PrestacionAtencion } from 'src/app/models/prestacion';
 import { SupabaseService } from '../supabase.service';
 
@@ -25,8 +25,29 @@ export class AtencionService {
       .select("idAtencion")
       .eq("estado", true);
   }
+  async getSubTotal(id : number){
+    return await this.supabase
+      .from("Atencion")
+      .select("idAtencion")
+      .eq("estado", true);
+  }
   async getAtencionesArticulos(id : number,params?: LazyLoadEvent){
     let query = this.supabase.from<AtencionDetalleArticulo>("AtencionArticuloView").select("*").eq("idAtencion",id);
+
+    if (params?.first !== undefined && params?.rows !== undefined) {
+      query = query.range(params?.first, params?.first + params?.rows - 1);
+    }
+
+    if (params?.sortField !== undefined && params?.sortOrder !== undefined) {
+      query = query.order(params.sortField as any, {
+        ascending: params.sortOrder === 1,
+      });
+    }
+    let { data, error } = await query;
+    return { data, error };
+  }
+  async getAtencionesPrestaciones(id : number,params?: LazyLoadEvent){
+    let query = this.supabase.from<AtencionDetallePrestacion>("AtencionPrestacionView").select("*").eq("idAtencion",id);
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);
