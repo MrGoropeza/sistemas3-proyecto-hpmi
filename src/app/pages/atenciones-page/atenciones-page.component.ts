@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
-import { AtencionEncabezado } from 'src/app/models/AtencionDetalles';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Atencion, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
 import { AtencionService } from 'src/app/services/atenciones/atencion.service';
+import { AtencionDetalleDialogComponent } from './componentes/atencion-detalle-dialog/atencion-detalle-dialog.component';
 
 @Component({
   selector: 'app-atenciones-page',
@@ -16,9 +18,10 @@ export class AtencionesPageComponent implements OnInit {
 
   cargando: boolean = false;
   atencionDialog: boolean = false;
-
+  ref!: DynamicDialogRef;
   constructor(
-    private atencionService: AtencionService
+    private atencionService: AtencionService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +49,15 @@ export class AtencionesPageComponent implements OnInit {
   borrarAtencionesSeleccionadas() {
     
   }
-
+  verDetalle(atencion : AtencionEncabezado){
+    this.ref = this.dialogService.open(AtencionDetalleDialogComponent, {
+      header: `Atención # ${atencion.idAtencion}`,
+      width: "70%",
+      contentStyle: { overflow: "auto" },
+      baseZIndex: 10000,
+      data: { data : atencion },
+    });
+  }
   nuevaAtencion() {
     this.atencionDialog = true;
   }
