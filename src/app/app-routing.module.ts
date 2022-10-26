@@ -23,6 +23,7 @@ import { PrestacionesPageComponent } from "./pages/prestaciones-page/prestacione
 import { PacientePageComponent } from "./pages/paciente-page/paciente-page.component";
 import { ObraSocialPageComponent } from "./pages/obra-social-page/obra-social-page.component";
 import { AtencionesPageComponent } from "./pages/atenciones-page/atenciones-page.component";
+import { FacturaEntradaPageComponent } from "./pages/factura-entrada-page/factura-entrada-page.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -186,6 +187,12 @@ const routes: Routes = [
         data: { breadcrumb: "Atenciones" },
         title: "Atenciones",
         component: AtencionesPageComponent
+      },
+      {
+        path: "facturasObrasSociales",
+        data: { breadcrumb: "Facturación Obras Sociales" },
+        title: "Facturación Obras Sociales",
+        component: FacturaEntradaPageComponent
       },
       {
         path: "usuarios",

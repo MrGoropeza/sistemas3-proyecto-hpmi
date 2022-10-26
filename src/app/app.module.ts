@@ -95,6 +95,7 @@ import { FormTextareaComponent } from './pages/global-components/forms/form-text
 import { ArticulosSeleccionadosComponent } from './pages/atenciones-page/componentes/articulos-seleccionados/articulos-seleccionados.component';
 import { PrestacionesSeleccionadasComponent } from './pages/atenciones-page/componentes/prestaciones-seleccionadas/prestaciones-seleccionadas.component';
 import { SeleccionarPrestacionComponent } from "./pages/atenciones-page/componentes/seleccionar-prestacion/seleccionar-prestacion.component";
+import { FacturaEntradaPageComponent } from './pages/factura-entrada-page/factura-entrada-page.component';
 
 @NgModule({
   declarations: [
@@ -182,7 +183,8 @@ import { SeleccionarPrestacionComponent } from "./pages/atenciones-page/componen
     FormTextareaComponent,
     ArticulosSeleccionadosComponent,
     PrestacionesSeleccionadasComponent,
-    SeleccionarPrestacionComponent
+    SeleccionarPrestacionComponent,
+    FacturaEntradaPageComponent
   ],
   imports: [
     BrowserModule,

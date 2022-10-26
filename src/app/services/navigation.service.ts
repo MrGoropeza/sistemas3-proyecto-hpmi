@@ -123,6 +123,11 @@ export class NavigationService{
         icon: 'bi bi-bookmark-plus',
         routerLink: "/atenciones"
       },
+      {
+        label: "Facturas Obras Sociales",
+        icon: 'bi bi-receipt-cutoff',
+        routerLink: "/facturasObrasSociales"
+      },
       // {
       //   label: "Usuarios",
       //   items: [
