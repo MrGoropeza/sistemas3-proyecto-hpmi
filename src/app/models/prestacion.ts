@@ -4,3 +4,7 @@ export interface Prestacion{
     precio: number;
     estado: boolean;
 }
+
+export interface PrestacionAtencion extends Prestacion{
+    cantidad: number;
+}

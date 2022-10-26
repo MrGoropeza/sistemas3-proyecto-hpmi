@@ -93,6 +93,8 @@ import { FormSeleccionadorComponent } from './pages/global-components/forms/form
 import { SeleccionarPacienteComponent } from './pages/atenciones-page/componentes/seleccionar-paciente/seleccionar-paciente.component';
 import { FormTextareaComponent } from './pages/global-components/forms/form-textarea/form-textarea.component';
 import { ArticulosSeleccionadosComponent } from './pages/atenciones-page/componentes/articulos-seleccionados/articulos-seleccionados.component';
+import { PrestacionesSeleccionadasComponent } from './pages/atenciones-page/componentes/prestaciones-seleccionadas/prestaciones-seleccionadas.component';
+import { SeleccionarPrestacionComponent } from "./pages/atenciones-page/componentes/seleccionar-prestacion/seleccionar-prestacion.component";
 
 @NgModule({
   declarations: [
@@ -178,7 +180,9 @@ import { ArticulosSeleccionadosComponent } from './pages/atenciones-page/compone
     FormSeleccionadorComponent,
     SeleccionarPacienteComponent,
     FormTextareaComponent,
-    ArticulosSeleccionadosComponent
+    ArticulosSeleccionadosComponent,
+    PrestacionesSeleccionadasComponent,
+    SeleccionarPrestacionComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { AtencionEncabezado, tipoAtencion } from 'src/app/models/AtencionDetalles';
 import { Medico } from 'src/app/models/Medico';
+import { Prestacion, PrestacionAtencion } from 'src/app/models/prestacion';
 import { AtencionService } from 'src/app/services/atenciones/atencion.service';
 import { articulosValidator } from 'src/app/validators/CustomValidator';
 
@@ -20,6 +21,7 @@ export class AtencionDialogComponent implements OnInit {
 
   tiposAtencion = [tipoAtencion[0], tipoAtencion[1], tipoAtencion[2]];
   articulosSeleccionados: ArticuloMovimiento[] = [];
+  prestacionesSeleccionadas: PrestacionAtencion[] = [];
   
   confirmado: boolean = false;
 
@@ -35,14 +37,15 @@ export class AtencionDialogComponent implements OnInit {
     medico: [null as any, Validators.required],
     sintomas: ["", Validators.required],
     diagnostico: ["", Validators.required],
-    articulos: [this.articulosSeleccionados, [articulosValidator()]],
-    // prestaciones: [null, Validators.required]
+    articulos: [this.articulosSeleccionados, articulosValidator()],
+    prestaciones: [this.prestacionesSeleccionadas, articulosValidator()]
   });
 
   
 
   @Output() atencionCreada = new EventEmitter();
-  subtotal: number = 0;
+  subtotalArticulos: number = 0;
+  subtotalPrestaciones: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +60,8 @@ export class AtencionDialogComponent implements OnInit {
   ocultarDialog(){
     this.confirmado = false;
     this.articulosSeleccionados = [];
-    this.subtotal = 0;
+    this.subtotalArticulos = 0;
+    this.subtotalPrestaciones = 0;
     this.formAtencion.reset();
     this.dialogVisibleChange.emit(false);
   }
@@ -87,9 +91,13 @@ export class AtencionDialogComponent implements OnInit {
     }
 
     let request = await this.atencionService
-      .createAtencion(nuevaAtencion, this.articulosSeleccionados);
+      .createAtencion(
+        nuevaAtencion, 
+        this.articulosSeleccionados,
+        this.prestacionesSeleccionadas
+      );
 
-    if(request.error || request.errorArticulos.length > 0){
+    if(request.error || request.errorArticulos.length > 0 || request.errorPrestaciones.length > 0){
       console.log(); 
       this.confirmado = false; 
       this.messageService.add({
@@ -118,6 +126,16 @@ export class AtencionDialogComponent implements OnInit {
   articuloSeleccionado(articulo: ArticuloMovimiento) {
     this.articulosSeleccionados.push(articulo);
     this.formAtencion.controls["articulos"].setValue(this.articulosSeleccionados);
+  }
+
+  quitarPrestacion(prestacion: PrestacionAtencion){
+    this.prestacionesSeleccionadas = this.prestacionesSeleccionadas.filter(element => element.codigo != prestacion.codigo);
+    this.formAtencion.controls["prestaciones"].setValue(this.prestacionesSeleccionadas);
+  }
+
+  prestacionSeleccionada(prestacion: PrestacionAtencion){
+    this.prestacionesSeleccionadas.push(prestacion);
+    this.formAtencion.controls["prestaciones"].setValue(this.prestacionesSeleccionadas);
   }
     
 

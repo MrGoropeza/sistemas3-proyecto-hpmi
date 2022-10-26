@@ -97,6 +97,11 @@
                 formControlName="articulos" 
                 [value]="articulosSeleccionados">
 
+            <input pInputText class="hidden"
+                id="prestaciones" 
+                formControlName="prestaciones" 
+                [value]="prestacionesSeleccionadas">
+
         </div>
 
         <div class="flex flex-column min-w-full">
@@ -115,21 +120,49 @@
                 (seleccionarArticulo)="dialogArticulos = true"
                 (quitarArticulo)="quitarArticulo($event)"
                 (subtotal)="
-                    subtotal = $event; 
+                    subtotalArticulos = $event; 
                     formAtencion.controls['articulos'].setValue(articulosSeleccionados)"
             ></app-articulos-seleccionados>
 
             <div class="flex justify-content-end min-w-full">
                 <p class="m-0 mb-2 p-0 font-bold text-lg">
-                  Subtotal: {{ subtotal | currency }}
+                  Subtotal Artículos: {{ subtotalArticulos | currency }}
                 </p>
-              </div>
+            </div>
+
+        </div>
+
+        <div class="flex flex-column min-w-full">
+            <h4 class="m-0 mb-2 p-0 font-bold">Prestaciones Seleccionadas:</h4>
+        
+            <small
+                class="p-error"
+                *ngIf="
+                    formAtencion.controls['prestaciones'].invalid &&
+                    formAtencion.controls['prestaciones'].touched
+                "
+            >Selección de prestaciones requerida. Las cantidades y precios de las prestaciones deben ser positivas.</small>
+    
+            <app-prestaciones-seleccionadas
+                [(prestacionesSeleccionadas)]="prestacionesSeleccionadas"
+                (seleccionarPrestacion)="dialogPrestaciones = true"
+                (quitarPrestacion)="quitarPrestacion($event)"
+                (subtotal)="
+                    subtotalPrestaciones = $event; 
+                    formAtencion.controls['prestaciones'].setValue(prestacionesSeleccionadas)"
+            ></app-prestaciones-seleccionadas>
+
+            <div class="flex justify-content-end min-w-full">
+                <p class="m-0 mb-2 p-0 font-bold text-lg">
+                  Subtotal Prestaciones: {{ subtotalPrestaciones | currency }}
+                </p>
+            </div>
 
         </div>
 
     </form>
 
-    <p>{{ formAtencion.value | json }}</p>
+    <!-- <p>{{ formAtencion.value | json }}</p> -->
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" 
@@ -171,6 +204,27 @@
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cerrar" icon="pi pi-times" 
             class="p-button-text" (click)="dialogArticulos = false"></button>
+  </ng-template>
+  
+</p-dialog>
+
+<p-dialog
+  *ngIf="dialogPrestaciones"
+  header="Agregar Prestaciones"
+  [(visible)]="dialogPrestaciones"
+  [modal]="true"
+  styleClass="w-12"
+  [dismissableMask]="true"
+>
+  <app-seleccionar-prestacion
+    [prestacionesSeleccionadas]="prestacionesSeleccionadas"
+    (prestacionSeleccionada)="prestacionSeleccionada($event)"
+    (prestacionQuitada)="quitarPrestacion($event)"  
+  ></app-seleccionar-prestacion>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="dialogPrestaciones = false"></button>
   </ng-template>
   
 </p-dialog>

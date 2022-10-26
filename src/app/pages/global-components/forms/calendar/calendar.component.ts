@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormGroupDirective, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LocaleService } from 'src/app/services/locale.service';
 
 @Component({
@@ -20,7 +20,16 @@ export class CalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    if(this.selectionMode === "range"){this.control.addValidators(this.hasRangeValidator())};
   }
 
+  hasRangeValidator(): ValidatorFn{
+    return (control: AbstractControl): ValidationErrors | null => {
+        if(!control.value) return {invalidRange: true};
+        if(control.value[1] === null) return {invalidRange: true};
+        return null;
+    };
+  }
+  
 }
+
