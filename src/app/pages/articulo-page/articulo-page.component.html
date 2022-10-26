@@ -141,7 +141,9 @@
             <label for="fechaVencimiento">Fecha de Vencimiento (dd-mm-yy)</label>
             <p-calendar inputId="fechaVencimiento" 
                 dateFormat="dd-mm-yy" [showIcon]="true" formControlName="fechaVencimiento"
-                styleClass="overflow-visible" name="fechaVencimiento"></p-calendar>
+                styleClass="overflow-visible" name="fechaVencimiento"
+                panelStyleClass="min-w-min"
+            ></p-calendar>
             <small class="p-error" *ngIf="formArticulo.controls['fechaVencimiento'].invalid && formArticulo.controls['fechaVencimiento'].touched">Fecha de vencimiento requerida.</small>
         </div>
     </form>

@@ -173,7 +173,7 @@ export class ComprobantesService {
 
       requestComprobante = await this.supabase.from(`${this.nombreTabla}`)
         .insert({
-          idCliente: comprobante.idCliente,
+          idObraSocial: comprobante.idObraSocial.idObraSocial,
           idTipoComprobante: comprobante.idTipoComprobante.idTipoComprobante,
           categoria: comprobante.categoria,
           subTotal: subtotal,

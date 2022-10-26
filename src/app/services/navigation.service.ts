@@ -124,7 +124,7 @@ export class NavigationService{
         routerLink: "/atenciones"
       },
       {
-        label: "Facturas Obras Sociales",
+        label: "Facturación Obras Sociales",
         icon: 'bi bi-receipt-cutoff',
         routerLink: "/facturasObrasSociales"
       },

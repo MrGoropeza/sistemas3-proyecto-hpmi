@@ -1,8 +1,11 @@
 <div class="flex justify-content-start min-h-screen">
 
-    <div class="p-1 hidden md:flex md:flex-column h-screen overflow-y-scroll">
-        <app-sidebar></app-sidebar>
-    </div>
+    <!-- <div class="p-1 hidden md:flex md:flex-column h-screen overflow-y-scroll"> -->
+        <p-scrollPanel styleClass="p-1 hidden md:block h-screen">
+            <app-sidebar></app-sidebar>
+
+        </p-scrollPanel>
+    <!-- </div> -->
 
     <p-divider layout="vertical"
         styleClass="w-1rem m-0 hidden md:block py-2"

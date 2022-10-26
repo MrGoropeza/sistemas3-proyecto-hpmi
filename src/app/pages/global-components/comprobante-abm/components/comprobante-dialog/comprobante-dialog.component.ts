@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Observable, of, SubscriptionLike } from 'rxjs';
+import { map, Observable, of, SubscriptionLike } from 'rxjs';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { ArticuloView } from 'src/app/models/ArticuloView';
 import { Cliente } from 'src/app/models/Cliente';
 import { Comprobante } from 'src/app/models/Comprobante';
+import { ObraSocial } from 'src/app/models/ObraSocial';
 import { Proveedor } from 'src/app/models/Proveedor';
+import { ObraSocialASeleccionarComponent } from 'src/app/pages/paciente-page/components/obra-social-aseleccionar/obra-social-aseleccionar.component';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
 import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
 import { articulosValidator, NroFacturaRegExp } from 'src/app/validators/CustomValidator';
@@ -25,7 +27,7 @@ export class ComprobanteDialogComponent implements OnInit {
   isEntrada! : boolean;
 
   proveedor!: Proveedor;
-  cliente!: any;
+  obraSocial!: any;
 
   tiposFactura = ["A", "B", "C", "M", "E", "T"];
 
@@ -42,7 +44,8 @@ export class ComprobanteDialogComponent implements OnInit {
 
   articulosVisible: boolean = false;
   proveedoresVisible: boolean = false;
-  clientesVisible: boolean = false;
+
+  osref! : DynamicDialogRef;
 
   actualizarSubtotal() {
     let sub = 0;
@@ -107,11 +110,28 @@ export class ComprobanteDialogComponent implements OnInit {
     this.proveedoresVisible = false;
   }
 
-  clienteSeleccionado(cliente: Cliente) {
-    this.cliente = cliente;
-    this.formComprobante.controls["cliente"].setValue(cliente);
-    this.clientesVisible = false;
+  seleccionarObraSocial(){
+    this.osref = this.dialogService.open(ObraSocialASeleccionarComponent,{
+      header: "Seleccione una obra social",
+      width: "70rem",
+      height:"40rem",
+      contentStyle: { overflow: "auto" },
+      baseZIndex: 10000
+    });
+    this.osref.onClose.pipe(
+      map((res)=>{
+          if(res){
+            this.obraSocial = res;
+          }
+      })
+    ).subscribe();
   }
+
+  // obraSeleccionada(obraSocial: ObraSocial) {
+  //   this.obraSocial = obraSocial;
+  //   this.formComprobante.controls["cliente"].setValue(obraSocial);
+  //   this.clientesVisible = false;
+  // }
 
   agregarArticulo(){
     this.articulosVisible = true;
@@ -141,7 +161,7 @@ export class ComprobanteDialogComponent implements OnInit {
 
       let nuevoComprobante = {
         idProveedor: !this.isEntrada ? this.formComprobante.controls["proveedor"].value.idProveedor : null,
-        idCliente: this.isEntrada ? this.formComprobante.controls["cliente"].value.idCliente : null,
+        idObraSocial: this.isEntrada ? this.formComprobante.controls["cliente"].value.idCliente : null,
         categoria: this.idTipoComprobante === 1 ? this.formComprobante.controls["tipoFactura"].value : null,
         numero: this.idTipoComprobante === 1 ? this.formComprobante.controls["nroFactura"].value : null,
         idTipoComprobante: {idTipoComprobante: this.idTipoComprobante},

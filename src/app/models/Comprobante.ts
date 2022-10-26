@@ -1,11 +1,12 @@
 import { Cliente } from "./Cliente";
+import { ObraSocial } from "./ObraSocial";
 import { Proveedor } from "./Proveedor";
 import { TipoComprobante } from "./TipoComprobante";
 
 export interface Comprobante {
   idComprobante: number;
   idProveedor: Proveedor;
-  idCliente: Cliente;
+  idObraSocial: ObraSocial;
   idTipoComprobante: TipoComprobante;
   fechaRegistro: Date;
   categoria: string;

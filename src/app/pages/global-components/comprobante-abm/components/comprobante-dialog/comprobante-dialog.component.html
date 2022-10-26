@@ -22,9 +22,9 @@
       <div class="flex flex-column pb-3"
         *ngIf="isEntrada">
         <p-button
-          label="Selecionar Cliente"
+          label="Selecionar Obra Social"
           icon="pi pi-plus"
-          (onClick)="clientesVisible = true"
+          (onClick)="seleccionarObraSocial()"
         ></p-button>
         <small
           class="p-error"
@@ -61,11 +61,11 @@
 
         <div class="col-12 md:col-3 flex-column"
           *ngIf="isEntrada">
-          <label class="font-bold" for="idProveedor">CUIL/CUIT Cliente</label>
+          <label class="font-bold">CUIT Obra Social</label>
           <input
             pInputText
             [disabled]="true"
-            [value]="cliente ? cliente.CUIT: ''"
+            [value]="obraSocial ? obraSocial.cuit : ''"
             class="w-12"
           />
         </div>
@@ -76,7 +76,7 @@
           <input
             pInputText
             [disabled]="true"
-            [value]="cliente ? cliente.nombre : ''"
+            [value]="obraSocial ? obraSocial.nombre : ''"
             class="w-12"
           />
         </div>
@@ -382,20 +382,6 @@
   
 </p-dialog>
 
-<p-dialog
-  header="Seleccionar Cliente"
-  [(visible)]="clientesVisible"
-  [modal]="true"
-  styleClass="w-12"
-  [dismissableMask]="true"
->
-  <app-seleccionar-cliente
-    (clienteSeleccionado)="clienteSeleccionado($event)"
-  ></app-seleccionar-cliente>
+<app-obra-social-aseleccionar>
 
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
-            class="p-button-text" (click)="clientesVisible = false"></button>
-  </ng-template>
-  
-</p-dialog>
+</app-obra-social-aseleccionar>
