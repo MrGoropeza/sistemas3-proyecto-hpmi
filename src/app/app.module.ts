@@ -99,6 +99,9 @@ import { AtencionDetalleDialogComponent } from './pages/atenciones-page/componen
 import { AtencionDetalleArticulosABMComponent } from './pages/atenciones-page/componentes/atencion-detalle-articulos-abm/atencion-detalle-articulos-abm.component';
 import { AtencionDetallePrestacionesABMComponent } from './pages/atenciones-page/componentes/atencion-detalle-prestaciones-abm/atencion-detalle-prestaciones-abm.component';
 import { DetalleAtencionesABMComponent } from './pages/global-components/detalle-atenciones-abm/detalle-atenciones-abm.component';
+import { CostBarChartComponent } from './pages/global-components/charts/cost-bar-chart/cost-bar-chart.component';
+import { CountCardComponent } from './pages/global-components/charts/count-card/count-card.component';
+import { DashboardComponent } from './pages/inicio-page/components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -191,6 +194,9 @@ import { DetalleAtencionesABMComponent } from './pages/global-components/detalle
     AtencionDetalleArticulosABMComponent,
     AtencionDetallePrestacionesABMComponent,
     DetalleAtencionesABMComponent,
+    CostBarChartComponent,
+    CountCardComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
