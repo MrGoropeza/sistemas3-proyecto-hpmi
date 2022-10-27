@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ObraSocial } from 'src/app/models/ObraSocial';
 import { ObraSocialService } from 'src/app/services/obraSociales/obra-social.service';
-import { CustomValidator } from 'src/app/validators/CustomValidator';
+import { correoValidator, CustomValidator, telefonoValidator } from 'src/app/validators/CustomValidator';
 
 @Component({
   selector: 'app-obra-social-alta-dialog',
@@ -17,10 +17,10 @@ export class ObraSocialAltaDialogComponent implements OnInit {
     nombre: [this.obraSocial.nombre, Validators.required],
     cuit: [
       this.obraSocial.cuit,
-      [Validators.required, Validators.pattern(CustomValidator)],
+      [Validators.required,Validators.pattern(CustomValidator)],
     ],
-    telefono: [this.obraSocial.telefono, Validators.required],
-    correo: [this.obraSocial.correo, Validators.required],
+    telefono: [this.obraSocial.telefono, [Validators.required,Validators.pattern(telefonoValidator)]],
+    correo: [this.obraSocial.correo, [Validators.required,Validators.pattern(correoValidator)]],
     domicilio: [this.obraSocial.domicilio, Validators.required],
   });
   constructor(

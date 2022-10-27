@@ -10,10 +10,18 @@ export interface AtencionEncabezado{
     idMedico: number;
 
 }
+export interface AtencionView extends AtencionEncabezado{
+    dniPaciente : string;
+    nombrePaciente : string;
+    apellidoPaciente : string;
+    nombreObraSocial : string;
+    dniMedico : string;
+    nombreMedico : string;
+    apellidoMedico : string;
+}
 
 export interface AtencionDetalleArticulo{
     idAtencion: number;
-
     idArticulo: number;
     nombreArticulo: string;
     cantidadArticulo: number;

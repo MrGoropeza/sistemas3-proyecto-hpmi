@@ -1,0 +1,47 @@
+<p-table
+  #dt
+  [value]="articulos"
+  [rows]="5"
+  [paginator]="true"
+  responsiveLayout="stack"
+  [rowHover]="true"
+  dataKey="idDetalle"
+  [showCurrentPageReport]="false"
+  [loading]="cargando"
+>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>Nombre del articulo</th>
+      <th>Cantidad</th>
+      <th>Precio</th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-articulo
+    let-rowIndex="rowIndex"
+    let-columns="columns"
+  >
+    <tr></tr>
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">Nombre del artículo</span
+        >{{ articulo.nombreArticulo }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Cantidad</span
+        >{{ articulo.cantidadArticulo }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Precio</span
+        >{{ articulo.precioArticulo | currency }}
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+        Total : {{total | currency}}
+    </div>
+</ng-template>
+</p-table>

@@ -19,7 +19,7 @@ export class PacienteService {
       .select("idPaciente")
       .eq("estado", true);
   }
-  async update(paciente: Paciente,persona : Persona) {
+  async update(paciente: PacienteView,persona : Persona) {
     let req = await this.supabase
     .from<Paciente>("Paciente")
     .update({
