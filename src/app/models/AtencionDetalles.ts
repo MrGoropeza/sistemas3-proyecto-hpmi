@@ -8,7 +8,7 @@ export interface AtencionEncabezado{
     estado: boolean;
     idPaciente: number;
     idMedico: number;
-
+    subtotal: number;
 }
 export interface AtencionView extends AtencionEncabezado{
     dniPaciente : string;

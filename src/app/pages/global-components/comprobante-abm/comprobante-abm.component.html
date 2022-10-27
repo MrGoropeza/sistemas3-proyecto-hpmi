@@ -41,14 +41,14 @@
     <tr>
       <th>ID</th>
       <th *ngIf="!isComprobanteEntrada">Proveedor</th>
-      <th *ngIf="isComprobanteEntrada">Cliente</th>
+      <th *ngIf="isComprobanteEntrada">ObraSocial</th>
       <th>Fecha de Registro</th>
       <th>Fecha de {{titulo}}</th>
       <th>Fecha de Vencimiento</th>
       <th>Total</th>
       <th>Saldo</th>
-      <th *ngIf="idTipoComprobante == 1">Tipo de Factura</th>
-      <th *ngIf="idTipoComprobante == 1 || idTipoComprobante == 5">Nro. de Factura</th>
+      <th *ngIf="idTipoComprobante === 1 || idTipoComprobante === 5">Tipo de Factura</th>
+      <th *ngIf="idTipoComprobante === 1 || idTipoComprobante === 5">Nro. de Factura</th>
       <th>Acciones</th>
     </tr>
   </ng-template>
@@ -63,8 +63,8 @@
         >{{ comprobante.idProveedor.nombre }}
       </td>
       <td *ngIf="isComprobanteEntrada">
-        <span class="p-column-title font-bold">Nombre de Cliente</span
-        >{{ comprobante.idCliente.nombre }}
+        <span class="p-column-title font-bold">Obra Social</span
+        >{{ comprobante.idObraSocial.nombre }}
       </td>
       <td>
         <span class="p-column-title font-bold">Fecha de Registro</span
@@ -86,11 +86,11 @@
         <span class="p-column-title font-bold">Saldo</span
         >{{ comprobante.saldo | currency}}
       </td>
-      <td *ngIf="idTipoComprobante == 1" >
+      <td *ngIf="idTipoComprobante === 1 || idTipoComprobante === 5" >
         <span class="p-column-title font-bold" >Categoria</span
         >{{ comprobante.categoria }}
       </td>
-      <td *ngIf="idTipoComprobante == 1" >
+      <td *ngIf="idTipoComprobante === 1 || idTipoComprobante === 5" >
         <span class="p-column-title font-bold" >Número</span
         >{{ comprobante.numero }}
       </td>

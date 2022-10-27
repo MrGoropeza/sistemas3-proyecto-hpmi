@@ -6,6 +6,7 @@ import { map, Observable, of, SubscriptionLike } from 'rxjs';
 import { ArticuloComprobante } from 'src/app/models/ArticuloComprobante';
 import { ArticuloMovimiento } from 'src/app/models/ArticuloMovimiento';
 import { ArticuloView } from 'src/app/models/ArticuloView';
+import { Atencion, AtencionEncabezado } from 'src/app/models/AtencionDetalles';
 import { Cliente } from 'src/app/models/Cliente';
 import { Comprobante } from 'src/app/models/Comprobante';
 import { ObraSocial } from 'src/app/models/ObraSocial';
@@ -13,7 +14,7 @@ import { Proveedor } from 'src/app/models/Proveedor';
 import { ObraSocialASeleccionarComponent } from 'src/app/pages/paciente-page/components/obra-social-aseleccionar/obra-social-aseleccionar.component';
 import { ComprobantesService } from 'src/app/services/comprobantes/comprobantes.service';
 import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
-import { articulosValidator, NroFacturaRegExp } from 'src/app/validators/CustomValidator';
+import { articulosValidator, cantidadesValidator, NroFacturaRegExp } from 'src/app/validators/CustomValidator';
 import { SeleccionarArticulosComponent } from '../seleccionar-articulos/seleccionar-articulos.component';
 
 @Component({
@@ -34,16 +35,17 @@ export class ComprobanteDialogComponent implements OnInit {
   proveedoresSub!: SubscriptionLike;
 
   articulosSeleccionados: ArticuloMovimiento[] = [];
+  atencionesSeleccionadas: AtencionEncabezado[] = [];
 
   subtotal: number = 0;
 
   formComprobante: FormGroup = this.formBuilder.group({
-    cantArticulos: [0, Validators.min(1)],
-    articulosValidos: [this.articulosSeleccionados, [articulosValidator()]],
+    
   });
 
   articulosVisible: boolean = false;
   proveedoresVisible: boolean = false;
+  atencionesVisible: boolean = false;
 
   osref! : DynamicDialogRef;
 
@@ -74,14 +76,19 @@ export class ComprobanteDialogComponent implements OnInit {
     this.idTipoComprobante = this.config.data.idTipoComprobante;
     this.isEntrada = this.config.data.isEntrada;
 
+    this.formComprobante.addControl("fecha", new FormControl(null, Validators.required));
+
     if(this.isEntrada){
-      this.formComprobante.addControl("cliente", new FormControl(null, Validators.required));
+      this.formComprobante.addControl("obraSocial", new FormControl(null, Validators.required));
+      this.formComprobante.addControl("cantAtenciones", new FormControl(0, Validators.min(1)));
+      // this.formComprobante.addControl("atenciones", new FormControl(this.atencionesSeleccionadas, cantidadesValidator()));
     }else{
       this.formComprobante.addControl("proveedor", new FormControl(null, Validators.required));
-      this.formComprobante.addControl("fecha", new FormControl(null, Validators.required))
+      this.formComprobante.addControl("cantArticulos", new FormControl(0, Validators.min(1)));
+      this.formComprobante.addControl("articulosValidos", new FormControl(this.articulosSeleccionados, articulosValidator()));
     }
 
-    if(this.idTipoComprobante === 1){
+    if(this.idTipoComprobante === 1 || this.idTipoComprobante === 5){
       this.formComprobante.addControl("fechaVencimiento", new FormControl(null, Validators.required));
       this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
       this.formComprobante.addControl("nroFactura", new FormControl("", [Validators.required, Validators.pattern(NroFacturaRegExp)]));
@@ -90,8 +97,6 @@ export class ComprobanteDialogComponent implements OnInit {
 
   articuloSeleccionado(articulo: ArticuloMovimiento){
     let encontrado = this.articulosSeleccionados.find((element) => element.id === articulo.id);
-
-    
     
     if(encontrado === undefined){
       this.articulosSeleccionados.push(articulo);
@@ -102,6 +107,19 @@ export class ComprobanteDialogComponent implements OnInit {
       nuevoArray.push(articulo);
       this.articulosSeleccionados = nuevoArray;
     }
+  }
+  atencionSeleccionada(atencion: AtencionEncabezado){
+    let encontrado = this.atencionesSeleccionadas.find((element) => element.idAtencion === atencion.idAtencion);
+    
+    if(encontrado === undefined){
+      this.atencionesSeleccionadas.push(atencion);
+      this.formComprobante.controls["cantAtenciones"].setValue(this.atencionesSeleccionadas.length);
+    }else{
+      let nuevoArray = this.atencionesSeleccionadas.filter(element => element.idAtencion !== atencion.idAtencion);
+      nuevoArray.push(atencion);
+      this.atencionesSeleccionadas = nuevoArray;
+    }
+    this.actualizarSubtotalAtenciones();
   }
 
   proveedorSeleccionado(proveedor: Proveedor) {
@@ -122,6 +140,7 @@ export class ComprobanteDialogComponent implements OnInit {
       map((res)=>{
           if(res){
             this.obraSocial = res;
+            this.formComprobante.controls["obraSocial"].setValue(this.obraSocial);
           }
       })
     ).subscribe();
@@ -144,6 +163,17 @@ export class ComprobanteDialogComponent implements OnInit {
     this.articulosSeleccionados = nuevoArray;
   }
 
+  quitarAtencion(atencion: AtencionEncabezado){
+    let nuevoArray = this.atencionesSeleccionadas.filter(element => element.idAtencion !== atencion.idAtencion);
+    this.atencionesSeleccionadas = [];
+    this.atencionesSeleccionadas = nuevoArray;
+    this.actualizarSubtotalAtenciones();
+  }
+
+  actualizarSubtotalAtenciones(){
+    this.subtotal = this.atencionesSeleccionadas.reduce((total, {subtotal}) => total + subtotal, 0);
+  }
+
   cerrar(){
     this.formComprobante.reset();
     this.ref.close();
@@ -151,7 +181,10 @@ export class ComprobanteDialogComponent implements OnInit {
 
   async guardar(){
 
-    this.formComprobante.controls['articulosValidos'].setValue(this.articulosSeleccionados);
+    if(!this.isEntrada){
+      this.formComprobante.controls['articulosValidos'].setValue(this.articulosSeleccionados);
+    }
+
     this.formComprobante.markAllAsTouched();
 
     if(this.formComprobante.valid){
@@ -161,12 +194,12 @@ export class ComprobanteDialogComponent implements OnInit {
 
       let nuevoComprobante = {
         idProveedor: !this.isEntrada ? this.formComprobante.controls["proveedor"].value.idProveedor : null,
-        idObraSocial: this.isEntrada ? this.formComprobante.controls["cliente"].value.idCliente : null,
-        categoria: this.idTipoComprobante === 1 ? this.formComprobante.controls["tipoFactura"].value : null,
-        numero: this.idTipoComprobante === 1 ? this.formComprobante.controls["nroFactura"].value : null,
+        idObraSocial: this.isEntrada ? this.formComprobante.controls["obraSocial"].value.idObraSocial : null,
+        categoria: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["tipoFactura"].value : null,
+        numero: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["nroFactura"].value : null,
         idTipoComprobante: {idTipoComprobante: this.idTipoComprobante},
         fechaComprobante: this.isEntrada ? null : this.formComprobante.controls["fecha"].value,
-        fechaVencimiento: this.idTipoComprobante === 1 ? this.formComprobante.controls["fechaVencimiento"].value : null,
+        fechaVencimiento: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["fechaVencimiento"].value : null,
         
       } as Comprobante;
 
@@ -177,7 +210,8 @@ export class ComprobanteDialogComponent implements OnInit {
       // }
       let request = await this.comprobanteService.addComprobante(
         this.articulosSeleccionados,
-        nuevoComprobante
+        nuevoComprobante,
+        this.atencionesSeleccionadas
       );
 
       if(request.length == 0){
@@ -190,6 +224,8 @@ export class ComprobanteDialogComponent implements OnInit {
         );
       }else{
         console.log(request);
+        console.log(nuevoComprobante);
+        
         
         this.messageService.add(
           {severity: 'error',

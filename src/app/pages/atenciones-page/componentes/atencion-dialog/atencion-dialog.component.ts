@@ -87,7 +87,8 @@ export class AtencionDialogComponent implements OnInit {
       sintomas,
       diagnostico,
       idPaciente,
-      idMedico
+      idMedico,
+      subtotal: this.subtotalArticulos + this.subtotalPrestaciones
     }
 
     let request = await this.atencionService

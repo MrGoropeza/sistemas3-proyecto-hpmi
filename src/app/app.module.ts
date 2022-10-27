@@ -99,6 +99,7 @@ import { FacturaEntradaPageComponent } from './pages/factura-entrada-page/factur
 import { AtencionDetalleDialogComponent } from './pages/atenciones-page/componentes/atencion-detalle-dialog/atencion-detalle-dialog.component';
 import { AtencionDetalleArticulosABMComponent } from './pages/atenciones-page/componentes/atencion-detalle-articulos-abm/atencion-detalle-articulos-abm.component';
 import { AtencionDetallePrestacionesABMComponent } from './pages/atenciones-page/componentes/atencion-detalle-prestaciones-abm/atencion-detalle-prestaciones-abm.component';
+import { SeleccionarAtencionesComponent } from './pages/global-components/comprobante-abm/components/seleccionar-atenciones/seleccionar-atenciones.component';
 
 @NgModule({
   declarations: [
@@ -190,7 +191,8 @@ import { AtencionDetallePrestacionesABMComponent } from './pages/atenciones-page
     FacturaEntradaPageComponent,
     AtencionDetalleDialogComponent,
     AtencionDetalleArticulosABMComponent,
-    AtencionDetallePrestacionesABMComponent
+    AtencionDetallePrestacionesABMComponent,
+    SeleccionarAtencionesComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,93 @@
+<!-- Contenido de la pagina -->
+
+<p-table
+#dt
+[value]="atenciones"
+[rows]="5"
+[paginator]="true"
+[totalRecords]="cantTotalAtenciones"
+(onLazyLoad)="onLazyLoad($event)"
+[lazy]="true" 
+responsiveLayout="stack"
+[rowHover]="true"
+dataKey="idCliente"
+[showCurrentPageReport]="false"
+[loading]="cargando"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-center align-content-center">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          class="p-inputtext-md"
+          type="text"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar..."
+        />
+      </span>
+    </div>
+  </ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+        <th>ID. Atención</th>
+        <th>Tipo</th>
+        <th>Periodo</th>
+        <th>Paciente</th>
+        <th>Médico</th>
+        <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-atencion let-columns="columns" let-index="rowIndex">
+    <tr>
+        <td><span class="p-column-title font-bold">ID. Atención</span>{{ atencion.idAtencion }}</td>
+        <td><span class="p-column-title font-bold">Tipo</span>{{ atencion.tipoAtencion }}</td>
+        <td><span class="p-column-title font-bold">Periodo</span>{{ atencion.fechaInicio }} - {{ atencion.fechaFin }}</td>
+        <td><span class="p-column-title font-bold">Paciente</span>{{ atencion.apellidoPaciente }}, {{ atencion.nombrePaciente }}</td>
+        <td><span class="p-column-title font-bold">Medico</span>{{ atencion.apellidoMedico }}, {{ atencion.nombreMedico }}</td>
+        <td>
+            <div class="flex flex-wrap gap-2">
+                <div>
+                    <button
+                        *ngIf="!atencionIsSelected(atencion)"
+                        pButton
+                        pRipple
+                        tooltipPosition="top"
+                        pTooltip="Agregar"
+                        icon="pi pi-plus"
+                        class="p-button-rounded p-button-info mr-2"
+                        (click)="seleccionarAtencion(atencion)"
+                    ></button>
+                    <div
+                        *ngIf="atencionIsSelected(atencion)"
+                        pButton 
+                        pRipple 
+                        icon="pi pi-check" 
+                        class="p-button-rounded p-button-success"
+                    ></div>
+                </div>
+                <button
+                    *ngIf="atencionIsSelected(atencion)"
+                    pButton
+                    pRipple
+                    tooltipPosition="top"
+                    pTooltip="Eliminar"
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-danger mr-2"
+                    (click)="quitarAtencion(atencion)"
+                ></button>
+
+            </div>
+        </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ atenciones ? cantTotalAtenciones : 0 }} clientes
+      registrados.
+    </div>
+  </ng-template>
+</p-table>
+
