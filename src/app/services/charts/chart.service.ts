@@ -15,10 +15,19 @@ export class ChartService {
   async getCantPacientes(primerDia : string,ultimoDia : String){
     return await this.supabase
     .from("Paciente")
-    .select("*", { count: 'exact'})
+    .select("idPaciente", { count: 'exact'})
     .eq("estado", true)
     .gt('fechaIngreso',primerDia)
     .lte('fechaIngreso',ultimoDia);
+
+  }
+  async getCantAtenciones(primerDia : string,ultimoDia : String){
+    return await this.supabase
+    .from("Atencion")
+    .select("idAtencion", { count: 'exact'})
+    .eq("estado", true)
+    .gt('fechaRegistro',primerDia)
+    .lte('fechaRegistro',ultimoDia);
 
   }
 

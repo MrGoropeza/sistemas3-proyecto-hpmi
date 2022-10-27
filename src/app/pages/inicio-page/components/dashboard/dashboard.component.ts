@@ -8,6 +8,7 @@ import { ChartService } from 'src/app/services/charts/chart.service';
 })
 export class DashboardComponent implements OnInit {
   cantPacientes : number = 0;
+  cantAtenciones : number = 0;
   constructor(private chartService : ChartService) { }
 
   ngOnInit(): void {
@@ -17,6 +18,7 @@ export class DashboardComponent implements OnInit {
     const primerDia = firstDay.toISOString();
     const ultimoDia = lastDay.toISOString();
     this.getCantPacientes(primerDia,ultimoDia);
+    this.getCantAtenciones(primerDia,ultimoDia)
   }
   async getCantPacientes(primerDia : string,ultimoDia : string){
     let request = await this.chartService.getCantPacientes(primerDia,ultimoDia);
@@ -28,8 +30,14 @@ export class DashboardComponent implements OnInit {
       console.log(request.error);
     }
   }
-  getCantAtenciones(){
-
+  async getCantAtenciones(primerDia : string,ultimoDia : string){
+    let request = await this.chartService.getCantAtenciones(primerDia,ultimoDia);
+    if(request.data){
+      console.log(request.data);
+      this.cantAtenciones = request.data.length;
+    }else{
+      console.log(request.error);
+    }
   }
 
 }
