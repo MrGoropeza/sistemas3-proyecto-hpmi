@@ -16,7 +16,7 @@ export class AtencionService {
   constructor(
     private supabaseService : SupabaseService
   ) {
-    this.supabase = supabaseService.getSupabaseClient();
+    this.supabase = this.supabaseService.getSupabaseClient();
   }
 
   async getCantAtenciones(){
@@ -29,7 +29,8 @@ export class AtencionService {
     return await this.supabase
       .from("Atencion")
       .select("idAtencion")
-      .eq("estado", true);
+      .eq("estado", true)
+      .eq('idAtencion',id);
   }
   async getAtencionesArticulos(id : number,params?: LazyLoadEvent){
     let query = this.supabase.from<AtencionDetalleArticulo>("AtencionArticuloView").select("*").eq("idAtencion",id);
@@ -61,18 +62,34 @@ export class AtencionService {
     let { data, error } = await query;
     return { data, error };
   }
-  async getAtenciones(params?: LazyLoadEvent){
+  async getAtencionesXPersona(id : number,nombreIdentificador : string){
+    if(!id){
+      return {};
+    }
+    let query = this.supabase.from("AtencionEncabezadoView").select("*").eq("estado",true).eq(nombreIdentificador,id);
+    let { data, error } = await query;
+    return { data, error };
+  }
+
+  async getAtenciones(params?: LazyLoadEvent,id? : number,nombreIdentificador? : string){
     let query = this.supabase.from<AtencionEncabezado>("AtencionEncabezadoView").select("*").eq("estado",true);
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);
     }
-
+    if(id){
+      if(nombreIdentificador == 'paciente'){
+        query = this.supabase.from<AtencionEncabezado>("AtencionEncabezadoView").select("*").eq("estado",true).eq('idPaciente',id);
+      }else{
+        query = this.supabase.from<AtencionEncabezado>("AtencionEncabezadoView").select("*").eq("estado",true).eq('idMedico',id);
+      }
+    }
     if (params?.sortField !== undefined && params?.sortOrder !== undefined) {
       query = query.order(params.sortField as any, {
         ascending: params.sortOrder === 1,
       });
     }
+    
 
     if (params?.globalFilter) {
       query = query.or(

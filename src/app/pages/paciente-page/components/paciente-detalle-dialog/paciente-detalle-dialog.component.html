@@ -1,48 +1,55 @@
 <div class="grid justify-content-center">
-    <div class="md:col-4">
-      <div class="flex justify-content-center my-3">
-        <i class="bi bi-person-circle" style="font-size: 10rem"></i>
-      </div>
-      <div class="flex justify-content-center py-0">
-        <h3 class="my-0">{{this.paciente.pacienteApellido+', '+this.paciente.pacienteNombre}}</h3>
-      </div>
-      <div class="flex justify-content-center py-2">
-        <h4 class="my-0">Obra Social: {{ this.paciente.nombreObraSocial }}</h4>
-      </div>
+  <div class="md:col-4">
+    <div class="flex justify-content-center my-3">
+      <i class="bi bi-person-circle" style="font-size: 10rem"></i>
     </div>
-    <div class="md:col-8">
-      <p-tabView>
-        <p-tabPanel header="Datos" leftIcon="bi bi-clipboard-data">
-            <div class="grid">
-                <div class="col-7">
-                    <div class="flex flex-wrap">
-                        <div class="surface-overlay">
-                          <p class="text-justify">DNI : {{ persona.dni }}</p>
-                          <p class="text-justify">CUIL : {{ persona.cuil }}</p>
-                          <p class="text-justify">telefono : {{ persona.telefono }}</p>
-                          <p >domicilio : {{ persona.domicilio }}</p>
-                          <p class="text-justify">
-                              Fecha de Nacimiento:
-                              {{ persona.fechaNacimiento | date: "dd/M/yyyy" }}
-                            </p>
-                            <p class="text-justify">Correo Electronico: {{ persona.email }}</p>
-                        </div>
-                      </div>
-                </div>
-                <div class="col">
-                    <p class="text-justify">
-                        Fecha de Ingreso:
-                        {{ paciente.fechaIngreso | date: "dd/M/yyyy" }}
-                      </p>
-                      <p class="text-justify">
-                        Hora de Ingreso:
-                        {{ paciente.fechaIngreso | date: "H:mm" }}
-                      </p>
-                </div>
-            </div>
-        </p-tabPanel>
-        <p-tabPanel header="Atenciones" rightIcon="pi pi-search"> </p-tabPanel>
-      </p-tabView>
+    <div class="flex justify-content-center py-0">
+      <h3 class="my-0">
+        {{
+          this.paciente.pacienteApellido + ", " + this.paciente.pacienteNombre
+        }}
+      </h3>
+    </div>
+    <div class="flex justify-content-center py-2">
+      <h4 class="my-0">Obra Social: {{ this.paciente.nombreObraSocial }}</h4>
     </div>
   </div>
-  
+  <div class="md:col-8">
+    <p-tabView>
+      <p-tabPanel header="Datos" leftIcon="bi bi-clipboard-data">
+        <div class="grid">
+          <div class="col-7">
+            <div class="flex flex-wrap">
+              <div class="surface-overlay">
+                <p class="text-justify">DNI : {{ persona.dni }}</p>
+                <p class="text-justify">CUIL : {{ persona.cuil }}</p>
+                <p class="text-justify">telefono : {{ persona.telefono }}</p>
+                <p>domicilio : {{ persona.domicilio }}</p>
+                <p class="text-justify">
+                  Fecha de Nacimiento:
+                  {{ persona.fechaNacimiento | date: "dd/M/yyyy" }}
+                </p>
+                <p class="text-justify">
+                  Correo Electronico: {{ persona.email }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <p class="text-justify">
+              Fecha de Ingreso:
+              {{ paciente.fechaIngreso | date: "dd/M/yyyy" }}
+            </p>
+            <p class="text-justify">
+              Hora de Ingreso:
+              {{ paciente.fechaIngreso | date: "H:mm" }}
+            </p>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Atenciones" rightIcon="pi pi-search"> 
+        <app-detalle-atenciones-abm [id]="this.paciente.idPaciente" [nombre]="'idPaciente'"></app-detalle-atenciones-abm>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

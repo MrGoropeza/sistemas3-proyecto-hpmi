@@ -27,7 +27,9 @@
           </div>
         </div>
       </p-tabPanel>
-      <p-tabPanel header="Atenciones" rightIcon="pi pi-search"> </p-tabPanel>
+      <p-tabPanel header="Atenciones Realizadas" rightIcon="pi pi-search">
+        <app-detalle-atenciones-abm [id]="medico.idMedico" [nombre]="'idMedico'"></app-detalle-atenciones-abm>
+         </p-tabPanel>
     </p-tabView>
   </div>
 </div>
