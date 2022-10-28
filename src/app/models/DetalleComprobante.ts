@@ -7,3 +7,11 @@ export interface DetalleComprobante{
     cantidad: number;
     precio : number;
 }
+
+export interface DetalleComprobanteEntrada{
+    idDetalle: number;
+    idAtencion: number;
+    idComprobante: number;
+    cantidad: number;
+    precio : number;
+}

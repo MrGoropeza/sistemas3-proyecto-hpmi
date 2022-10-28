@@ -17,8 +17,10 @@ export class ArticuloComprobanteABMComponent implements OnInit {
     this.getDetalle();
   }
   private getDetalle(){
-    this.comprobanteServicio.getDetalle(this.idComprobante).then(
+    this.comprobanteServicio.getDetalleEntrada(this.idComprobante).then(
       (res)=>{
+        console.log("Detalles:", res.data);
+        
         if(res.data){
           this.detalles = res.data;
           this.cargando = false;

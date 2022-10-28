@@ -49,7 +49,7 @@ export class ComprobantesService {
       .from<DetalleComprobante>(`DetalleComprobanteEntrada`)
       .select(
         `
-          idAtencion(*),
+          idAtencion(idPaciente(nombre)),
           cantidad,
           precio
       `
