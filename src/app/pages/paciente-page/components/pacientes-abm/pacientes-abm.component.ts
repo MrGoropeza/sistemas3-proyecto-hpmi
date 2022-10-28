@@ -55,7 +55,7 @@ export class PacientesABMComponent implements OnInit {
       width: "50rem",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
-      data: { paciente : {} as PacienteView} 
+      data: { paciente : {} as PacienteView,persona : {} as Persona} 
     }
     );
     this.ref.onClose.pipe(

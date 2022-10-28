@@ -1,0 +1,47 @@
+<p-table
+  #dt
+  [value]="atenciones"
+  [rows]="5"
+  [paginator]="true"
+  responsiveLayout="stack"
+  [rowHover]="true"
+  dataKey="idAtencion"
+  [showCurrentPageReport]="false"
+  [loading]="cargando"
+>
+
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngIf="nombre=='idPaciente'">Medico</th>
+      <th *ngIf="nombre=='idMedico'">Paciente</th>
+        <th>Periodo</th>
+      <th>Tipo</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-atencion let-columns="columns">
+    <tr>
+      <td *ngIf="nombre=='idMedico'"><span class="p-column-title font-bold">Paciente</span>{{ atencion.apellidoPaciente }}, {{ atencion.nombrePaciente }}</td>
+      <td *ngIf="nombre=='idPaciente'"><span class="p-column-title font-bold">Medico</span>{{ atencion.apellidoMedico }}, {{ atencion.nombreMedico }}</td>
+        <td><span class="p-column-title font-bold">Periodo</span>{{ atencion.fechaInicio }} - {{ atencion.fechaFin }}</td>
+      <td><span class="p-column-title font-bold">Tipo</span>{{ atencion.tipoAtencion }}</td>
+      <td>
+        <span class="p-column-title font-bold">Acciones</span>
+        <div>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-search"
+            class="p-button-rounded p-button-info mr-2"
+            (click)="verDetalle(atencion)"
+            pTooltip="Ver Detalle"
+            tooltipPosition="top" 
+          ></button>
+
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+

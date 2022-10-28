@@ -1,0 +1,7 @@
+/* #73c8c0 */
+:host ::ng-deep .p-button{
+    background-color: #009ea0;
+}
+/* :host ::ng-deep  .p-ripple .p-button :hover{
+    background-color: #73c8c0;
+} */

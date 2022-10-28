@@ -1,0 +1,20 @@
+<div class="flex justify-content-center">
+<div class="block md:flex flex-wrap ">
+  <div class="px-0 md:px-7" *ngIf="cantPacientes != 0">
+    <app-count-card
+      [leyenda]="'Cantidad de pacientes registrados de este mes'"
+      [valor]="cantPacientes" 
+    ></app-count-card>
+  </div>
+  <div *ngIf="cantAtenciones != 0">
+    <app-count-card
+      [leyenda]="'Cantidad de Atenciones de este mes'"
+      [valor]="cantAtenciones"
+    ></app-count-card>
+  </div>
+</div>
+</div>
+<div class="flex justify-content-center">
+  <p class="m-3 text-3xl text-center">Costos por Período</p>
+</div>
+<app-cost-bar-chart></app-cost-bar-chart>
