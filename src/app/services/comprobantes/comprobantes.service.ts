@@ -164,15 +164,15 @@ export class ComprobantesService {
     let subtotal = 0;
     let errors = [];
 
-    articulos.forEach((articulo) => {
-      subtotal += articulo.cantidad * articulo.precio;
-    });
-
     comprobante.subTotal = subtotal;
 
     let requestComprobante;
 
     if (this.nombreTabla === "Comprobante") {
+      articulos.forEach((articulo) => {
+        subtotal += articulo.cantidad * articulo.precio;
+      });
+
       requestComprobante = await this.supabase
         .from(`${this.nombreTabla}`)
         .insert({
@@ -241,12 +241,15 @@ export class ComprobantesService {
         errors.push(requestComprobante.error);
       }
     } else {
-      console.log(comprobante);
+      
 
-      let hoy = new Date(Date.now());
-      console.log(`Mes hoy: ${hoy.getMonth()}`);
+      subtotal = atenciones.reduce(
+        (subtotal, atencion) => {return subtotal + atencion.subtotal}, 0
+      );
 
-      let vencimiento = new Date(hoy.setMonth(hoy.getMonth() + 2));
+      
+
+      console.log("Comprobante Entrada:", comprobante);
 
       requestComprobante = await this.supabase
         .from(`${this.nombreTabla}`)
@@ -257,8 +260,8 @@ export class ComprobantesService {
           subTotal: subtotal,
           saldo: subtotal,
           numero: comprobante.numero,
-          fechaVencimiento: vencimiento.toDateString(),
-          fechaComprobante: hoy.toDateString(),
+          fechaVencimiento: comprobante.fechaVencimiento,
+          fechaComprobante: comprobante.fechaComprobante,
           estado: true,
         })
         .single();

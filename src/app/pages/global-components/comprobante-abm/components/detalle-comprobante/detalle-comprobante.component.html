@@ -41,13 +41,14 @@
   [idComprobante]="comprobante.idComprobante"
 ></app-articulo-comprobante-abm>
 
+
 <app-detalle-comprobante-entrada
   *ngIf="isEntrada"
   [idComprobante]="comprobante.idComprobante"
 ></app-detalle-comprobante-entrada>
 
+
 <div class="flex justify-content-between">
   <h3 *ngIf="comprobante.idTipoComprobante.nombre === 'Factura'">Saldo: {{ comprobante.saldo | currency }}</h3>
   <h3>Total: {{ comprobante.subTotal | currency }}</h3>
 </div>
-

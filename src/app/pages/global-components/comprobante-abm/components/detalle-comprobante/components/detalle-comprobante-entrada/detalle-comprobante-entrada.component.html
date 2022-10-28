@@ -16,6 +16,7 @@
       <th>Periodo</th>
       <th>Paciente</th>
       <th>Médico</th>
+      <th>Subtotal</th>
       <th>Acciones</th>
     </tr>
   </ng-template>
@@ -25,6 +26,7 @@
       <td><span class="p-column-title font-bold">Periodo</span>{{ atencion.fechaInicio }} - {{ atencion.fechaFin }}</td>
       <td><span class="p-column-title font-bold">Paciente</span>{{ atencion.apellidoPaciente }}, {{ atencion.nombrePaciente }}</td>
       <td><span class="p-column-title font-bold">Medico</span>{{ atencion.apellidoMedico }}, {{ atencion.nombreMedico }}</td>
+      <td><span class="p-column-title font-bold">Subtotal</span>{{ atencion.subtotal | currency }}</td>
       <td>
         <span class="p-column-title font-bold">Acciones</span>
         <div>

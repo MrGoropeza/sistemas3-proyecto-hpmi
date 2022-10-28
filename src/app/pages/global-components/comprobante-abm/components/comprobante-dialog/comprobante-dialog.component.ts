@@ -93,6 +93,16 @@ export class ComprobanteDialogComponent implements OnInit {
       this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
       this.formComprobante.addControl("nroFactura", new FormControl("", [Validators.required, Validators.pattern(NroFacturaRegExp)]));
     }
+
+    if(this.isEntrada){
+      
+      this.formComprobante.controls["fecha"].setValue(new Date(Date.now()));
+
+      let hoy = new Date(Date.now());
+      hoy.setMonth(hoy.getMonth() + 1);
+      this.formComprobante.controls["fechaVencimiento"].setValue(hoy);
+      console.log("Vencimiento", hoy);
+    }
   }
 
   articuloSeleccionado(articulo: ArticuloMovimiento){
@@ -198,7 +208,7 @@ export class ComprobanteDialogComponent implements OnInit {
         categoria: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["tipoFactura"].value : null,
         numero: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["nroFactura"].value : null,
         idTipoComprobante: {idTipoComprobante: this.idTipoComprobante},
-        fechaComprobante: this.isEntrada ? null : this.formComprobante.controls["fecha"].value,
+        fechaComprobante: this.formComprobante.controls["fecha"].value,
         fechaVencimiento: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["fechaVencimiento"].value : null,
         
       } as Comprobante;
