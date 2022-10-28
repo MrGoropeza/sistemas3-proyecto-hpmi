@@ -1,4 +1,5 @@
 import { Articulo } from "./articulo";
+import { AtencionEncabezado } from "./AtencionDetalles";
 
 export interface DetalleComprobante{
     idDetalle: number;
@@ -8,9 +9,8 @@ export interface DetalleComprobante{
     precio : number;
 }
 
-export interface DetalleComprobanteEntrada{
+export interface DetalleComprobanteEntrada extends AtencionEncabezado{
     idDetalle: number;
-    idAtencion: number;
     idComprobante: number;
     cantidad: number;
     precio : number;

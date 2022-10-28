@@ -4,7 +4,7 @@ import { LazyLoadEvent } from "primeng/api";
 import { from, map, Observable } from "rxjs";
 import { ArticuloComprobante } from "src/app/models/ArticuloComprobante";
 import { Comprobante } from "src/app/models/Comprobante";
-import { DetalleComprobante } from "src/app/models/DetalleComprobante";
+import { DetalleComprobante, DetalleComprobanteEntrada } from "src/app/models/DetalleComprobante";
 import { SupabaseService } from "../supabase.service";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service";
 import { Proveedor } from "src/app/models/Proveedor";
@@ -46,14 +46,8 @@ export class ComprobantesService {
 
   async getDetalleEntrada(id: number) {
     let request = await this.supabase
-      .from<DetalleComprobante>(`DetalleComprobanteEntrada`)
-      .select(
-        `
-          idAtencion(idPaciente(nombre)),
-          cantidad,
-          precio
-      `
-      ).eq("idComprobante", id);
+      .from<DetalleComprobanteEntrada>(`CompEntradaAtencionView`)
+      .select("*").eq("idComprobante", id);
     return { data: request.data, error: request.error };
   }
 
