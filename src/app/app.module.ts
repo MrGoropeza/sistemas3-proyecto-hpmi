@@ -200,7 +200,7 @@ import { DetalleComprobanteEntradaComponent } from './pages/global-components/co
     DetalleAtencionesABMComponent,
     CostBarChartComponent,
     CountCardComponent,
-    DashboardComponent,,
+    DashboardComponent,
     SeleccionarAtencionesComponent,
     DetalleComprobanteEntradaComponent,
   ],
