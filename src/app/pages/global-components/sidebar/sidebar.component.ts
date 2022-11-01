@@ -18,9 +18,12 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.paginas = this.navigationService.getSidebarItems();
+    this.paginas = this.navigationService.sidebarItems;
 
-    this.navigationService.printpath("", this.router.config);
+    // esto es un intento de rellenar automaticamente el sidebar sin hardcodearlo en el navigation.service
+    // console.log("Items", this.navigationService.getSidebarItems(this.router.config));
+    
+    // this.paginas = this.navigationService.getSidebarItems(this.router.config)
   }
 
 }

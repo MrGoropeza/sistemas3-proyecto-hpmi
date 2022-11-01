@@ -142,10 +142,7 @@ export class NavigationService{
 
     constructor() {}
 
-    getSidebarItems(): MenuItem[] {
-        return this.sidebarItems;
-    }
-
+    
     createBreadcrumbs(
       actualroute: ActivatedRoute,
       route: ActivatedRoute, 
@@ -157,8 +154,6 @@ export class NavigationService{
       if (children.length === 0) {
          return breadcrumbs;
       }
-
-      let menuItems: MenuItem[] = [];
   
       for (const child of children) {
          const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
@@ -187,12 +182,43 @@ export class NavigationService{
     printpath(parent: String, config: Route[]) {
       for (let i = 0; i < config.length; i++) {
         const route = config[i];
-        console.log(route);
+        console.log(parent + '/' + route.path);
         if (route.children) {
           const currentPath = route.path ? parent + '/' + route.path : parent;
           this.printpath(currentPath, route.children);
         }
       }
     }
+
+    getSidebarItems(
+      routes: Route[], 
+      routerLink: string = '', 
+      parent: MenuItem = {},
+      items: MenuItem[] = [],
+    ): MenuItem[]{
+      
+      if(routes.length === 0){return items}
+
+      routes.forEach(route => {
+        let item: MenuItem = {};
+
+        if(route.data){
+          item.label = route.data["breadcrumb"]
+
+          if(route.pathMatch === "full"){parent.routerLink = routerLink + "/" + route.path}
+          else{item.routerLink = routerLink + "/" + route.path;}
+        }
+
+        if(route.children){
+          item.items = this.getSidebarItems(route.children, route.path, item)
+        }
+        
+        if(route.pathMatch !== "full"){items.push(item);}
+        
+      });
+      
+      return items;
+    }
+
 }
 

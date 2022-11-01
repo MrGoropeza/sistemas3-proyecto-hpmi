@@ -138,12 +138,12 @@ const routes: Routes = [
             title: "Proveedores",
             component: ProveedorPageComponent,
           },
-          {
-            path: "clientes",
-            data: { breadcrumb: "Clientes" },
-            title: "Clientes",
-            component: ClientesPageComponent,
-          },
+          // {
+          //   path: "clientes",
+          //   data: { breadcrumb: "Clientes" },
+          //   title: "Clientes",
+          //   component: ClientesPageComponent,
+          // },
           {
             path: "facturas",
             data: { breadcrumb: "Facturas" },
@@ -156,24 +156,24 @@ const routes: Routes = [
             title: "Facturas",
             component: OrdenCompraPageComponent,
           },
-          {
-            path: "remitos",
-            data: { breadcrumb: "Remitos" },
-            title: "Facturas",
-            component: RemitoPageComponent,
-          },
+          // {
+          //   path: "remitos",
+          //   data: { breadcrumb: "Remitos" },
+          //   title: "Facturas",
+          //   component: RemitoPageComponent,
+          // },
           {
             path: "pagoComprobantes",
             data : {breadcrumb : "Pago de comprobantes"},
             title : "Pago de comprobantes",
             component : PagoComprobantePageComponent
           },
-          {
-            path: "pedidos",
-            data : {breadcrumb : "Pedidos"},
-            title : "Pedidos",
-            component : PedidosPageComponent
-          },
+          // {
+          //   path: "pedidos",
+          //   data : {breadcrumb : "Pedidos"},
+          //   title : "Pedidos",
+          //   component : PedidosPageComponent
+          // },
         ],
       },
       {
