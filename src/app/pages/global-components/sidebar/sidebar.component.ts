@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { NavigationService } from 'src/app/services/navigation.service';
 
@@ -12,11 +13,14 @@ export class SidebarComponent implements OnInit {
   paginas!: MenuItem[];
 
   constructor(
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.paginas = this.navigationService.getSidebarItems();
+
+    this.navigationService.printpath("", this.router.config);
   }
 
 }

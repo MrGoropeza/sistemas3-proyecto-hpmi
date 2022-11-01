@@ -14,6 +14,8 @@ export class SeleccionarAtencionesComponent implements OnInit {
   cantTotalAtenciones!: number;
   atenciones: AtencionEncabezado[] = [];
 
+  @Input() idObraSocial!: number;
+
   @Input() atencionesSeleccionadas: AtencionEncabezado[] = [];
 
   @Output() atencionSeleccionada = new EventEmitter<AtencionEncabezado>;
@@ -28,12 +30,12 @@ export class SeleccionarAtencionesComponent implements OnInit {
 
   async onLazyLoad(event: LazyLoadEvent) {
     this.cargando = true;
-    let requestCant = await this.atencionService.getCantAtenciones();
+    let requestCant = await this.atencionService.getCantAtenciones(this.idObraSocial);
     if(requestCant.data){
       this.cantTotalAtenciones = requestCant.data.length;
     }
 
-    let request = await this.atencionService.getAtenciones(event);
+    let request = await this.atencionService.getAtenciones(event, undefined, undefined, this.idObraSocial);
     if(request.data){
       this.atenciones = request.data;
       this.cargando = false;

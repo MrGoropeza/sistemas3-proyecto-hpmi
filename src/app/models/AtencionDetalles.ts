@@ -6,7 +6,9 @@ export interface AtencionEncabezado{
     sintomas: string;
     diagnostico: string;
     estado: boolean;
+    facturada: boolean;
     idPaciente: number;
+    idObraSocial: number;
     idMedico: number;
     subtotal: number;
 }

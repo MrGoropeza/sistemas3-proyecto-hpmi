@@ -110,7 +110,7 @@
   
         <div
           class="col-12 md:col-3 flex flex-column"
-          *ngIf="idTipoComprobante === 1 || idTipoComprobante === 5"
+          *ngIf="idTipoComprobante === 1"
         >
           <label class="font-bold" for="nroFactura">Nro de Factura</label>
           <input
@@ -313,7 +313,7 @@
   </div>
 
   <div class="flex flex-column min-w-full"
-    *ngIf="isEntrada">
+    *ngIf="isEntrada && obraSocial">
     <h4 class="m-0 mb-2 p-0 font-bold">Atenciones Seleccionadas:</h4>
     
     <small
@@ -437,7 +437,7 @@
 
 <p-dialog
   *ngIf="atencionesVisible"
-  header="Agregar Atenciones"
+  header="Agregar Atenciones ({{ obraSocial.nombre }})"
   [(visible)]="atencionesVisible"
   [modal]="true"
   styleClass="w-12"
@@ -445,6 +445,7 @@
 >
 
   <app-seleccionar-atenciones
+    [idObraSocial]="obraSocial ? obraSocial.idObraSocial : ''"
     [atencionesSeleccionadas]="atencionesSeleccionadas"
     (atencionSeleccionada)="atencionSeleccionada($event)"
     (atencionQuitada)="quitarAtencion($event)"

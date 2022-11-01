@@ -19,11 +19,19 @@ export class AtencionService {
     this.supabase = this.supabaseService.getSupabaseClient();
   }
 
-  async getCantAtenciones(){
-    return await this.supabase
-      .from("Atencion")
+  async getCantAtenciones(idObraSocial?: number){
+    let query = this.supabase
+      .from("AtencionEncabezadoView")
       .select("idAtencion")
       .eq("estado", true);
+
+    if(idObraSocial){
+      query = query
+        .eq("idObraSocial", idObraSocial)
+        .eq("facturada", false);
+    }
+
+    return await query;
   }
   async getSubTotal(id : number){
     return await this.supabase
@@ -71,17 +79,35 @@ export class AtencionService {
     return { data, error };
   }
 
-  async getAtenciones(params?: LazyLoadEvent,id? : number,nombreIdentificador? : string){
-    let query = this.supabase.from<AtencionEncabezado>("AtencionEncabezadoView").select("*").eq("estado",true);
+  async getAtenciones(params?: LazyLoadEvent,id? : number, nombreIdentificador? : string, idObraSocial?: number){
+    let query = this.supabase
+      .from<AtencionEncabezado>("AtencionEncabezadoView")
+      .select("*")
+      .eq("estado",true);
+
+
+    if(idObraSocial !== undefined){
+      query = query
+        .eq("idObraSocial", idObraSocial)
+        .eq("facturada", false);
+    }
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);
     }
     if(id){
       if(nombreIdentificador == 'paciente'){
-        query = this.supabase.from<AtencionEncabezado>("AtencionEncabezadoView").select("*").eq("estado",true).eq('idPaciente',id);
+        query = this.supabase
+          .from<AtencionEncabezado>("AtencionEncabezadoView")
+          .select("*")
+          .eq("estado",true)
+          .eq('idPaciente',id);
       }else{
-        query = this.supabase.from<AtencionEncabezado>("AtencionEncabezadoView").select("*").eq("estado",true).eq('idMedico',id);
+        query = this.supabase
+          .from<AtencionEncabezado>("AtencionEncabezadoView")
+          .select("*")
+          .eq("estado",true)
+          .eq('idMedico',id);
       }
     }
     if (params?.sortField !== undefined && params?.sortOrder !== undefined) {

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 @Injectable({
@@ -157,6 +157,8 @@ export class NavigationService{
       if (children.length === 0) {
          return breadcrumbs;
       }
+
+      let menuItems: MenuItem[] = [];
   
       for (const child of children) {
          const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
@@ -167,11 +169,10 @@ export class NavigationService{
          if(child.snapshot.params["id"]){
           label += " " + child.snapshot.params["id"];
          }
-
          
          if(!(label === null || label === undefined) && label !== '') {
             if(label !== actualroute.snapshot.data["breadcrumb"]){
-              breadcrumbs.push({label, routerLink: url, target: "_self"});
+              breadcrumbs.push({label, routerLink: url});
               // console.log(`label: ${label}, routerLink: ${url}`);
             }
             
@@ -181,6 +182,17 @@ export class NavigationService{
       }
 
       return breadcrumbs;
+    }
+
+    printpath(parent: String, config: Route[]) {
+      for (let i = 0; i < config.length; i++) {
+        const route = config[i];
+        console.log(route);
+        if (route.children) {
+          const currentPath = route.path ? parent + '/' + route.path : parent;
+          this.printpath(currentPath, route.children);
+        }
+      }
     }
 }
 
