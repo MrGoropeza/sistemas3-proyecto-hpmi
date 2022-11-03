@@ -1,20 +1,32 @@
-<div class="flex justify-content-center">
-<div class="block md:flex flex-wrap ">
-  <div class="px-0 md:px-7" *ngIf="!cantPacientes">
-    <app-count-card
-      [leyenda]="'Cantidad de pacientes registrados de este mes'"
-      [valor]="cantPacientes" 
-    ></app-count-card>
+<div *ngIf="graficosCargados >= 3; else elseblock">
+  <div class="flex justify-content-center">
+    <div class="block md:flex flex-wrap ">
+      <div class="px-0 md:px-7">
+        <app-count-card
+          [leyenda]="'Cantidad de pacientes registrados de este mes'"
+          [valor]="cantPacientes" 
+        ></app-count-card>
+      </div>
+      <div>
+        <app-count-card
+          [leyenda]="'Cantidad de Atenciones de este mes'"
+          [valor]="cantAtenciones"
+        ></app-count-card>
+      </div>
+    </div>
+    </div>
+    <div class="flex justify-content-center">
+      <p class="m-3 text-3xl text-center">Gastos</p>
+    </div>
+    <app-cost-bar-chart [gastos]="gastos" [devengamientos]="devengamientos"></app-cost-bar-chart>
+</div>
+<ng-template #elseblock>
+  <div class="flex justify-content-center">
+    <p-progressSpinner [style]="{width: '10rem', height: '10rem'}" styleClass="custom-spinner" strokeWidth="4" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>  
   </div>
-  <div *ngIf="!cantAtenciones">
-    <app-count-card
-      [leyenda]="'Cantidad de Atenciones de este mes'"
-      [valor]="cantAtenciones"
-    ></app-count-card>
+  <div class="flex justify-content-center">
+    <p class="text-lg">Cargando Estadisticas...</p>
   </div>
-</div>
-</div>
-<div class="flex justify-content-center">
-  <p class="m-3 text-3xl text-center">Gastos</p>
-</div>
-<app-cost-bar-chart></app-cost-bar-chart>
+</ng-template>
+
+
