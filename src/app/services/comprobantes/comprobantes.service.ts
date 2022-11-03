@@ -309,6 +309,23 @@ export class ComprobantesService {
       .eq("idComprobante", comprobante.idComprobante)
       .single();
 
+    if(this.nombreTabla === "ComprobanteEntrada"){
+      if(comprobante.saldo !== 0){
+        let detalles = await this.getDetalleEntrada(comprobante.idComprobante);
+        if(detalles.data){
+          detalles.data.forEach( async detalle => {
+            await this.supabase.from("Atencion")
+              .update({
+                facturada: false
+              })
+              .eq("idAtencion", detalle.idAtencion)
+          });
+        }
+
+        
+      }
+    }
+
     return { data: request.data, error: request.error };
   }
   async getComprobantes(proveedor: Proveedor, params?: LazyLoadEvent) {
