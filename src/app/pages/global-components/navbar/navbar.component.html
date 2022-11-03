@@ -22,7 +22,7 @@
         styleClass="md:hidden min-h-full"
     ></p-button>
         
-    <div class="flex-grow-1 block overflow-x-scroll">
+    <div class="flex-grow-1 block overflow-x-scroll md:overflow-x-hidden">
         <p-breadcrumb [model]="breadcrumbItems" 
             styleClass="white-space-nowrap py-3 px-1 "
         ></p-breadcrumb>
@@ -38,7 +38,7 @@
 
 </div>
 
-<p-sidebar [(visible)]="sidebarVisible"
+<p-sidebar [(visible)]="sidebarVisible" [modal]="false"
     class="md:hidden">
     <ng-template pTemplate="content" class="p-0">
         <app-sidebar></app-sidebar>
