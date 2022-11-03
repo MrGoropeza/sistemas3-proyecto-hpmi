@@ -72,7 +72,7 @@ export class AtencionesPageComponent implements OnInit {
   verDetalle(atencion : AtencionView){
     this.ref = this.dialogService.open(AtencionDetalleDialogComponent, {
       header: `Atención # ${atencion.idAtencion}`,
-      width: "70%",
+      width: "80%",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
       data: { data : atencion },

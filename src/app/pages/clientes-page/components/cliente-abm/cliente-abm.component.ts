@@ -87,7 +87,7 @@ export class ClienteABMComponent implements OnInit {
       : (nombre = cliente.apellido + ", " + cliente.nombre);
     this.ref = this.dialogService.open(ClienteDetalleDialogComponent, {
       header: `${nombre}`,
-      width: "70%",
+      width: "80%",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
       data: { cliente: cliente },

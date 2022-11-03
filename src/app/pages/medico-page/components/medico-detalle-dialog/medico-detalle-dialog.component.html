@@ -17,6 +17,7 @@
           <div class="surface-overlay">
             <p class="text-justify">DNI : {{ persona.dni }}</p>
             <p class="text-justify">CUIL : {{ persona.cuil }}</p>
+            <p class="text-justify">Genero : {{ persona.Genero }}</p>
             <p class="text-justify">telefono : {{ persona.telefono }}</p>
             <p class="text-justify">domicilio : {{ persona.domicilio }}</p>
             <p class="text-justify">Correo Electronico : {{ persona.email }}</p>
@@ -28,8 +29,11 @@
         </div>
       </p-tabPanel>
       <p-tabPanel header="Atenciones Realizadas" rightIcon="pi pi-search">
-        <app-detalle-atenciones-abm [id]="medico.idMedico" [nombre]="'idMedico'"></app-detalle-atenciones-abm>
-         </p-tabPanel>
+        <app-detalle-atenciones-abm
+          [id]="medico.idMedico"
+          [nombre]="'idMedico'"
+        ></app-detalle-atenciones-abm>
+      </p-tabPanel>
     </p-tabView>
   </div>
 </div>

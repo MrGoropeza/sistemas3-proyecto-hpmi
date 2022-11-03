@@ -49,7 +49,7 @@ export class ComprobanteABMComponent implements OnInit {
   public verDetalle(comprobante : Comprobante) {
     this.ref = this.dialogService.open(DetalleComprobanteComponent, {
       header: `${this.titulo} #${comprobante.idComprobante}`,
-      width: "70%",
+      width: "80%",
       contentStyle: { overflow: "auto" },
       data: {comprobante : comprobante, isEntrada: this.isComprobanteEntrada}
     });

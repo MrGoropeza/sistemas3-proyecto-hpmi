@@ -32,7 +32,7 @@ import { ObraSocialASeleccionarComponent } from "../obra-social-aseleccionar/obr
 })
 export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
   paciente: PacienteView = this.config.data.paciente;
-  genero : string [] = ['Masculino','Femenino','No Binario']
+  genero: string[] = ["Masculino", "Femenino", "No Binario"];
   persona: Persona = this.config.data.persona;
   osref!: DynamicDialogRef;
   Form = this.formBuilder.group({
@@ -57,7 +57,7 @@ export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
     ],
     fechaNacimiento: [this.persona.fechaNacimiento],
     fechaIngreso: [this.paciente.fechaIngreso, Validators.required],
-    genero : [this.persona.Genero,Validators.required],
+    genero: [this.persona.Genero, Validators.required],
     nombreOS: [this.paciente.nombreObraSocial, Validators.required],
   });
   constructor(
@@ -187,5 +187,4 @@ export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
       )
       .subscribe();
   }
-
 }

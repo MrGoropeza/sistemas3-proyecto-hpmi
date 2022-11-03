@@ -39,10 +39,10 @@
   <!-- tabla -->
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th>ID</th>
+      <!-- <th>ID</th> -->
       <th *ngIf="!isComprobanteEntrada">Proveedor</th>
       <th *ngIf="isComprobanteEntrada">ObraSocial</th>
-      <th>Fecha de Registro</th>
+      <!-- <th>Fecha de Registro</th> -->
       <th>Fecha de {{titulo}}</th>
       <th>Fecha de Vencimiento</th>
       <th>Total</th>
@@ -54,10 +54,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-comprobante let-columns="columns" let-rowIndex="rowIndex">
     <tr>
-      <td>
+      <!-- <td>
         <span class="p-column-title font-bold">ID</span
         >{{ rowIndex +1 }}
-      </td>
+      </td> -->
       <td *ngIf="!isComprobanteEntrada">
         <span class="p-column-title font-bold">Nombre de Proveedor</span
         >{{ comprobante.idProveedor.nombre }}
@@ -66,10 +66,10 @@
         <span class="p-column-title font-bold">Obra Social</span
         >{{ comprobante.idObraSocial.nombre }}
       </td>
-      <td>
+      <!-- <td>
         <span class="p-column-title font-bold">Fecha de Registro</span
         >{{ comprobante.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
-      </td>
+      </td> -->
       <td>
         <span class="p-column-title font-bold">Fecha de {{titulo}}</span
         >{{ comprobante.fechaComprobante | date: "dd/MM/yyyy" }}
@@ -96,7 +96,7 @@
       </td>
       <td>
         <span class="p-column-title font-bold" >Acciones</span>
-        <div>
+        <div class="flex">
 
           <button
             pButton
