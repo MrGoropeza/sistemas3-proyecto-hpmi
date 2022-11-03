@@ -82,6 +82,8 @@ export class ObraSocialABMComponent implements OnInit {
   //   // });
   // }
   public eliminar(id : number) {
+    console.log(id);
+    
     this.confirmationService.confirm({
       message: "¿Estás seguro que desea borrar esta Obra Social?",
       header: "Confirmar",
@@ -92,6 +94,8 @@ export class ObraSocialABMComponent implements OnInit {
         this.obraSocialService.delete(id).then(
           (res)=>{
             if(res.data){
+              console.log(res.data);
+              
               this.getItems();
             }
           }

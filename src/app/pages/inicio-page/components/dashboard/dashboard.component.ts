@@ -7,8 +7,8 @@ import { ChartService } from 'src/app/services/charts/chart.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  cantPacientes : number = 0;
-  cantAtenciones : number = 0;
+  cantPacientes! : number;
+  cantAtenciones! : number;
   constructor(private chartService : ChartService) { }
 
   ngOnInit(): void {
