@@ -35,7 +35,7 @@
   <!-- tabla -->
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th>ID</th>
+      <!-- <th>ID</th> -->
       <th>Nombre</th>
       <th>Telefono</th>
       <th>Correo</th>
@@ -47,10 +47,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-proveedor let-columns="columns">
     <tr>
-      <td>
+      <!-- <td>
         <span class="p-column-title font-bold">ID</span
         >{{ proveedor.idProveedor }}
-      </td>
+      </td> -->
       <td>
         <span class="p-column-title font-bold">Nombre</span
         >{{ proveedor.nombre }}
@@ -75,25 +75,30 @@
         <span class="p-column-title font-bold">Fecha de Registro</span
         >{{ proveedor.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
       </td>
-      <button
-        pButton
-        pRipple
-        tooltipPosition="top"
-        pTooltip="Editar"
-        icon="pi pi-pencil"
-        class="p-button-rounded p-button-success mr-2"
-        (click)="editar(proveedor)"
-      ></button>
-      <button
-        pButton
-        pRipple
-        pTooltip="Eliminar"
-        tooltipPosition="top"
-        icon="pi pi-trash"
-        class="p-button-rounded p-button-warning mr-2"
-        (click)="eliminar(proveedor.idProveedor)"
-        
-      ></button>
+      <td>
+        <div class="flex">
+          <button
+          pButton
+          pRipple
+          tooltipPosition="top"
+          pTooltip="Editar"
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-success mr-2"
+          (click)="editar(proveedor)"
+        ></button>
+        <button
+          pButton
+          pRipple
+          pTooltip="Eliminar"
+          tooltipPosition="top"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-warning mr-2"
+          (click)="eliminar(proveedor.idProveedor)"
+          
+        ></button>
+  
+        </div>
+      </td>
     </tr>
   </ng-template>
 

@@ -37,7 +37,7 @@ dataKey="idMedico"
   <!-- tabla -->
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th>ID</th>
+      <!-- <th>ID</th> -->
       <th>Nombre</th>
       <th>Especialidad</th>
       <th>Cargo</th>
@@ -47,10 +47,10 @@ dataKey="idMedico"
   </ng-template>
   <ng-template pTemplate="body" let-medico let-columns="columns" let-index="rowIndex">
     <tr>
-      <td>
+      <!-- <td>
         <span class="p-column-title font-bold">ID</span
         >{{ index+1 }}
-      </td>
+      </td> -->
       <td>
         <span class="p-column-title font-bold">Nombre</span
         >{{ medico.persona.apellido+', '+medico.persona.nombre }}
