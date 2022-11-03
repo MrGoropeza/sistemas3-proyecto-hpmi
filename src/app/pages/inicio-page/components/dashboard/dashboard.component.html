@@ -1,10 +1,10 @@
 <div *ngIf="graficosCargados >= 3; else elseblock">
   <div class="flex justify-content-center">
-    <div class="block md:flex flex-wrap ">
+    <div class="block md:flex flex-wrap">
       <div class="px-0 md:px-7">
         <app-count-card
           [leyenda]="'Cantidad de pacientes registrados de este mes'"
-          [valor]="cantPacientes" 
+          [valor]="cantPacientes"
         ></app-count-card>
       </div>
       <div>
@@ -14,19 +14,33 @@
         ></app-count-card>
       </div>
     </div>
+  </div>
+  <div>
+    <div>
+      <app-cost-bar-chart
+        [titulo]="'Gastos'"
+        [etiqueta1]="'Devengamientos'"
+        [etiqueta2]="'Gastos'"
+        [vector1]="devengamientos"
+        [vector2]="gastos"
+      ></app-cost-bar-chart>
     </div>
-    <div class="flex justify-content-center">
-      <p class="m-3 text-3xl text-center">Gastos</p>
+    <div>
+      <app-cost-bar-chart></app-cost-bar-chart>
     </div>
-    <app-cost-bar-chart [gastos]="gastos" [devengamientos]="devengamientos"></app-cost-bar-chart>
+  </div>
 </div>
 <ng-template #elseblock>
   <div class="flex justify-content-center">
-    <p-progressSpinner [style]="{width: '10rem', height: '10rem'}" styleClass="custom-spinner" strokeWidth="4" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>  
+    <p-progressSpinner
+      [style]="{ width: '10rem', height: '10rem' }"
+      styleClass="custom-spinner"
+      strokeWidth="4"
+      fill="var(--surface-ground)"
+      animationDuration=".5s"
+    ></p-progressSpinner>
   </div>
   <div class="flex justify-content-center">
     <p class="text-lg">Cargando Estadisticas...</p>
   </div>
 </ng-template>
-
-

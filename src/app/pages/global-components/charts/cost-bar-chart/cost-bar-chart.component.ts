@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ChartService } from "src/app/services/charts/chart.service";
 
 @Component({
   selector: "app-cost-bar-chart",
@@ -8,8 +7,11 @@ import { ChartService } from "src/app/services/charts/chart.service";
 })
 export class CostBarChartComponent implements OnInit {
   data: any;
-  @Input() gastos : number[] = [];
-  @Input() devengamientos : number[] = [];
+  @Input() vector1 : number[] = [];
+  @Input() vector2 : number[] = [];
+  @Input() titulo! : string;
+  @Input() etiqueta1! : string;
+  @Input() etiqueta2! : string;
   constructor() {}
 
   ngOnInit(): void {
@@ -20,14 +22,14 @@ export class CostBarChartComponent implements OnInit {
       labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
       datasets: [
         {
-          label: "Devengamientos",
+          label: this.etiqueta1,
           backgroundColor: "#73c8c0",
-          data: this.devengamientos,
+          data: this.vector1,
         },
         {
-          label: "Gastos",
+          label: this.etiqueta2,
           backgroundColor: "#009ea0",
-          data: this.gastos,
+          data: this.vector2,
         },
       ],
     };
