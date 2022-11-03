@@ -33,7 +33,7 @@ export class ChartService {
   }
   async getGastos(){
     return await this.supabase
-    .from<Dashboard>("DashboardView")
+    .from<Dashboard>("DashboardSalidaView")
     .select("*");
   }
 

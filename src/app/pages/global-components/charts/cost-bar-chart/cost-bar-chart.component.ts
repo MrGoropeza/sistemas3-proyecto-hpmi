@@ -12,6 +12,9 @@ export class CostBarChartComponent implements OnInit {
   @Input() titulo! : string;
   @Input() etiqueta1! : string;
   @Input() etiqueta2! : string;
+  @Input() color1! : string;
+  @Input() color2! : string;
+  @Input() labels : string[] = [];
   constructor() {}
 
   ngOnInit(): void {
@@ -19,16 +22,16 @@ export class CostBarChartComponent implements OnInit {
   }
   private async getGastos() {
     this.data = {
-      labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+      labels: this.labels,
       datasets: [
         {
           label: this.etiqueta1,
-          backgroundColor: "#73c8c0",
+          backgroundColor: this.color1,
           data: this.vector1,
         },
         {
           label: this.etiqueta2,
-          backgroundColor: "#009ea0",
+          backgroundColor: this.color2,
           data: this.vector2,
         },
       ],

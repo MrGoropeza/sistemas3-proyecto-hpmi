@@ -19,14 +19,34 @@
     <div>
       <app-cost-bar-chart
         [titulo]="'Gastos'"
+        [color1]="'#C0392B'"
+        [color2]="'#E74C3C'"
         [etiqueta1]="'Devengamientos'"
         [etiqueta2]="'Gastos'"
+        [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
         [vector1]="devengamientos"
         [vector2]="gastos"
       ></app-cost-bar-chart>
     </div>
     <div>
-      <app-cost-bar-chart></app-cost-bar-chart>
+      <app-cost-bar-chart
+        [titulo]="'Ingresos'"
+        [color1]="'#27AE60'"
+        [color2]="'#2ECC71'"
+        [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
+        [etiqueta1]="'Total Facturado'"
+        [etiqueta2]="'Ingresos'"
+      ></app-cost-bar-chart>
+    </div>
+    <div>
+      <app-cost-bar-chart
+        [titulo]="'Egresos e Ingresos'"
+        [color1]="'#E74C3C'"
+        [color2]="'#2ECC71'"
+        [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
+        [etiqueta1]="'Egresos'"
+        [etiqueta2]="'Ingresos'"
+      ></app-cost-bar-chart>
     </div>
   </div>
 </div>

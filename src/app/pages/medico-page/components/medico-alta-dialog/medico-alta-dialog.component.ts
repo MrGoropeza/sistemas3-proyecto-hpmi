@@ -77,7 +77,7 @@ export class MedicoAltaDialogComponent implements OnInit {
             this.medicoForm.patchValue({
               fechaNacimiento: this.medico.persona.fechaNacimiento,
               correo: this.medico.persona.email,
-              genero : this.medico.persona.Genero
+              genero: this.medico.persona.Genero,
             });
           } else {
             console.log(res.error);
@@ -89,6 +89,7 @@ export class MedicoAltaDialogComponent implements OnInit {
     this.ref.close();
   }
   guardar() {
+    this.medicoForm.markAllAsTouched();
     if (this.medicoForm.valid) {
       this.medico.Cargo = this.medicoForm.controls["cargo"].value || "";
       this.medico.Especialidad =
@@ -137,15 +138,16 @@ export class MedicoAltaDialogComponent implements OnInit {
           });
         });
       }
-    } else {
-      console.log(this.findInvalidControlsRecursive(this.medicoForm));
-      this.messageService.add({
-        severity: "warn",
-        summary: "Advertencia",
-        detail: `${this.findInvalidControlsRecursive(this.medicoForm)}`,
-        life: 3000,
-      });
     }
+    // else {
+    //   console.log(this.findInvalidControlsRecursive(this.medicoForm));
+    //   this.messageService.add({
+    //     severity: "warn",
+    //     summary: "Advertencia",
+    //     detail: `${this.findInvalidControlsRecursive(this.medicoForm)}`,
+    //     life: 3000,
+    //   });
+    // }
   }
   public findInvalidControlsRecursive(
     formToInvestigate: FormGroup | FormArray
