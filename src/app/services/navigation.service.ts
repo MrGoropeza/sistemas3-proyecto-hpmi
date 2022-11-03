@@ -128,6 +128,11 @@ export class NavigationService{
         icon: 'bi bi-receipt-cutoff',
         routerLink: "/facturasObrasSociales"
       },
+      {
+        label: "Pagos Obras Sociales",
+        icon: 'bi bi-cash',
+        routerLink: "/pagosObrasSociales"
+      },
       // {
       //   label: "Usuarios",
       //   items: [

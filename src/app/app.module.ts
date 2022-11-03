@@ -105,6 +105,7 @@ import { CountCardComponent } from './pages/global-components/charts/count-card/
 import { DashboardComponent } from './pages/inicio-page/components/dashboard/dashboard.component';
 import { SeleccionarAtencionesComponent } from './pages/global-components/comprobante-abm/components/seleccionar-atenciones/seleccionar-atenciones.component';
 import { DetalleComprobanteEntradaComponent } from './pages/global-components/comprobante-abm/components/detalle-comprobante/components/detalle-comprobante-entrada/detalle-comprobante-entrada.component';
+import { PagosEntradaComponent } from './pages/pagos-entrada/pagos-entrada.component';
 
 @NgModule({
   declarations: [
@@ -203,6 +204,7 @@ import { DetalleComprobanteEntradaComponent } from './pages/global-components/co
     DashboardComponent,
     SeleccionarAtencionesComponent,
     DetalleComprobanteEntradaComponent,
+    PagosEntradaComponent,
   ],
   imports: [
     BrowserModule,

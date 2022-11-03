@@ -24,6 +24,7 @@ import { PacientePageComponent } from "./pages/paciente-page/paciente-page.compo
 import { ObraSocialPageComponent } from "./pages/obra-social-page/obra-social-page.component";
 import { AtencionesPageComponent } from "./pages/atenciones-page/atenciones-page.component";
 import { FacturaEntradaPageComponent } from "./pages/factura-entrada-page/factura-entrada-page.component";
+import { PagosEntradaComponent } from "./pages/pagos-entrada/pagos-entrada.component";
 
 // const routes2: Routes = [
 //   {path: 'abmDepositos', component: DepositosPageComponent},
@@ -195,18 +196,24 @@ const routes: Routes = [
         component: FacturaEntradaPageComponent
       },
       {
-        path: "usuarios",
-        data: { breadcrumb: "Usuarios" },
-        title: "Usuarios",
-        children: [
-          {
-            path: "abm",
-            data: { breadcrumb: "Altas, Bajas y Modificaciones" },
-            component: UsuariosPageComponent,
-            title: "ABM Usuarios",
-          },
-        ],
-      },
+        path: "pagosObrasSociales",
+        data: { breadcrumb: "Pagos Obras Sociales" },
+        title: "Pagos Obras Sociales",
+        component: PagosEntradaComponent
+      }
+      // {
+      //   path: "usuarios",
+      //   data: { breadcrumb: "Usuarios" },
+      //   title: "Usuarios",
+      //   children: [
+      //     {
+      //       path: "abm",
+      //       data: { breadcrumb: "Altas, Bajas y Modificaciones" },
+      //       component: UsuariosPageComponent,
+      //       title: "ABM Usuarios",
+      //     },
+      //   ],
+      // },
     ],
   },
 ];
