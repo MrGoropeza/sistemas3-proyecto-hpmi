@@ -12,6 +12,8 @@ export class FormSeleccionadorComponent implements OnInit {
   @Input() dialogVisible!: boolean;
   @Output() dialogVisibleChange = new EventEmitter<boolean>();
 
+  @Output() buttonClick = new EventEmitter();
+
   @Input() nameItem!: string;
 
   @Input() idItem!: string;
@@ -27,6 +29,11 @@ export class FormSeleccionadorComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  onButtonClick(){
+    this.buttonClick.emit();
+    this.dialogVisibleChange.emit(true);
   }
 
 

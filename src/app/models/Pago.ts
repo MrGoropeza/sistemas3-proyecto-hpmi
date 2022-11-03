@@ -6,3 +6,12 @@ export interface Pago{
     total : number;
     estado : boolean;
 }
+
+export interface PagoEntrada{
+    idPago : number;
+    nombreObra : string;
+    fechaRegistro : Date;
+    nroComprobante : string;
+    total : number;
+    estado : boolean;
+}

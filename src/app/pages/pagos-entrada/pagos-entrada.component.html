@@ -1,0 +1,118 @@
+<button
+  pButton
+  pRipple
+  label="Volver"
+  icon="pi pi-arrow-left"
+  class="p-button-link mr-2 p-4 pb-3"
+  [routerLink]="['..']"
+></button>
+
+<!-- Contenido de la pagina -->
+
+<p-table
+  #dt
+  [value]="pagos"
+  [rows]="5"
+  [paginator]="true"
+  [totalRecords]="cantPagos"
+  (onLazyLoad)="onLazyLoad($event)"
+  [lazy]="true" 
+  responsiveLayout="stack"
+  [rowHover]="true"
+  dataKey="idPago"
+  [showCurrentPageReport]="false"
+  [loading]="loading"
+>
+  <ng-template pTemplate="caption">
+    <div class="grid align-items-center justify-content-between">
+      <div class="md:col col-12">
+          <div class="flex md:justify-content-start justify-content-center">
+              <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="pagosDialog = true"></button> 
+          </div>
+      </div>
+      <div class="md:col col-12">
+        <div class="flex md:justify-content-end justify-content-center">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              class="p-inputtext-md"
+              type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Buscar..."
+            />
+          </span>
+        </div>
+      </div>
+      
+    </div>
+  </ng-template>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>N° de Comprobante</th>
+      <th>Obra Social</th>
+      <th>Fecha de Registro</th>
+      <th>Metodo de Pago</th>
+      <th>Importe Total</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-pago let-columns="columns" let-rowIndex="rowIndex">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold"></span
+        >{{ pago.nroComprobante }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Obra Social</span
+        >{{ pago.nombreObra }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Fecha</span
+        >{{ pago.fechaRegistro | date: "dd/MM/yyyy H:mm" }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Metodo de Pago</span
+        >{{ pago.nombreMetodo }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Total</span
+        >{{ pago.total | currency}}
+      </td>
+
+      
+      <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        pTooltip="Ver Detalle"
+        icon="pi pi-search"
+        class="p-button-rounded p-button-info mr-2"
+        (click)="verDetalle(pago)"
+      ></button>
+      <button
+      pButton
+      pRipple
+      tooltipPosition="top"
+      pTooltip="Ver Detalle"
+      icon="pi pi-trash"
+      class="p-button-rounded p-button-warning mr-2"
+      (click)="delete(pago)"
+    ></button>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ pagos ? this.cantPagos : 0 }} comprobantes pendientes de pago.
+    </div>
+  </ng-template>
+</p-table>
+
+
+
+<app-pago-entrada-dialog
+    [(pagosDialog)]="pagosDialog"
+></app-pago-entrada-dialog>
+

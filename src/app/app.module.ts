@@ -106,6 +106,8 @@ import { DashboardComponent } from './pages/inicio-page/components/dashboard/das
 import { SeleccionarAtencionesComponent } from './pages/global-components/comprobante-abm/components/seleccionar-atenciones/seleccionar-atenciones.component';
 import { DetalleComprobanteEntradaComponent } from './pages/global-components/comprobante-abm/components/detalle-comprobante/components/detalle-comprobante-entrada/detalle-comprobante-entrada.component';
 import { PagosEntradaComponent } from './pages/pagos-entrada/pagos-entrada.component';
+import { PagoEntradaDialogComponent } from './pages/pagos-entrada/componentes/pago-entrada-dialog/pago-entrada-dialog.component';
+import { FacturasSeleccionadasComponent } from './pages/pagos-entrada/componentes/facturas-seleccionadas/facturas-seleccionadas.component';
 
 @NgModule({
   declarations: [
@@ -205,6 +207,8 @@ import { PagosEntradaComponent } from './pages/pagos-entrada/pagos-entrada.compo
     SeleccionarAtencionesComponent,
     DetalleComprobanteEntradaComponent,
     PagosEntradaComponent,
+    PagoEntradaDialogComponent,
+    FacturasSeleccionadasComponent,
   ],
   imports: [
     BrowserModule,

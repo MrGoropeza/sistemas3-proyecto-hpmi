@@ -1,0 +1,103 @@
+<p-dialog
+    *ngIf="pagosDialog"
+    header="Agregar Pago de Obra Social"
+    [(visible)]="pagosDialog"
+    (onHide)="ocultarDialog()"
+    [modal]="true"
+    styleClass=""
+    [dismissableMask]="true"
+>
+    <form [formGroup]="formPago">
+
+        <app-form-seleccionador
+            class="col-12 md:col-6"
+            [control]="formPago.controls['obra']"
+            (buttonClick)="seleccionarObraSocial()"
+            nameItem="Obra Social"
+
+            labelIdItem="CUIT Obra Social"
+            [idItem]="formPago.controls['obra'].value 
+                ? formPago.controls['obra'].value.cuit
+                : ''"
+
+            labelValueItem="Nombre Obra Social"
+            [valueItem]="formPago.controls['obra'].value 
+                ? formPago.controls['obra'].value.nombre
+                : ''"
+        ></app-form-seleccionador>
+
+        <app-form-dropdown
+            class="col-12 md:col-6"
+            id="metodoPago"
+            label="Método de Pago"
+            labelError="Método de Pago requerido."
+            [control]="formPago.controls['metodo']"
+            [options]="metodos"
+            optionLabel="nombre"
+        ></app-form-dropdown>
+
+        <div class="flex flex-column min-w-full">
+            <h4 class="m-0 mb-2 p-0 font-bold">Facturas Seleccionadas:</h4>
+        
+            <small
+                class="p-error"
+                *ngIf="
+                    formPago.controls['cantFacturas'].invalid &&
+                    formPago.controls['cantFacturas'].touched
+                "
+            >Selección de facturas requerida.</small>
+
+            <app-facturas-seleccionadas
+            
+            ></app-facturas-seleccionadas>
+
+            <div class="flex justify-content-end min-w-full">
+                <p class="m-0 mb-2 p-0 font-bold text-lg">
+                Subtotal Facturas: {{ subtotal | currency }}
+                </p>
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-template pTemplate="footer">
+        <button
+            pButton
+            pRipple
+            type="button"
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="ocultarDialog()"
+        ></button>
+
+        <button
+            pButton
+            type="button"
+            pRipple
+            label="Guardar"
+            icon="pi pi-check"
+            class="p-button-text"
+        ></button>
+    </ng-template>
+
+</p-dialog>
+
+
+<p-dialog
+  *ngIf="dialogFacturas"
+  header="Agregar Facturas"
+  [(visible)]="dialogFacturas"
+  [modal]="true"
+  styleClass="w-12"
+  [dismissableMask]="true"
+>
+  
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="dialogFacturas = false"></button>
+  </ng-template>
+  
+</p-dialog>
