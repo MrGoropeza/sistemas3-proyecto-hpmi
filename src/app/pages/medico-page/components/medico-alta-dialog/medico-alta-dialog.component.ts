@@ -1,5 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { Medico } from "src/app/models/Medico";
@@ -20,6 +26,7 @@ import {
 })
 export class MedicoAltaDialogComponent implements OnInit {
   medico: Medico = this.config.data.medico;
+  genero: string[] = ["Masculino", "Femenino", "No Binario"];
   medicoForm = this.formBuilder.group({
     nombre: [this.medico.persona.nombre, Validators.required],
     apellido: [this.medico.persona.apellido, Validators.required],
@@ -38,9 +45,10 @@ export class MedicoAltaDialogComponent implements OnInit {
     domicilio: [this.medico.persona.domicilio, Validators.required],
     cuil: [
       this.medico.persona.cuil,
-      [Validators.required,Validators.pattern(CustomValidator)],
+      [Validators.required, Validators.pattern(CustomValidator)],
     ],
     especialidad: [this.medico.Especialidad, Validators.required],
+    genero: [this.medico.persona.Genero, Validators.required],
     cargo: [this.medico.Cargo, Validators.required],
     fechaNacimiento: [this.medico.persona.fechaNacimiento, Validators.required],
   });
@@ -69,6 +77,7 @@ export class MedicoAltaDialogComponent implements OnInit {
             this.medicoForm.patchValue({
               fechaNacimiento: this.medico.persona.fechaNacimiento,
               correo: this.medico.persona.email,
+              genero: this.medico.persona.Genero,
             });
           } else {
             console.log(res.error);
@@ -80,6 +89,7 @@ export class MedicoAltaDialogComponent implements OnInit {
     this.ref.close();
   }
   guardar() {
+    this.medicoForm.markAllAsTouched();
     if (this.medicoForm.valid) {
       this.medico.Cargo = this.medicoForm.controls["cargo"].value || "";
       this.medico.Especialidad =
@@ -97,6 +107,8 @@ export class MedicoAltaDialogComponent implements OnInit {
         this.medicoForm.controls["domicilio"].value || "";
       this.medico.persona.telefono =
         this.medicoForm.controls["telefono"].value || "";
+      this.medico.persona.Genero =
+        this.medicoForm.controls["genero"].value || "";
       this.medico.persona.cuil = this.medicoForm.controls["cuil"].value || "";
       console.log(this.medico);
       if (!this.medico.idMedico) {
@@ -126,15 +138,16 @@ export class MedicoAltaDialogComponent implements OnInit {
           });
         });
       }
-    }else{
-      console.log(this.findInvalidControlsRecursive(this.medicoForm));
-      this.messageService.add({
-        severity: "warn",
-        summary: "Advertencia",
-        detail: `${this.findInvalidControlsRecursive(this.medicoForm)}`,
-        life: 3000,
-      });
     }
+    // else {
+    //   console.log(this.findInvalidControlsRecursive(this.medicoForm));
+    //   this.messageService.add({
+    //     severity: "warn",
+    //     summary: "Advertencia",
+    //     detail: `${this.findInvalidControlsRecursive(this.medicoForm)}`,
+    //     life: 3000,
+    //   });
+    // }
   }
   public findInvalidControlsRecursive(
     formToInvestigate: FormGroup | FormArray

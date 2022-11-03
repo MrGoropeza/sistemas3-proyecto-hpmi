@@ -9,4 +9,5 @@ export interface Persona{
     cuil : string;
     fechaRegistro : Date;
     fechaNacimiento : Date;
+    Genero : string;
 }

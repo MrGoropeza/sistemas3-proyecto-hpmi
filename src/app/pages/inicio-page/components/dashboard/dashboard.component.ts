@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartService } from 'src/app/services/charts/chart.service';
+import { Component, OnInit } from "@angular/core";
+import { ChartService } from "src/app/services/charts/chart.service";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit {
-  cantPacientes! : number;
-  cantAtenciones! : number;
-  constructor(private chartService : ChartService) { }
+  cantPacientes!: number;
+  gastos : number[] = [];
+  devengamientos : number[] = [];
+  cantAtenciones!: number;
+  graficosCargados : number = 0;
+  constructor(private chartService: ChartService) {}
 
   ngOnInit(): void {
     const now = new Date();
@@ -17,27 +20,42 @@ export class DashboardComponent implements OnInit {
     const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     const primerDia = firstDay.toISOString();
     const ultimoDia = lastDay.toISOString();
-    this.getCantPacientes(primerDia,ultimoDia);
-    this.getCantAtenciones(primerDia,ultimoDia)
+    this.getCantPacientes(primerDia, ultimoDia);
+    this.getCantAtenciones(primerDia, ultimoDia);
+    this.getGastos();
   }
-  async getCantPacientes(primerDia : string,ultimoDia : string){
-    let request = await this.chartService.getCantPacientes(primerDia,ultimoDia);
+  private async getGastos(){
+    let request = await this.chartService.getGastos();
     if(request.data){
+      this.gastos = request.data.map(dato => dato.saldo);
+      this.devengamientos = request.data.map(dato => dato.subtotal);
+      this.graficosCargados++;
+    }
+  }
+  async getCantPacientes(primerDia: string, ultimoDia: string) {
+    let request = await this.chartService.getCantPacientes(
+      primerDia,
+      ultimoDia
+    );
+    if (request.data) {
       console.log(request.data);
       this.cantPacientes = request.data.length;
-      
-    }else{
+      this.graficosCargados++;
+    } else {
       console.log(request.error);
     }
   }
-  async getCantAtenciones(primerDia : string,ultimoDia : string){
-    let request = await this.chartService.getCantAtenciones(primerDia,ultimoDia);
-    if(request.data){
+  async getCantAtenciones(primerDia: string, ultimoDia: string) {
+    let request = await this.chartService.getCantAtenciones(
+      primerDia,
+      ultimoDia
+    );
+    if (request.data) {
       console.log(request.data);
       this.cantAtenciones = request.data.length;
-    }else{
+      this.graficosCargados++;
+    } else {
       console.log(request.error);
     }
   }
-
 }

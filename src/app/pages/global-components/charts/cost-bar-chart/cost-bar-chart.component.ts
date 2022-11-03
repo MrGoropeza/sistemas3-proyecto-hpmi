@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
   selector: "app-cost-bar-chart",
@@ -7,24 +7,34 @@ import { Component, OnInit } from "@angular/core";
 })
 export class CostBarChartComponent implements OnInit {
   data: any;
-  constructor() {
+  @Input() vector1 : number[] = [];
+  @Input() vector2 : number[] = [];
+  @Input() titulo! : string;
+  @Input() etiqueta1! : string;
+  @Input() etiqueta2! : string;
+  @Input() color1! : string;
+  @Input() color2! : string;
+  @Input() labels : string[] = [];
+  constructor() {}
+
+  ngOnInit(): void {
+    this.getGastos();
+  }
+  private async getGastos() {
     this.data = {
-      labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+      labels: this.labels,
       datasets: [
         {
-          label: "Total a Pagar",
-          backgroundColor : "#73c8c0",
-          data: [65, 59, 80, 81],
+          label: this.etiqueta1,
+          backgroundColor: this.color1,
+          data: this.vector1,
         },
         {
-          label: "Saldo Deudor",
-          backgroundColor : "#009ea0",
-          data: [28, 48, 40, 19],
+          label: this.etiqueta2,
+          backgroundColor: this.color2,
+          data: this.vector2,
         },
       ],
-
     };
   }
-
-  ngOnInit(): void {}
 }

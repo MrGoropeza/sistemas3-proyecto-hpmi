@@ -34,6 +34,8 @@ import {CardModule} from 'primeng/card';
 import {TabViewModule} from 'primeng/tabview';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {ChartModule} from 'primeng/chart';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+
 @NgModule({
   exports: [
     DynamicDialogModule,
@@ -69,7 +71,8 @@ import {ChartModule} from 'primeng/chart';
     TabViewModule,
     PanelModule,
     ScrollPanelModule,
-    ChartModule
+    ChartModule,
+    ProgressSpinnerModule
   ]
 })
 export class PrimengImportsModule { }

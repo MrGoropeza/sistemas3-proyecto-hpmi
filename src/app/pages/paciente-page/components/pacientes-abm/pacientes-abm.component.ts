@@ -72,6 +72,8 @@ export class PacientesABMComponent implements OnInit {
       );
       if (request.data) {
         this.persona = request.data;
+        console.log(this.persona);
+        
       } else {
         console.log(request.error);
       }
@@ -101,7 +103,7 @@ export class PacientesABMComponent implements OnInit {
   public verDetalle(paciente : PacienteView) {
     this.ref = this.dialogService.open(PacienteDetalleDialogComponent, {
       header: `Historia Clinica del paciente`,
-      width: "70%",
+      width: "80%",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
       data: { paciente : paciente },

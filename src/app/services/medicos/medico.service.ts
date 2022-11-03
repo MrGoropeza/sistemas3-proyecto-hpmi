@@ -37,6 +37,7 @@ export class MedicoService {
         nombre : medico.persona.nombre,
         dni : medico.persona.dni,
         cuil : medico.persona.cuil,
+        Genero: medico.persona.Genero,
         domicilio : medico.persona.domicilio,
         fechaNacimiento: medico.persona.fechaNacimiento,
         telefono : medico.persona.telefono,

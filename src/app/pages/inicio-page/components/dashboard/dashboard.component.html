@@ -1,20 +1,66 @@
-<div class="flex justify-content-center">
-<div class="block md:flex flex-wrap ">
-  <div class="px-0 md:px-7" *ngIf="!cantPacientes">
-    <app-count-card
-      [leyenda]="'Cantidad de pacientes registrados de este mes'"
-      [valor]="cantPacientes" 
-    ></app-count-card>
+<div *ngIf="graficosCargados >= 3; else elseblock">
+  <div class="flex justify-content-center">
+    <div class="block md:flex flex-wrap">
+      <div class="px-0 md:px-7">
+        <app-count-card
+          [leyenda]="'Cantidad de pacientes registrados en este mes'"
+          [valor]="cantPacientes"
+        ></app-count-card>
+      </div>
+      <div>
+        <app-count-card
+          [leyenda]="'Cantidad de Atenciones en este mes'"
+          [valor]="cantAtenciones"
+        ></app-count-card>
+      </div>
+    </div>
   </div>
-  <div *ngIf="!cantAtenciones">
-    <app-count-card
-      [leyenda]="'Cantidad de Atenciones de este mes'"
-      [valor]="cantAtenciones"
-    ></app-count-card>
+  <div>
+    <div>
+      <app-cost-bar-chart
+        [titulo]="'Gastos'"
+        [color1]="'#C0392B'"
+        [color2]="'#E74C3C'"
+        [etiqueta1]="'Devengamientos'"
+        [etiqueta2]="'Gastos'"
+        [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
+        [vector1]="devengamientos"
+        [vector2]="gastos"
+      ></app-cost-bar-chart>
+    </div>
+    <div>
+      <app-cost-bar-chart
+        [titulo]="'Ingresos'"
+        [color1]="'#27AE60'"
+        [color2]="'#2ECC71'"
+        [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
+        [etiqueta1]="'Total Facturado'"
+        [etiqueta2]="'Ingresos'"
+      ></app-cost-bar-chart>
+    </div>
+    <div>
+      <app-cost-bar-chart
+        [titulo]="'Egresos e Ingresos'"
+        [color1]="'#E74C3C'"
+        [color2]="'#2ECC71'"
+        [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
+        [etiqueta1]="'Egresos'"
+        [etiqueta2]="'Ingresos'"
+      ></app-cost-bar-chart>
+    </div>
   </div>
 </div>
-</div>
-<div class="flex justify-content-center">
-  <p class="m-3 text-3xl text-center">Gastos</p>
-</div>
-<app-cost-bar-chart></app-cost-bar-chart>
+<ng-template #elseblock>
+  <div class="flex justify-content-center">
+    <p-progressSpinner
+      [style]="{ width: '10rem', height: '10rem' }"
+      styleClass="custom-spinner"
+      strokeWidth="4"
+      fill="var(--surface-ground)"
+      animationDuration=".5s"
+    ></p-progressSpinner>
+  </div>
+  <div class="flex justify-content-center">
+    <p class="text-lg">Cargando Estadisticas...</p>
+  </div>
+</ng-template>

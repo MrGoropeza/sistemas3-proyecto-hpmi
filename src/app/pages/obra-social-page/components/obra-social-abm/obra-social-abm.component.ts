@@ -72,15 +72,7 @@ export class ObraSocialABMComponent implements OnInit {
       })
     ).subscribe();
   }
-  // public verDetalle(paciente : ObraSocial) {
-  //   // this.ref = this.dialogService.open(PacienteDetalleDialogComponent, {
-  //   //   header: `Historia Clinica del paciente`,
-  //   //   width: "70%",
-  //   //   contentStyle: { overflow: "auto" },
-  //   //   baseZIndex: 10000,
-  //   //   data: { paciente : paciente },
-  //   // });
-  // }
+
   public eliminar(id : number) {
     console.log(id);
     

@@ -66,7 +66,7 @@ export class PagoABMComponent implements OnInit {
   public verDetalle(pago: Pago) {
     this.ref = this.dialogService.open(PagoDetalleDialogComponent, {
       header: `Pago #${pago.nroComprobante}`,
-      width: "70%",
+      width: "80%",
       contentStyle: { overflow: "auto" },
       baseZIndex: 10000,
       data: { pago: pago },

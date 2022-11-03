@@ -150,6 +150,17 @@
     >
   </div>
   <div class="field">
+    <label for="genero">Genero</label>
+    <p-dropdown inputId="genero" [options]="genero" placeholder="Seleccionar"
+        name="genero" formControlName="genero">
+        <ng-template let-option pTemplate="item">
+            {{option}} 
+        </ng-template>
+    </p-dropdown>
+    <small class="p-error" *ngIf="medicoForm.controls['genero'].invalid &&
+    medicoForm.controls['genero'].touched">Seleccionar genero.</small>
+</div>
+  <div class="field">
     <label for="especialidad" class="block">Especialidad</label>
     <input
       id="especialidad"

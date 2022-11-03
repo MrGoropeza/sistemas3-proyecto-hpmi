@@ -174,7 +174,17 @@
         >fecha de Ingreso requerida.</small
       >
     </div>
-
+    <div class="field">
+      <label for="genero">Genero</label>
+      <p-dropdown inputId="genero" [options]="genero" placeholder="Seleccionar"
+          name="genero" formControlName="genero">
+          <ng-template let-option pTemplate="item">
+              {{option}} 
+          </ng-template>
+      </p-dropdown>
+      <small class="p-error" *ngIf="Form.controls['genero'].invalid &&
+      Form.controls['genero'].touched">Seleccionar genero.</small>
+  </div>
     <div class="field">
       <div class="grid flex-wrap align-items-end">
         <div class="col-12 md:col-10 flex-column">

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Paciente } from "src/app/models/Paciente";
+import { Dashboard } from "src/app/models/Dashboard";
 import { SupabaseService } from "../supabase.service";
 
 @Injectable({
@@ -29,6 +29,11 @@ export class ChartService {
     .gt('fechaRegistro',primerDia)
     .lte('fechaRegistro',ultimoDia);
 
+  }
+  async getGastos(){
+    return await this.supabase
+    .from<Dashboard>("DashboardSalidaView")
+    .select("*");
   }
 
 }
