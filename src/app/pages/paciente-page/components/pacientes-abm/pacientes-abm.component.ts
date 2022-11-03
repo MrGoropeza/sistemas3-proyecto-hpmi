@@ -72,6 +72,8 @@ export class PacientesABMComponent implements OnInit {
       );
       if (request.data) {
         this.persona = request.data;
+        console.log(this.persona);
+        
       } else {
         console.log(request.error);
       }

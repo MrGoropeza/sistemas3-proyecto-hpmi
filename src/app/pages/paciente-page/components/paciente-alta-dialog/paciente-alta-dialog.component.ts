@@ -32,6 +32,7 @@ import { ObraSocialASeleccionarComponent } from "../obra-social-aseleccionar/obr
 })
 export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
   paciente: PacienteView = this.config.data.paciente;
+  genero : string [] = ['Masculino','Femenino','No Binario']
   persona: Persona = this.config.data.persona;
   osref!: DynamicDialogRef;
   Form = this.formBuilder.group({
@@ -56,7 +57,7 @@ export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
     ],
     fechaNacimiento: [this.persona.fechaNacimiento],
     fechaIngreso: [this.paciente.fechaIngreso, Validators.required],
-    // idObraSocial : [this.paciente.idObraSocial],
+    genero : [this.persona.Genero,Validators.required],
     nombreOS: [this.paciente.nombreObraSocial, Validators.required],
   });
   constructor(
@@ -103,6 +104,7 @@ export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
       this.persona.telefono = this.Form.controls["telefono"].value || "";
       this.persona.cuil = this.Form.controls["cuil"].value || "";
       this.persona.nombre = this.Form.controls["nombre"].value || "";
+      this.persona.Genero = this.Form.controls["genero"].value || "";
       if (!this.paciente.idPaciente) {
         this.personaService.insert(this.persona).then((res) => {
           if (res != 0) {
@@ -132,17 +134,18 @@ export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
           });
         });
       }
-    } else {
-      console.log(this.findInvalidControlsRecursive(this.Form));
-      this.messageService.add({
-        severity: "warn",
-        summary: "Advertencia",
-        detail: `${this.findInvalidControlsRecursive(this.Form)} ${
-          this.Form.controls["cuil"].invalid
-        } ${this.Form.controls["cuil"].touched}`,
-        life: 3000,
-      });
     }
+    //  else {
+    //   console.log(this.findInvalidControlsRecursive(this.Form));
+    //   this.messageService.add({
+    //     severity: "warn",
+    //     summary: "Advertencia",
+    //     detail: `${this.findInvalidControlsRecursive(this.Form)} ${
+    //       this.Form.controls["cuil"].invalid
+    //     } ${this.Form.controls["cuil"].touched}`,
+    //     life: 3000,
+    //   });
+    // }
   }
   public findInvalidControlsRecursive(
     formToInvestigate: FormGroup | FormArray
@@ -184,30 +187,5 @@ export class PacienteAltaDialogComponent implements OnDestroy, OnInit {
       )
       .subscribe();
   }
-  private async getPersona(): Promise<void> {
-    if (this.paciente.idPersona) {
-      let request = await this.personaService.getPersona(
-        this.paciente.idPersona
-      );
-      if (request.data) {
-        this.persona = request.data;
-        console.log(this.persona);
-        console.log(this.Form.controls["cuil"].invalid);
-        this.Form.patchValue({
-          correo: this.persona.email,
-          cuil: this.persona.cuil,
-          dni: this.persona.dni,
-          nombre: this.persona.nombre,
-          apellido: this.persona.apellido,
-          telefono: this.persona.telefono,
-          domicilio: this.persona.domicilio,
-          fechaNacimiento: this.persona.fechaNacimiento,
-        });
-        
-        console.log(this.Form.controls["cuil"].invalid);
-      } else {
-        console.log(request.error);
-      }
-    }
-  }
+
 }

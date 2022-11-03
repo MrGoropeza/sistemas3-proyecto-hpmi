@@ -36,6 +36,7 @@ export class PacienteService {
         nombre : persona.nombre,
         dni : persona.dni,
         cuil : persona.cuil,
+        Genero : persona.Genero,
         domicilio : persona.domicilio,
         fechaNacimiento: persona.fechaNacimiento,
         telefono : persona.telefono,

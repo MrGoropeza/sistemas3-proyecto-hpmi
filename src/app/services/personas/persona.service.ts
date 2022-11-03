@@ -22,6 +22,7 @@ export class PersonaService {
       apellido : persona.apellido,
       fechaNacimiento : persona.fechaNacimiento,
       dni : persona.dni,
+      Genero : persona.Genero,
       telefono : persona.telefono
       
     }).single();
