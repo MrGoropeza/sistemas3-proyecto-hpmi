@@ -19,7 +19,7 @@ import { PagoNuevoDialogComponent } from "../pago-nuevo-dialog/pago-nuevo-dialog
 })
 export class PagoABMComponent implements OnInit {
   pagos: Pago[] = [];
-  cantPagos: Number = 0;
+  cantPagos: number = 0;
   loading: boolean = true;
   ref!: DynamicDialogRef;
   total!: number;
@@ -31,14 +31,20 @@ export class PagoABMComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getPagos();
+    // this.getPagos();
   }
   public async getPagos() {
     let request = await this.pagoService.getPagos();
+
+    let requestCant = await this.pagoService.getCantPagos();
+
+    if(requestCant.data){
+      this.cantPagos = requestCant.data.length;
+    }
+
     if (request.data) {
       this.pagos = request.data;
-      this.cantPagos = this.pagos.length;
-      console.log(this.pagos);
+      // console.log(this.pagos);
       this.loading = false;
     } else {
       console.log(request.error);
@@ -92,14 +98,19 @@ export class PagoABMComponent implements OnInit {
 
   async onLazyLoad(event: LazyLoadEvent) {
     this.loading = true;
-    let requestCant = await this.pagoService.getPagos();
+    let requestCant = await this.pagoService.getCantPagos();
     if(requestCant.data){
-      this.total = requestCant.data.length;
+      this.cantPagos = requestCant.data.length;
+      console.log(this.cantPagos);
+    }else{
+      console.log(requestCant.error);
+      
     }
+
+
     let request = await this.pagoService.getPagos(event);
     if (request.data) {
       this.pagos = request.data;
-      this.cantPagos = this.pagos.length;
       this.loading = false;
     } else {
       console.log(request.error);

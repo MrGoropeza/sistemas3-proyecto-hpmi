@@ -27,7 +27,7 @@ export class PagosService {
   }
   async getCantPagos() {
     return await this.supabase
-      .from<Pago>("Pagos")
+      .from<Pago>("PagoView")
       .select("idPago")
       .eq("estado", true);
   }
