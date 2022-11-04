@@ -82,26 +82,30 @@ export class ComprobanteDialogComponent implements OnInit {
       this.formComprobante.addControl("obraSocial", new FormControl(null, Validators.required));
       this.formComprobante.addControl("cantAtenciones", new FormControl(0, Validators.min(1)));
       // this.formComprobante.addControl("atenciones", new FormControl(this.atencionesSeleccionadas, cantidadesValidator()));
+
+      
+
     }else{
       this.formComprobante.addControl("proveedor", new FormControl(null, Validators.required));
       this.formComprobante.addControl("cantArticulos", new FormControl(0, Validators.min(1)));
       this.formComprobante.addControl("articulosValidos", new FormControl(this.articulosSeleccionados, articulosValidator()));
     }
 
-    if(this.idTipoComprobante === 1 || this.idTipoComprobante === 5){
-      this.formComprobante.addControl("fechaVencimiento", new FormControl(null, Validators.required));
-      this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
+    if(this.idTipoComprobante === 1){
       this.formComprobante.addControl("nroFactura", new FormControl("", [Validators.required, Validators.pattern(NroFacturaRegExp)]));
     }
 
+    if(this.idTipoComprobante === 1 || this.idTipoComprobante === 5){
+      this.formComprobante.addControl("fechaVencimiento", new FormControl(null, Validators.required));
+      this.formComprobante.addControl("tipoFactura", new FormControl("", Validators.required));
+    }
+
     if(this.isEntrada){
-      
       this.formComprobante.controls["fecha"].setValue(new Date(Date.now()));
 
       let hoy = new Date(Date.now());
       hoy.setMonth(hoy.getMonth() + 1);
       this.formComprobante.controls["fechaVencimiento"].setValue(hoy);
-      console.log("Vencimiento", hoy);
     }
   }
 
@@ -206,7 +210,7 @@ export class ComprobanteDialogComponent implements OnInit {
         idProveedor: !this.isEntrada ? this.formComprobante.controls["proveedor"].value.idProveedor : null,
         idObraSocial: this.isEntrada ? this.formComprobante.controls["obraSocial"].value.idObraSocial : null,
         categoria: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["tipoFactura"].value : null,
-        numero: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["nroFactura"].value : null,
+        numero: this.idTipoComprobante === 1 ? this.formComprobante.controls["nroFactura"].value : null,
         idTipoComprobante: {idTipoComprobante: this.idTipoComprobante},
         fechaComprobante: this.formComprobante.controls["fecha"].value,
         fechaVencimiento: this.idTipoComprobante === 1 || this.idTipoComprobante === 5 ? this.formComprobante.controls["fechaVencimiento"].value : null,

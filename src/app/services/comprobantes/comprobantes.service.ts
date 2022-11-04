@@ -269,8 +269,19 @@ export class ComprobantesService {
       if(requestComprobante.error) {errors.push(requestComprobante.error); return errors;}
 
       let idComprobante = requestComprobante.data.idComprobante;
+
+      let numeroFactura = String(idComprobante).padStart(7, "0");
+
+      await this.supabase.from(this.nombreTabla)
+        .update({numero: `7777-${numeroFactura}`})
+        .eq("idComprobante", idComprobante)
+
       atenciones.forEach(
         async (atencion) => {
+          await this.supabase.from("Atencion")
+            .update({"facturada": true})
+            .eq("idAtencion", atencion.idAtencion);
+
           let requestDetalle = await this.supabase
             .from(`Detalle${this.nombreTabla}`)
             .insert({
@@ -297,6 +308,23 @@ export class ComprobantesService {
       .update({ estado: false })
       .eq("idComprobante", comprobante.idComprobante)
       .single();
+
+    if(this.nombreTabla === "ComprobanteEntrada"){
+      if(comprobante.saldo !== 0){
+        let detalles = await this.getDetalleEntrada(comprobante.idComprobante);
+        if(detalles.data){
+          detalles.data.forEach( async detalle => {
+            await this.supabase.from("Atencion")
+              .update({
+                facturada: false
+              })
+              .eq("idAtencion", detalle.idAtencion)
+          });
+        }
+
+        
+      }
+    }
 
     return { data: request.data, error: request.error };
   }

@@ -3,7 +3,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { LazyLoadEvent } from "primeng/api";
 import { DetallePago } from "src/app/models/DetallePago";
 import { MetPago } from "src/app/models/MetPago";
-import { Pago } from "src/app/models/Pago";
+import { Pago, PagoEntrada } from "src/app/models/Pago";
 import { Proveedor } from "src/app/models/Proveedor";
 import { SupabaseDepositoSeleccionadoService } from "../deposito-seleccionado/supabase-deposito-seleccionado.service";
 import { SupabaseService } from "../supabase.service";
@@ -11,7 +11,7 @@ import { SupabaseService } from "../supabase.service";
 @Injectable({
   providedIn: "root",
 })
-export class PagosService {
+export class PagosEntradaService {
   supabase: SupabaseClient;
   constructor(
     private supabaseService: SupabaseService,
@@ -25,12 +25,36 @@ export class PagosService {
       .select("idMetPago,nombre");
     return { MetodosPago, error };
   }
+
   async getCantPagos() {
     return await this.supabase
-      .from<Pago>("PagoView")
+      .from<Pago>("PagoEntradaView")
       .select("idPago")
       .eq("estado", true);
   }
+
+  async getPagos(params?: LazyLoadEvent) {
+    let query = this.supabase.from<PagoEntrada>("PagoEntradaView").select("*").eq("estado",true);
+
+    if (params?.first !== undefined && params?.rows !== undefined) {
+      query = query.range(params?.first, params?.first + params?.rows - 1);
+    }
+
+    if (params?.sortField !== undefined && params?.sortOrder !== undefined) {
+      query = query.order(params.sortField as any, {
+        ascending: params.sortOrder === 1,
+      });
+    }
+
+    if (params?.globalFilter) {
+      query = query.or(
+        `or(nroComprobante.ilike.%${params.globalFilter}%,nombreProveedor.ilike.%${params.globalFilter}%,nombreMetodo.ilike.%${params.globalFilter}%)`
+      );
+    }
+    let { data, error } = await query;
+    return { data, error };
+  }
+
   async insertPagos(
     idMetPago: number,
     detalles: DetallePago[],
@@ -84,25 +108,5 @@ export class PagosService {
     let query = this.supabase.from<Pago>("Pago").update({estado:false}).eq("idPago",idPago);
     return query;
   }
-  async getPagos(params?: LazyLoadEvent) {
-    let query = this.supabase.from<Pago>("PagoView").select("*").eq("estado",true);
-
-    if (params?.first !== undefined && params?.rows !== undefined) {
-      query = query.range(params?.first, params?.first + params?.rows - 1);
-    }
-
-    if (params?.sortField !== undefined && params?.sortOrder !== undefined) {
-      query = query.order(params.sortField as any, {
-        ascending: params.sortOrder === 1,
-      });
-    }
-
-    if (params?.globalFilter) {
-      query = query.or(
-        `or(nroComprobante.ilike.%${params.globalFilter}%,nombreProveedor.ilike.%${params.globalFilter}%,nombreMetodo.ilike.%${params.globalFilter}%)`
-      );
-    }
-    let { data, error } = await query;
-    return { data, error };
-  }
+  
 }

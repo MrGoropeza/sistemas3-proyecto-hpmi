@@ -1,0 +1,50 @@
+<p-table [value]="facturasSeleccionadas" responsiveLayout="stack" dataKey="id">
+  <ng-template pTemplate="caption">
+    <div class="grid align-items-center justify-content-between">
+      <div class="md:col col-12">
+        <div class="flex md:justify-content-start justify-content-center">
+          <button
+            pButton
+            pRipple
+            label="Agregar"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            (click)="seleccionarFactura.emit()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>Nro Factura</th>
+      <th>Subtotal</th>
+      <th>Acción</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-factura let-columns="columns">
+    <tr>
+      <td>
+        <span class="p-column-title font-bold">Nro Factura</span
+        >{{ factura.numero }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Subtotal</span>
+        {{ factura.subTotal | currency }}
+      </td>
+      <td>
+        <span class="p-column-title font-bold">Acción</span>
+        <button
+          pButton
+          pRipple
+          tooltipPosition="top"
+          pTooltip="Eliminar"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger mr-2"
+          (click)="quitarFactura.emit(factura)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

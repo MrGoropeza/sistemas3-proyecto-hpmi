@@ -1,25 +1,27 @@
 <div class="flex justify-content-start min-h-screen">
 
-    <!-- <div class="p-1 hidden md:flex md:flex-column h-screen overflow-y-scroll"> -->
-        <p-scrollPanel styleClass="p-1 hidden md:block h-screen">
-            <app-sidebar></app-sidebar>
-
-        </p-scrollPanel>
+    <!-- <div class="hidden md:block min-w-min "> -->
+    <p-scrollPanel styleClass="flex-none p-1 hidden md:block h-screen w-20rem">
+        <app-sidebar></app-sidebar>
+    </p-scrollPanel>
     <!-- </div> -->
-
+        
+        
     <p-divider layout="vertical"
-        styleClass="w-1rem m-0 hidden md:block py-2"
+        styleClass="flex-none w-1rem m-0 hidden md:block py-2"
     ></p-divider>
 
-    <div class="w-12">
-        <app-navbar></app-navbar>
-        <div class="surface-card flex justify-content-center m-0">
-            <div class="w-11 p-0 my-2 mx-4">
-                <div class="shadow-4 border-round-lg overflow-hidden surface-section">
-                    <router-outlet></router-outlet>
+    <div class="flex-grow-1 max-h-screen overflow-hidden">
+        <p-scrollPanel styleClass="h-full block">
+            <app-navbar></app-navbar>
+            <div class="surface-card flex justify-content-center m-0">
+                <div class="w-11 p-0 my-2 mx-4">
+                    <div class="shadow-4 border-round-lg overflow-hidden surface-section">
+                        <router-outlet></router-outlet>
+                    </div>
                 </div>
             </div>
-        </div>
+        </p-scrollPanel>
     </div>
 
 </div>
