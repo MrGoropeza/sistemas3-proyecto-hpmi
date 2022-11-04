@@ -32,8 +32,19 @@ export class ChartService {
   }
   async getGastos(){
     return await this.supabase
-    .from<Dashboard>("DashboardSalidaView")
+    .from<Dashboard>("DashboardFacturaView")
     .select("*");
   }
-
+  async getSaldos(){
+    return await this.supabase
+    .from<Dashboard>("DashboardSalidaView");
+  }
+  async getObraSocial(){
+    return await this.supabase
+    .from<Dashboard>("DashboardObraSocialView");
+  }
+  async getEntrada(){
+    return await this.supabase
+    .from<Dashboard>("DashboardEntradaView");
+  }
 }

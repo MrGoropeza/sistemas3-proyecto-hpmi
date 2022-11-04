@@ -97,7 +97,7 @@ export class PagosEntradaService {
   }
   async getDetalles(idPago: number) {
     let requestDetalle = await this.supabase
-      .from<DetallePago>("DetallePago")
+      .from<DetallePago>("DetallePagoEntrada")
       .select(`idComprobante : idComprobante(numero,categoria),
       importe,
       fechaRegistro
@@ -106,7 +106,7 @@ export class PagosEntradaService {
     return requestDetalle;
   }
   async delete(idPago : number){
-    let query = this.supabase.from<Pago>("Pago").update({estado:false}).eq("idPago",idPago);
+    let query = this.supabase.from<Pago>("PagoEntrada").update({estado:false}).eq("idPago",idPago);
     return query;
   }
   

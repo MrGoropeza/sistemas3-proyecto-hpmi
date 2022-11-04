@@ -109,6 +109,8 @@ import { PagosEntradaComponent } from './pages/pagos-entrada/pagos-entrada.compo
 import { PagoEntradaDialogComponent } from './pages/pagos-entrada/componentes/pago-entrada-dialog/pago-entrada-dialog.component';
 import { FacturasSeleccionadasComponent } from './pages/pagos-entrada/componentes/facturas-seleccionadas/facturas-seleccionadas.component';
 import { SeleccionarFacturaComponent } from './pages/pagos-entrada/componentes/seleccionar-factura/seleccionar-factura.component';
+import { PagoEntradaDetalleDialogComponent } from './pages/pagos-entrada/componentes/pago-entrada-detalle-dialog/pago-entrada-detalle-dialog.component';
+import { PagoEntradaDetalleABMComponent } from './pages/pagos-entrada/componentes/pago-entrada-detalle-abm/pago-entrada-detalle-abm.component';
 
 @NgModule({
   declarations: [
@@ -211,6 +213,8 @@ import { SeleccionarFacturaComponent } from './pages/pagos-entrada/componentes/s
     PagoEntradaDialogComponent,
     FacturasSeleccionadasComponent,
     SeleccionarFacturaComponent,
+    PagoEntradaDetalleDialogComponent,
+    PagoEntradaDetalleABMComponent,
   ],
   imports: [
     BrowserModule,
