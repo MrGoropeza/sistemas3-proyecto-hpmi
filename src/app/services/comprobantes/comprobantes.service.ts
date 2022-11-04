@@ -11,6 +11,7 @@ import { Proveedor } from "src/app/models/Proveedor";
 import { IArticuloDepositoView } from "src/app/models/IArticuloDeposito";
 import { ArticuloMovimiento } from "src/app/models/ArticuloMovimiento";
 import { AtencionEncabezado } from "src/app/models/AtencionDetalles";
+import { ObraSocial } from "src/app/models/ObraSocial";
 
 @Injectable({
   providedIn: "root",
@@ -328,13 +329,22 @@ export class ComprobantesService {
 
     return { data: request.data, error: request.error };
   }
-  async getComprobantes(proveedor: Proveedor, params?: LazyLoadEvent) {
+  async getComprobantes(proveedor?: Proveedor, params?: LazyLoadEvent, idTipoComprobante?: number, idObraSocial?: number) {
     let query = this.supabase
       .from<Comprobante>(`${this.nombreTabla}`)
       .select("*")
-      .eq("idTipoComprobante", 1)
       .neq("saldo", 0)
-      .eq("idProveedor", proveedor.idProveedor);
+
+    if(idTipoComprobante){
+      query = query.eq("idTipoComprobante", idTipoComprobante)
+    }
+    if(proveedor){
+      query = query.eq("idProveedor", proveedor.idProveedor);
+    }
+    if(idObraSocial){
+      query = query.eq("idObraSocial", idObraSocial);
+    } 
+      
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);
@@ -349,6 +359,8 @@ export class ComprobantesService {
     if (params?.globalFilter) {
       query = query.or(`or(numero.ilike.%${params.globalFilter}%)`);
     }
+    
+
     let { data, error } = await query;
     return { data, error };
   }

@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { map } from 'rxjs';
 import { Comprobante } from 'src/app/models/Comprobante';
+import { DetallePago } from "src/app/models/DetallePago";
 import { MetPago } from 'src/app/models/MetPago';
 import { ObraSocialASeleccionarComponent } from 'src/app/pages/paciente-page/components/obra-social-aseleccionar/obra-social-aseleccionar.component';
 import { PagosEntradaService } from 'src/app/services/pagos/pagos-entrada.service';
@@ -14,12 +15,15 @@ import { PagosEntradaService } from 'src/app/services/pagos/pagos-entrada.servic
 })
 export class PagoEntradaDialogComponent implements OnInit {
 
+
+  confirmado: boolean = false;
+
   @Input() pagosDialog!: boolean;
   @Output() pagosDialogChange = new EventEmitter<boolean>();
 
   formPago = this.formBuilder.group({
     obra: [null as any, Validators.required],
-    metodo: ["", Validators.required],
+    metodo: [null as any, Validators.required],
     cantFacturas: [0, Validators.min(1)]
   });
 
@@ -44,6 +48,8 @@ export class PagoEntradaDialogComponent implements OnInit {
   }
 
   ocultarDialog(){
+    this.confirmado = false;
+    this.facturasSeleccionadas = [];
     this.formPago.reset();
     this.formPago.markAsUntouched();
     this.pagosDialogChange.emit(false);
@@ -75,6 +81,55 @@ export class PagoEntradaDialogComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  facturaSeleccionada() {
+    this.formPago.controls["cantFacturas"].setValue(this.facturasSeleccionadas.length);
+  }
+
+  async guardar(){
+
+    this.formPago.controls["cantFacturas"].setValue(this.facturasSeleccionadas.length);
+
+    this.formPago.markAllAsTouched();
+    this.confirmado = true;
+    
+    if(this.formPago.valid){
+
+      let idMetodo: number = this.formPago.controls['metodo'].value ? this.formPago.controls['metodo'].value.idMetPago : 0;
+      let total = this.facturasSeleccionadas.reduce((prev, current) => prev + current.subTotal, 0)
+      let idObraSocial: number = this.formPago.controls['obra'].value ? this.formPago.controls['obra'].value.idObraSocial : 0;
+
+
+      let request = await this.pagoService.insertPagos(
+        idMetodo,
+        this.facturasSeleccionadas,
+        idObraSocial,
+        total,
+        this.genNroFactura()
+      )
+
+      this.ocultarDialog();
+    }
+    this.confirmado = false;
+  }  
+
+  private genNroFactura() {
+    let sucursal = (
+      Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000
+    ).toString();
+    return sucursal + "-" + this.formatDate(new Date());
+  }
+  private padToNDigits(num: number, n: number) {
+    return num.toString().padStart(n, "0");
+  }
+
+  private formatDate(date: Date) {
+    return (
+      date.getFullYear() +
+      this.padToNDigits(date.getMonth() + 1, 2) +
+      this.padToNDigits(date.getDate(), 1)
+    );
   }
 
 }

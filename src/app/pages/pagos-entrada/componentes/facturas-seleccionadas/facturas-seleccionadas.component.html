@@ -9,7 +9,7 @@
             label="Agregar"
             icon="pi pi-plus"
             class="p-button-success mr-2"
-            (click)="seleccionarFactura.emit()"
+            (click)="dialogFacturas = true"
           ></button>
         </div>
       </div>
@@ -42,9 +42,33 @@
           pTooltip="Eliminar"
           icon="pi pi-trash"
           class="p-button-rounded p-button-danger mr-2"
-          (click)="quitarFactura.emit(factura)"
+          (click)="combQuitado(factura)"
         ></button>
       </td>
     </tr>
   </ng-template>
 </p-table>
+
+
+<p-dialog
+  *ngIf="dialogFacturas"
+  header="Agregar Facturas"
+  [(visible)]="dialogFacturas"
+  [modal]="true"
+  styleClass="w-12"
+  [dismissableMask]="true"
+>
+  
+    <app-seleccionar-factura
+        [idObraSocial]="idObraSocial"
+        [facturasSeleccionadas]="facturasSeleccionadas"
+        (compSeleccionado)="comprobanteSeleccionado($event)"
+        (compQuitado)="combQuitado($event)"
+    ></app-seleccionar-factura>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+            class="p-button-text" (click)="dialogFacturas = false"></button>
+    </ng-template>
+  
+</p-dialog>

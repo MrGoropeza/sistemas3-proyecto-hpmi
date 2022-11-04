@@ -8,6 +8,8 @@ import { Comprobante } from 'src/app/models/Comprobante';
 })
 export class FacturasSeleccionadasComponent implements OnInit {
 
+  @Input() idObraSocial!: number;
+
   @Input() facturasSeleccionadas!: Comprobante[];
   @Output() facturasSeleccionadasChange = new EventEmitter<Comprobante[]>();
 
@@ -15,6 +17,8 @@ export class FacturasSeleccionadasComponent implements OnInit {
   @Output() quitarFactura = new EventEmitter<Comprobante>();
 
   @Output() subtotal = new EventEmitter<number>();
+
+  dialogFacturas: boolean = false;
 
   constructor() { }
 
@@ -31,6 +35,18 @@ export class FacturasSeleccionadasComponent implements OnInit {
       }
     );
     this.subtotal.emit(sub);
+  }
+
+  comprobanteSeleccionado(comprobante: Comprobante) {
+    this.facturasSeleccionadas.push(comprobante);
+    this.facturasSeleccionadasChange.emit(this.facturasSeleccionadas);
+    this.actualizarSubtotal();
+  }
+
+  combQuitado(comprobante: Comprobante){
+    this.facturasSeleccionadas = this.facturasSeleccionadas.filter(comp => comp.idComprobante !== comprobante.idComprobante);
+    
+    this.actualizarSubtotal();
   }
 
 }

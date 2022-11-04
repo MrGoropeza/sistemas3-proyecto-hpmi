@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { LazyLoadEvent } from "primeng/api";
+import { Comprobante } from "src/app/models/Comprobante";
 import { DetallePago } from "src/app/models/DetallePago";
 import { MetPago } from "src/app/models/MetPago";
 import { Pago, PagoEntrada } from "src/app/models/Pago";
@@ -57,15 +58,15 @@ export class PagosEntradaService {
 
   async insertPagos(
     idMetPago: number,
-    detalles: DetallePago[],
-    idProveedor: number,
+    detalles: Comprobante[],
+    idObraSocial: number,
     total: number,
     nroComprobante: string
   ) {
     let request = await this.supabase
-      .from("Pago")
+      .from("PagoEntrada")
       .insert({
-        idProveedor: idProveedor,
+        idObraSocial: idObraSocial,
         idMetPago: idMetPago,
         nroComprobante: nroComprobante,
         total: total,
@@ -76,19 +77,19 @@ export class PagosEntradaService {
       let idPago = request.data.idPago;
       detalles.forEach(async (detalle) => {
         let requestDetalle = await this.supabase
-          .from("DetallePago")
+          .from("DetallePagoEntrada")
           .insert({
             idPago: idPago,
-            idComprobante: detalle.comprobante.idComprobante,
-            importe: detalle.importe,
+            idComprobante: detalle.idComprobante,
+            importe: detalle.subTotal,
           })
           .single();
         if (requestDetalle.data) {
-          let nuevoSaldo = detalle.comprobante.saldo - detalle.importe;
+          let nuevoSaldo = detalle.saldo - detalle.subTotal;
           let requestComprobante = await this.supabase
-            .from("Comprobante")
+            .from("ComprobanteEntrada")
             .update({ saldo: nuevoSaldo })
-            .eq("idComprobante", detalle.comprobante.idComprobante)
+            .eq("idComprobante", detalle.idComprobante)
             .single();
         }
       });

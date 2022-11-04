@@ -28,7 +28,7 @@ export class PagoComprobantesASeleccionarABMComponent implements OnInit {
     }
     let request = await this.comprobanteService.getComprobantes(this.proveedor,event);
     if(request.data){
-      this.comprobantes = request.data;
+      this.comprobantes = request.data.filter(element => element.saldo > 0);
       this.cargando = false;
     }else{
       console.log(request.error);

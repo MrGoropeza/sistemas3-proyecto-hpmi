@@ -36,7 +36,8 @@
             optionLabel="nombre"
         ></app-form-dropdown>
 
-        <div class="flex flex-column min-w-full">
+        <div class="flex flex-column min-w-full"
+            *ngIf="formPago.controls['obra'].valid">
             <h4 class="m-0 mb-2 p-0 font-bold">Facturas Seleccionadas:</h4>
         
             <small
@@ -48,7 +49,10 @@
             >Selección de facturas requerida.</small>
 
             <app-facturas-seleccionadas
-            
+                (seleccionarFactura)="dialogFacturas = true"
+                (subtotal)="subtotal = $event"
+                [(facturasSeleccionadas)]="facturasSeleccionadas"
+                (facturasSeleccionadasChange)="facturaSeleccionada()"
             ></app-facturas-seleccionadas>
 
             <div class="flex justify-content-end min-w-full">
@@ -69,6 +73,7 @@
             label="Cancelar"
             icon="pi pi-times"
             class="p-button-text"
+            [loading]="confirmado"
             (click)="ocultarDialog()"
         ></button>
 
@@ -79,25 +84,11 @@
             label="Guardar"
             icon="pi pi-check"
             class="p-button-text"
+            [loading]="confirmado"
+            (click)="guardar()"
         ></button>
     </ng-template>
 
 </p-dialog>
 
 
-<p-dialog
-  *ngIf="dialogFacturas"
-  header="Agregar Facturas"
-  [(visible)]="dialogFacturas"
-  [modal]="true"
-  styleClass="w-12"
-  [dismissableMask]="true"
->
-  
-
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cerrar" icon="pi pi-times" 
-            class="p-button-text" (click)="dialogFacturas = false"></button>
-  </ng-template>
-  
-</p-dialog>
