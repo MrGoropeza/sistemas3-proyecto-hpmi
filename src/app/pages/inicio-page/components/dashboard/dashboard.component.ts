@@ -8,10 +8,10 @@ import { ChartService } from "src/app/services/charts/chart.service";
 })
 export class DashboardComponent implements OnInit {
   cantPacientes!: number;
-  gastos : number[] = [];
-  devengamientos : number[] = [];
+  gastos: number[] = [];
+  devengamientos: number[] = [];
   cantAtenciones!: number;
-  graficosCargados : number = 0;
+  graficosCargados: number = 0;
   constructor(private chartService: ChartService) {}
 
   ngOnInit(): void {
@@ -23,12 +23,20 @@ export class DashboardComponent implements OnInit {
     this.getCantPacientes(primerDia, ultimoDia);
     this.getCantAtenciones(primerDia, ultimoDia);
     this.getGastos();
+    this.getSaldos();
   }
-  private async getGastos(){
+  private async getSaldos() {
+    let request = await this.chartService.getSaldos();
+    if (request.data) {
+      this.gastos = request.data.map((dato) => dato.subtotal);
+
+      this.graficosCargados++;
+    }
+  }
+  private async getGastos() {
     let request = await this.chartService.getGastos();
-    if(request.data){
-      this.gastos = request.data.map(dato => dato.saldo);
-      this.devengamientos = request.data.map(dato => dato.subtotal);
+    if (request.data) {
+      this.devengamientos = request.data.map((dato) => dato.subtotal);
       this.graficosCargados++;
     }
   }
@@ -38,7 +46,6 @@ export class DashboardComponent implements OnInit {
       ultimoDia
     );
     if (request.data) {
-      console.log(request.data);
       this.cantPacientes = request.data.length;
       this.graficosCargados++;
     } else {
@@ -51,7 +58,6 @@ export class DashboardComponent implements OnInit {
       ultimoDia
     );
     if (request.data) {
-      console.log(request.data);
       this.cantAtenciones = request.data.length;
       this.graficosCargados++;
     } else {
