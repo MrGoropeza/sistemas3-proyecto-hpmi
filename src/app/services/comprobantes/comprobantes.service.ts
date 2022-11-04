@@ -335,13 +335,13 @@ export class ComprobantesService {
       .select("*")
       .neq("saldo", 0)
 
-    if(idTipoComprobante){
+    if(idTipoComprobante !== undefined){
       query = query.eq("idTipoComprobante", idTipoComprobante)
     }
     if(proveedor){
       query = query.eq("idProveedor", proveedor.idProveedor);
     }
-    if(idObraSocial){
+    if(idObraSocial !== undefined){
       query = query.eq("idObraSocial", idObraSocial);
     } 
       
