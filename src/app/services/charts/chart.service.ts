@@ -39,4 +39,12 @@ export class ChartService {
     return await this.supabase
     .from<Dashboard>("DashboardSalidaView");
   }
+  async getObraSocial(){
+    return await this.supabase
+    .from<Dashboard>("DashboardObraSocialView");
+  }
+  async getEntrada(){
+    return await this.supabase
+    .from<Dashboard>("DashboardEntradaView");
+  }
 }

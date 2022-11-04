@@ -1,0 +1,34 @@
+<p-table
+  #dt
+  [value]="detalles" 
+  [rows]="5"
+  [paginator]="true"
+  responsiveLayout="stack"
+  [rowHover]="true"
+  dataKey="idDetalle"
+  [showCurrentPageReport]="false"
+  [loading]="cargando"
+>
+  <!-- tabla -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>#</th>
+      <th>N° de comprobante</th>
+      <th>Letra</th>
+      <th>fecha de Registro</th>
+      <th>importe</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-detalle let-rowIndex="rowIndex" let-columns="columns">
+    <tr>
+      <td><span class="p-column-title font-bold">#</span>{{ rowIndex+1 }}</td>
+      <td><span class="p-column-title font-bold">N° de comprobante</span>{{ detalle.idComprobante.numero}}</td>
+      <td><span class="p-column-title font-bold">Letra</span>{{detalle.idComprobante.categoria}}</td>
+      <td><span class="p-column-title font-bold">fecha</span>{{detalle.fechaRegistro | date : "dd/MM/yyyy"}}</td>
+      <td><span class="p-column-title font-bold">Importe</span>{{ detalle.importe | currency }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+

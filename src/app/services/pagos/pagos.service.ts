@@ -73,19 +73,27 @@ export class PagosService {
   async getDetalles(idPago: number) {
     let requestDetalle = await this.supabase
       .from<DetallePago>("DetallePago")
-      .select(`idComprobante : idComprobante(numero,categoria),
+      .select(
+        `idComprobante : idComprobante(numero,categoria),
       importe,
       fechaRegistro
-      `)
+      `
+      )
       .eq("idPago", idPago);
     return requestDetalle;
   }
-  async delete(idPago : number){
-    let query = this.supabase.from<Pago>("Pago").update({estado:false}).eq("idPago",idPago);
+  async delete(idPago: number) {
+    let query = this.supabase
+      .from<Pago>("Pago")
+      .update({ estado: false })
+      .eq("idPago", idPago);
     return query;
   }
   async getPagos(params?: LazyLoadEvent) {
-    let query = this.supabase.from<Pago>("PagoView").select("*").eq("estado",true);
+    let query = this.supabase
+      .from<Pago>("PagoView")
+      .select("*")
+      .eq("estado", true);
 
     if (params?.first !== undefined && params?.rows !== undefined) {
       query = query.range(params?.first, params?.first + params?.rows - 1);

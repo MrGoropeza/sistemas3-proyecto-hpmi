@@ -38,7 +38,7 @@ export class PagoABMComponent implements OnInit {
 
     let requestCant = await this.pagoService.getCantPagos();
 
-    if(requestCant.data){
+    if (requestCant.data) {
       this.cantPagos = requestCant.data.length;
     }
 
@@ -57,11 +57,13 @@ export class PagoABMComponent implements OnInit {
       height: "90%",
       contentStyle: { overflow: "auto" },
     });
-    this.ref.onClose.pipe(
-      map(res=>{
-        this.getPagos();
-      })
-    ).subscribe();
+    this.ref.onClose
+      .pipe(
+        map((res) => {
+          this.getPagos();
+        })
+      )
+      .subscribe();
   }
   public verDetalle(pago: Pago) {
     this.ref = this.dialogService.open(PagoDetalleDialogComponent, {
@@ -99,14 +101,12 @@ export class PagoABMComponent implements OnInit {
   async onLazyLoad(event: LazyLoadEvent) {
     this.loading = true;
     let requestCant = await this.pagoService.getCantPagos();
-    if(requestCant.data){
+    if (requestCant.data) {
       this.cantPagos = requestCant.data.length;
       console.log(this.cantPagos);
-    }else{
+    } else {
       console.log(requestCant.error);
-      
     }
-
 
     let request = await this.pagoService.getPagos(event);
     if (request.data) {

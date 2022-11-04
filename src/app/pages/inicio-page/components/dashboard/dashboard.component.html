@@ -1,4 +1,4 @@
-<div *ngIf="graficosCargados >= 3; else elseblock">
+<div *ngIf="graficosCargados >= 6; else elseblock">
   <div class="flex justify-content-center">
     <div class="block md:flex flex-wrap">
       <div class="px-0 md:px-7">
@@ -36,6 +36,8 @@
         [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
         [etiqueta1]="'Total Facturado'"
         [etiqueta2]="'Ingresos'"
+        [vector1]="obraSociales"
+        [vector2]="entrada"
       ></app-cost-bar-chart>
     </div>
     <div>
@@ -45,6 +47,8 @@
         [color2]="'#2ECC71'"
         [labels]="['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']"
         [etiqueta1]="'Egresos'"
+        [vector1]="gastos"
+        [vector2]="entrada"
         [etiqueta2]="'Ingresos'"
       ></app-cost-bar-chart>
     </div>

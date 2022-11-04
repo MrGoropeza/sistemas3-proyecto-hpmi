@@ -10,8 +10,11 @@ export class DashboardComponent implements OnInit {
   cantPacientes!: number;
   gastos: number[] = [];
   devengamientos: number[] = [];
+  obraSociales: number[] = [];
+  entrada: number[] = [];
   cantAtenciones!: number;
   graficosCargados: number = 0;
+  band! : boolean;
   constructor(private chartService: ChartService) {}
 
   ngOnInit(): void {
@@ -22,6 +25,8 @@ export class DashboardComponent implements OnInit {
     const ultimoDia = lastDay.toISOString();
     this.getCantPacientes(primerDia, ultimoDia);
     this.getCantAtenciones(primerDia, ultimoDia);
+    this.getObraSocial();
+    this.getEntrada();
     this.getGastos();
     this.getSaldos();
   }
@@ -29,6 +34,23 @@ export class DashboardComponent implements OnInit {
     let request = await this.chartService.getSaldos();
     if (request.data) {
       this.gastos = request.data.map((dato) => dato.subtotal);
+      this.band = true;
+      this.graficosCargados++;
+    }
+  }
+  private async getObraSocial() {
+    let request = await this.chartService.getObraSocial();
+    if (request.data) {
+      this.obraSociales = request.data.map((dato) => dato.subtotal);
+      console.log(this.obraSociales);
+      
+      this.graficosCargados++;
+    }
+  }
+  private async getEntrada() {
+    let request = await this.chartService.getEntrada();
+    if (request.data) {
+      this.entrada = request.data.map((dato) => dato.subtotal);
 
       this.graficosCargados++;
     }
